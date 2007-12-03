@@ -1,0 +1,16 @@
+general:
+  SYSTEM = fcc Al
+
+  ISTART = 1 ; ICHARG = 1
+  ENCUT = 130
+
+  ISMEAR = 1  ; SIGMA = 0.1
+  LORBIT = 11
+
+  EDIFF  = 1e-5
+
+  PREC = Accurate
+  ALGO = Normal
+
+  LREAL = .FALSE.
+

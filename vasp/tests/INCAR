@@ -1,0 +1,26 @@
+general:
+  SYSTEM = V_B2
+
+  ISTART = 0 ; ICHARG = 2
+#  ISTART = 1 ; ICHARG = 1
+#  ENCUT  = 264
+  ENCUT = 350
+
+# Mathfessel-Paxton smearing for forces in metals
+  ISMEAR = 1  ; SIGMA = 0.1
+# Tetrahedron smearing for most accurate total energy
+# ISMEAR = -5 ; SIGMA = 0.1
+
+  LORBIT = 11
+  EDIFF  = 1e-7
+
+  PREC = Accurate
+  ALGO = Normal
+# use real space projection operators for large cells:
+#  LREAL = .TRUE.
+
+#parallelization options  
+  LPLANE = .TRUE.        #recommended for Linux clusters
+  NPAR   = 8            # number of nodes   
+  LSCALU = .FALSE.
+  NSIM   = 4

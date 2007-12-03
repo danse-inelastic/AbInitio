@@ -1,0 +1,11 @@
+SYSTEM = fccAl
+ISTART = 0 
+ICHARG = 2 
+ENCUT = 150
+ISMEAR = 2
+SIGMA = 0.2
+LORBIT = 11 
+EDIFF = 1e-05 
+PREC = Normal
+ALGO = Normal 
+LREAL = .False.

@@ -1,0 +1,7 @@
+This directory contains a collection of utilities related to the use of VASP.
+
+A number of files in this directory were take from the P4VASP distribution, under GPL license.
+These files are clearly identified as such by their headers.
+For more details, see:
+
+http://cms.mpi.univie.ac.at/odubay/p4vasp_site/news.php
