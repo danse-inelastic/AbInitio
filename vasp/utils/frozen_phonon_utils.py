@@ -7,7 +7,7 @@ import scipy.io
 try:
     from vasp.parsing.SystemPM import *
     from vasp.parsing.Structure import Structure
-    import vasp.parsing.matrix as p4mat
+    #import vasp.parsing.matrix as p4mat
 except ImportError:
     print "P4Vasp could not be imported in Python."
 
@@ -52,17 +52,14 @@ def parseUCsAndEnergies(name, strains):
     as a UnitCell list,
     and a list of corresponding energies."""
     from crystalIO.converters import p4vaspStruct2UnitCell
-
     atomicConfigs = []
     energies = []
-    
     for strain in strains:
         try:
             xmlfilestring = 'vasprun_'+name+'_u_'+repr(strain)+'.xml'
             xmlrun = XMLSystemPM(xmlfilestring)
         except:
-            raise IOError, 'VASP XML output file '+xmlfilestring+' could not be opened.'
-        
+            raise IOError, 'VASP XML output file '+xmlfilestring+' could not be opened.'        
         energy = xmlrun.FREE_ENERGY
         struct = xmlrun.FINAL_STRUCTURE
         # set the atomic positions to fractional coordinates:
@@ -74,7 +71,6 @@ def parseUCsAndEnergies(name, strains):
         print "Energy = %s" % energy
         atomicConfigs.append(uc)
         energies.append(energy)
-
     return atomicConfigs, energies
 
 def writeUCsAndEnergies(name, strains, pklfilename):
@@ -82,9 +78,10 @@ def writeUCsAndEnergies(name, strains, pklfilename):
     as a UnitCell list,
     and a list of corresponding energies,
     and writes everything to a pickle file."""
-
     import pickle
     atomicConfigs, energies = parseUCsAndEnergies(name, strains)
-    pickle.dump(open(pklfilename, 'a'), atomicConfigs, energies)
+    pklfile = open(pklfilename, 'a')
+    pickle.dump(pklfile, atomicConfigs, energies)
+    pklfile.close()
     pass # End of writeUCsAndEnergies
 
