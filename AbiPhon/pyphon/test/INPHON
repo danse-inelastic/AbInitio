@@ -1,0 +1,77 @@
+
+# symmetryze force constant matrix
+#  LSYMM=.F.
+  LSYMM=.T.
+  NTI = 50
+
+# number of ions types and masses
+  NTYPES = 1
+  MASS = 50.9415
+
+# generate superlattice
+  LSUPER = .F. 
+  NDIM = 4 4 4
+  DISP = 100
+
+# q points section
+ LRECIP = .T.
+ ND = 5
+ NPOINTS = 25
+
+#QI = 0.0  0.0  0.0  \
+#     0.0  0.0  0.0  \
+#     0.0  0.0  0.0  
+
+#QF = 0.5  0.0  0.0  \
+#     0.5  0.5  0.0  \
+#     0.5  0.5  0.5
+
+# reciprocal space path: G -> H -> P -> G ->N
+# QI = 0.0   0.0   0.0  \
+#      0.5  -0.5   0.5  \
+#      0.25  0.25  0.25 \
+#      0.0   0.0   0.0  
+
+# QF = 0.5  -0.5   0.5  \
+#      0.25  0.25  0.25 \
+#      0.0   0.0   0.0  \
+#      0.0   0.0   0.5  
+
+# same path for dispersions as in Landolt-Bornstein
+# reciprocal space path: G -> H -> N -> P -> N -> G 
+# G: 0.0   0.0   0.0
+# H: 0.5  -0.5   0.5
+# P: 0.25  0.25  0.25
+# N: 0.0   0.0   0.5
+
+ QI = 0.0   0.0   0.0  \  
+      0.5  -0.5   0.5  \
+      0.0   0.0   0.5  \
+      0.25  0.25  0.25 \
+      0.0   0.0   0.5  
+
+ QF = 0.5  -0.5   0.5  \
+      0.0   0.0   0.5  \
+      0.25  0.25  0.25 \
+      0.0   0.0   0.5  \
+      0.0   0.0   0.0 
+
+
+# free energy calculation
+#  LFREE = .T.;  TEMPERATURE = 300
+
+# density of states
+#  LGAMMA = .F.
+#  QA = -1; QB = 50 ; QC = 50
+#  DOSIN = 0;  DOSEND = 10;  DOSSTEP = 0.1; DOSSMEAR = .1  
+
+# write force constant matrix
+    LFORCEOUT = .T.
+
+# cutoff in real space
+    RMAX = 15
+# inverse power calculation
+#    LINVERSE = .T.;  ALPHA = 5.86;  A = 1.77
+
+# verbosity
+    IPRINT = 2

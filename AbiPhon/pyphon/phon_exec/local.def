@@ -1,0 +1,23 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                              Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2005 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+# Use RPATH ?
+ifneq ($(PROJ_RPATH),)
+    # Add -rpath option to loader command
+    PROJ_LCXX_FLAGS += -Wl,-rpath $(PROJ_RPATH)
+endif
+
+# version
+# $Id: local.def,v 1.1.1.1 2005/03/08 16:13:30 aivazis Exp $
+
+# End of file

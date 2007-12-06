@@ -1,0 +1,26 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Patrick Hung
+#                        California Institute of Technology
+#                        (C) 1997-2006  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+# C++ (linker)
+PROJ_LCXX_FLAGS = $(COMPILER_LCXX_FORTRAN)
+
+# Use RPATH ?
+ifneq ($(PROJ_RPATH),)
+    # Add -rpath option to loader command
+    PROJ_LCXX_FLAGS += -Wl,-rpath -Wl,$(PROJ_RPATH)
+endif
+
+
+# $Id: local.def,v 1.2 2006/08/30 02:13:42 cummings Exp $
+
+# End of file

@@ -1,0 +1,35 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# Local (project) definitions
+
+# Fortran 90
+#    include std-f90.def
+
+# Python
+    include Python/default.def
+
+# Numeric
+#NUMERIC_INCLUDES = $(NUMERIC_DIR)/Include
+#PROJ_CXX_INCLUDES = $(NUMERIC_INCLUDES)
+PROJ_CXX_DEFINES = USE_NUMERIC
+
+# numpy
+#NUMPY_INCLUDES = $(NUMPY_DIR)/include
+#PROJ_CXX_INCLUDES = $(NUMPY_INCLUDES)
+#PROJ_CXX_DEFINES = USE_NUMPY
+
+# Use RPATH ?
+ifneq ($(PROJ_RPATH),)
+    # Add -rpath option to loader command
+    PROJ_LCXX_FLAGS += -Wl,-rpath -Wl,$(PROJ_RPATH)
+endif
+
+#
+# End of file
+
