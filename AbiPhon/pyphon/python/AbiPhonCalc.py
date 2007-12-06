@@ -4,7 +4,7 @@
 __doc__ = """A module that defines an interface for a first-principles phonon calculator."""
 
 
-class FirstPrincipPhononCalc:
+class AbiPhononCalc:
     """A phonon calculator based on a first-principles calculation."""
 
     def __init__(self, unitCell=None, supersize=[1,1,1], qpts=None, fpCalc=None):
@@ -115,4 +115,4 @@ class FirstPrincipPhononCalc:
         """Writes the phonon Q-points to file."""
         raise NotImplementedError
 
-    pass # End of class FirstPrincipPhononCalc
+    pass # End of class AbiPhononCalc
