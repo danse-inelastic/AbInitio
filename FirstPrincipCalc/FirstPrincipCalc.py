@@ -89,7 +89,7 @@ class BasisSetFirstPrincipCalc(PeriodicFirstPrincipCalc):
         # this should only be implemented in the derived classes
         raise NotImplementedError
 
-    def getBandEnergiesAtPont(self, kpt):
+    def getBandEnergiesAtPoint(self, kpt):
         """Returns the band energies at a specific k-point."""
         # this should only be implemented in the derived classes
         raise NotImplementedError
