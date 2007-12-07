@@ -7,12 +7,12 @@ __doc__ = """A module that defines an interface for a first-principles phonon ca
 class AbiPhononCalc:
     """A phonon calculator based on a first-principles calculation."""
 
-    def __init__(self, unitCell=None, supersize=[1,1,1], qpts=None, fpCalc=None):
+    def __init__(self, unitCell=None, supersize=[1,1,1], qpts=None, abiCalc=None):
         self._unitCell = unitCell
         self._supersize = supersize
         self._qpts = qpts
         self._weights = None
-        self._fpCalc = fpCalc
+        self._abiCalc = abiCalc
         self._superCell = None
         self._superCellReady = False
         self._amplitude = 0.01  #amplitude of displacement, fractional
@@ -55,8 +55,8 @@ class AbiPhononCalc:
         self._weights = weights
 
     def getQpts(self):
-        """Returns the Q-points and theit weights."
-        return self._qpts, self._weights
+        """Returns the Q-points and theit weights."""
+        return (self._qpts, self._weights)
 
     def generateSupercell(self, supersize=None):
         """Generates a supercell from the crystal unit cell and the supercell size."""

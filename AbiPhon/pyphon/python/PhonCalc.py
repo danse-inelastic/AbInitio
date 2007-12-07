@@ -6,19 +6,21 @@ import os, sys
 import shutil
 from pyphon._pyphon import phon
 from vasp.parsing import parser2
+from AbiPhonCalc import AbiPhonCalc
 
-class PhonCalc(FirstPrincipPhononCalc):
+class PhonCalc(AbiPhonCalc):
     """A first-principles phonon calcor based on Phon."""
 
     def __init__(self, name='phon',
                  unitCell=None,
                  supersize=[1,1,1],
                  qgrid=[10,10,10],
-                 fpCalc=None,
+                 abiCalc=None,
                  dosmin=0.0, dosmax=50.0,
                  dosstep=0.2, dossmear=0.2,
-                 temperature=300):
-        FirstPrincipPhononCalc.__init__(unitCell, supersize, qpts=None, fpCalc)
+                 temperature=300,
+                 **miscargs):
+        AbiPhononCalc.__init__(unitCell, supersize, abiCalc=abiCalc, qpts=None)
         self._name = name
         self._qgrid = qgrid
         self._dosmin = dosmin
@@ -32,8 +34,13 @@ class PhonCalc(FirstPrincipPhononCalc):
         self._numtypes = len(self._atomTypesNums)
         self._masses = [a[1] for a in self._atomTypesNums]
 
+        # uses a input parser that is derived from ordered dictionary,
+        # and writes to file every time an entry is modified:
         self._inphon = parser2.INPUT2('INPHON')
         self._setupPhon()
+
+        for keyarg in miscargs:
+            self._inphon[keyarg] = miscargs[keyarg] 
 
         pass # end of __init__
 
@@ -71,6 +78,12 @@ class PhonCalc(FirstPrincipPhononCalc):
         """Writes the INPHON input file for Phon."""
         self._inphon.write()
         return
+
+    def printInputs(self):
+        """Prints out all the input arguments that are used to run Phon."""
+        for key in self._inphon:
+            print key, self._inphon[key]
+
 
     def generateSupercell(self, supersize=None):
         """Generate supercell and displacements by launching Phon."""
