@@ -43,7 +43,7 @@ class PeriodicAbiCalc(AbiCalc):
     """A first principles calculation interface for periodic systems and calculation engines."""
 
     def __init__(self, unitCell=None):
-        AbiCalc.__init__(unitCell)
+        AbiCalc.__init__(self, unitCell)
 
     def getStress(self):
         """Returns the stresses on the unit cell."""
@@ -62,7 +62,7 @@ class PlaneWaveAbiCalc(PeriodicAbiCalc):
     def __init__(self, unitCell=None, kpts=None, ekincutoff=None):
         self._kpts = kpts
         self._ekincutoff = ekincutoff
-        PeriodicAbiCalc.__init__(unitCell)
+        PeriodicAbiCalc.__init__(self, unitCell)
 
     def getBandEnergies(self):
         """Returns all the band energies, for all the k-points."""
@@ -82,7 +82,7 @@ class BasisSetAbiCalc(PeriodicAbiCalc):
 
     def __init__(self, unitCell=None, basisSet=None):
         self._basisSet = basisSet
-        PeriodicAbiCalc.__init__(unitCell)
+        PeriodicAbiCalc.__init__(self, unitCell)
 
     def getBandEnergies(self):
         """Returns all the band energies, for all the k-points."""
