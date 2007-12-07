@@ -1,4 +1,4 @@
-import UnitCell as UC
+from UnitCell import *
 from Atom import *
 
 uc = UnitCell( )

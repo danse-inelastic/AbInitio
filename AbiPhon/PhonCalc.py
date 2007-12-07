@@ -11,8 +11,8 @@ from AbiPhonCalc import AbiPhonCalc
 class PhonCalc(AbiPhonCalc):
     """A first-principles phonon calcor based on Phon."""
 
-    def __init__(self, name='phon',
-                 unitCell=None,
+    def __init__(self, unitCell,
+                 name='phon',
                  supersize=[1,1,1],
                  qgrid=[10,10,10],
                  abiCalc=None,
@@ -20,7 +20,7 @@ class PhonCalc(AbiPhonCalc):
                  dosstep=0.2, dossmear=0.2,
                  temperature=300,
                  **miscargs):
-        AbiPhononCalc.__init__(unitCell, supersize, abiCalc=abiCalc, qpts=None)
+        AbiPhonCalc.__init__(self,unitCell, supersize, abiCalc=abiCalc, qpts=None)
         self._name = name
         self._qgrid = qgrid
         self._dosmin = dosmin
@@ -52,7 +52,7 @@ class PhonCalc(AbiPhonCalc):
         self._inphon = parser2.INPUT2('INPHON')
         self._inphon['NTYPES'] = self._numtypes
         self._inphon['MASS'] = self._masses
-        self._inphon['NDIM'] = supersize
+        self._inphon['NDIM'] = self._supersize
         self._inphon['DISP'] = int(1.0 / self._amplitude)
         self._inphon['QA'] = self._qgrid[0]
         self._inphon['QB'] = self._qgrid[1]
@@ -79,6 +79,10 @@ class PhonCalc(AbiPhonCalc):
         self._inphon.write()
         return
 
+    def name(self):
+        """returns the name of the calculation."""
+        return self._name
+
     def printInputs(self):
         """Prints out all the input arguments that are used to run Phon."""
         for key in self._inphon:
@@ -97,6 +101,16 @@ class PhonCalc(AbiPhonCalc):
             self._inphon['LSUPER'] = '.TRUE.'
             # write the INPHON file:
             self._inphon.Write()
+
+            # First, we need to write the unitcell to a POSCAR for Phon():
+            #from vasp.parsing.Structure import Structure
+            from crystal.crystalIO.converters import unitCell2P4vaspStruct
+            struct = unitCell2P4vaspStruct(self._unitCell)
+            try:
+                struct.write(f='POSCAR', newformat=0)
+            except:
+                raise IOError, 'Could not write the structure POSCAR to file.'
+            
             # run Phon to build the supercell and calculate displacements:
             # This is assuming that the POSCAR exists...
             phon()

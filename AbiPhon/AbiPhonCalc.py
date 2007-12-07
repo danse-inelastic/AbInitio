@@ -4,10 +4,10 @@
 __doc__ = """A module that defines an interface for a first-principles phonon calculator."""
 
 
-class AbiPhononCalc:
+class AbiPhonCalc:
     """A phonon calculator based on a first-principles calculation."""
 
-    def __init__(self, unitCell=None, supersize=[1,1,1], qpts=None, abiCalc=None):
+    def __init__(self, unitCell, supersize=[1,1,1], qpts=None, abiCalc=None):
         self._unitCell = unitCell
         self._supersize = supersize
         self._qpts = qpts
@@ -38,7 +38,7 @@ class AbiPhononCalc:
         
     def getSuperSize(self):
         """returns the size of the supercell."""
-        return self.supersize
+        return self._supersize
 
     def setAmplitude(self, amplitude):
         """Sets the atomic displacement amplitude."""
