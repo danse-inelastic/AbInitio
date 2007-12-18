@@ -78,7 +78,7 @@ class PlaneWaveAbiCalc(PeriodicAbiCalc):
 
 
 class BasisSetAbiCalc(PeriodicAbiCalc):
-    """A class defining an interface to local basis-set, periodic first-principles calcultion engines."""
+    """A class defining an interface to local basis-set, periodic first-principles calculation engines."""
 
     def __init__(self, unitCell=None, basisSet=None):
         self._basisSet = basisSet
