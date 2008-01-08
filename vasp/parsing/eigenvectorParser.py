@@ -46,7 +46,7 @@ def parseModes():
     inputString=getDynamicalMatrixOutput()
     rt = []
     dataSource=eandmode.scanString(inputString)
-    print dataSource
+    #print dataSource
     for data, dataStart, dataEnd in dataSource:
         rt.append(data.asList())    
     return rt 
@@ -57,7 +57,7 @@ def parseEsModes():
     inputString=getDynamicalMatrixOutput()
     rt = []
     dataSource=eandmode.scanString(inputString)
-    print dataSource
+    #print dataSource
     for data, dataStart, dataEnd in dataSource:
         rt.append(data.asList())    
     return rt 
