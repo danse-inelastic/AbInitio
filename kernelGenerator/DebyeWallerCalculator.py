@@ -1,7 +1,7 @@
 # DebyeWallerCalculator
 # Olivier Delaire
 # B. Keith
-from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
+#from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
 
 __doc__ = """Implementation of a Debye-Waller calculator.
 Calculates the Debye-Waller factor for each atom in the unit cell,
@@ -37,7 +37,7 @@ class DebyeWallerCalculator:
     Calculates the Debye-Waller factor for each atom in the unit cell,
     based on a list of phonon modes passed as input."""
 
-    hbar=6.58211899e-16*10e12*10e3#eV*s * ps/s * meV/eV = meV*ps
+    hbar=6.58211899e-16*1e12*1e3#eV*s * ps/s * meV/eV = meV*ps
 
     def __init__(self, unitcell=None, kptlist=None, energies=None, polvecs=None, eigenVecFile=None):
         self._unitcell = unitcell
@@ -115,7 +115,8 @@ class DebyeWallerCalculator:
                     #print 'atom index',atomindex
                     pol = vec[atomindex]
                     #print pol
-                    weight = np.dot(wavevector,pol[:,0])**2 +  np.dot(wavevector,pol[:,1])**2
+                    #weight = np.dot(wavevector,pol[:,0])**2 +  np.dot(wavevector,pol[:,1])**2
+                    weight = np.dot(wavevector,pol.real)**2 +  np.dot(wavevector,pol.imag)**2
                     # weight is square-modulus of (real) wavevector dotted with complex polarization
                     thermalfactor = 2.0 * calcBoseEinstein(T, energy) + 1.0
                     #print 'weight',weight
@@ -126,7 +127,8 @@ class DebyeWallerCalculator:
                 for modeIndex in range(nModes): 
                     energy = self._energies[kptindex][modeIndex]
                     pol = self._polvecs[kptindex][modeIndex][atomindex]
-                    weight = np.dot(wavevector,pol[:,0])**2 +  np.dot(wavevector,pol[:,1])**2
+                    #weight = np.dot(wavevector,pol[:,0])**2 +  np.dot(wavevector,pol[:,1])**2
+                    weight = np.dot(wavevector,pol.real)**2 +  np.dot(wavevector,pol.imag)**2
                     # weight is square-modulus of (real) wavevector dotted with complex polarization
                     thermalfactor = 2.0 * calcBoseEinstein(T, energy) + 1.0
                     DW += weight * thermalfactor / energy        
