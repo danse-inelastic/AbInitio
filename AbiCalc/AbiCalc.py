@@ -4,7 +4,7 @@ class AbiCalc:
     """Abstract class for interface to first principle calculator."""
 
     def __init__(self, atomicConfig=None):
-        self._atomicConfig = atomicConfig
+        self.atomicConfig = atomicConfig
 
 
     def setAtomicConfig(self, atomicConfig):
