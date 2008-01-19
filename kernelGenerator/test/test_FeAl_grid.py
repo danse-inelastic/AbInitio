@@ -20,44 +20,68 @@ print uc
 import AbInitio.kernelGenerator.SqeCalculator
 import numpy
 
-kptlist = uc.getMonkhorstPackGrid((20,20,20)).reshape(8000,3)
+kptlist = uc.getMonkhorstPackGrid((40,40,40)).reshape(64000,3)
 
 sqecalc = AbInitio.kernelGenerator.SqeCalculator.SqeCalculator(uc, kpoints=kptlist)
 
-sqecalc.readIDFeigenvectors(filename='Polarizations_FeAl_8000k')
+#sqecalc.readIDFeigenvectors(filename='Polarizations_FeAl_8000k')
+sqecalc.readIDFeigenvectors(filename='pols_FeAl222_mp40.idf')
+
 
 # create some arbitrary energies for now:
-sqecalc._energies = numpy.zeros((8000,6), dtype='float')
-for ik in range(len(sqecalc._kpts)):
-    for imode in range(6):
-        sqecalc._energies[ik][imode] = numpy.dot(sqecalc._kpts[ik], sqecalc._kpts[ik])*(imode/3 + 1)
+#sqecalc._energies = numpy.zeros((8000,6), dtype='float')
+#for ik in range(len(sqecalc._kpts)):
+#    for imode in range(6):
+#        sqecalc._energies[ik][imode] = numpy.dot(sqecalc._kpts[ik], sqecalc._kpts[ik])*(imode/3 + 1)
+
+sqecalc.readEigenvaluesFromIDFomega2(filename='omega2_FeAl222_mp40.idf')
 
 sqecalc._DebyeWallerCalculator._energies = sqecalc._energies
 sqecalc._DebyeWallerCalculator._polvecs = sqecalc._polvecs
 
-sqecalc._etransferTol = 3.0
-sqecalc._qtransferTolRadius = 0.5
+sqecalc._etransferTol = 0.5
+sqecalc._qtransferTolRadius = 0.25
 
 #loop
-qstart = numpy.array([-3.0, 0.0, 0.0])
-deltaq = numpy.array([0.6, 0.0, 0.0])
+qstart = numpy.array([0.0, 0.0, 0.0])
+deltaq = numpy.array([0.15, 0.0, 0.0])
 
 estart = 0.0
-deltae = 5.0
+deltae = 1.0
 
-sqe = numpy.zeros((10,10), dtype='float')
+sqe = numpy.zeros((20,50), dtype='float')
 
-for iq in range(10):
-    for ie in range(10):
+for iq in range(20):
+    for ie in range(50):
         qtransfer = qstart + iq * deltaq
         etransfer = estart + ie * deltae
         sqe[iq,ie] = sqecalc.calcSqeCohCreateAllmodes(qtransfer, etransfer)
-        print sqe[iq,ie]
+        print iq, ie, sqe[iq,ie]
 
 pylab.imshow(sqe)
 pylab.show()
 
 end = raw_input()
 
+#########
 
+#mp40 grid
+
+mp40=uc.getMonkhorstPackGrid((40,40,40))
+sqecalc._kpts= mp40
+sqecalc._numkpts = 64000
+
+sqecalc.readIDFeigenvectors(filename='pols_FeAl222_mp40.idf')
+sqecalc.readEigenvaluesFromIDFomega2(filename='omega2_FeAl222_mp40.idf')
+
+estart = 0.0
+deltae = 0.5
+
+sqegrid = numpy.zeros((40,40,40,40), dtype='float')
+
+for kx in range(40):
+    for ky in range(40):
+        for kz in range(40):
+            qtransfer = mp40[kx,ky,kz]
+            
 
