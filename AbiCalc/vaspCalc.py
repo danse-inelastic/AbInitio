@@ -10,6 +10,7 @@ import AbInitio.vasp.potcar
 from AbInitio.vasp.parsing.SystemPM import *
 
 from AbInitio.vasp.vasp import VASP
+from AbInitio.AbiCalc.AbiCalc import PlaneWaveAbiCalc,PeriodicAbiCalc
 
 class vaspCalc(PlaneWaveAbiCalc):
     """A wrapper class for the VASP calculator."""

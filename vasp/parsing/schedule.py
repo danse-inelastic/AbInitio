@@ -23,7 +23,7 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from UserList import *
-from vasp.parsing.message import *
+from AbInitio.vasp.parsing.message import *
 
 
 class Process:

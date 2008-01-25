@@ -34,7 +34,7 @@ from UserList import *
 from string import *
 from sys import *
 from matrix import *
-from vasp.parsing import *
+from AbInitio.vasp.parsing import *
 from types import *
 
 try:

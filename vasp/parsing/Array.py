@@ -45,9 +45,9 @@ from UserDict import *
 from UserList import *
 from string import *
 from sys import *
-from vasp.parsing.matrix import *
-from vasp.parsing import *
-from vasp.parsing.util import *
+from AbInitio.vasp.parsing.matrix import *
+from AbInitio.vasp.parsing import *
+from AbInitio.vasp.parsing.util import *
 from types import *
 
 try:

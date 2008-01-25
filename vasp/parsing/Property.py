@@ -44,7 +44,7 @@ Properties can be:
 
 """
 from UserDict import UserDict
-from vasp.parsing import *
+from AbInitio.vasp.parsing import *
 from types import *
 
 try:

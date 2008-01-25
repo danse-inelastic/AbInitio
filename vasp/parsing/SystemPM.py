@@ -103,21 +103,21 @@ Following calculation properties are available:
 
 from __future__ import generators
 
-from vasp.parsing import *
-from vasp.parsing.util import *
-import vasp.parsing.Dictionary
-from vasp.parsing.store import *
-from vasp.parsing.Array import *
-from vasp.parsing.Property import *
+from AbInitio.vasp.parsing import *
+from AbInitio.vasp.parsing.util import *
+import AbInitio.vasp.parsing.Dictionary
+from AbInitio.vasp.parsing.store import *
+from AbInitio.vasp.parsing.Array import *
+from AbInitio.vasp.parsing.Property import *
 import os.path
 from string import *
-from vasp.parsing.util import *
+from AbInitio.vasp.parsing.util import *
 import traceback
 import os
 import cp4vasp
-from vasp.parsing.Structure import *
-import vasp.parsing.cStructure
-import vasp.parsing.repository as repository
+from AbInitio.vasp.parsing.Structure import *
+import AbInitio.vasp.parsing.cStructure
+import AbInitio.vasp.parsing.repository as repository
 
 
 #def systemlist():
@@ -200,14 +200,14 @@ class KpointList(VArray):
       s+="%+18.14f %+18.14f %+18.14f %f\n"%(v[0],v[1],v[2],float(w[i][0]))
     return s
     
-class KpointGeneration(vasp.parsing.Dictionary.Dictionary):
+class KpointGeneration(AbInitio.vasp.parsing.Dictionary.Dictionary):
   def __init__(self,elem=None):
     self.gtype=None
-    vasp.parsing.Dictionary.Dictionary.__init__(self,elem)
+    AbInitio.vasp.parsing.Dictionary.Dictionary.__init__(self,elem)
     self.comment=""
 
   def readFromNode(self,elem):
-    vasp.parsing.Dictionary.Dictionary.readFromNode(self,elem)
+    AbInitio.vasp.parsing.Dictionary.Dictionary.readFromNode(self,elem)
     self.gtype=elem.getAttribute("param")
 
   def getText(self):

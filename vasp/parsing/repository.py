@@ -26,8 +26,8 @@ from UserDict import *
 from UserList import *
 from types import *
 from string import *
-from vasp.parsing import *
-from vasp.parsing.store import *
+from AbInitio.vasp.parsing import *
+from AbInitio.vasp.parsing.store import *
 
 class Factory(UserDict):
   def __init__(self,d={}):

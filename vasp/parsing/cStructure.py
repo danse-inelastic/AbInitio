@@ -21,11 +21,11 @@
 
 import _cp4vasp
 import cp4vasp
-import vasp.parsing.util
-import vasp.parsing.Structure
-import vasp.parsing.Array
+import AbInitio.vasp.parsing.util
+import AbInitio.vasp.parsing.Structure
+import AbInitio.vasp.parsing.Array
 from types import *
-from vasp.parsing.cmatrix import *
+from AbInitio.vasp.parsing.cmatrix import *
 
 dummy_pointers=[]
 dummy_cstr=cp4vasp.Structure()
@@ -49,7 +49,7 @@ def extractPointer(x):
 
   return x
       
-class AtomtypesRecord(cp4vasp.AtomtypesRecord,vasp.parsing.Structure.AtomtypesRecord):
+class AtomtypesRecord(cp4vasp.AtomtypesRecord,AbInitio.vasp.parsing.Structure.AtomtypesRecord):
     _keys_=map(intern,["element",
                        "atomspertype",
 		       "mass",
@@ -64,7 +64,7 @@ class AtomtypesRecord(cp4vasp.AtomtypesRecord,vasp.parsing.Structure.AtomtypesRe
 
 		       
     def __init__(self,init=None,pointer=None):
-      if isinstance(init,vasp.parsing.Structure.AtomtypesRecord):
+      if isinstance(init,AbInitio.vasp.parsing.Structure.AtomtypesRecord):
         self.this = extractPointer(_cp4vasp.new_AtomtypesRecord())
 	self.thisown=1
 	self.setAtomtypesRecord(init)
@@ -184,14 +184,14 @@ class AtomtypesRecord(cp4vasp.AtomtypesRecord,vasp.parsing.Structure.AtomtypesRe
           save_dummy_pointer(self.this)
       except: pass
 
-class AtomInfo(cp4vasp.AtomInfo,vasp.parsing.Structure.AtomInfo):
+class AtomInfo(cp4vasp.AtomInfo,AbInitio.vasp.parsing.Structure.AtomInfo):
     element=None
     help_record=AtomtypesRecord()
     def __init__(self,init=None,pointer=None):      
       if pointer:
         self.this = pointer
         self.thisown = 0
-      elif isinstance(init,vasp.parsing.Structure.AtomInfo):
+      elif isinstance(init,AbInitio.vasp.parsing.Structure.AtomInfo):
         self.this = extractPointer(_cp4vasp.new_AtomInfo(0))
         self.thisown = 1
 	self.setAtomInfo(init)
@@ -201,7 +201,7 @@ class AtomInfo(cp4vasp.AtomInfo,vasp.parsing.Structure.AtomInfo):
       elif type(init) in StringTypes:
         self.this = extractPointer(_cp4vasp.new_AtomInfo(0))
         self.thisown = 1
-	ai=vasp.parsing.Structure.AtomInfo(init)
+	ai=AbInitio.vasp.parsing.Structure.AtomInfo(init)
 	self.setAtomInfo(ai)
       elif init:
         self.this = extractPointer(_cp4vasp.new_AtomInfo(0))
@@ -385,9 +385,9 @@ This simulates array of 3d integer-valued vectors.
   __str__=__repr__    
       
     
-class Structure(vasp.parsing.Structure.Structure):
+class Structure(AbInitio.vasp.parsing.Structure.Structure):
     def __init__(self,init=None,pointer=None):
-      if isinstance(init,vasp.parsing.Structure.Structure):
+      if isinstance(init,AbInitio.vasp.parsing.Structure.Structure):
         self.this    = extractPointer(_cp4vasp.new_Structure())
 	self.thisown = 1
 	self.setStructure(init)
