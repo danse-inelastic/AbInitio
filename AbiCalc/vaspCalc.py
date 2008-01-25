@@ -5,9 +5,9 @@ import numpy as num
 
 from ASE import Atom,ListOfAtoms
 
-import parsing.parser2
-import potcar
-from parsing.SystemPM import *
+import AbInitio.vasp.parsing.parser2
+import AbInitio.vasp.potcar
+from AbInitio.vasp.parsing.SystemPM import *
 
 from AbInitio.vasp.vasp import VASP
 

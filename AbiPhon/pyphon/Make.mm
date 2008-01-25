@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-PROJECT = pyphon
-PACKAGE = pyphon
+PROJECT = AbInitio
+PACKAGE = AbiPhon/pyphon
 
 BUILD_DIRS = \
     libphon \

@@ -12,12 +12,12 @@
 #
 
 PROJECT = AbInitio
-PACKAGE = vasp/parsing
+PACKAGE = AbiPhon
 
 #--------------------------------------------------------------------------
 #
 
-BUILD_DIRS = \
+BUILD_DIRS = pyphon parsing
 
 OTHER_DIRS = \
 
@@ -38,37 +38,11 @@ all: export
 
 EXPORT_PYTHON_MODULES = \
 	__init__.py \
-	Array.py \
-	cmatrix.py \
-	config.py \
-	cp4vasp.py \
-	cStructure.py \
-	db.py \
-	Dictionary.py \
-	eigenvectorParser.py \
-	FArray.py \
-	graph.py \
-	matrix.py \
-	message.py \
-	ODPdom.py \
-	OrderedDict.py \
-	parser.py \
-	parser2.py \
-	Property.py \
-	repository.py \
-	schedule.py \
-	Selection.py \
-	sellang.py \
-	setupstore.py \
-	setutils.py \
-	SQLSystemPM.py \
-	store.py \
-	Structure.py \
-	SystemPM.py \
-	util.py \
+	AbiPhonCalc.py \
+	PhonCalc.py \
 
 
-EXPORT_BINS = _cp4vasp.so \
+EXPORT_BINS = \
 
 
 
