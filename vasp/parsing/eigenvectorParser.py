@@ -23,9 +23,9 @@ integer.setParseAction( convertNumbers )
 vector3 = Group(number + number + number)
 two_vectors = Group(Suppress(vector3) + vector3)
 
-mode = OneOrMore(Suppress(Literal("X         Y         Z           dx          dy          dz")) + OneOrMore(two_vectors))
+mode = Suppress(Literal("X         Y         Z           dx          dy          dz")) + OneOrMore(Suppress(vector3) + vector3)
 
-eandmode = number + Suppress(Literal('meV')) + mode
+eandmode = number + Suppress(Literal('meV')) + Group(mode)
 
 def fuse(listOfStrings):
     bigString=''
