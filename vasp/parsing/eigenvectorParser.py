@@ -21,11 +21,17 @@ number.setParseAction( convertNumbers )
 integer.setParseAction( convertNumbers )
 
 vector3 = Group(number + number + number)
-two_vectors = Group(vector3 + vector3)
+two_vectors = Group(Suppress(vector3) + vector3)
 
 mode = OneOrMore(Suppress(Literal("X         Y         Z           dx          dy          dz")) + OneOrMore(two_vectors))
 
 eandmode = number + Suppress(Literal('meV')) + mode
+
+def fuse(listOfStrings):
+    bigString=''
+    for line in listOfStrings:
+        bigString+=line
+    return bigString
 
 def getDynamicalMatrixOutput(filename='OUTCAR'):
     try:
@@ -38,7 +44,7 @@ def getDynamicalMatrixOutput(filename='OUTCAR'):
             start=i; continue
         if lines[i]==' Eigenvectors after division by SQRT(mass)\n':
             stop=i; break
-    return lines[start:stop]
+    return fuse(lines[start:stop])
     
 def parseModes():
     """Parses the result eigenvectors from a VASP calculation,
