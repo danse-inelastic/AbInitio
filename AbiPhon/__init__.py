@@ -1,3 +1,3 @@
-import AbiPhonCalc.py
-import PhonCalc.py
+import AbiPhonCalc
+import PhonCalc
 import parsing

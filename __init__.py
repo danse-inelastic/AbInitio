@@ -1,6 +1,6 @@
 # AbInitio
 
 import AbiCalc
-import AbiPhon
+#import AbiPhon
 import kernelGenerator
 import vasp

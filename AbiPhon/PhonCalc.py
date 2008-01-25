@@ -4,7 +4,7 @@ __doc__ = """A modules to implement a First-Principles Phonon Calculator with Ph
 
 import os, sys
 import shutil
-from pyphon._pyphon import phon
+from AbiPhon.pyphon._pyphon import phon
 from vasp.parsing import parser2
 from AbiPhonCalc import AbiPhonCalc
 

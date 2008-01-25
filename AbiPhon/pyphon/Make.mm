@@ -16,7 +16,7 @@ PACKAGE = AbiPhon/pyphon
 
 BUILD_DIRS = \
     libphon \
-    pyphonmodule \
+    phonmodule \
     python \
 
 RECURSE_DIRS = $(BUILD_DIRS)
