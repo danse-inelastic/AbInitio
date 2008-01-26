@@ -25,7 +25,9 @@ two_vectors = Group(Suppress(vector3) + vector3)
 
 mode = Suppress(Literal("X         Y         Z           dx          dy          dz")) + OneOrMore(Suppress(vector3) + vector3)
 
-eandmode = number + Suppress(Literal('meV')) + Group(mode)
+eigMevAndMode = number + Suppress(Literal('meV')) + Group(mode)
+
+eigInvcmAndMode = number + Suppress(Literal('cm-1')) + Suppress(number + Literal('meV')) + Group(mode)
 
 def fuse(listOfStrings):
     bigString=''
@@ -51,20 +53,33 @@ def parseModes():
     The VASP output file is passed as argument."""
     inputString=getDynamicalMatrixOutput()
     rt = []
-    dataSource=eandmode.scanString(inputString)
+    dataSource=eigMevAndMode.scanString(inputString)
     #print dataSource
     for data, dataStart, dataEnd in dataSource:
         rt.append(data.asList())    
     return rt 
 
-def parseEsModes():
+def parseEsModes(units='meV'):
     """Parses the result energies and eigenvectors from a VASP calculation,
     The VASP output file is passed as argument."""
     inputString=getDynamicalMatrixOutput()
     rt = []
-    dataSource=eandmode.scanString(inputString)
+    if units=='meV':
+        dataSource=eigMevAndMode.scanString(inputString)
+    elif units=='cm-1':
+        dataSource=eigInvcmAndMode.scanString(inputString)
     #print dataSource
     for data, dataStart, dataEnd in dataSource:
-        rt.append(data.asList())    
+        rt.append(data.asList())   
+    def sortByFrequency(mode1,mode2):
+        if mode1[0]<mode2[0]:
+            return -1
+        elif mode1[0]>mode2[0]:
+            return 1
+        else:
+            return 0
+    #sort the frequencies
+    #rt.sort(sortByFrequency)
+    rt.sort(sortByFrequency) 
     return rt 
     
