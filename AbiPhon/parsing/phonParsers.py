@@ -132,8 +132,8 @@ def parsePhon2IDF(inputfilename='phon.out',
     D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs."""
 
     import numpy
-    from idf.Polarizations import write as writePols
-    from idf.Omega2 import write as writeOmega2s
+    from inelastic.idf.Polarizations import write as writePols
+    from inelastic.idf.Omega2 import write as writeOmega2s
     
     try:
         infile = open(inputfilename, 'r')
@@ -165,6 +165,105 @@ def parsePhon2IDF(inputfilename='phon.out',
     writeOmega2s(omega2s, filename=omega2sfile,
                  comment='Parsed from Phon output file '+inputfilename, D=3)
     return
+
+
+def parseFastPhon2IDF(inputfilename='phon.out',
+                  polarizationsfile='polarizations.idf',
+                  omega2sfile='energies.idf',
+                  D=3):
+    """Parses the Phon output and writes a IDF-format file for polarization vectors.
+    D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs.
+    example:
+    e,v = parseFastPhon2IDF(inputfilename='phon_FeAl222.out')
+    """
+    from inelastic.idf.Polarizations import write as writePols
+    from inelastic.idf.Omega2 import write as writeOmega2s
+    try:
+        infile = open(inputfilename, 'r')
+        #polfile = open(polarizationsfile, 'w')
+        #om2file = open(omega2sfile, 'w')
+    except IOError, (errno, strerror):
+        print "I/O error(%s): %s" % (errno, strerror)
+    numkpts = 0
+    res = []
+    line=''
+    # store eigenvals and eigenvecs into lists
+    # these will be cast into numpy arrays,
+    # once we know the dimensions of k-point grid and number of atoms
+    eigvals = []
+    eigvecs = []
+    # we want to determine the dimensions of the calculation:
+    # seek to the line defining the k-point grid:
+    while line[0:10]!= 'Generating':
+        line=infile.readline()
+    line = line.lstrip('Generating IBZ points ....')
+    line = line.strip()
+    griddims = [int(x) for x in line.split()]
+    print 'Found a %s x %s x %s k-point grid.\n' % (griddims[0], griddims[1], griddims[2])
+    # seek to first dynamical matrix (skip symmetry outputs):
+    while line.strip() != 'Integrating frequencies...':
+        line=infile.readline()
+    infile.readline()  # skip blank line
+    infile.readline()  # skip 'Using ...'
+    infile.readline()  # skip blank line
+    # we are now at the first dynamical matrix.
+    infile.readline()  # skip 'Dynamical matrix'
+    numatoms = 1
+    linecount = 0
+    while line.strip() != 'Calling zheev.':
+        linecount +=1
+        line=infile.readline()
+    linecount -= 1  # we read the extra 'Calling zheev' line.
+    numatoms = int(np.sqrt(linecount/4)) # dyn mat is 3N * 3N, and each block is labelled
+    print 'Found %s atom(s) \n' % numatoms
+    # now we can read all eigenvalues and eigenvectors for all k-points:
+    for i in range(griddims[0]):
+        for j in range(griddims[1]):
+            for k in range(griddims[2]):
+                print i, j, k
+                # we just read in 'Calling zheev.'
+                # loop over number of modes:
+                modevals = []
+                modevecs = []
+                for modeindex in range(3*numatoms):
+                    infile.readline() # skip 'Eigenvalue  N'
+                    line = infile.readline()  # read eigenvalue
+                    modevals.append(float(line.strip()))
+                    infile.readline() # skip 'Eigenvector'
+                    vec = []
+                    for atomindex in range(numatoms):
+                        infile.readline() # skip 'Atom'
+                        atomvec = []
+                        for x in range(3):
+                            vxstring = infile.readline()
+                            vxlist = [float(x) for x in vxstring.strip().split()]
+                            vx = complex(vxlist[0] + 1j * vxlist[1])
+                            atomvec.append(vx)
+                        vec.append(atomvec)
+                    modevecs.append(vec)
+                # we finished reading eigenvals and eigenvecs at current k-point
+                eigvals.append(modevals)
+                eigvecs.append(modevecs)
+                #print "eigen-values:", eigvals
+                # now skip next dynamical matrix:
+                while ((line.strip() != 'Calling zheev.') and (line != '\n')):
+                    line=infile.readline()
+    # write IDF files:
+    omega2s = np.array(eigvals)
+    pols = np.array(eigvecs)
+    writeOmega2s(omega2s,
+                 filename=omega2sfile,
+                 comment='Parsed from'+inputfilename,
+                 D=3)
+    writePols(pols,
+              filename=polarizationsfile,
+              comment='Parsed from'+inputfilename)
+    return
+                        
+                       
+                        
+                
+            
 
 
 
