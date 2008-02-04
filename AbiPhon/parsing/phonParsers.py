@@ -171,10 +171,13 @@ def parseFastPhon2IDF(inputfilename='phon.out',
                   polarizationsfile='polarizations.idf',
                   omega2sfile='energies.idf',
                   D=3):
-    """Parses the Phon output and writes a IDF-format file for polarization vectors.
+    """Parses the Phon output and writes IDF-format files for the polarization vectors
+    and for the eigenvalues (frequencies squared).
     D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs.
     example:
-    e,v = parseFastPhon2IDF(inputfilename='phon_FeAl222.out')
+    >>> parseFastPhon2IDF(inputfilename='phon_FeAl222.out',
+                          polarizationsfile='polarizations.idf',
+                          omega2sfile='energies.idf', D=3)
     """
     from inelastic.idf.Polarizations import write as writePols
     from inelastic.idf.Omega2 import write as writeOmega2s
