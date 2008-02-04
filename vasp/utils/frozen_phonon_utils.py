@@ -5,7 +5,7 @@ import scipy
 import scipy.io
 
 try:
-    from vasp.parsing.SystemPM import *
+    from vasp.parsing.SystemPM import XMLSystemPM
     from vasp.parsing.Structure import Structure
     #import vasp.parsing.matrix as p4mat
 except ImportError:
@@ -14,10 +14,8 @@ except ImportError:
 def writeXYZ(name, strains, outfilename):
     """Reads the output XML files from VASP computation of frozen_phonons
     and creates a XYZ format file for input into GULP."""
-
     outfile = open(outfilename, 'a')  # open the file in 'append mode'
     weight = 100.0 # this should be different weights for different configurations
-
     for x in strains:
         xmlfilestring = 'vasprun_'+name+'_u_'+repr(strain)+'.xml'
         poscarstring = 'POSCAR_'+name+'_u_'+repr(strain)
@@ -42,16 +40,14 @@ def writeXYZ(name, strains, outfilename):
         outfile.write('# energy for this configuration: \n observable \n energy ev')
         outfile.write(energy + ' ' + weight + '\n')
         outfile.write('end \n')
-
     outfile.close()        
-
     pass # End of writeXYZ
         
-def parseUCsAndEnergies(name, strains):
+def parseConfigsAndEnergies(name, strains):
     """Parses the strained structures, from a list of VASP output XMl files,
-    as a UnitCell list,
+    as a LsitOfAtoms list,
     and a list of corresponding energies."""
-    from crystalIO.converters import p4vaspStruct2UnitCell
+    from crystalIO.converters import p4vaspStruct2UnitCell,unitCell2ListOfAtom
     atomicConfigs = []
     energies = []
     for strain in strains:
@@ -65,23 +61,24 @@ def parseUCsAndEnergies(name, strains):
         # set the atomic positions to fractional coordinates:
         struct.setDirect()
         uc = p4vaspStruct2UnitCell(struct)
+        loa = unitCell2ListOfAtom(uc)
         print "x = %s \n" %  strain
         print "Atomic configuration: \n"
-        print uc
+        print loa
         print "Energy = %s" % energy
-        atomicConfigs.append(uc)
+        atomicConfigs.append(loa)
         energies.append(energy)
     return atomicConfigs, energies
 
-def writeUCsAndEnergies(name, strains, pklfilename):
+def writeConfigsAndEnergies(name, strains, pklfilename):
     """Parses the strained structures, from a list of VASP output XMl files,
-    as a UnitCell list,
+    as a ListOfAtoms list,
     and a list of corresponding energies,
     and writes everything to a pickle file."""
     import pickle
-    atomicConfigs, energies = parseUCsAndEnergies(name, strains)
-    pklfile = open(pklfilename, 'a')
-    pickle.dump(pklfile, atomicConfigs, energies)
+    atomicConfigs, energies = parseConfigsAndEnergies(name, strains)
+    pklfile = open(pklfilename, 'w')
+    pickle.dump((atomicConfigs, energies), pklfile)
     pklfile.close()
     pass # End of writeUCsAndEnergies
 
