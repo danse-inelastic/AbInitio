@@ -1,2 +1,2 @@
 import AbiCalc
-import vaspCalc
+import VaspCalc
