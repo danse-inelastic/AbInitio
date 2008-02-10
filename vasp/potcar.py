@@ -57,12 +57,14 @@ pawlda = {}
 pawgga = {'Al' : 'Al',
           'V' : 'V',
           'Fe' : 'Fe',
-          'Pt' : 'Pt'}
+          'Pt' : 'Pt',
+          'Si' : 'Si'}
 
 pawpbe = {'Al' : 'Al',
           'V' : 'V',
           'Fe' : 'Fe',
-          'Pt' : 'Pt'}
+          'Pt' : 'Pt',
+          'Si' : 'Si'}
 
 def getPath(xc, symbol):
     """Returns a path string for the location of the POTCAR file."""
