@@ -152,7 +152,7 @@ class VASP:
         """
         self.Calculate()
         s=XMLSystemPM("vasprun.xml")
-        f = array(s.FORCES_SEQUENCE[-1])
+        f = num.array(s.FORCES_SEQUENCE[-1])
 
         return f
 
