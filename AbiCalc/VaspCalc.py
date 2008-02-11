@@ -46,7 +46,7 @@ class VaspCalc(PlaneWaveAbiCalc):
 
     def getStress(self):
         """Returns the stress tensor on the unit cell in reduced coordinates."""
-        return self._vasp.GetStress(self,units='reduced')
+        return self._vasp.GetStress(units='reduced')
 
 
     pass # enf class vaspCalc
