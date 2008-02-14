@@ -1,0 +1,4 @@
+The parsing module parses the vasp input/outputs from calculations performed with the VASP package (http://cms.mpi.univie.ac.at/vasp/). 
+It uses files taken from the P4VASP package (O. Dubay), distributed under GPL:
+http://cms.mpi.univie.ac.at/odubay/p4vasp_site/news.php
+The VASP program is not freely distributed and is not (nor any parts thereof) included in this software package.

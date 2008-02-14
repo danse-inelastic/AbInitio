@@ -67,12 +67,24 @@ EXPORT_PYTHON_MODULES = \
 	SystemPM.py \
 	util.py \
 
+BINDING_MODULES = \
+	_cp4vasp.so \
 
+<<<<<<< .mine
+export-binding-modules::
+	for i in $(BINDING_MODULES); do \
+	cp $$i $(EXPORT_ROOT)/modules/$(PROJECT)/$(PACKAGE) ; \
+	done
+
+
+EXPORT_BINS = \
+=======
 EXPORT_BINS = _cp4vasp.so \
+>>>>>>> .r30
 
 
 
-export:: export-binaries release-binaries export-package-python-modules 
+export:: export-binaries release-binaries export-package-python-modules export-binding-modules
 
 
 # version

@@ -85,7 +85,7 @@ INDENT - indentation unit; two spaced by default
 """
 
 try:
-  import vasp.parsing.ODPdom as dom
+  import AbInitio.vasp.parsing.ODPdom as dom
 except ImportError:
   try:
     import ODPdom as dom
