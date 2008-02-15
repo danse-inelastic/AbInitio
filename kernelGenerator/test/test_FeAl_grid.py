@@ -1,6 +1,7 @@
 from UnitCell import *
 from Atom import *
 import pylab
+import pickle
 
 uc = UnitCell( )
 at1=Atom(symbol='Fe', mass=57) ; pos1=(0.0,0.0,0.0)
@@ -39,26 +40,29 @@ sqecalc.readEigenvaluesFromIDFomega2(filename='omega2_FeAl222_mp40.idf')
 sqecalc._DebyeWallerCalculator._energies = sqecalc._energies
 sqecalc._DebyeWallerCalculator._polvecs = sqecalc._polvecs
 
-sqecalc._etransferTol = 0.5
-sqecalc._qtransferTolRadius = 0.25
+sqecalc._etransferTol = 2.0
+sqecalc._qtransferTolRadius = 0.3
 
-#loop
+# dispersion loop
+
 qstart = numpy.array([0.0, 0.0, 0.0])
-deltaq = numpy.array([0.15, 0.0, 0.0])
+deltaq = numpy.array([0.3, 0.0, 0.0])
 
 estart = 0.0
-deltae = 1.0
+deltae = 4.0
 
-sqe = numpy.zeros((20,50), dtype='float')
+sqe = numpy.zeros((10,10), dtype='float')
 
-for iq in range(20):
-    for ie in range(50):
+for iq in range(10):
+    for ie in range(10):
         qtransfer = qstart + iq * deltaq
         etransfer = estart + ie * deltae
         sqe[iq,ie] = sqecalc.calcSqeCohCreateAllmodes(qtransfer, etransfer)
         print iq, ie, sqe[iq,ie]
 
-pylab.imshow(sqe)
+pickle.dump(sqe, open('sqe.pkl', 'w'))
+
+pylab.imshow(pylab.rot90(sqe))
 pylab.show()
 
 end = raw_input()
