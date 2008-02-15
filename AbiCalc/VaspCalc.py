@@ -49,4 +49,4 @@ class VaspCalc(PlaneWaveAbiCalc):
         return self._vasp.GetStress(units='reduced')
 
 
-    pass # enf class vaspCalc
+    pass # enf class VaspCalc
