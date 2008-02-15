@@ -63,7 +63,7 @@ def parseQpoints(filename='QPOINTS',
     one for Qpoints and one for associated weights, eg:
     >>> qs, ws = parseQpoints()
     The points are obtained from the file QPOINTS by default.
-    If dumpQpts is set to one, the Q-points are dumped in 'qponits.pkl' pickle file.
+    If dumpQpts is set to one, the Q-points are dumped in 'qpoints.pkl' pickle file.
     If dumpWeights is set to one, the weights are dumped in a 'weights.pkl' pickle file.
     """
     try:
@@ -122,6 +122,7 @@ def plotQpoints():
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
     pl.show()
+
 
 
 def parsePhon2IDF(inputfilename='phon.out',
@@ -223,7 +224,7 @@ def parseFastPhon2IDF(inputfilename='phon.out',
     for i in range(griddims[0]):
         for j in range(griddims[1]):
             for k in range(griddims[2]):
-                print i, j, k
+                #print i, j, k
                 # we just read in 'Calling zheev.'
                 # loop over number of modes:
                 modevals = []
