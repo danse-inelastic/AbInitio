@@ -35,8 +35,10 @@ class VASP:
 
         * 'xc' is a string for the exchange-correlation functional
         """
-
+        
         self.VASPPOTCARPATH = os.environ['VASPPOTCARPATH']
+        print "Initializing VASP.\n"
+        print "VASPPOTCARPATH = %s" % self.VASPPOTCARPATH
         self.vaspcmd = vaspcmd
         self.name = name
         self.kpts = tuple(kpts)
@@ -44,15 +46,13 @@ class VASP:
         #INPUT is a class object that is a dictionary to store all the
         # input variables in from the parser module
         self.incar = parser2.INPUT2('INCAR')
-
         self.incar['SYSTEM'] = name
         self.incar['ENCUT'] = pw
-
         self.incar['ISMEAR'] = 2
         self.incar['SIGMA'] = 0.2
+        self.incar['EDIFF'] = 1e-4
         self.incar['PREC'] = 'Normal'
         self.incar['LREAL'] = '.False.'
-
         self.xc = xc
             
         #flag to be used to signify if a calculation should be run
