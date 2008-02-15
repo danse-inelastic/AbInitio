@@ -4,8 +4,8 @@ import numpy as N
 from kernelGenerator.DebyeWallerCalculator import DebyeWallerCalculator
 from kernelGenerator.DebyeWallerCalculator import calcBoseEinstein
 #from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
-import idf.Polarizations
-import idf.Omega2
+from inelastic.idf.Polarizations import read as readIDFpolarizations
+from inelastic.idf.Omega2 import read as readIDFomega2s
 
 class SqeCalculator:
     """A class that calculate the neutron scattering function,  S(q_vector, E),
@@ -16,6 +16,7 @@ class SqeCalculator:
     gammaPointCalc = False
     hbar = 6.58211899e-16*1e12*1e3#eV*s * ps/s * meV/eV = meV*ps
     kB = 8.61734315e-5*1e3 #ev/K * meV/eV
+    hbar_meVs = 6.582119*1e-13 # meV * s
     
     #eventually this can be generalized to liquids or polymers
     def __init__(self,
@@ -41,7 +42,7 @@ class SqeCalculator:
         self.phononFrequencies=phononFrequencies
         self._energies = energies
         self._polvecs = polarizations
-        self._numqpts = None
+        self._numkpts = None
         self._kpts = None
         self.setKpoints(kpoints)
         self._tau = None
@@ -202,7 +203,8 @@ class SqeCalculator:
                     
         return sqe
         pass # end of calcSqeCoh
-            
+      
+
         
     def calcSqomegaIncoherent(self,Q,omega):
         '''This comes from Squires, combining equations 3.138 and a modification of 4.13.
@@ -273,7 +275,7 @@ Since this goes to zero if omega should be in ps.'''
         return self._unitcell
     
     def setKpoints(self, kpoints):
-        """Sets the phonon q-points.
+        """Sets the phonon k-points.
         These must correspond to the points at which the polarizations and energies have been calculated."""
         self._kpts = kpoints
         self._numkpts = len(kpoints)
@@ -308,25 +310,47 @@ Since this goes to zero if omega should be in ps.'''
 
     def readEigenvaluesFromIDFomega2(self, filename='omega2.idf'):
         """Reads in the phonon eigenvalues from an IDF-format file."""
-        try:
-            idfdata = idf.Omega2.read(filename=filename)
-        except:
-            raise IOError, 'Could not read the IDF data for Omega2.'
+        #try:
+        idfdata = readIDFomega2s(filename=filename)
+        #except:
+        #    raise IOError, 'Could not read the IDF data for Omega2.'
         infotuple = idfdata[0]
         print infotuple
         om2 = idfdata[1]
+        # check the dimensions of the data:
+        print om2.shape
+        if om2.shape != (self._numkpts, self._numatoms*self._D):
+            print 'The eigenvalues from file '+filename+' do not have the proper dimensions.'
+            print 'Check number of q-points and number of atoms.'
+            return
+        self._energies = N.zeros((self._numkpts, self._numatoms*self._D), dtype='float')
+        # We now convert the angular frequencies squared into energies (meV)
+        # E_meV = THz2meV * sqrt(om2_THz^2)
+        THz2meV = 4.1357 # meV * s
+        for kIndex in range(self._numkpts):
+            for modeIndex in range(self._numatoms * self._D):
+                self._energies[kIndex][modeIndex] = THz2meV * N.sqrt(om2[kIndex, modeIndex] * 1e-24)
+        return
 
     def writeIDFomega2FromEigenvalues(self, filename='omega2.idf'):
         """Writes the phonon eigenvalues to an IDF-format file."""
-        raise NotImplementedError
+        om2 = N.zeros((self._numkpts, self._numatoms*self._D), dtype='float')
+        # We now convert the energies (meV) into angular frequencies squared (Hz^2)
+        # om2 = ( E(meV) / hbar_meVs )^2
+        hbar_meVs = 6.582119*1e-13 # meV * s
+        for kIndex in range(self._numkpts):
+            for modeIndex in range(self._numatoms * self._D):
+                om2 = ( self._energies[kIndex, modeIndex] / hbar_meVs)**2
+        idf.Omega2.write(om2, filename=filename, comment=str(self._unitcell), D=self._D)
+        return
 
     def readIDFeigenvectors(self, filename='polarizations.idf'):
         """Reads in the phonon eigenvectors from an IDF-format file."""
-        try:
-            idffilename = filename
-            idfdata = idf.Polarizations.read(filename=idffilename)
-        except:
-            raise IOError, 'Could not read the IDF data for Polarizations.'
+        #try:
+        idffilename = filename
+        idfdata = readIDFpolarizations(filename=idffilename)
+        #except:
+        #    raise IOError, 'Could not read the IDF data for Polarizations.'
         #idffilename = filename
         #idfdata = idf.Polarizations.Read(filename=idffilename)
         infotuple = idfdata[0]
@@ -336,7 +360,9 @@ Since this goes to zero if omega should be in ps.'''
     def writeIDFeigenvectors(self, filename='polarizations.idf'):
         """Writes the phonon eigenvectors to an IDF-format file."""
         try:
-            idf.Polarizations.write(self._polvecs,filename='Polarizations',comment='')
+            idf.Polarizations.write(self._polvecs,
+                                    filename=filename,
+                                    comment=str(self._unitcell))
         except:
             raise IOError, 'Could not write the Polarizations to IDF-format file.'
         
@@ -380,9 +406,9 @@ Since this goes to zero if omega should be in ps.'''
 ##         #polarray = self._polarizationGrid.GetArray()
 
 ##         # nkpt = len(self._phonondata)
-##         intensity = N.zeros(self._numqpts, dtype=float)
+##         intensity = N.zeros(self._numkpts, dtype=float)
 
-##         for qindex in range(self._numqpts):
+##         for qindex in range(self._numkpts):
 ##             # for a non-monatomic crystal we only calculate the orientation-dependent part of the
 ##             # scattering intensity for each atom and branch.
 ##             # The relative intensities for scattering from different atoms are not preserved.
