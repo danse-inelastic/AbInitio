@@ -108,12 +108,12 @@ def parseQpoints(filename='QPOINTS',
     f.close()
     return qpoints, weights
 
-def plotQpoints():
-    """Plots the Qpoints used for phonon calculation."""
+def plotQpoints(qpoints):
+    """Plots the q-points used for phonon calculation.
+    The q-points can be parsed from the Phon output with:
+    >>> qpoints, weights = parseQpoints(filename='QPOINTS')"""
     import pylab as pl
     import matplotlib.axes3d as p3
-
-    qpoints, weights = parseQpoints()
 
     fig = pl.figure()
     ax = p3.Axes3D(fig)
@@ -133,8 +133,8 @@ def parsePhon2IDF(inputfilename='phon.out',
     D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs."""
 
     import numpy
-    from inelastic.idf.Polarizations import write as writePols
-    from inelastic.idf.Omega2 import write as writeOmega2s
+    from idf.Polarizations import write as writePols
+    from idf.Omega2 import write as writeOmega2s
     
     try:
         infile = open(inputfilename, 'r')
@@ -180,8 +180,8 @@ def parseFastPhon2IDF(inputfilename='phon.out',
                           polarizationsfile='polarizations.idf',
                           omega2sfile='energies.idf', D=3)
     """
-    from inelastic.idf.Polarizations import write as writePols
-    from inelastic.idf.Omega2 import write as writeOmega2s
+    from idf.Polarizations import write as writePols
+    from idf.Omega2 import write as writeOmega2s
     try:
         infile = open(inputfilename, 'r')
         #polfile = open(polarizationsfile, 'w')
