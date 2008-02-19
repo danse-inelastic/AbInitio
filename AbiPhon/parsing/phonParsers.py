@@ -196,19 +196,27 @@ def parseFastPhon2IDF(inputfilename='phon.out',
     # once we know the dimensions of k-point grid and number of atoms
     eigvals = []
     eigvecs = []
-    # we want to determine the dimensions of the calculation:
-    # seek to the line defining the k-point grid:
-    while line[0:10]!= 'Generating':
-        line=infile.readline()
-    line = line.lstrip('Generating IBZ points ....')
-    line = line.strip()
-    griddims = [int(x) for x in line.split()]
-    print 'Found a %s x %s x %s k-point grid.\n' % (griddims[0], griddims[1], griddims[2])
+    # !!! this does not work if Phon read the k-point grid from file !!!
+    # Instead the number of k-points has to be passed explicitely
+    # to parseFastPhon2IDF by the user.
+    ## we want to determine the dimensions of the calculation:
+    ## seek to the line defining the k-point grid:
+    ##while line[0:10]!= 'Generating':
+    ##    line=infile.readline()
+    ##line = line.lstrip('Generating IBZ points ....')
+    ##line = line.strip()
+    ##griddims = [int(x) for x in line.split()]
+    ##print 'Found a %s x %s x %s k-point grid.\n' % (griddims[0], griddims[1], griddims[2])
+
     # seek to first dynamical matrix (skip symmetry outputs):
     while line.strip() != 'Integrating frequencies...':
         line=infile.readline()
     infile.readline()  # skip blank line
-    infile.readline()  # skip 'Using ...'
+    #infile.readline()  # skip 'Using ...'
+    line = infile.readline() # read 'Using...' number of k-points
+    stuff = line.split()
+    numkpts = int(stuff[1])
+    print 'Reading phonon modes at %s k-points.' % numkpts
     infile.readline()  # skip blank line
     # we are now at the first dynamical matrix.
     infile.readline()  # skip 'Dynamical matrix'
@@ -221,37 +229,34 @@ def parseFastPhon2IDF(inputfilename='phon.out',
     numatoms = int(np.sqrt(linecount/4)) # dyn mat is 3N * 3N, and each block is labelled
     print 'Found %s atom(s) \n' % numatoms
     # now we can read all eigenvalues and eigenvectors for all k-points:
-    for i in range(griddims[0]):
-        for j in range(griddims[1]):
-            for k in range(griddims[2]):
-                #print i, j, k
-                # we just read in 'Calling zheev.'
-                # loop over number of modes:
-                modevals = []
-                modevecs = []
-                for modeindex in range(3*numatoms):
-                    infile.readline() # skip 'Eigenvalue  N'
-                    line = infile.readline()  # read eigenvalue
-                    modevals.append(float(line.strip()))
-                    infile.readline() # skip 'Eigenvector'
-                    vec = []
-                    for atomindex in range(numatoms):
-                        infile.readline() # skip 'Atom'
-                        atomvec = []
-                        for x in range(3):
-                            vxstring = infile.readline()
-                            vxlist = [float(x) for x in vxstring.strip().split()]
-                            vx = complex(vxlist[0] + 1j * vxlist[1])
-                            atomvec.append(vx)
-                        vec.append(atomvec)
-                    modevecs.append(vec)
-                # we finished reading eigenvals and eigenvecs at current k-point
-                eigvals.append(modevals)
-                eigvecs.append(modevecs)
-                #print "eigen-values:", eigvals
-                # now skip next dynamical matrix:
-                while ((line.strip() != 'Calling zheev.') and (line != '\n')):
-                    line=infile.readline()
+    for ikpt in range(numkpts):
+        # we just read in 'Calling zheev.'
+        # loop over number of modes:
+        modevals = []
+        modevecs = []
+        for modeindex in range(3*numatoms):
+            infile.readline() # skip 'Eigenvalue  N'
+            line = infile.readline()  # read eigenvalue
+            modevals.append(float(line.strip()))
+            infile.readline() # skip 'Eigenvector'
+            vec = []
+            for atomindex in range(numatoms):
+                infile.readline() # skip 'Atom'
+                atomvec = []
+                for x in range(3):
+                    vxstring = infile.readline()
+                    vxlist = [float(x) for x in vxstring.strip().split()]
+                    vx = complex(vxlist[0] + 1j * vxlist[1])
+                    atomvec.append(vx)
+                vec.append(atomvec)
+            modevecs.append(vec)
+        # we finished reading eigenvals and eigenvecs at current k-point
+        eigvals.append(modevals)
+        eigvecs.append(modevecs)
+        #print "eigen-values:", eigvals
+        # now skip next dynamical matrix:
+        while ((line.strip() != 'Calling zheev.') and (line != '\n')):
+            line=infile.readline()
     # write IDF files:
     omega2s = np.array(eigvals)
     pols = np.array(eigvecs)
