@@ -48,13 +48,13 @@ class AbiPhonCalc:
         """Returns the displacement amplitude."""
         return self._amplitude
 
-    def setQpts(self, qpts, weights):
+    def setQptsWts(self, qpts, weights):
         """Set the Q-points at which the phonons are calculated,
         and their weights, in case of a symmetry-reduced list of Q-points."""
         self._qpts = qpts
         self._weights = weights
 
-    def getQpts(self):
+    def getQptsWts(self):
         """Returns the Q-points and theit weights."""
         return (self._qpts, self._weights)
 
@@ -101,18 +101,33 @@ class AbiPhonCalc:
 
     def getEnergies(self):
         """Gets the phonon energies."""
-        raise NotImplementedError
+        return self._energies
 
-    def writePolVecs(self, filename):
+    def readFracQptsWtsIDF(self,filename='FractionalQs.idf'):
+        """read fractional q-points coordinates from IDF format file"""
+        from idf.FractionalQs import read
+        data = read(filename=filename)
+        self._qpts = data[1]
+        self._weights = data[2]
+        return
+        
+ 
+    def writePolVecsIDF(self, filename='Polarizations.idf', comment=''):
         """Writes the phonon polarization vectors to file in 'idf' format."""
-        raise NotImplementedError
+        from idf.Polarizations import write
+        write(self._polvecs, filename=filename, comment=comment)
+        return
 
-    def writeEnergies(self, filename):
-        """Writes the phonon energies to file."""
-        raise NotImplementedError
+    def writeOmega2IDF(self, filename='Omega2.idf', comment=''):
+        """Writes the phonon frequencies squared to file in 'idf' format."""
+        from idf.Omega2 import write
+        write(self._energies, filename=filename, comment=comment)
+        return
 
-    def writeQpts(self, filename):
+    def writeFracQptsWtsIDF(self, filename='FractionalQs.py', comment=''):
         """Writes the phonon Q-points to file."""
-        raise NotImplementedError
+        from idf.FractionalQs import write
+        write(self._qpts, self._weights, filename=filename, comment=comment)
+        return
 
     pass # End of class AbiPhononCalc
