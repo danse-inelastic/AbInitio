@@ -1,11 +1,11 @@
 #from crystal import CrystalStructure
 from math import tanh, exp, ceil
 import numpy as N
-from kernelGenerator.DebyeWallerCalculator import DebyeWallerCalculator
-from kernelGenerator.DebyeWallerCalculator import calcBoseEinstein
+from DebyeWallerCalculator import DebyeWallerCalculator
+from DebyeWallerCalculator import calcBoseEinstein
 #from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
-from inelastic.idf.Polarizations import read as readIDFpolarizations
-from inelastic.idf.Omega2 import read as readIDFomega2s
+from idf.Polarizations import read as readIDFpolarizations
+from idf.Omega2 import read as readIDFomega2s
 
 class SqeCalculator:
     """A class that calculate the neutron scattering function,  S(q_vector, E),
@@ -43,8 +43,12 @@ class SqeCalculator:
         self._energies = energies
         self._polvecs = polarizations
         self._numkpts = None
-        self._kpts = None
-        self.setKpoints(kpoints)
+        self._kpts = kpoints
+        if kpoints is None:
+            self._numkpts = None
+        else:
+            self._numkpts = len(kpoints)
+        #self.setKpoints(kpoints)
         self._tau = None
         self._D = D
         self._unitcell = unitcell
@@ -104,7 +108,7 @@ class SqeCalculator:
 
         sqe = 0
         qtransfer = Q
-        # first we calculate the BW factor for all the atoms in the unit cell at wavevector Q:
+        # first we calculate the DW factor for all the atoms in the unit cell at wavevector Q:
         self._DebyeWallerFactorList = []
         for atom, atomIndex in zip(self._unitcell.getAtoms(),range(len(self._unitcell.getAtoms()))):
             DWd=self._DebyeWallerCalculator.getDWFactorForAtom(atomIndex, Q, self._temperature)
@@ -278,6 +282,7 @@ Since this goes to zero if omega should be in ps.'''
         """Sets the phonon k-points.
         These must correspond to the points at which the polarizations and energies have been calculated."""
         self._kpts = kpoints
+        self._DebyeWallerCalculator._kptlist = kpoints
         self._numkpts = len(kpoints)
 
     def getPhononEnergies(self):
@@ -287,6 +292,7 @@ Since this goes to zero if omega should be in ps.'''
     def setPhononEnergies(self, energies):
         """Sets the phonon eigenvalues"""
         self._energies = energies
+        self._DebyeWallerCalculator._energies = energies
 
 #    def getPolarizationVectors(self):
 #        """Returns the phonon eigenvectors"""
@@ -295,6 +301,7 @@ Since this goes to zero if omega should be in ps.'''
     def setPolarizationVectors(self, polvecs):
         """Sets the phonon eigenvectors"""
         self._polvecs = polvecs
+        self._DebyeWallerCalculator._polvecs = polvecs
 
     def setTau(self, tau):
         """sets the reciprocal lattice vector tau,
@@ -323,13 +330,14 @@ Since this goes to zero if omega should be in ps.'''
             print 'The eigenvalues from file '+filename+' do not have the proper dimensions.'
             print 'Check number of q-points and number of atoms.'
             return
-        self._energies = N.zeros((self._numkpts, self._numatoms*self._D), dtype='float')
+        energies = N.zeros((self._numkpts, self._numatoms*self._D), dtype='float')
         # We now convert the angular frequencies squared into energies (meV)
         # E_meV = THz2meV * sqrt(om2_THz^2)
         THz2meV = 4.1357 # meV * s
         for kIndex in range(self._numkpts):
             for modeIndex in range(self._numatoms * self._D):
-                self._energies[kIndex][modeIndex] = THz2meV * N.sqrt(om2[kIndex, modeIndex] * 1e-24)
+                energies[kIndex][modeIndex] = THz2meV * N.sqrt(om2[kIndex, modeIndex])
+        self.setPhononEnergies(energies)
         return
 
     def writeIDFomega2FromEigenvalues(self, filename='omega2.idf'):
@@ -355,7 +363,7 @@ Since this goes to zero if omega should be in ps.'''
         #idfdata = idf.Polarizations.Read(filename=idffilename)
         infotuple = idfdata[0]
         print infotuple
-        self._polvecs = idfdata[1]
+        self.setPolarizationVectors(idfdata[1])
         
     def writeIDFeigenvectors(self, filename='polarizations.idf'):
         """Writes the phonon eigenvectors to an IDF-format file."""

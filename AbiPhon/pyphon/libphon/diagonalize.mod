@@ -1,4 +1,4 @@
-GFORTRAN module created from diagonalize.f90 on Sat Oct 27 17:59:07 2007
+GFORTRAN module created from diagonalize.f90 on Sun Jan 27 20:12:06 2008
 If you edit this, you'll get what you deserve.
 
 (() () ()

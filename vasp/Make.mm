@@ -12,12 +12,16 @@
 #
 
 PROJECT = AbInitio
-PACKAGE = vasp
+PACKAGE = AbiCalc/vasp
 
 #--------------------------------------------------------------------------
 #
 
-BUILD_DIRS = parsing 
+BUILD_DIRS = parsing \
+             examples \
+             utils \
+             lib \
+             inc \
 
 OTHER_DIRS = \
 

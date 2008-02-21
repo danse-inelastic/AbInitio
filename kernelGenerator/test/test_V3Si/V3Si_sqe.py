@@ -43,18 +43,19 @@ for i in range(8):
 from AbInitio.AbiPhon.parsing.phonParsers import parseQpoints,parseFastPhon2IDF,plotQpoints
 
 qpts, wts = parseQpoints()
-parseFastPhon2IDF(inputfilename='phon.out_mp20',
-                  polarizationsfile='polarizations.idf',
-                  omega2sfile='omega2s.idf',
-                  D=3)
 
-from inelastic.idf.Polarizations import read as readPols
-polsdata = readPols(filename="polarizations.idf")
-pols = polsdata[1]
+#parseFastPhon2IDF(inputfilename='phon.out_mp20',
+#                  polarizationsfile='polarizations.idf',
+#                  omega2sfile='omega2s.idf',
+#                  D=3)
 
-from inelastic.idf.Omega2 import read as readOm2s
-om2sdata = readOm2s(filename='omega2s.idf')
-om2s = om2sdata[1]
+#from inelastic.idf.Polarizations import read as readPols
+#polsdata = readPols(filename="polarizations.idf")
+#pols = polsdata[1]
+
+#from inelastic.idf.Omega2 import read as readOm2s
+#om2sdata = readOm2s(filename='omega2s.idf')
+#om2s = om2sdata[1]
 
 # S(Q,E) calculator:
 
@@ -68,4 +69,4 @@ sqecalc._etransferTol = 1.0
 sqecalc.readIDFeigenvectors(filename='polarizations.idf')
 sqecalc.readEigenvaluesFromIDFomega2(filename='omega2s.idf')
 
-sqecalc._DebyeWallerCalculator.getDWFactorForAtom(0, [1,0,0], 300.0)
+sqecalc._DebyeWallerCalculator.getDWFactorForAtom(0, [0.5,0,0], 300.0)
