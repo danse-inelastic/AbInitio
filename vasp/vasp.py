@@ -72,6 +72,7 @@ class VASP:
         """
         self.atoms = weakref.ref(atoms)
         self.UpdateAtomsInfo()
+        self.ready = False
 
     def UpdateAtomsInfo(self):
         """
