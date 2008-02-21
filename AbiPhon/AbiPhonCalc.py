@@ -7,8 +7,8 @@ __doc__ = """A module that defines an interface for a first-principles phonon ca
 class AbiPhonCalc:
     """A phonon calculator based on a first-principles calculation."""
 
-    def __init__(self, unitCell, supersize=[1,1,1], qpts=None, abiCalc=None):
-        self._unitCell = unitCell
+    def __init__(self, unitcell, supersize=[1,1,1], qpts=None, abiCalc=None):
+        self._unitcell = unitcell
         self._supersize = supersize
         self._qpts = qpts
         self._weights = None
@@ -22,13 +22,13 @@ class AbiPhonCalc:
         
         pass # end of __init__
 
-    def setUnitCell(self, unitCell):
+    def setUnitCell(self, unitcell):
         """sets the unit cell."""
-        self._unitCell = unitCell
+        self._unitcell = unitcell
 
     def getUnitCell(self):
         """returns the unit cell."""
-        return self._unitCell
+        return self._unitcell
 
     def setSuperSize(self, supersize=[1,1,1]):
         """sets the supercell size in each dimension, eg:

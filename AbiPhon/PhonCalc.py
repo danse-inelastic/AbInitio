@@ -4,14 +4,14 @@ __doc__ = """A modules to implement a First-Principles Phonon Calculator with Ph
 
 import os, sys
 import shutil
-from AbiPhon.pyphon._pyphon import phon
-from vasp.parsing import parser2
-from AbiPhonCalc import AbiPhonCalc
+from pyphon._pyphon import phon
+from AbInitio.vasp.parsing import parser2
+from AbInitio.AbiPhon.AbiPhonCalc import AbiPhonCalc
 
 class PhonCalc(AbiPhonCalc):
     """A first-principles phonon calcor based on Phon."""
 
-    def __init__(self, unitCell,
+    def __init__(self, unitcell,
                  name='phon',
                  supersize=[1,1,1],
                  qgrid=[10,10,10],
@@ -20,7 +20,7 @@ class PhonCalc(AbiPhonCalc):
                  dosstep=0.2, dossmear=0.2,
                  temperature=300,
                  **miscargs):
-        AbiPhonCalc.__init__(self,unitCell, supersize, abiCalc=abiCalc, qpts=None)
+        AbiPhonCalc.__init__(self,unitcell, supersize, abiCalc=abiCalc, qpts=None)
         self._name = name
         self._qgrid = qgrid
         self._dosmin = dosmin
@@ -30,7 +30,7 @@ class PhonCalc(AbiPhonCalc):
         self._temperature = temperature
 
         
-        self._atomTypesNums = unitCell.getAtomTypeDenum()
+        self._atomTypesNums = unitcell.getAtomTypeDenum()
         self._numtypes = len(self._atomTypesNums)
         self._masses = [a[1] for a in self._atomTypesNums]
 
@@ -88,8 +88,39 @@ class PhonCalc(AbiPhonCalc):
         for key in self._inphon:
             print key, self._inphon[key]
 
+    def genSupercell(self, superdims=None):
+        """Generates a supercell of dimensions given by superdims."""
+        if superdims is None:
+            superdims = self._supersize
+        if superdims is None:
+            raise ValueError, 'supercell should be integer multiple of unit cell.'
+        from crystal.UnitCell import *
+        from crystal.Atom import *
+        # generate a supercell with multiplied lattice vectors:
+        supercell = UnitCell(self._unitcell)
+        cellvectors = self._unitcell.getCellVectors()
+        supercellvectors = cellvectors * superdims
+        # sa1 = a1 * dim1; sa2 = a2 * dim2; sa3 = a3 * dim3
+        supercell.setCellVectors(supercellvectors)
+        # Add the images of all the atoms:
+        for i0 in range(superdims[0]):
+            for i1 in range(superdims[1]):
+                for i2 in range(superdims[2]):
+                    for site in self._unitcell:
+                        pos = site.getPosition()
+                        cart = self._unitcell.fractionalToCartesian(pos)
+                        newcart = (cart
+                                   + i0 * cellvectors[0]
+                                   + i1 * cellvectors[1]
+                                   + i2 * cellvectors[2])
+                        newpos = supercell.cartesianToFractional(newcart)
+                        newsite = Site(newpos, site.getAtom())
+                        supercell.addSite(newsite, '')
+        self._supercell = supercell
+        return
+    
 
-    def generateSupercell(self, supersize=None):
+    def genPhonSupercell(self, supersize=None):
         """Generate supercell and displacements by launching Phon."""
         if self._superCellReady:
             return
@@ -103,9 +134,8 @@ class PhonCalc(AbiPhonCalc):
             self._inphon.Write()
 
             # First, we need to write the unitcell to a POSCAR for Phon():
-            #from vasp.parsing.Structure import Structure
             from crystal.crystalIO.converters import unitCell2P4vaspStruct
-            struct = unitCell2P4vaspStruct(self._unitCell)
+            struct = unitCell2P4vaspStruct(self._unitcell)
             try:
                 struct.write(f='POSCAR', newformat=0)
             except:
@@ -125,6 +155,9 @@ class PhonCalc(AbiPhonCalc):
                 shutil.copy('SPOSCAR', 'POSCAR')
             except:
                 raise IOError, 'Error while copying SPOSCAR.'
+
+            from AbInitio.vasp.parsing.Structure import Structure
+            self._supercell
             
             # prevent the generation of an even larger supercell:
             self._superCellReady = True
