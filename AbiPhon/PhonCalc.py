@@ -4,9 +4,9 @@ __doc__ = """A modules to implement a First-Principles Phonon Calculator with Ph
 
 import os, sys
 import shutil
-from pyphon._pyphon import phon
 from AbInitio.vasp.parsing import parser2
 from AbInitio.AbiPhon.AbiPhonCalc import AbiPhonCalc
+from pyphon._pyphon import phon
 
 class PhonCalc(AbiPhonCalc):
     """A first-principles phonon calcor based on Phon."""
@@ -28,7 +28,6 @@ class PhonCalc(AbiPhonCalc):
         self._dosstep = dosstep
         self._dossmear = dossmear
         self._temperature = temperature
-
         
         self._atomTypesNums = unitcell.getAtomTypeDenum()
         self._numtypes = len(self._atomTypesNums)
@@ -157,7 +156,10 @@ class PhonCalc(AbiPhonCalc):
                 raise IOError, 'Error while copying SPOSCAR.'
 
             from AbInitio.vasp.parsing.Structure import Structure
-            self._supercell
+            from crystal.crystalIO.converters import p4vaspStruct2UnitCell
+            struct = Structure('POSCAR')
+            uctmp = p4vaspStruct2UnitCell(struct)
+            self._supercell = uctmp   # this may be a problem if VASP atom types are not passed correctly...
             
             # prevent the generation of an even larger supercell:
             self._superCellReady = True
