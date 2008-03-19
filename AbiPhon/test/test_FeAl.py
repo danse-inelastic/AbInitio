@@ -45,16 +45,16 @@ v.GetPotentialEnergy()
 # Now, we want to perform a Phon calculation.
 # Before we can call phon(), we need to set up the INPHON input file
 
-pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  kgrid=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
+pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  qgrid=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
 
-pc.genSupercell((2,2,3))
+pc.genSupercell((2,2,2))
 
 suc = pc._supercell
 
 pc.genPhonSupercell()
 pc._makePosFiles()
 
-#pc.calculateForces()
-#pc.calcPhonons()
+pc.calcForces()
+pc.calcPhonons()
 
 
