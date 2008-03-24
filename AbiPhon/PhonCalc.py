@@ -5,6 +5,8 @@ __doc__ = """A modules to implement a First-Principles Phonon Calculator with Ph
 import os, sys
 import shutil
 from AbInitio.vasp.parsing import parser2
+from AbInitio.vasp.parsing.Structure import Structure
+from AbInitio.vasp.parsing.matrix import Vector
 from AbInitio.AbiPhon.AbiPhonCalc import AbiPhonCalc
 from pyphon._pyphon import phon
 
@@ -14,7 +16,7 @@ class PhonCalc(AbiPhonCalc):
     def __init__(self, unitcell,
                  name='phon',
                  supersize=[1,1,1],
-                 qgrid=[10,10,10],
+                 qgridsize=[10,10,10],
                  abiCalc=None,
                  dosmin=0.0, dosmax=50.0,
                  dosstep=0.2, dossmear=0.2,
@@ -22,7 +24,7 @@ class PhonCalc(AbiPhonCalc):
                  **miscargs):
         AbiPhonCalc.__init__(self,unitcell, supersize, abiCalc=abiCalc, qpts=None)
         self._name = name
-        self._qgrid = qgrid
+        self._qgridsize = qgridsize
         self._dosmin = dosmin
         self._dosmax = dosmax
         self._dosstep = dosstep
@@ -53,9 +55,9 @@ class PhonCalc(AbiPhonCalc):
         self._inphon['MASS'] = self._masses
         self._inphon['NDIM'] = self._supersize
         self._inphon['DISP'] = int(1.0 / self._amplitude)
-        self._inphon['QA'] = self._qgrid[0]
-        self._inphon['QB'] = self._qgrid[1]
-        self._inphon['QC'] = self._qgrid[2]
+        self._inphon['QA'] = self._qgridsize[0]
+        self._inphon['QB'] = self._qgridsize[1]
+        self._inphon['QC'] = self._qgridsize[2]
         self._inphon['DOSIN'] = self._dosmin
         self._inphon['DOSEND'] = self._dosmax
         self._inphon['DOSSTEP'] = self._dosstep
@@ -87,38 +89,15 @@ class PhonCalc(AbiPhonCalc):
         for key in self._inphon:
             print key, self._inphon[key]
 
-    def genSupercell(self, superdims=None):
-        """Generates a supercell of dimensions given by superdims."""
-        if superdims is None:
-            superdims = self._supersize
-        if superdims is None:
-            raise ValueError, 'supercell should be integer multiple of unit cell.'
-        from crystal.UnitCell import *
-        from crystal.Atom import *
-        # generate a supercell with multiplied lattice vectors:
-        supercell = UnitCell(self._unitcell)
-        cellvectors = self._unitcell.getCellVectors()
-        supercellvectors = cellvectors * superdims
-        # sa1 = a1 * dim1; sa2 = a2 * dim2; sa3 = a3 * dim3
-        supercell.setCellVectors(supercellvectors)
-        # Add the images of all the atoms:
-        for i0 in range(superdims[0]):
-            for i1 in range(superdims[1]):
-                for i2 in range(superdims[2]):
-                    for site in self._unitcell:
-                        pos = site.getPosition()
-                        cart = self._unitcell.fractionalToCartesian(pos)
-                        newcart = (cart
-                                   + i0 * cellvectors[0]
-                                   + i1 * cellvectors[1]
-                                   + i2 * cellvectors[2])
-                        newpos = supercell.cartesianToFractional(newcart)
-                        newsite = Site(newpos, site.getAtom())
-                        supercell.addSite(newsite, '')
-        self._supercell = supercell
+    def setQgridSize(qgridsize=[10,10,10]):
+        """Set the size of the (regular) grid of Q-points at which the phonons
+        will be calculated."""
+        self._qgridsize = qgridsize
+        self._inphon['QA'] = self._qgridsize[0]
+        self._inphon['QB'] = self._qgridsize[1]
+        self._inphon['QC'] = self._qgridsize[2]
         return
-    
-
+   
     def genPhonSupercell(self, supersize=None):
         """Generate supercell and displacements by launching Phon."""
         if self._superCellReady:
@@ -154,6 +133,9 @@ class PhonCalc(AbiPhonCalc):
                 shutil.copy('SPOSCAR', 'POSCAR')
             except:
                 raise IOError, 'Error while copying SPOSCAR.'
+<<<<<<< .mine
+          
+=======
 
             from AbInitio.vasp.parsing.Structure import Structure
             from crystal.crystalIO.converters import p4vaspStruct2UnitCell
@@ -161,6 +143,7 @@ class PhonCalc(AbiPhonCalc):
             uctmp = p4vaspStruct2UnitCell(struct)
             self._supercell = uctmp   # this may be a problem if VASP atom types are not passed correctly...
             
+>>>>>>> .r67
             # prevent the generation of an even larger supercell:
             self._superCellReady = True
             self._inphon['LSUPER'] = '.FALSE.'
@@ -170,8 +153,6 @@ class PhonCalc(AbiPhonCalc):
 
     def _makePosFiles(self):
         """Generates the Poscar files for all atomic displacements."""
-        from vasp.parsing.Structure import Structure
-        from vasp.parsing.matrix import Vector
         try:
             struct = Structure("POSCAR")
         except:
@@ -225,10 +206,19 @@ class PhonCalc(AbiPhonCalc):
         os.system('chmod +x runhf')
         return # end of _makePosFiles()
 
+    def calcForces(self):
+        """This calls the abinitio engine to evaluate the forces on the atoms,
+        for all the distorted supercells."""
+        # For now, just run the 'runhf' script that calls VASP on all structures.
+        os.popen('./runhf')
+        os.system('cp SPOSCAR_eq SPOSCAR')
+        print "Finished computing the forces for all displacements."
+        return
+
     def _gatherForces(self):
         """This is a helper function to collect all the forces on the atoms,
         for every distorted supercell."""
-        from vasp.parsing.SystemPM import XMLSystemPM
+        from AbInitio.vasp.parsing.SystemPM import XMLSystemPM
         # we get back the undistorted base cell into POSCAR
         os.system('cp SPOSCAR_eq POSCAR')
         struct = Structure("POSCAR")
@@ -274,7 +264,7 @@ class PhonCalc(AbiPhonCalc):
         
         # Call the Phon exec again to run BvK part of calculation.
         self._makesupercell = False        
-        self.inphon['LSUPER'] = '.FALSE.'
+        self._inphon['LSUPER'] = '.FALSE.'
         try:
             shutil.copyfile('SPOSCAR_eq', 'SPOSCAR')
             #os.system('cp SPOSCAR_eq POSCAR')
