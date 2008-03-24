@@ -89,6 +89,39 @@ class PhonCalc(AbiPhonCalc):
         for key in self._inphon:
             print key, self._inphon[key]
 
+<<<<<<< .mine
+    def genSupercell(self, superdims=None):
+        """Generates a supercell of dimensions given by superdims."""
+
+        # This part should be replaced by a call to AbiPhonCalc method
+        if superdims is None:
+            superdims = self._supersize
+        if superdims is None:
+            raise ValueError, 'supercell should be integer multiple of unit cell.'
+        from crystal.UnitCell import *
+        from crystal.Atom import *
+        # generate a supercell with multiplied lattice vectors:
+        supercell = UnitCell(self._unitcell)
+        cellvectors = self._unitcell.getCellVectors()
+        supercellvectors = cellvectors * superdims
+        # sa1 = a1 * dim1; sa2 = a2 * dim2; sa3 = a3 * dim3
+        supercell.setCellVectors(supercellvectors)
+        # Add the images of all the atoms:
+        for i0 in range(superdims[0]):
+            for i1 in range(superdims[1]):
+                for i2 in range(superdims[2]):
+                    for site in self._unitcell:
+                        pos = site.getPosition()
+                        cart = self._unitcell.fractionalToCartesian(pos)
+                        newcart = (cart
+                                   + i0 * cellvectors[0]
+                                   + i1 * cellvectors[1]
+                                   + i2 * cellvectors[2])
+                        newpos = supercell.cartesianToFractional(newcart)
+                        newsite = Site(newpos, site.getAtom())
+                        supercell.addSite(newsite, '')
+        self._supercell = supercell
+=======
     def setQgridSize(qgridsize=[10,10,10]):
         """Set the size of the (regular) grid of Q-points at which the phonons
         will be calculated."""
@@ -96,6 +129,20 @@ class PhonCalc(AbiPhonCalc):
         self._inphon['QA'] = self._qgridsize[0]
         self._inphon['QB'] = self._qgridsize[1]
         self._inphon['QC'] = self._qgridsize[2]
+>>>>>>> .r69
+        
+        # Phon-specific actions:
+        
+        # prevent the generation of an even larger supercell:
+        self._superCellReady = True
+        self._inphon['LSUPER'] = '.FALSE.'
+        self._inphon.Write()
+
+        # write the SPOSCAR file
+        from crystal.crystalIO.converters import unitCell2P4vaspStruct
+        superstruct = unitCell2P4vaspStruct(self._supercell)
+        superstruct.write(f='SPOSCAR', newformat=0)
+
         return
    
     def genPhonSupercell(self, supersize=None):
@@ -120,7 +167,6 @@ class PhonCalc(AbiPhonCalc):
                 raise IOError, 'Could not write the structure POSCAR to file.'
             
             # run Phon to build the supercell and calculate displacements:
-            # This is assuming that the POSCAR exists...
             phon()
 
             # now copy the SPOSCAR over to POSCAR
@@ -271,7 +317,8 @@ class PhonCalc(AbiPhonCalc):
         except:
             raise IOError, 'SPOSCAR_eq not found.'
         print "Calling the Phon executable."
-        open('phon.out',"w").write(''.join(os.popen(phonexe).readlines()))
+        outfile = open('phon.out',"w")
+        outfile.write(''.join(os.popen(phonexe).readlines()))
         #phon()
         #os.system('phon > phon.out')
         print "Done running Phon."
