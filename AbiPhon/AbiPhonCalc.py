@@ -58,10 +58,36 @@ class AbiPhonCalc:
         """Returns the Q-points and theit weights."""
         return (self._qpts, self._weights)
 
-    def generateSupercell(self, supersize=None):
-        """Generates a supercell from the crystal unit cell and the supercell size."""
-        # calculate the supercell based on the unit cell and the supercell size
-        raise NotImplementedError
+    def genSupercell(self, superdims=None):
+        """Generates a supercell of dimensions given by superdims."""
+        if superdims is None:
+            superdims = self._supersize
+        if superdims is None:
+            raise ValueError, 'supercell should be integer multiple of unit cell.'
+        from crystal.UnitCell import *
+        from crystal.Atom import *
+        # generate a supercell with multiplied lattice vectors:
+        supercell = UnitCell(self._unitcell)
+        cellvectors = self._unitcell.getCellVectors()
+        supercellvectors = cellvectors * superdims
+        # sa1 = a1 * dim1; sa2 = a2 * dim2; sa3 = a3 * dim3
+        supercell.setCellVectors(supercellvectors)
+        # Add the images of all the atoms:
+        for i0 in range(superdims[0]):
+            for i1 in range(superdims[1]):
+                for i2 in range(superdims[2]):
+                    for site in self._unitcell:
+                        pos = site.getPosition()
+                        cart = self._unitcell.fractionalToCartesian(pos)
+                        newcart = (cart
+                                   + i0 * cellvectors[0]
+                                   + i1 * cellvectors[1]
+                                   + i2 * cellvectors[2])
+                        newpos = supercell.cartesianToFractional(newcart)
+                        newsite = Site(newpos, site.getAtom())
+                        supercell.addSite(newsite, '')
+        self._supercell = supercell
+        return
 
     def calcDisplacements(self):
         """Calculates atomic displacements,
