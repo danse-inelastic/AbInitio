@@ -1,0 +1,127 @@
+User's Guide 
+
+see also:
+http://danse.us/trac/AbInitio/wiki/UserGuide
+
+1. Introduction 
+
+The AbInitio application is designed to help you, the user, take advantage of third-party first-principles density functional theory (DFT) simulation codes (also referred to as "ab-initio" simulations) in your neutron scattering investigations. Many DFT codes are now available that can reliably predict the electronic ground state density in a solid or molecule from first-principles (i.e. by solving Schrodinger's equation in the framework of density functional theory). Often, these codes can also compute other quantities associated with the ground state electron density, such as the forces on the nuclei, the electronic band structure and density of states, etc. Although DFT simulations have become more and more accessible to a wide spectrum of scientists, obtaining trustworthy results with them still requires a significant level of involvement from the user. Typically, the convergence of the results with respect to a variety of parameters needs to be investigated, and a few pitfalls need to be avoided. Since the AbInitio application in DANSE cannot prevent an inattentive user from producing unreasonable results, we would like to first provide the user with a list of general references about density functional theory. The prospective user is strongly encouraged to consult these references if he/she is not already familiar with the field.
+
+[1] R. Martin, "Electronic structure, basic theory and practical methods", Cambridge Univ. Press, Cambridge, (2004).
+
+[2] M.C. Payne, M.P. Teter, D.C. Allan, T.A. Arias and J.D. Joannopoulos, "Iterative minimization techniques for ab initio total-energy calculations: molecular dynamics and conjugate gradients", Rev. Mod. Phys. vol. 64, 1045 (1992).
+
+[3] J. Kohanoff and N.I. Gidopoulos, "Density Functional Theory: Basics, New Trends and Applications" in "Handbook of Molecular Physics and Quantum Chemistry", Volume 2, Part 5, Chapter 26, pp 532568, Ed. S. Wilson, Wiley, Chichester (2003), http://titus.phy.qub.ac.uk/group/Jorge/Papers/handbook.pdf
+
+
+2. Capabilities
+
+    * Calculate the potential energy, forces on ions, electronic bandstructure and density of states for crystal structures (of moderate complexity) from first-principles. 
+
+    * Provide a common interface to several third-party DFT codes (VASP, Abinit, SIESTA). 
+
+    * Calculate phonon properties from first-principles forces: phonon energies, polarization vectors, density of states. 
+
+    * Calculate neutron scattering properties from first-principles phonons: Debye-Waller factors for atoms, S(Q,E). 
+
+    * Interface with MCViNE to simulate the response of neutron spectrometer for computed phonon. 
+
+
+3. Background 
+
+4. Getting Started
+
+In this section, we will show how to carry basic computations on simple crystal structures using the provided interface to the DFT computer program VASP [4,5] (http://cms.mpi.univie.ac.at/vasp/). The package VASP itself is not open source and you need to have a license in order to use it. The interface provided by the AbInitio application is currently being extended to support other DFT codes, such as the open source package Abinit Abinit. In the following, it is assumed that VASP is installed on your machine.
+
+[4] Kresse, G., Furthm¨uller, J., and Hafner, J. Europhys. Lett. 32, 729 (1995).
+
+[5] G. Kresse and J. Furthm¨uller. Comput. Mat. Sci. 6, 1550 (1996).
+
+    * Creating the unit cell: 
+
+Here we create a unit cell for the FeAl B2 crystal structure
+
+from crystal.UnitCell import *
+from crystal.Atom import *
+
+uc = UnitCell()
+vectors = [(5.74, 0.0, 0.0),
+           (0.0, 5.74, 0.0),
+           (0.0, 0.0, 5.74)]
+uc.setCellVectors(vectors)
+
+at1=Atom(symbol='Fe', mass=57) ; pos1=(0.0,0.0,0.0)
+at2=Atom(symbol='Al') ; pos2=(0.5,0.5,0.5)
+
+site1 = Site(pos1, at1)
+site2 = Site(pos2, at2)
+
+uc.addAtom( at1, pos1, "Fe1" )
+uc.addAtom( at2, pos2, "Al1" )
+
+print uc
+
+This should produce the following output:
+
+UnitCell a=[ 5.74  0.    0.  ], b=[ 0.    5.74  0.  ], c=[ 0.    0.    5.74]
+
+Al1
+
+ position: [ 0.5  0.5  0.5]
+
+Atom mass=26.98154,Z=13,atomic_number=13,symbol=Al,average_mass=26.98154 
+
+Fe1
+
+ position: [ 0.  0.  0.]
+
+Atom mass=57,Z=26,atomic_number=26,symbol=Fe 
+
+Note how we specified the 57Fe isotope for the Fe atom in the structure.
+
+    * Calculating the potential energy: 
+
+This requires that you have VASP installed on your computer. VASP will be launched by system call from Python, using the 'vaspcmd' argument of the calculator. We also require that the path to your installation of the VASP potentials be given in the environment variable VASPPOTCARPATH, for example:
+VASPPOTCARPATH = /home/olivier/vasp/potentials/
+
+from AbInitio.AbiCalc import VaspCalc
+
+calcor = VaspCalc.VaspCalc(unitcell = uc, kpts = (2,2,2), ekincutoff=320, name='FeAl', vaspcmd='vasp')
+
+print calcor.getPotEnergy()
+
+    * Calculating the forces on the ions: 
+
+This is about as simple, since the forces on the ions are directly obtained from the ground state electronic density. Of course, this requires that the feature is implemented in the DFT engine.
+
+print calcor.getForces()
+
+Note, that typically the DFT calculations are time-consuming, so we want to avoid having the engine recompute the electronic density if nothing has changed. In the line above, the calculator checks that it is up to date and retrieves the forces for the previously calculated electron density.
+
+
+5. Performing a full calculation of the phonons
+
+The calculation we just ran merely defined a crystal structure and called a computation engine (in this case VASP) to compute the total potential energy of the structure in its electronic ground state, and the forces on the ions for the corresponding ground state electronic density, or Hellmann-Feynman forces [cite Feynman]. Getting the forces on the ions is the first step towards computing dynamical properties, but more needs to be done. To compute the full lattice dynamics, we need to know how the system responds to distortions of the lattice corresponding to displacements of all the different atoms in the structure, one at a time. Specifically, we need to setup a series of distortions (displacement fields of the ions) of the structure, and compute the forces on the ions resulting from these distortions. Applying Hook's law (assuming forces are linear in the displacement amplitudes, if the latter are small), we can get the force-constants for the effective springs connecting the ions in the crystal. This is the essence of the so-called Born-von Karman model (BvK for short) of lattice dynamics [cite Born-Huang].
+
+Here, we will show you how to perform a simple calculation of the phonon density of states for the B2 FeAl structure we already built.
+
+We begin by instantiating a phonon calculator. We have to provide the unit cell 'uc', that describes our crystal structure, as well as a few additional arguments. The default abinitio computation engine it will call is 'VASP'
+
+pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  qgrid=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
+
+We now generate a supercell, corresponding to a periodic repetition of the basic unit cell, (p,q,r)-times along the the lattice vectors corresponding to the unit cell.
+
+#pc.genSupercell((2,2,2))
+pc.genPhonSupercell()
+# This next step prepares the calculation (it is ugly and will be removed in the near future).
+pc._makePosFiles()
+
+We are now in business to calculate the forces for a series of distorted configurations of the supercell. The distorted configurations to compute have been setup automatically at this stage, for convenience. So let's compute the forces. Note that this step is computationally more intensive, since we are asking the ab-initio engine to calculate the ground state density (and forces) for a series of larger cells (supercells), whose symmetry was lowered because of the distortions. Let's be patient (this example should take no more than a few minutes on a modern 1-cpu machine)
+
+pc.calcForces()
+
+OK, its' done. We can now compute the phonons by applying Hook's law and the standard approach of BvK lattice dynamics:
+
+pc.calcPhonons()
+
+This should produce an 2-column ASCII file 'DOS.meV'. You can plot it with your favorite plotting package.
