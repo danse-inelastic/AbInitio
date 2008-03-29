@@ -106,8 +106,8 @@ class PhonCalc(AbiPhonCalc):
             superdims = self._supersize
         if superdims is None:
             raise ValueError, 'supercell should be integer multiple of unit cell.'
-        from crystal.UnitCell import *
-        from crystal.Atom import *
+        from crystal.UnitCell import UnitCell
+        from crystal.Atom import Atom
         # generate a supercell with multiplied lattice vectors:
         supercell = UnitCell(self._unitcell)
         cellvectors = self._unitcell.getCellVectors()
@@ -130,13 +130,12 @@ class PhonCalc(AbiPhonCalc):
                         supercell.addSite(newsite, '')
         self._supercell = supercell
         
-        # Phon-specific actions:
-        
         # prevent the generation of an even larger supercell:
         self._superCellReady = True
+
+        # Phon-specific actions:
         self._inphon['LSUPER'] = '.FALSE.'
         self._inphon.Write()
-
         # write the SPOSCAR file
         from crystal.crystalIO.converters import unitCell2P4vaspStruct
         superstruct = unitCell2P4vaspStruct(self._supercell)
@@ -169,7 +168,8 @@ class PhonCalc(AbiPhonCalc):
                 raise IOError, 'Could not write the structure POSCAR to file.'
             
             # run Phon to build the supercell and calculate displacements:
-            phon()
+            #phon()
+            
 
             # now copy the SPOSCAR over to POSCAR
             try:

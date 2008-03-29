@@ -21,15 +21,15 @@ site2 = Site(pos2, at2)
 uc.addSite(site1, "Fe1" )
 uc.addSite(site2, "Al1" )
 
-print uc
+#print uc
 
 ### plot the unit cell ###
-from ExcitationSlicer.plot3D import plotUnitCell
-plotUnitCell(uc)
+#from ExcitationSlicer.plot3D import plotUnitCell
+#plotUnitCell(uc)
 
 ### create a VASP calculator:
 
-v = VASP(pw=268, kpts=(2,2,2), xc='pawpbe', name='FeAl', vaspcmd='vasp')
+v = VASP(pw=268, kpts=(2,2,2), xc='pawpbe', name='FeAl', vaspcmd='rsh -. n00 vasp')
 
 loa = converters.unitCell2ListOfAtom(uc)
 v._SetListOfAtoms(loa)
@@ -50,10 +50,9 @@ v.GetPotentialEnergy()
 
 pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  qgridsize=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
 
-pc.genSupercell((2,2,2))
-
-suc = pc._supercell
-plotUnitCell(suc)
+#pc.genSupercell((2,2,2))
+#suc = pc._supercell
+#plotUnitCell(suc)
 
 pc.genPhonSupercell()
 pc._makePosFiles()

@@ -64,8 +64,8 @@ class AbiPhonCalc:
             superdims = self._supersize
         if superdims is None:
             raise ValueError, 'supercell should be integer multiple of unit cell.'
-        from crystal.UnitCell import *
-        from crystal.Atom import *
+        from crystal.UnitCell import UnitCell
+        from crystal.Atom import Atom
         # generate a supercell with multiplied lattice vectors:
         supercell = UnitCell(self._unitcell)
         cellvectors = self._unitcell.getCellVectors()
