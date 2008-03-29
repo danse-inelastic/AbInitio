@@ -1,4 +1,8 @@
+<<<<<<< .mine
+GFORTRAN module created from nr.f90 on Thu Feb  7 00:22:39 2008
+=======
 GFORTRAN module created from nr.f90 on Sun Jan 27 20:12:06 2008
+>>>>>>> .r63
 If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () ())
@@ -31,8 +35,6 @@ ALWAYS_EXPLICIT) (REAL 8 ()) 18 0 (19 20 21) () 2 () ())
 FUNCTION GENERIC) (REAL 4 ()) 0 0 () () 0 () ())
 8 'xx' '' 7 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
 () 0 () ())
-15 'gln' '' 12 ((VARIABLE OUT UNKNOWN-PROC UNKNOWN OPTIONAL DUMMY) (
-REAL 8 ()) 0 0 () () 0 () ())
 21 'gln' '' 18 ((VARIABLE OUT UNKNOWN-PROC UNKNOWN OPTIONAL DUMMY) (
 REAL 8 ()) 0 0 () () 0 () ())
 20 'x' '' 18 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
@@ -45,6 +47,8 @@ REAL 8 ()) 0 0 () () 0 () ())
 () 0 () ())
 14 'x' '' 12 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
 () 0 () ())
+15 'gln' '' 12 ((VARIABLE OUT UNKNOWN-PROC UNKNOWN OPTIONAL DUMMY) (
+REAL 8 ()) 0 0 () () 0 () ())
 13 'a' '' 12 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
 () 0 () ())
 )

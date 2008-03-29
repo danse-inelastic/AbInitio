@@ -1,4 +1,8 @@
+<<<<<<< .mine
+GFORTRAN module created from nrtype.f90 on Thu Feb  7 00:22:38 2008
+=======
 GFORTRAN module created from nrtype.f90 on Sun Jan 27 20:12:06 2008
+>>>>>>> .r63
 If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () ())

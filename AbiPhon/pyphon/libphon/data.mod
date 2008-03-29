@@ -1,4 +1,8 @@
+<<<<<<< .mine
+GFORTRAN module created from data.f90 on Thu Feb  7 00:22:39 2008
+=======
 GFORTRAN module created from data.f90 on Sun Jan 27 20:12:06 2008
+>>>>>>> .r63
 If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () ()
@@ -188,10 +192,10 @@ SUBROUTINE ALWAYS_EXPLICIT) (UNKNOWN 0 ()) 160 0 (161 162) () 0 () ())
 0 () () 0 () ())
 23 'increment' '' 21 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ())
 0 0 () () 0 () ())
-55 'x' '' 54 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
-() 0 () ())
 31 'n1' '' 30 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (LOGICAL 4 ()) 0
 0 () () 0 () ())
+55 'x' '' 54 ((VARIABLE IN UNKNOWN-PROC UNKNOWN DUMMY) (REAL 8 ()) 0 0 ()
+() 0 () ())
 60 'inv' '' 58 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN DIMENSION
 DUMMY) (REAL 4 ()) 0 0 () (2 EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (
 CONSTANT (INTEGER 4 ()) 0 '3') (CONSTANT (INTEGER 4 ()) 0 '1') (

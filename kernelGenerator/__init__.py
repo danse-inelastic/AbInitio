@@ -1,3 +1,3 @@
 import SqeCalculator
 import DebyeWallerCalculator
-import NetcdfPolarizationRead
+#import NetcdfPolarizationRead

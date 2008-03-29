@@ -62,7 +62,7 @@ from string import joinfields, split, atof, atoi,join
 from types import *
 from _cp4vasp import *
 from UserList import *
-import AbInitio.vasp.parsing.matrix
+import AbInitio.vasp.parsing.matrix as matrix
 
 try:
   if StringType not in StringTypes:
@@ -81,13 +81,13 @@ def isCVector(obj):
 
 def isMatrix(obj):
   "Check whether *obj* is a *Matrix* ."
-  return isinstance(obj,AbInitio.vasp.parsing.matrix.Matrix)
+  return isinstance(obj,matrix.Matrix)
 
 def isVector(obj):
   "Check whether *obj* is a *Vector* ."
-  return isinstance(obj,AbInitio.vasp.parsing.matrix.Vector)
+  return isinstance(obj,matrix.Vector)
   
-class Vector(AbInitio.vasp.parsing.matrix.Vector):
+class Vector(matrix.Vector):
   """3D Vector object implemented using c-functions.
 Basic vector manipulation operations are defined.
 The *self.pointer* attribute contains a *swig* string-pointer
@@ -271,7 +271,7 @@ Calculated using *acos()* of a scalar product.
     self.pointer=None
     
   
-class Matrix(AbInitio.vasp.parsing.matrix.Matrix):
+class Matrix(matrix.Matrix):
   """3D Matrix object implemented using c-functions.
 *Matrix* can be only 3*3 matrix of floats.
 
