@@ -23,6 +23,9 @@ uc.addSite(site2, "Al1" )
 
 print uc
 
+### plot the unit cell ###
+from ExcitationSlicer.plot3D import plotUnitCell
+plotUnitCell(uc)
 
 ### create a VASP calculator:
 
@@ -45,11 +48,12 @@ v.GetPotentialEnergy()
 # Now, we want to perform a Phon calculation.
 # Before we can call phon(), we need to set up the INPHON input file
 
-pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  qgrid=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
+pc = PhonCalc(uc, name='FeAl', supersize=[2,2,2],  qgridsize=[20,20,20], dosmin=0.0, dosmax=20.0, amplitude=0.01)
 
 pc.genSupercell((2,2,2))
 
 suc = pc._supercell
+plotUnitCell(suc)
 
 pc.genPhonSupercell()
 pc._makePosFiles()
