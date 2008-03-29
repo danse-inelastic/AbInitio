@@ -89,7 +89,15 @@ class PhonCalc(AbiPhonCalc):
         for key in self._inphon:
             print key, self._inphon[key]
 
-<<<<<<< .mine
+    def setQgridSize(qgridsize=[10,10,10]):
+        """Set the size of the (regular) grid of Q-points at which the phonons
+        will be calculated."""
+        self._qgridsize = qgridsize
+        self._inphon['QA'] = self._qgridsize[0]
+        self._inphon['QB'] = self._qgridsize[1]
+        self._inphon['QC'] = self._qgridsize[2]
+
+
     def genSupercell(self, superdims=None):
         """Generates a supercell of dimensions given by superdims."""
 
@@ -121,15 +129,6 @@ class PhonCalc(AbiPhonCalc):
                         newsite = Site(newpos, site.getAtom())
                         supercell.addSite(newsite, '')
         self._supercell = supercell
-=======
-    def setQgridSize(qgridsize=[10,10,10]):
-        """Set the size of the (regular) grid of Q-points at which the phonons
-        will be calculated."""
-        self._qgridsize = qgridsize
-        self._inphon['QA'] = self._qgridsize[0]
-        self._inphon['QB'] = self._qgridsize[1]
-        self._inphon['QC'] = self._qgridsize[2]
->>>>>>> .r69
         
         # Phon-specific actions:
         
@@ -150,6 +149,9 @@ class PhonCalc(AbiPhonCalc):
         if self._superCellReady:
             return
         else:
+            from crystal.crystalIO.converters import unitCell2P4vaspStruct, p4vaspStruct2UnitCell
+            from AbInitio.vasp.parsing.Structure import Structure
+            
             if supersize == None:
                 supersize = self._supersize
             self._supersize = supersize
@@ -159,7 +161,7 @@ class PhonCalc(AbiPhonCalc):
             self._inphon.Write()
 
             # First, we need to write the unitcell to a POSCAR for Phon():
-            from crystal.crystalIO.converters import unitCell2P4vaspStruct
+            
             struct = unitCell2P4vaspStruct(self._unitcell)
             try:
                 struct.write(f='POSCAR', newformat=0)
@@ -179,17 +181,12 @@ class PhonCalc(AbiPhonCalc):
                 shutil.copy('SPOSCAR', 'POSCAR')
             except:
                 raise IOError, 'Error while copying SPOSCAR.'
-<<<<<<< .mine
-          
-=======
 
-            from AbInitio.vasp.parsing.Structure import Structure
-            from crystal.crystalIO.converters import p4vaspStruct2UnitCell
+            # load the supercell created by Phon (copied to POSCAR)
             struct = Structure('POSCAR')
             uctmp = p4vaspStruct2UnitCell(struct)
             self._supercell = uctmp   # this may be a problem if VASP atom types are not passed correctly...
             
->>>>>>> .r67
             # prevent the generation of an even larger supercell:
             self._superCellReady = True
             self._inphon['LSUPER'] = '.FALSE.'
