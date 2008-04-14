@@ -3,18 +3,22 @@
 
 __doc__ = """A module that defines an interface for a first-principles phonon calculator."""
 
+import numpy as np
+from crystal.UnitCell import Site, UnitCell
+from crystal.Atom import Atom
+
 
 class AbiPhonCalc:
     """A phonon calculator based on a first-principles calculation."""
 
-    def __init__(self, unitcell, supersize=[1,1,1], qpts=None, abiCalc=None):
+    def __init__(self, unitcell=None, abicalc=None, supersize=[1,1,1], qpts=[8,8,8]):
         self._unitcell = unitcell
+        self._abicalc = abicalc
         self._supersize = supersize
         self._qpts = qpts
         self._weights = None
-        self._abiCalc = abiCalc
-        self._superCell = None
-        self._superCellReady = False
+        self._supercell = None
+        self._supercellReady = False
         self._amplitude = 0.01  #amplitude of displacement, fractional
 
         self._energies = None # phonon energies
@@ -29,6 +33,10 @@ class AbiPhonCalc:
     def getUnitCell(self):
         """returns the unit cell."""
         return self._unitcell
+
+    def setAbiCalc(self, abicalc):
+        """sets the ab-initio calculation engine."""
+        self._abicalc = abicalc
 
     def setSuperSize(self, supersize=[1,1,1]):
         """sets the supercell size in each dimension, eg:
@@ -64,8 +72,6 @@ class AbiPhonCalc:
             superdims = self._supersize
         if superdims is None:
             raise ValueError, 'supercell should be integer multiple of unit cell.'
-        from crystal.UnitCell import UnitCell
-        from crystal.Atom import Atom
         # generate a supercell with multiplied lattice vectors:
         supercell = UnitCell(self._unitcell)
         cellvectors = self._unitcell.getCellVectors()
@@ -87,6 +93,7 @@ class AbiPhonCalc:
                         newsite = Site(newpos, site.getAtom())
                         supercell.addSite(newsite, '')
         self._supercell = supercell
+        self._supercellReady = True
         return
 
     def calcDisplacements(self):
@@ -96,12 +103,18 @@ class AbiPhonCalc:
         raise NotImplementedError
 
     def setDisplacements(self, displacements):
-        """Sets the displacements for which to calculate the forces."""
-        raise NotImplementedError
+        """Sets the displacements for which to calculate the forces.
+        It expects a list of displacements [ disp0, disp1, ..., dispN],
+        where dispN = (atnumN, (dxN, dyN, dzN)),
+        with atnumN the number of the atom to be displaced,
+        and (dxN, dyN, dzN) the displacement vector in fractional coords.        
+        """
+        self._disp = displacements
+        return
 
     def getDisplacements(self):
         """Returns the displacements for which are calculated."""
-        raise NotImplementedError
+        return self._disp
 
     def calcForces(self):
         """Calculates the forces on the ions for all configurations,
@@ -109,10 +122,28 @@ class AbiPhonCalc:
         raise NotImplementedError
 
 
-    def _calcForcesForConfig(self, config):
+    def _calcForcesForDisp(self, dispNum):
         """helper function to calculate the forces on a particular
-        atomic configuration."""
-        raise NotImplementedError
+        atomic displacement number, dispN.
+        It expects dispN between 0 and len(self._disp)."""
+        if self._disp is None:
+            raise ValueError, 'No displacements found in self._disp.'
+        if not self._supercellReady:
+            raise ValueError, 'Supercell is not generated.'
+        try:
+            disp = self._disp[dispNum]
+            print disp
+        except:
+            raise ValueError, 'Invalid displacement.'
+        distorted = self._supercell.__copy__()
+        atnum = disp[0]
+        dispvec = np.array(disp[1])
+        oldvec = distorted._sites[atnum].getPosition()
+        newvec = np.array(oldvec) + np.array(dispvec)
+        distorted._sites[atnum].setPosition(newvec)
+        self._abicalc.setUnitCell(distorted)
+        forces = self._abicalc.getForces()
+        return forces
 
     def calcPhonons(self):
         """Calculate the phonons from the interatomic force-constants
