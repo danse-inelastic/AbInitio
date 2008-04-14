@@ -47,6 +47,8 @@ class VASP:
         # input variables in from the parser module
         self.incar = parser2.INPUT2('INCAR')
         self.incar['SYSTEM'] = name
+        self.incar['ISTART'] = 0
+        self.incar['ICHARG'] = 2
         self.incar['ENCUT'] = pw
         self.incar['ISMEAR'] = 2
         self.incar['SIGMA'] = 0.2
