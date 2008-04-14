@@ -73,9 +73,10 @@ class AbiPhonCalc:
         if superdims is None:
             raise ValueError, 'supercell should be integer multiple of unit cell.'
         # generate a supercell with multiplied lattice vectors:
-        supercell = UnitCell(self._unitcell)
+        supercell = UnitCell()
         cellvectors = self._unitcell.getCellVectors()
-        supercellvectors = cellvectors * superdims
+        supercellvectors = cellvectors * np.array(superdims)
+        print supercellvectors
         # sa1 = a1 * dim1; sa2 = a2 * dim2; sa3 = a3 * dim3
         supercell.setCellVectors(supercellvectors)
         # Add the images of all the atoms:
@@ -90,7 +91,7 @@ class AbiPhonCalc:
                                    + i1 * cellvectors[1]
                                    + i2 * cellvectors[2])
                         newpos = supercell.cartesianToFractional(newcart)
-                        newsite = Site(newpos, site.getAtom())
+                        newsite = Site(newpos, Atom(Z=site.getAtom().Z))
                         supercell.addSite(newsite, '')
         self._supercell = supercell
         self._supercellReady = True
@@ -141,6 +142,8 @@ class AbiPhonCalc:
         oldvec = distorted._sites[atnum].getPosition()
         newvec = np.array(oldvec) + np.array(dispvec)
         distorted._sites[atnum].setPosition(newvec)
+        print "Distorted supercell: ", distorted
+        
         self._abicalc.setUnitCell(distorted)
         forces = self._abicalc.getForces()
         return forces
