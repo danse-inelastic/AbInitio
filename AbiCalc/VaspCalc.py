@@ -21,6 +21,7 @@ class VaspCalc(PlaneWaveAbiCalc):
         self._ekincutoff = ekincutoff
         #PeriodicAbiCalc.__init__(self, unitcell)
         self._vasp = VASP(name=name, kpts=kpts, pw=ekincutoff, xc=xc, vaspcmd=vaspcmd)
+        self.unitcell = unitcell
         self._loa = UCconverters.unitCell2ListOfAtom(unitcell)
         self._vasp._SetListOfAtoms(self._loa)
         return
