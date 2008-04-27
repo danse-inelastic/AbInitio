@@ -33,7 +33,7 @@ class VaspCalc(PlaneWaveAbiCalc):
         return
 
     def getUnitCell(self):
-        return unitcell
+        return self.unitcell
 
     def getPotEnergy(self):
         """Returns the potential energy for the ionic configuration."""
