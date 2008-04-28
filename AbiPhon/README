@@ -1,0 +1,8 @@
+The AbiPhon package provides, among other functionalities, Python binders to the PHON computer software.
+
+The PHON program is written by Dario Alfe. Below is an excerpt of the PHON distribution page:
+
+"This program calculates force constant matrices and phonon frequencies in crystals. From the frequencies it also calculates various thermodynamic quantities, like Helmholtz free energy, entropy, specific heat and internal energy of the harmonic crystal. The procedure similar to the one described in Ref. [1], i.e. is based on the small displacement method. It needs a code capable to calculate forces on the atoms of the crystal. If you use this code to publish scientific results the author would appreciate a citation as follows: D. Alfè, (1998). Program available at http://chianti.geol.ucl.ac.uk/$\sim$dario
+
+[1] G. Kresse, J. Furthmüller and J. Hafner, Europhys. Lett. 32, 729 (1995).
+"
