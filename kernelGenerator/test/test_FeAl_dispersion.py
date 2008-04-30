@@ -6,8 +6,8 @@ along the [100] phonon dispersions in B2 FeAl."""
 import sys
 import numpy
 import pylab
-from UnitCell import *
-from Atom import *
+from crystal.UnitCell import *
+from crystal.Atom import *
 import AbInitio.kernelGenerator.SqeCalculator
 
 def test_disp100(nq, ne):
@@ -28,8 +28,8 @@ def test_disp100(nq, ne):
     kptlist = uc.getMonkhorstPackGrid((20,20,20)).reshape(8000,3)
     sqecalc = AbInitio.kernelGenerator.SqeCalculator.SqeCalculator(uc, kpoints=kptlist)
 
-    sqecalc.readIDFeigenvectors(filename='pols_FeAl222.idf')
-    sqecalc.readEigenvaluesFromIDFomega2(filename='omega2_FeAl222.idf')
+    sqecalc.readIDFeigenvectors(filename='polarizations.idf')
+    sqecalc.readEigenvaluesFromIDFomega2(filename='omega2s.idf')
 
     sqecalc._DebyeWallerCalculator._energies = sqecalc._energies
     sqecalc._DebyeWallerCalculator._polvecs = sqecalc._polvecs
@@ -49,8 +49,9 @@ def test_disp100(nq, ne):
         for ie in range(ne):
             qtransfer = qstart + iq * deltaq
             etransfer = estart + ie * deltae
+            print "Q= %s , E= %s" % (qtransfer, etransfer)
             sqe[iq,ie] = sqecalc.calcSqeCohCreateAllmodes(qtransfer, etransfer)
-            print iq, ie, sqe[iq,ie]
+            print "S(Q,E) = ", sqe[iq,ie]
 
     pylab.imshow(sqe)
     pylab.show()
@@ -58,12 +59,12 @@ def test_disp100(nq, ne):
     return
 
 if __name__ == '__main__':
-   try:
+       #try:
        nq = int(sys.argv[1])
        ne = int(sys.argv[2])
        test_disp100(nq, ne)
-   except:
-       print "Usage:", sys.argv[0], "num_Q_points, num_E_points"
+#except:
+#    print "Usage:", sys.argv[0], "num_Q_points, num_E_points"
 
 # End of file
 
