@@ -13,7 +13,7 @@ class AbiPhonCalc:
 
     def __init__(self, unitcell=None, supersize=[1,1,1], abiCalc=None, qpts=[8,8,8]):
         self._unitcell = unitcell
-        self._abicalc = abicalc
+        self._abicalc = abiCalc
         self._supersize = supersize
         self._qpts = qpts
         self._weights = None
