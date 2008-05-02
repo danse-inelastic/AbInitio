@@ -11,7 +11,7 @@ from crystal.Atom import Atom
 class AbiPhonCalc:
     """A phonon calculator based on a first-principles calculation."""
 
-    def __init__(self, unitcell=None, supersize=[1,1,1]. abiCalc=None, qpts=[8,8,8]):
+    def __init__(self, unitcell=None, supersize=[1,1,1], abiCalc=None, qpts=[8,8,8]):
         self._unitcell = unitcell
         self._abicalc = abicalc
         self._supersize = supersize
