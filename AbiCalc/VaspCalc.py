@@ -3,7 +3,7 @@ import re
 import weakref
 import numpy as num
 
-from ASE import Atom,ListOfAtoms
+#from ASE import Atom,ListOfAtoms
 
 import AbInitio.vasp.parsing.parser2
 import AbInitio.vasp.potcar
@@ -30,6 +30,8 @@ class VaspCalc(PlaneWaveAbiCalc):
         self.unitcell = unitcell
         self._loa = UCconverters.unitCell2ListOfAtom(unitcell)
         self._vasp._SetListOfAtoms(self._loa)
+        self._vasp.makePoscarFile()
+        self._vasp.makePotcarFile()
         return
 
     def getUnitCell(self):
