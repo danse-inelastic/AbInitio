@@ -1,0 +1,136 @@
+
+
+def applyPolarizationToUnitCell(uc, disp):
+    assert (len(uc) == len(disp))
+    for n in range(len(uc)):
+        uc[n].getAtom().displacement = disp[n]
+    return uc
+
+def applyAtomDisplacementsToUnitCell(uc, disp):
+    #assert (len(uc) == len(disp))
+    for n in range(uc.getNumSites()):
+        pos = uc[n].getPosition()
+        #disp = uc[n].getAtom().displacement
+        atomdisp = disp[n]
+        #assert (len(disp) == 3)
+        fracdisp = uc.cartesianToFractional(atomdisp)
+        # We need to check that the displaced position is still
+        # within the range [0,1(
+        tmppos = pos + fracdisp
+        newpos = uc.bringFractionalPositionIntoCell(tmppos)
+        uc[n].setPosition(newpos)
+    return uc
+
+def getUnitCellDisplacementVector(uc):
+    '''Retrieves all the atomic displacements in a unit cell,
+    and returns them in a numpy array.'''
+    natoms = len(uc)
+    disp = np.zeros((natoms,3))
+    for n in range(natoms):
+        disp[n] = np.array(uc[n].getAtom().displacement)
+    return disp
+
+def generateSupercell(uc, supersize=[2,2,2]):
+    """generate a supercell from the primitive unitcell,
+    and a number of repetitions along each cell-vector ('supersize')."""
+    from AbInitio.AbiPhon.PhonCalc import PhonCalc
+    pc = PhonCalc(uc, name='', supersize=supersize, abiCalc=None)
+    pc.genSupercell()
+    supercell = pc._supercell
+    return supercell
+
+
+def dispPhaseModulated(supercell, scale, qvec, phi0=0):
+    '''This used the displacements stored with atoms in a supercell,
+    to generate a phase-modulated displacement pattern,
+    corresponding to a frozen phonon.'''
+    natoms = len(supercell)
+    phase = np.zeros((natoms))
+    superdisp = np.zeros((natoms,3))
+    for n in range(natoms):
+        pos = supercell[n].getPosition()
+        # scale is the size of the supercell compared to unit cell
+        pos = pos * scale
+        phase[n] = 2*pi*np.dot(qvec, pos) + phi0
+    cosqr = np.cos(phase)
+    sinqr = np.sin(phase)
+    for n in range(natoms):
+        superdisp[n,:] = supercell[n].getAtom().displacement
+    sinqrxyz = np.zeros((natoms,3))
+    sinqrxyz[:,0] = sinqr
+    sinqrxyz[:,1] = sinqr
+    sinqrxyz[:,2] = sinqr
+    return superdisp * sinqrxyz
+
+
+def modulatePolarization(supercell, superpol, qvec, phi0=0):
+    '''This generates a phase-modulated displacement pattern,
+    corresponding to a frozen phonon, using a polarization vector
+    defined over a supercell. The supercell msut be compatible
+    with the wave vector qvec.
+    !!! qvec should be given in cartesian coordinates and in inverse Angstroems!!!
+    e.g.: qvec should have been multiplied by 2*Pi/a'''
+    natoms = len(supercell)
+    assert (len(superpol) == natoms)
+    phase = np.zeros((natoms))
+    superdisp = superpol.copy()
+    for n in range(natoms):
+        # we want the position in cartesian coordinates
+        # (using the lattice parameters of the supercell)
+        pos = supercell.fractionalToCartesian(supercell[n].getPosition())  
+        # qvec should already have been multiplied by 2*Pi/a
+        #phase[n] = 2*pi*np.dot(qvec, pos) + phi0
+        phase[n] = np.dot(qvec, pos) + phi0
+    cosqr = np.cos(phase)
+    sinqr = np.sin(phase)
+    # we apply a sinusoidal modulation to the x, y, and z components:
+    sinqrxyz = np.zeros((natoms,3))
+    sinqrxyz[:,0] = sinqr
+    sinqrxyz[:,1] = sinqr
+    sinqrxyz[:,2] = sinqr
+    return superdisp * sinqrxyz
+   
+
+
+def applyMassTemperature(supercell, superdisp, energy, temperature):
+    """Modulates the displacement by the atom mass and temperature.
+    The energy is the phonon energy in meV.
+    Temperature is in K."""
+    natoms = len(supercell)
+    amps = np.zeros((natoms,3))
+    for n in range(natoms):
+        mass = supercell[n].getAtom().mass
+        amp = phononAmplitude(temperature, energy, mass)
+        amps[n,:] = [amp,amp,amp]
+    su = superdisp * amps
+    return su
+
+def rmsDisp(uc1, uc2):
+    '''Calculates the RMS displacement (in Angtroems),
+    between unit cells uc1 and uc2.'''
+    rmsu = 0.0
+    natoms = len(uc1)
+    assert (len(uc2) == natoms)
+    for n in range(natoms):
+        pos1 = uc1.fractionalToCartesian(uc1[n].getPosition())
+        pos2 = uc2.fractionalToCartesian(uc2[n].getPosition())
+        rmsu += np.dot(pos1-pos2, pos1-pos2)
+    return np.sqrt(rmsu / natoms)
+
+def rmsDispCubicMatch(uc1, uc2):
+    '''Calculates the RMS displacement (in Angtroems),
+    between unit cells uc1 and uc2.'''
+    rmsu = 0.0
+    natoms = len(uc1)
+    lattparam = np.sqrt(np.dot(uc1._cellvectors[0], uc1._cellvectors[0]))
+    assert (len(uc2) == natoms)
+    count = 0
+    for n in range(natoms):
+        pos1 = uc1.fractionalToCartesian(uc1[n].getPosition())
+        pos2 = uc2.fractionalToCartesian(uc2[n].getPosition())
+        norm2 = np.dot(pos1-pos2, pos1-pos2)
+        if np.sqrt(norm2) < (lattparam/2.0):
+            rmsu += norm2
+            count += 1
+    return np.sqrt(rmsu / count)
+
