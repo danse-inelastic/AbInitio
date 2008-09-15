@@ -1,8 +1,4 @@
-<<<<<<< .mine
-GFORTRAN module created from nrutil.f90 on Thu Feb  7 00:22:38 2008
-=======
-GFORTRAN module created from nrutil.f90 on Sun Jan 27 20:12:06 2008
->>>>>>> .r63
+GFORTRAN module created from nrutil.f90 on Tue Sep  9 14:05:56 2008
 If you edit this, you'll get what you deserve.
 
 (() () ()
@@ -10,9 +6,9 @@ If you edit this, you'll get what you deserve.
 
 ()
 
-(('arth' '' 2) ('assert' '' 3 4) ('coth' '' 5) ('inve' '' 6 7 8) (
-'outerprod' '' 9) ('swap' '' 10 11 12 13 14) ('vabs' '' 15 16 17 18) (
-'vecprod' '' 19))
+(('arth' 'nrutil' 2) ('assert' 'nrutil' 3 4) ('coth' 'nrutil' 5) ('inve'
+'nrutil' 6 7 8) ('outerprod' 'nrutil' 9) ('swap' 'nrutil' 10 11 12 13 14)
+('vabs' 'nrutil' 15 16 17 18) ('vecprod' 'nrutil' 19))
 
 ()
 

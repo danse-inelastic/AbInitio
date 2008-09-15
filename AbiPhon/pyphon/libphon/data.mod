@@ -1,8 +1,4 @@
-<<<<<<< .mine
-GFORTRAN module created from data.f90 on Thu Feb  7 00:22:39 2008
-=======
-GFORTRAN module created from data.f90 on Sun Jan 27 20:12:06 2008
->>>>>>> .r63
+GFORTRAN module created from data.f90 on Tue Sep  9 14:05:56 2008
 If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () ()
@@ -10,9 +6,9 @@ If you edit this, you'll get what you deserve.
 
 ()
 
-(('coth' '' 2) ('arth' '' 3) ('assert' '' 4 5) ('inve' '' 6 7 8) (
-'outerprod' '' 9) ('swap' '' 10 11 12 13 14) ('vabs' '' 15 16 17 18) (
-'vecprod' '' 19))
+(('coth' 'data' 2) ('arth' 'data' 3) ('assert' 'data' 4 5) ('inve' 'data'
+6 7 8) ('outerprod' 'data' 9) ('swap' 'data' 10 11 12 13 14) ('vabs'
+'data' 15 16 17 18) ('vecprod' 'data' 19))
 
 ()
 
@@ -44,17 +40,17 @@ UNKNOWN 0 ()) 0 0 () () 0 () ())
 REAL 8 ()) 0 0 () (CONSTANT (REAL 8 ()) 0 '0.2f49b5aabca7fc@-15') () 0 ()
 ())
 37 'dynmat' 'data' 1 ((DERIVED UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN) (
-UNKNOWN 0 ()) 0 0 () () 0 ((38 'lfree' (LOGICAL 4 ()) () 0 0 ()) (39
-'usethis' (LOGICAL 4 ()) (1 DEFERRED () ()) 1 1 ()) (40 'npoints' (
-INTEGER 4 ()) () 0 0 ()) (41 'weight' (INTEGER 4 ()) (3 DEFERRED () () ()
-() () ()) 1 1 ()) (42 'tmpmat2' (REAL 8 ()) (4 DEFERRED () () () () () ()
-() ()) 1 1 ()) (43 'dmat' (REAL 8 ()) (5 DEFERRED () () () () () () () ()
-() ()) 1 1 ()) (44 'invdmat' (REAL 8 ()) (5 DEFERRED () () () () () () ()
-() () ()) 1 1 ()) (45 'qi' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 ())
-(46 'qf' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 ()) (47 'eig' (REAL 8
-()) (1 DEFERRED () ()) 1 1 ()) (48 'cmat' (COMPLEX 8 ()) (2 DEFERRED ()
-() () ()) 1 1 ()) (49 'invcmat' (COMPLEX 8 ()) (2 DEFERRED () () () ())
-1 1 ())) PUBLIC ())
+UNKNOWN 0 ()) 0 0 () () 0 ((38 'lfree' (LOGICAL 4 ()) () 0 0 0 ()) (39
+'usethis' (LOGICAL 4 ()) (1 DEFERRED () ()) 1 1 0 ()) (40 'npoints' (
+INTEGER 4 ()) () 0 0 0 ()) (41 'weight' (INTEGER 4 ()) (3 DEFERRED () ()
+() () () ()) 1 1 0 ()) (42 'tmpmat2' (REAL 8 ()) (4 DEFERRED () () () ()
+() () () ()) 1 1 0 ()) (43 'dmat' (REAL 8 ()) (5 DEFERRED () () () () ()
+() () () () ()) 1 1 0 ()) (44 'invdmat' (REAL 8 ()) (5 DEFERRED () () ()
+() () () () () () ()) 1 1 0 ()) (45 'qi' (REAL 8 ()) (2 DEFERRED () () ()
+()) 1 1 0 ()) (46 'qf' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (
+47 'eig' (REAL 8 ()) (1 DEFERRED () ()) 1 1 0 ()) (48 'cmat' (COMPLEX 8
+()) (2 DEFERRED () () () ()) 1 1 0 ()) (49 'invcmat' (COMPLEX 8 ()) (2
+DEFERRED () () () ()) 1 1 0 ())) PUBLIC ())
 50 'hplank' 'nrtype' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN)
 (REAL 8 ()) 0 0 () (CONSTANT (REAL 8 ()) 0 '0.370c5e6e7734ae@-27') () 0
 () ())
@@ -100,33 +96,34 @@ UNKNOWN) (INTEGER 4 ()) 0 0 () (CONSTANT (INTEGER 4 ()) 0 '16') () 0 ()
 ())
 77 'lattice' 'data' 1 ((DERIVED UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN) (
 UNKNOWN 0 ()) 0 0 () () 0 ((78 'string' (CHARACTER 1 ((CONSTANT (
-INTEGER 4 ()) 0 '1'))) () 0 0 ()) (79 'string2' (CHARACTER 1 ((CONSTANT
-(INTEGER 4 ()) 0 '50'))) () 0 0 ()) (80 'lsuper' (LOGICAL 4 ()) () 0 0 ())
-(81 'lgamma' (LOGICAL 4 ()) () 0 0 ()) (82 'ntypes' (INTEGER 4 ()) () 0
-0 ()) (83 'natoms' (INTEGER 4 ()) () 0 0 ()) (84 'natomss' (INTEGER 4 ())
-() 0 0 ()) (85 'ndim' (INTEGER 4 ()) (1 EXPLICIT (CONSTANT (INTEGER 4 ())
-0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ()) (86 'qa' (INTEGER 4 ())
-() 0 0 ()) (87 'qb' (INTEGER 4 ()) () 0 0 ()) (88 'qc' (INTEGER 4 ()) ()
-0 0 ()) (89 'disp' (INTEGER 4 ()) () 0 0 ()) (90 'nions' (INTEGER 4 ())
-(1 DEFERRED () ()) 1 1 ()) (91 'ityp' (INTEGER 4 ()) (1 DEFERRED () ())
-1 1 ()) (92 'ityps' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 ()) (93
-'super_atom' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 ()) (94 'prim_atom' (
-INTEGER 4 ()) (1 DEFERRED () ()) 1 1 ()) (95 'at' (REAL 8 ()) (2
+INTEGER 4 ()) 0 '1'))) () 0 0 0 ()) (79 'string2' (CHARACTER 1 ((
+CONSTANT (INTEGER 4 ()) 0 '50'))) () 0 0 0 ()) (80 'lsuper' (LOGICAL 4 ())
+() 0 0 0 ()) (81 'lgamma' (LOGICAL 4 ()) () 0 0 0 ()) (82 'ntypes' (
+INTEGER 4 ()) () 0 0 0 ()) (83 'natoms' (INTEGER 4 ()) () 0 0 0 ()) (84
+'natomss' (INTEGER 4 ()) () 0 0 0 ()) (85 'ndim' (INTEGER 4 ()) (1
+EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3'))
+1 0 0 ()) (86 'qa' (INTEGER 4 ()) () 0 0 0 ()) (87 'qb' (INTEGER 4 ()) ()
+0 0 0 ()) (88 'qc' (INTEGER 4 ()) () 0 0 0 ()) (89 'disp' (INTEGER 4 ())
+() 0 0 0 ()) (90 'nions' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 0 ()) (
+91 'ityp' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 0 ()) (92 'ityps' (
+INTEGER 4 ()) (1 DEFERRED () ()) 1 1 0 ()) (93 'super_atom' (INTEGER 4 ())
+(1 DEFERRED () ()) 1 1 0 ()) (94 'prim_atom' (INTEGER 4 ()) (1 DEFERRED
+() ()) 1 1 0 ()) (95 'at' (REAL 8 ()) (2 EXPLICIT (CONSTANT (INTEGER 4 ())
+0 '1') (CONSTANT (INTEGER 4 ()) 0 '3') (CONSTANT (INTEGER 4 ()) 0 '1') (
+CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 0 ()) (96 'bg' (REAL 8 ()) (2
 EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')
-(CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ())
-(96 'bg' (REAL 8 ()) (2 EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (
+(CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 0 ())
+(97 'scale' (REAL 8 ()) () 0 0 0 ()) (98 'volume' (REAL 8 ()) () 0 0 0 ())
+(99 'ats' (REAL 8 ()) (2 EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (
 CONSTANT (INTEGER 4 ()) 0 '3') (CONSTANT (INTEGER 4 ()) 0 '1') (
-CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ()) (97 'scale' (REAL 8 ()) () 0 0 ())
-(98 'volume' (REAL 8 ()) () 0 0 ()) (99 'ats' (REAL 8 ()) (2 EXPLICIT (
-CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3') (
-CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ())
-(100 'bgs' (REAL 8 ()) (2 EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (
-CONSTANT (INTEGER 4 ()) 0 '3') (CONSTANT (INTEGER 4 ()) 0 '1') (
-CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ()) (101 'volumes' (REAL 8 ()) () 0
-0 ()) (102 'dxstart' (REAL 8 ()) (1 EXPLICIT (CONSTANT (INTEGER 4 ()) 0
-'1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 ()) (103 'x' (REAL 8 ()) (2
-DEFERRED () () () ()) 1 1 ()) (104 'xs' (REAL 8 ()) (2 DEFERRED () () ()
-()) 1 1 ()) (105 'mass' (REAL 8 ()) (1 DEFERRED () ()) 1 1 ())) PUBLIC ())
+CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 0 ()) (100 'bgs' (REAL 8 ()) (2
+EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')
+(CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3')) 1 0 0 ())
+(101 'volumes' (REAL 8 ()) () 0 0 0 ()) (102 'dxstart' (REAL 8 ()) (1
+EXPLICIT (CONSTANT (INTEGER 4 ()) 0 '1') (CONSTANT (INTEGER 4 ()) 0 '3'))
+1 0 0 ()) (103 'x' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (104
+'xs' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (105 'mass' (REAL 8
+()) (1 DEFERRED () ()) 1 1 0 ())) PUBLIC ())
 106 'kind' '(intrinsic)' 1 ((PROCEDURE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN FUNCTION) (INTEGER 4 ()) 0 0 () () 106 () ())
 107 'selected_real_kind' '(intrinsic)' 1 ((PROCEDURE UNKNOWN-INTENT
@@ -136,12 +133,13 @@ UNKNOWN-PROC UNKNOWN FUNCTION) (REAL 4 ()) 0 0 () () 108 () ())
 109 'sp' 'nrtype' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN) (
 INTEGER 4 ()) 0 0 () (CONSTANT (INTEGER 4 ()) 0 '4') () 0 () ())
 110 'shell' 'data' 1 ((DERIVED UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN) (
-UNKNOWN 0 ()) 0 0 () () 0 ((111 'nrm' (INTEGER 4 ()) () 0 0 ()) (112 'nsh'
-(INTEGER 4 ()) () 0 0 ()) (113 'rmax' (REAL 8 ()) () 0 0 ()) (114 'cutoff'
-(REAL 8 ()) () 0 0 ()) (115 'nl' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 ())
-(116 'ishel' (INTEGER 4 ()) (1 DEFERRED () ()) 1 1 ()) (117 'r' (REAL 8
-()) (2 DEFERRED () () () ()) 1 1 ()) (118 'rr' (REAL 8 ()) (1 DEFERRED ()
-()) 1 1 ()) (119 'rl' (REAL 8 ()) (1 DEFERRED () ()) 1 1 ())) PUBLIC ())
+UNKNOWN 0 ()) 0 0 () () 0 ((111 'nrm' (INTEGER 4 ()) () 0 0 0 ()) (112
+'nsh' (INTEGER 4 ()) () 0 0 0 ()) (113 'rmax' (REAL 8 ()) () 0 0 0 ()) (
+114 'cutoff' (REAL 8 ()) () 0 0 0 ()) (115 'nl' (INTEGER 4 ()) (1
+DEFERRED () ()) 1 1 0 ()) (116 'ishel' (INTEGER 4 ()) (1 DEFERRED () ())
+1 1 0 ()) (117 'r' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (118
+'rr' (REAL 8 ()) (1 DEFERRED () ()) 1 1 0 ()) (119 'rl' (REAL 8 ()) (1
+DEFERRED () ()) 1 1 0 ())) PUBLIC ())
 120 'rytoev' 'nrtype' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN)
 (REAL 8 ()) 0 0 () (CONSTANT (REAL 8 ()) 0 '0.d9b1769a911060@1') () 0 ()
 ())
@@ -159,15 +157,15 @@ SUBROUTINE) (UNKNOWN 0 ()) 129 0 (130 131) () 0 () ())
 (REAL 8 ()) 0 0 () (CONSTANT (REAL 8 ()) 0 '0.6487ed5110b460@1') () 0 ()
 ())
 133 'symmetry' 'data' 1 ((DERIVED UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN) (
-UNKNOWN 0 ()) 0 0 () () 0 ((134 'lsymm' (LOGICAL 4 ()) () 0 0 ()) (135
-'invsym' (LOGICAL 4 ()) () 0 0 ()) (136 'nsym' (INTEGER 4 ()) () 0 0 ())
-(137 'nrot' (INTEGER 4 ()) () 0 0 ()) (138 'nsymstart' (INTEGER 4 ()) ()
-0 0 ()) (139 'is' (REAL 8 ()) (3 DEFERRED () () () () () ()) 1 1 ()) (
-140 'isstart' (REAL 8 ()) (3 DEFERRED () () () () () ()) 1 1 ()) (141
-'iscryst' (REAL 8 ()) (3 DEFERRED () () () () () ()) 1 1 ()) (142 'ftau'
-(REAL 8 ()) (2 DEFERRED () () () ()) 1 1 ()) (143 'irt' (INTEGER 4 ()) (
-2 DEFERRED () () () ()) 1 1 ()) (144 'irts' (INTEGER 4 ()) (2 DEFERRED ()
-() () ()) 1 1 ())) PUBLIC ())
+UNKNOWN 0 ()) 0 0 () () 0 ((134 'lsymm' (LOGICAL 4 ()) () 0 0 0 ()) (
+135 'invsym' (LOGICAL 4 ()) () 0 0 0 ()) (136 'nsym' (INTEGER 4 ()) () 0
+0 0 ()) (137 'nrot' (INTEGER 4 ()) () 0 0 0 ()) (138 'nsymstart' (
+INTEGER 4 ()) () 0 0 0 ()) (139 'is' (REAL 8 ()) (3 DEFERRED () () () ()
+() ()) 1 1 0 ()) (140 'isstart' (REAL 8 ()) (3 DEFERRED () () () () () ())
+1 1 0 ()) (141 'iscryst' (REAL 8 ()) (3 DEFERRED () () () () () ()) 1 1
+0 ()) (142 'ftau' (REAL 8 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (143
+'irt' (INTEGER 4 ()) (2 DEFERRED () () () ()) 1 1 0 ()) (144 'irts' (
+INTEGER 4 ()) (2 DEFERRED () () () ()) 1 1 0 ())) PUBLIC ())
 16 'vabs_dm' 'nrutil' 1 ((PROCEDURE UNKNOWN-INTENT MODULE-PROC DECL
 FUNCTION ALWAYS_EXPLICIT) (REAL 8 ()) 145 0 (146) () 16 () ())
 18 'vabs_dv' 'nrutil' 1 ((PROCEDURE UNKNOWN-INTENT MODULE-PROC DECL

@@ -1,8 +1,4 @@
-<<<<<<< .mine
-GFORTRAN module created from diagonalize.f90 on Thu Feb  7 00:22:39 2008
-=======
-GFORTRAN module created from diagonalize.f90 on Sun Jan 27 20:12:06 2008
->>>>>>> .r63
+GFORTRAN module created from diagonalize.f90 on Tue Sep  9 14:05:56 2008
 If you edit this, you'll get what you deserve.
 
 (() () ()
@@ -10,7 +6,7 @@ If you edit this, you'll get what you deserve.
 
 ()
 
-(('diagh' '' 2 3))
+(('diagh' 'diagonalize' 2 3))
 
 ()
 
