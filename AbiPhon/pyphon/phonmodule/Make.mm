@@ -4,21 +4,24 @@
 # Calif. Inst. of Tech.
 
 
-PROJECT = AbInitio
-PACKAGE = phonmodule
+PROJECT = pyphon
+PACKAGE = _pyphon
 MODULE = _pyphon
 
 
 include std-pythonmodule.def
 include local.def
 
-PROJ_CXX_SRCLIB = -l_pyphon -llapack -lblas -lg2c -lgfortran -lphon
+PROJ_CXX_SRCLIB = -llapack -lblas -lgfortran -lphon
+#-lg2c 
+#-l_pyphon 
 PROJ_LIBRARIES += $(DEV_LCXX_LIBRARIES) $(COMPILER_LCXX_FORTRAN)
 
 
 PROJ_SRCS = \
-	dummy.cc
-	_pyphon.cc
+	dummy.cc \
+
+#	_pyphon.cc \
 
 export:: 
 

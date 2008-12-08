@@ -12,7 +12,7 @@
 #
 
 PROJECT = AbInitio
-PACKAGE = AbiCalc/vasp
+PACKAGE = vasp
 
 #--------------------------------------------------------------------------
 #

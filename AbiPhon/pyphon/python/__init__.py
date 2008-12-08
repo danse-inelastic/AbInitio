@@ -1,5 +1,5 @@
 import _pyphon
-import phoncalc
+#import phoncalc
 #import AbiPhonCalc
 #import PhonCalc
 
