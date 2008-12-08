@@ -72,15 +72,10 @@ def getPath(xc, symbol):
     if xc not in xcs:
         raise ValueError, "Unrecognized XC type."
     else:
-        if xc == 'uspplda':
-            return xcs[xc] + '/' + uspplda[symbol]
-        elif xc == 'usppgga':
-            return xcs[xc] + '/' + usppgga[symbol]
-        elif xc == 'pawlda':
-            return xcs[xc] + '/' + pawlda[symbol]
-        elif xc == 'pawgga':
-            return xcs[xc] + '/' + pawgga[symbol]
-        elif xc == 'pawpbe':
-            return xcs[xc] + '/' + pawpbe[symbol]
-        else:
-            raise ValueError, "Unrecognized XC / symbol combination."
+        mapper = eval(xc)
+        filename = mapper.get(symbol)
+        if not filename: filename = symbol # default
+        dir = xcs[xc]
+        return os.path.join( dir, filename)
+
+import os
