@@ -1,7 +1,7 @@
 # DebyeWallerCalculator
 # Olivier Delaire
 # B. Keith
-#from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
+#from kernelGenerator.phonons.NetcdfPolarizationRead import NetcdfPolarizationRead
 
 __doc__ = """Implementation of a Debye-Waller calculator.
 Calculates the Debye-Waller factor for each atom in the unit cell,

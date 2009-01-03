@@ -3,7 +3,7 @@ from math import tanh, exp, ceil
 import numpy as N
 from DebyeWallerCalculator import DebyeWallerCalculator
 from DebyeWallerCalculator import calcBoseEinstein
-#from kernelGenerator.phononSqe.NetcdfPolarizationRead import NetcdfPolarizationRead
+#from kernelGenerator.phonons.NetcdfPolarizationRead import NetcdfPolarizationRead
 from idf.Polarizations import read as readIDFpolarizations
 from idf.Omega2 import read as readIDFomega2s
 
