@@ -314,6 +314,21 @@ class VASP:
         #check if the atoms have changed since the last update
         self.CheckAtoms()
 
+        if not self._needNewCalculation(): return
+
+        #if you get here, a calculation should be run
+        print 'running a calculation'
+        self._makeVaspInputs()
+        
+        ### Now run vasp
+        status = os.system(self.vaspcmd)
+
+        self.UpdateAtomsInfo()
+        self.ready = True
+        return status
+
+
+    def _needNewCalculation(self):
         # is OUTCAR newer than POSCAR?
         if os.path.exists('OUTCAR'):
             t1 = self.GetMTime('OUTCAR')
@@ -324,11 +339,11 @@ class VASP:
                 #Probably this needs to be changed in case the user wants to
                 #re-run with a better accuracy
                 print 'OUTCAR is newer, probably no calculation required'
-                return
-            
+                return False
+        return True
 
-        #if you get here, a calculation should be run
-        print 'running a calculation'
+
+    def _makeVaspInputs(self):
 
         self.makePotcarFile()
         self.makePoscarFile()
@@ -339,13 +354,8 @@ class VASP:
         ### create the KPOINTS file:
         self.makeKpointsFile()
             
-        ### Now run vasp
-        status = os.system(self.vaspcmd)
-
-        self.UpdateAtomsInfo()
-        self.ready = True
-        return status
-
+        return
+    
 
     def ReadAtoms(name='.'):
         """Static method to read in the atoms."""
