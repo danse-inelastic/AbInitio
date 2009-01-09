@@ -4,56 +4,34 @@
 #
 #                               Michael A.G. Aivazis
 #                        California Institute of Technology
-#                        (C) 1998-2005  All Rights Reserved
+#                        (C) 1998-2005 All Rights Reserved
 #
 # <LicenseText>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
 
 PROJECT = AbInitio
+PACKAGE = apps
+
+PROJ_TIDY += *.log
+PROJ_CLEAN =
 
 #--------------------------------------------------------------------------
 #
-
-BUILD_DIRS = 
-	AbiCalc  \
-	AbiPhon  \
-	kernelGenerator  \
-	test  \
-	utils  \
-	vasp \
-	apps \
-
-OTHER_DIRS = \
-
-RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
-
-
-#--------------------------------------------------------------------------
-#
-
 
 all: export
-	BLD_ACTION="all" $(MM) recurse
-
 
 #--------------------------------------------------------------------------
 #
-# export
-
-EXPORT_PYTHON_MODULES = \
-	__init__.py \
-
 
 EXPORT_BINS = \
+    vaspapp.py \
 
 
-
-export:: export-binaries release-binaries export-package-python-modules 
+export:: export-binaries release-binaries
 
 
 # version
-# $Id$
+# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:50 aivazis Exp $
 
 # End of file
