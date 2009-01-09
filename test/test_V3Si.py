@@ -4,9 +4,9 @@ from numpy import random
 #from inelastic.crystal.UnitCell import *
 #from inelastic.crystal.crystalIO.converters import *
 from crystal.UnitCell import *
-from crystal.crystalIO.converters import *
-from AbInitio.vasp.parsing.Structure import Structure
-from AbInitio.vasp.parsing.SystemPM import * 
+#from crystal.crystalIO.converters import *
+#from AbInitio.vasp.parsing.Structure import Structure
+#from AbInitio.vasp.parsing.SystemPM import * 
 
 #run=XMLSystemPM('vasprun.xml_eq')
 #struct=run.FINAL_STRUCTURE
