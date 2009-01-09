@@ -270,9 +270,24 @@ class VASP:
         ### I do not believe in scaling factors. I use the real unit cell
         f.write('1.0\n')
         uc = atoms.GetUnitCell()
-        f.write('%f %f %f\n' % tuple(uc[0]))
-        f.write('%f %f %f\n' % tuple(uc[1]))
-        f.write('%f %f %f\n' % tuple(uc[2]))
+
+        # cell vectors
+        a,b,c = uc[0], uc[1], uc[2]
+
+        # it is necessary to switch x,y axis if volume is negative.
+        # this is a requirement from vasp
+        if _volume((a,b,c)) < 0:
+            switchxy = True
+        else:
+            switchxy = False
+
+        if switchxy:
+            t = a; a = b; b = t
+            
+        f.write('%f %f %f\n' % tuple(a))
+        f.write('%f %f %f\n' % tuple(b))
+        f.write('%f %f %f\n' % tuple(c))
+        
         natoms = ''
         for atom in atoms:
             natoms += '1 '
@@ -281,6 +296,8 @@ class VASP:
 
         sp = atoms.GetCartesianPositions()
         for pos in sp:
+            if switchxy:
+                pos = pos[1], pos[0], pos[2]
             f.write('%f %f %f\n' % tuple(pos))
 
         f.close()
@@ -468,7 +485,16 @@ class VASP:
         return atoms
 
     ReadAtoms = staticmethod(ReadAtoms)   
-            
+
+
+
+def _volume(vectors):
+    v0, v1, v2 = vectors
+    return N.dot(v0, N.cross(v1, v2))
+import numpy as N
+
+
+
 
 def test1(pw=300, kpts=(6,6,6), vaspcmd='mr vasp'):
     """Performs a test single-point energy calculation with vasp module for B2 FeAl."""
