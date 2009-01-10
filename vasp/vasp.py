@@ -334,8 +334,11 @@ class VASP:
         if not self._needNewCalculation(): return
 
         #if you get here, a calculation should be run
+
+        # check if input files exist. if not, create them
+        if not self._inputFilesExist(): self._makeVaspInputs()
+
         print 'running a calculation'
-        self._makeVaspInputs()
         
         ### Now run vasp
         status = os.system(self.vaspcmd)
@@ -343,6 +346,19 @@ class VASP:
         self.UpdateAtomsInfo()
         self.ready = True
         return status
+
+
+    def _inputFilesExist(self):
+        expected = [
+            'POSCAR',
+            'POTCAR',
+            'KPOINTS',
+            'INCAR',
+            ]
+        for f in expected:
+            if not os.path.exists(f): return False
+            continue
+        return True
 
 
     def _needNewCalculation(self):
