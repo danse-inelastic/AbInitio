@@ -45,16 +45,20 @@ class VASP:
 
         #INPUT is a class object that is a dictionary to store all the
         # input variables in from the parser module
-        self.incar = parser2.INPUT2('INCAR')
-        self.incar['SYSTEM'] = name
-        self.incar['ISTART'] = 0
-        self.incar['ICHARG'] = 2
-        self.incar['ENCUT'] = pw
-        self.incar['ISMEAR'] = 2
-        self.incar['SIGMA'] = 0.2
-        self.incar['EDIFF'] = 1e-4
-        self.incar['PREC'] = 'Normal'
-        self.incar['LREAL'] = '.False.'
+        if not os.path.exists('INCAR'):
+            self._external_incar = False
+            self.incar = parser2.INPUT2('INCAR')
+            self.incar['SYSTEM'] = name
+            self.incar['ISTART'] = 0
+            self.incar['ICHARG'] = 2
+            self.incar['ENCUT'] = pw
+            self.incar['ISMEAR'] = 2
+            self.incar['SIGMA'] = 0.2
+            self.incar['EDIFF'] = 1e-4
+            self.incar['PREC'] = 'Normal'
+            self.incar['LREAL'] = '.False.'
+        else:
+            self._external_incar = True
         self.xc = xc
             
         #flag to be used to signify if a calculation should be run
@@ -127,6 +131,8 @@ class VASP:
         """
         sets the ENCUT variable in the INCAR file
         """
+        if self._external_incar:
+            raise RuntimeError, "Cannot set planewave cutoff because INCAR already exists"
         
         self.incar['ENCUT'] = pw
 
@@ -377,7 +383,6 @@ class VASP:
 
 
     def _makeVaspInputs(self):
-
         self.makePotcarFile()
         self.makePoscarFile()
 
