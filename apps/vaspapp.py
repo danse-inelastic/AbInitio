@@ -4,7 +4,7 @@
 #
 #                                   Jiao Lin
 #                      California Institute of Technology
-#                        (C) 2007  All Rights Reserved
+#                        (C) 2008  All Rights Reserved
 #
 # {LicenseText}
 #
@@ -121,7 +121,5 @@ if __name__ == '__main__':
 
 # version
 __id__ = "$Id$"
-
-# Generated automatically by PythonMill on Fri Jan  9 06:31:15 2009
 
 # End of file 
