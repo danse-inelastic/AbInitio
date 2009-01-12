@@ -16,13 +16,14 @@ include std-f90.def
 
 PROJECT = phon
 
-PROJ_BIN = $(BLD_BINDIR)/$(PROJECT).exe
+PROJ_BIN = $(BLD_BINDIR)/$(PROJECT)
 PHON = phon.f90
 
 EXPORT_BINS = $(PROJ_BIN)
 PROJ_BINDIR = $(EXPORT_BINDIR)
 
-LIBRARIES = $(LCXX_FORTRAN) -lphon -llapack -lblas -lg2c
+LIBRARIES = $(LCXX_FORTRAN) -lphon -llapack -lblas
+# -lg2c
 #LIBRARIES = $(EXTERNAL_LIBS) $(LCXX_FORTRAN) 
 
 EXT_F77 = f90
