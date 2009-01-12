@@ -110,7 +110,9 @@ SUBROUTINE numeric_force( latt, symm, sh, dyn, iprint, nti )
      read(1,*) adis(i), dis(:,i)
      adis1(i) = adis(i)
      idisp = idisp + 1
-     if( adis1(i) > adis1(i-1) .and. i > 1 ) idisp = 1
+     if( i > 1 ) then
+        if (adis1(i) > adis1(i-1)) idisp = 1
+     endif
 
      !========================================================================
      ! Establish the corrispondence between the atom in the supercell
