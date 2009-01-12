@@ -25,7 +25,8 @@ all: export
 #
 
 EXPORT_BINS = \
-    vaspapp.py \
+	phonapp.py \
+	vaspapp.py \
 
 
 export:: export-binaries release-binaries
