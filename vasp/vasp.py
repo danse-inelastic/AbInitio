@@ -45,7 +45,7 @@ class VASP:
 
         #INPUT is a class object that is a dictionary to store all the
         # input variables in from the parser module
-        if not os.path.exists('INCAR'):
+        if not self._inputFilesExist():
             self._external_incar = False
             self.incar = parser2.INPUT2('INCAR')
             self.incar['SYSTEM'] = name
@@ -257,7 +257,7 @@ class VASP:
                 print "Performing a %s-type calculation." % self.xc
                 potcardir = potcar.getPath(self.xc,symbol) 
             else:
-                raise ValueError, 'unrecognized XC type.'
+                raise ValueError, 'unrecognized XC type %r. Choices: %s' % (self.xc, potcar.xcs,)
 
             potcarpath = '%s/%s/POTCAR' % (self.VASPPOTCARPATH,potcardir,)
             os.system('cat %s >> POTCAR' % potcarpath)
