@@ -16,7 +16,7 @@ PROJECT = AbInitio
 #--------------------------------------------------------------------------
 #
 
-BUILD_DIRS = 
+BUILD_DIRS = \
 	AbiCalc  \
 	AbiPhon  \
 	kernelGenerator  \
@@ -43,6 +43,7 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
+	spawn.py \
 	__init__.py \
 
 
