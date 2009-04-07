@@ -76,6 +76,7 @@ class VaspApp(Script):
             kpts = mpmesh,
             ekincutoff=ecutoff,
             name=name,
+            xc = xcf,
             vaspcmd=cmd)
 
 
