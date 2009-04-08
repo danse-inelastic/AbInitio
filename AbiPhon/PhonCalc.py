@@ -30,6 +30,7 @@ class PhonCalc(AbiPhonCalc):
         self._dosstep = dosstep
         self._dossmear = dossmear
         self._temperature = temperature
+        self._superCellReady = False
         
         self._atomTypesNums = unitcell.getAtomTypeDenum()
         self._numtypes = len(self._atomTypesNums)
@@ -147,51 +148,61 @@ class PhonCalc(AbiPhonCalc):
         """Generate supercell and displacements by launching Phon."""
         if self._superCellReady:
             return
-        else:
-            from crystal.crystalIO.converters import unitCell2P4vaspStruct, p4vaspStruct2UnitCell
-            from AbInitio.vasp.parsing.Structure import Structure
-            
-            if supersize == None:
-                supersize = self._supersize
-            self._supersize = supersize
-            self._inphon['NDIM'] = self._supersize
-            self._inphon['LSUPER'] = '.TRUE.'
-            # write the INPHON file:
-            self._inphon.Write()
 
-            # First, we need to write the unitcell to a POSCAR for Phon():
-            
-            struct = unitCell2P4vaspStruct(self._unitcell)
-            try:
-                struct.write(f='POSCAR', newformat=0)
-            except:
-                raise IOError, 'Could not write the structure POSCAR to file.'
-            
-            # run Phon to build the supercell and calculate displacements:
-            #phon()
-            
+        from crystal.crystalIO.converters import unitCell2P4vaspStruct, p4vaspStruct2UnitCell
+        from AbInitio.vasp.parsing.Structure import Structure
+        
+        if supersize == None:
+            supersize = self._supersize
+        self._supersize = supersize
+        self._inphon['NDIM'] = self._supersize
+        self._inphon['LSUPER'] = '.TRUE.'
+        # write the INPHON file:
+        self._inphon.Write()
 
-            # now copy the SPOSCAR over to POSCAR
-            try:
-                shutil.copy('POSCAR', 'POSCAR_eq')
-            except:
-                pass 
-            try:
-                shutil.copy('SPOSCAR', 'SPOSCAR_eq')
-                shutil.copy('SPOSCAR', 'POSCAR')
-            except:
-                raise IOError, 'Error while copying SPOSCAR.'
+        # First, we need to write the unitcell to a POSCAR for Phon():
 
-            # load the supercell created by Phon (copied to POSCAR)
-            struct = Structure('POSCAR')
-            uctmp = p4vaspStruct2UnitCell(struct)
-            self._supercell = uctmp   # this may be a problem if VASP atom types are not passed correctly...
-            
-            # prevent the generation of an even larger supercell:
-            self._superCellReady = True
-            self._inphon['LSUPER'] = '.FALSE.'
-            self._inphon.Write()
-            return
+        struct = unitCell2P4vaspStruct(self._unitcell)
+        try:
+            struct.write(f='POSCAR', newformat=0)
+        except:
+            raise IOError, 'Could not write the structure POSCAR to file.'
+
+
+        #import time
+        #time.sleep(1)
+
+        # run Phon to build the supercell and calculate displacements:
+        #phon()
+        _execPhon()
+
+        #time.sleep(1)
+
+        # now copy the SPOSCAR over to POSCAR
+        try:
+            shutil.copy('POSCAR', 'POSCAR_eq')
+        except:
+            pass 
+        try:
+            shutil.copy('SPOSCAR', 'SPOSCAR_eq')
+            shutil.copy('SPOSCAR', 'POSCAR')
+        except:
+            raise IOError, 'Error while copying SPOSCAR.'
+
+        #time.sleep(1)
+
+        # load the supercell created by Phon (copied to POSCAR)
+        struct = Structure('POSCAR')
+        #from p4vasp.SystemPM import XMLSystemPM
+        #struct=XMLSystemPM('vasprun.xml').FINAL_STRUCTURE
+        uctmp = p4vaspStruct2UnitCell(struct)
+        self._supercell = uctmp   # this may be a problem if VASP atom types are not passed correctly...
+
+        # prevent the generation of an even larger supercell:
+        self._superCellReady = True
+        self._inphon['LSUPER'] = '.FALSE.'
+        self._inphon.Write()
+        return
         
 
     def _makePosFiles(self):
@@ -246,15 +257,17 @@ class PhonCalc(AbiPhonCalc):
 
         dispfile.close()
         runfile.close()
-        os.system('chmod +x runhf')
+        os.chmod('runhf', 0700)
         return # end of _makePosFiles()
 
     def calcForces(self):
         """This calls the abinitio engine to evaluate the forces on the atoms,
         for all the distorted supercells."""
         # For now, just run the 'runhf' script that calls VASP on all structures.
-        os.popen('./runhf')
-        os.system('cp SPOSCAR_eq SPOSCAR')
+        
+        _exec('./runhf', 'runhf.out', 'runhf.err')
+        import shutil
+        shutil.copyfile('SPOSCAR_eq', 'SPOSCAR')
         print "Finished computing the forces for all displacements."
         return
 
@@ -263,7 +276,8 @@ class PhonCalc(AbiPhonCalc):
         for every distorted supercell."""
         from AbInitio.vasp.parsing.SystemPM import XMLSystemPM
         # we get back the undistorted base cell into POSCAR
-        os.system('cp SPOSCAR_eq POSCAR')
+        import shutil
+        shutil.copyfile('SPOSCAR_eq', 'POSCAR')
         struct = Structure("POSCAR")
         dispfile=open("DISP",'r')
         displist=[]
@@ -287,8 +301,11 @@ class PhonCalc(AbiPhonCalc):
         for i in posnum:
             run=XMLSystemPM('vasprun.xml_'+repr(i+1))
             forces=run.FORCES_SEQUENCE
+            print "i=%s" % i
+            print "forces: %s" % (forces,)
             forcefile.write(displist[i])
             forcefile.write("\n")
+            if not len(forces): continue
             for atomforce in forces[0]:
                 fx = "%8f" % atomforce[0]
                 fy = "%8f" % atomforce[1]
@@ -304,7 +321,7 @@ class PhonCalc(AbiPhonCalc):
         # gather forces
         # this currently assumes that VASP has written output files...
         self._gatherForces()
-        
+
         # Call the Phon exec again to run BvK part of calculation.
         self._makesupercell = False        
         self._inphon['LSUPER'] = '.FALSE.'
@@ -313,10 +330,26 @@ class PhonCalc(AbiPhonCalc):
             #os.system('cp SPOSCAR_eq POSCAR')
         except:
             raise IOError, 'SPOSCAR_eq not found.'
-        print "Calling the Phon executable."
-        outfile = open('phon.out',"w")
-        outfile.write(''.join(os.popen(phonexe).readlines()))
+        #print "Calling the Phon executable."
+        _execPhon()
         #phon()
         #os.system('phon > phon.out')
         print "Done running Phon."
         return
+
+
+
+def _execPhon(phonexe='phon'):
+    _exec(phonexe, 'phon.out', 'phon.err')
+    return
+
+
+def _exec(executable, outfn, errfn):
+    print "Calling the %r executable." % executable
+    from AbInitio.spawn import spawn
+    ret, out, err = spawn(executable)
+    outfile = open(outfn,"w"); outfile.write(out)
+    errfile = open(errfn,"w"); errfile.write(err)
+    if ret:
+        raise RuntimeError, "Failed to run command %r.\n Out: %s\n Error: %s\n" % (executable, outfn, errfn)
+    return 
