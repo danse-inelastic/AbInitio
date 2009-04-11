@@ -64,6 +64,9 @@ class VaspApp(Script):
 
     def _createVaspCalculator(self):
         unitcell = self.unitcell
+        from crystal.UnitCell import positive_volume_unitcell
+        unitcell = positive_volume_unitcell(unitcell)
+        
         ecutoff = self.ecutoff
         xcf = self.xcf
         mpmesh = self.mpmesh

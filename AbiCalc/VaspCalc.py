@@ -17,6 +17,14 @@ class VaspCalc(PlaneWaveAbiCalc):
 
     def __init__(self, unitcell=None, kpts=None, ekincutoff=None,
                  name='vasp', xc='pawpbe', vaspcmd='vasp'):
+        '''
+        unitcell: The unitcell instance. Note: make sure the volume to positive
+        kpts: k points
+        ekincutoff:
+        name: Name of this calculation
+        xc: Exchange correlation functional
+        vaspcmd: The vasp executable
+        '''
         self._kpts = kpts
         self._ekincutoff = ekincutoff
         #PeriodicAbiCalc.__init__(self, unitcell)
