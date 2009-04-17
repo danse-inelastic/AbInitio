@@ -48,6 +48,8 @@ sites = [site1, site2, site3, site4, site5, site6, site7, site8]
 for i in range(8):
     uc.addSite(sites[i], sites[i].getAtom().symbol+str(i))
 
+#all this unit cell stuff should be replaced with diffraction's structure, since that is what olivier is 
+#really talking about
 
 from AbInitio.AbiCalc import VaspCalc as VaspCalc
 vc = VaspCalc.VaspCalc(unitcell = uc, kpts = (2,2,2), ekincutoff=320, name='V3Si', vaspcmd='vasp')

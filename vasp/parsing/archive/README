@@ -4,5 +4,4 @@ http://cms.mpi.univie.ac.at/odubay/p4vasp_site/news.php
 The VASP program is not freely distributed and is not (nor any parts thereof) included in this software package.
 
 Note: I think the _cp4vasp.so in the 'archive' directory is for 32-bit architectures...for now I just swap it with 
-the one in 'parsing' directory (which is for 64-bit arch's..will have to fix this soon)...but will perhaps rewrite 
-our own...
+the one in this directory (which is for 64-bit arch's..will have to fix this soon)

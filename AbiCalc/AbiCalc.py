@@ -64,7 +64,7 @@ class PeriodicAbiCalc(AbiCalc):
 
 
 class PlaneWaveAbiCalc(PeriodicAbiCalc):
-    """A class defining an interface to plane-waves, periodic first-principles calcultion engines."""
+    """A class defining an interface to plane-waves, periodic first-principles calculation engines."""
 
     def __init__(self, unitcell=None, kpts=None, ekincutoff=None):
         self._kpts = kpts
