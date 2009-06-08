@@ -67,6 +67,10 @@ class PhonApp(Script):
 
         pc.calcForces()
         pc.calcPhonons()
+
+        # parse phon outputs and convert them to idf output files
+        from AbInitio.AbiPhon.parsing.phonParsers import parsePhon2IDF
+        parsePhon2IDF()
         
         return
 
