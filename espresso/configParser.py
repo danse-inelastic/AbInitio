@@ -5,6 +5,11 @@
 # The main use case is to parse the existing configuration file, change 
 # some values and save it back to the configuration file.
 
+# Input parameters are defined in INPUT_PW.html 
+
+ref = {}
+
+
 import sys
 
 # Dictionary for Quantum Espresso configuration file. 
@@ -14,12 +19,28 @@ qe = QEConfig = {}
 def parse(filename=None):
     if filename is None: 
         if len(sys.argv) != 2:
-            print "Usage: config2var.py <config_file>"
+            print "Usage: configParser.py <config_file>"
             return
         else:
             filename = sys.argv[1]
 
-    print filename
+    try:
+        f = open(filename)
+    except IOError:
+        print "I/O error"
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+        raise
+
+
+    """
+    - Parsing goes line by line. 
+    - Namelist starts with '&' and ends with '/' on a separate line
+    - Card starts with card title on a separate line and values between card titles.
+    - Prints both Namelists and Cards in capital 
+    1. Regex: ()
+    """
+    f.close()
 
 # Adds parameter to qe
 def add(card, parameter, value):
