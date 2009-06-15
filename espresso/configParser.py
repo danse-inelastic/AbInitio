@@ -13,7 +13,8 @@ Stability issues:
 - Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
-- Would like to use ordered dictionary
+- Would like to use ordered dictionary?
+- Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 1. Regex: ()
 """
 
@@ -128,10 +129,10 @@ def getCard(slice):
     
     #Example return: ('atomic_species', {'type': 'card', 'values': ('Ni  26.98  Ni.pbe-nd-rrkjus.UPF', 'Other line', 'Another line')})
 
-# Not tested very well yet
 # Determines start and end of namelist and card blocks: [type, start, end]
-# E.g ['namelist', 0, 7] - CONTROL namelist
+# E.g ['namelist', 0, 7] for CONTROL namelist
 # Iterate over number of lines. Empty lines are included
+# Not tested very well yet
 
 def getMarks(lines):
     blocklist   = []
@@ -200,28 +201,91 @@ def getParam(s):
     
     # Assume that there are two values only: (variable, value) pair
     assert len(ss) == 2
-    
+
     return (ss[0], val)
 
 # Adds parameter to qe
-def add(block, parameter, value):
-    print "stub: add"
 
-# Removes the parameter from qe
-def remove(block, parameter):
-    print "stub: remove"
+"""
+# Delete
+def add(blockname, param, value):
+    if blockname in namelistsPW:
+        addNamelistParam(blockname, param, value)
+        
+    if blockname in cardsPW:
+        addCardParam(blockname, param, value)
+        
+    return  # Do nothing
+"""
 
-# Edits parameter in qe
-def edit(block, parameter, value):
-    print "stub: edit"
+# Add parameter to namelist
+def addNamelistParam(namelist, param, value):
+    if namelist in namelistsPW:
+        qe[namelist][param] = value
+        
+    return  # Do nothing
+
+# Add record to card
+def addCardParam(card, record):
+    if card in cardsPW:
+        qe[card]['values'].append(record)
+        
+    return  # Do nothing
+
+"""
+
+# Remove parameter from qe
+def remove(blockname, param):
+    if blockname in namelistsPW:
+        removeNamelistParam(blockname, param)
+        
+    if blockname in cardsPW:
+        removeCardRecord(blockname, param)
+        
+    return  # Do nothing
+"""
+
+# Remove parameter from namelist
+def removeNamelistParam(namelist, param):
+    if namelist in namelistsPW:
+        try:
+            del(qe[namelist][param])
+        except KeyError:    # parameter is not present
+            return    
+
+# Remove parameter from card
+def removeCard(card):
+    try:
+        qe[card]
+        del(qe[card])
+    except KeyError:    # parameter is not present
+        return
+
+# Edit namelist parameter in qe
+def editNamelistParam(namelist, param, value):
+    if namelist in namelistsPW:
+        try:
+            qe[namelist][param]     # Make sure that parameter exists
+            qe[namelist][param] = value
+        except KeyError:    # parameter is not present
+            return
+        
+    return  # Do nothing
+
+# Edit card parameter in qe. 'record' is list of values
+def editCardParam(card, record):
+    if card in cardsPW:
+        qe[card]['values'] = record
+        
+    return  # Do nothing
 
 # Saves the qe dictionary in the configuration file
-def save(filename=None):
+def save(filename="config.saved"):
     nind    = "    "
     cind    = " "
     br      = "\n"
     s = ''
-    f = open("ni.scf.in.saved", "w")
+    f = open(filename, "w")
     namelists   = []
     cards       = []
     for e in qe.keys():
@@ -252,11 +316,12 @@ def save(filename=None):
 
 def test():
     parse()
-    add('control', 'title', 'Ni')
-    remove('control', 'verbosity')
-    edit('control', 'calculation', 'nscf')
-    save()
-     
+    addNamelistParam('control', 'title', 'Ni')
+    removeNamelistParam('control', 'title') #'verbosity')
+    removeCard('atomic_species', )
+    editNamelistParam('control', 'calculation', "'nscf'")
+    editCardParam('atomic_positions', ['blah'])
+    save("ni.scf.in.saved")
 
 if __name__ == "__main__":
     test()
