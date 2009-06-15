@@ -13,6 +13,7 @@ Stability issues:
 - Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
+- Would like to use ordered dictionary
 1. Regex: ()
 """
 
@@ -114,7 +115,7 @@ def getNamelist(slice):
 
 # Returns (cardName, parametersDictionary)
 def getCard(slice):
-    print slice
+    #print slice
     name    = slice[0].lower()
     block   = {}
     block['type'] = 'card'
@@ -151,7 +152,7 @@ def getMarks(lines):
 
         # Namelist start
         if l[0] == '&' and not isNamelist:
-            name = l[1:]
+            name = l[1:].lower()
             
             if not name in namelistsPW:
                 continue             # namelist is not recognizable
@@ -201,6 +202,7 @@ def getParam(s):
     assert len(ss) == 2
     
     # Do I need to convert them to int or float values?
+    # Probably, no
     """
     try:
         # Try convert to int
@@ -217,20 +219,51 @@ def getParam(s):
     return (ss[0], val)
 
 # Adds parameter to qe
-def add(card, parameter, value):
+def add(block, parameter, value):
     print "stub: add"
 
 # Removes the parameter from qe
-def remove(card, parameter):
+def remove(block, parameter):
     print "stub: remove"
 
 # Edits parameter in qe
-def edit(card, parameter, value):
+def edit(block, parameter, value):
     print "stub: edit"
 
 # Saves the qe dictionary in the configuration file
 def save(filename=None):
-    print "stub: save"
+    nind    = "    "
+    cind    = " "
+    br      = "\n"
+    s = ''
+    f = open("ni.scf.in.saved", "w")
+    namelists   = []
+    cards       = []
+    for e in qe.keys():
+        if qe[e]['type'] == 'namelist': # namelist
+            namelists.append(e)
+        elif qe[e]['type'] == 'card':   # card
+            cards.append(e)
+    
+    # 1. Dump namelists
+    for n in namelists:
+        s += "&%s%s" % (n.upper(), br)
+        for np in qe[n].keys():
+            if np == 'type':
+                continue
+            s += "%s%s = %s%s" % (nind, np, qe[n][np], br)
+        s += "/%s" % br
+
+    # 2. Dump cards
+    for c in cards:
+        s += "%s%s" % (c.upper(), br)
+        
+        for cp in qe[c]['values']:
+            s += "%s%s%s" % (cind, cp, br)
+
+    f.write(s)
+    print s
+    f.close()
 
 def test():
     parse()
