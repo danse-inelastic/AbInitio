@@ -47,8 +47,9 @@ import sys
  
 qe = QEConfig = {}
 
-# Parses the configuration file and stores the values in qe dictionary
 def parse(filename=None):
+    """ Parses the configuration file and stores the values in qe dictionary """
+    
     if filename is None: 
         if len(sys.argv) != 2:
             print "Usage: configParser.py <config_file>"
@@ -77,6 +78,8 @@ def parse(filename=None):
     f.close()
 
 def clearLines(lines):
+    """ Strips lines from white spaces, commas and empty lines"""
+    
     cl = []     # Lines without white spaces and empty lines
     for l in lines:
         l = l.strip().strip(',') # Remove both lead and trailing whitespace, including '\n' and comma
@@ -87,8 +90,9 @@ def clearLines(lines):
 
     return cl
 
-# Returns tuple (namelistName/cardName, parametersDictionary)
 def getBlock(type, slice):
+    """ Returns tuple (namelistName/cardName, parametersDictionary) """ 
+    
     # Improve calls?
     if type == 'namelist':
         return getNamelist(slice)
@@ -97,8 +101,9 @@ def getBlock(type, slice):
     
     return
     
-# Returns (namelistName, parametersDictionary)
 def getNamelist(slice):
+    """ Returns (namelistName, parametersDictionary)"""
+    
     size    = len(slice)    # 8, numParams = 6
     name    = slice[0].strip('&')
     block   = {}
@@ -110,8 +115,9 @@ def getNamelist(slice):
 
     return (name, block)
 
-# Returns (cardName, parametersDictionary)
 def getCard(slice):
+    """ Returns (cardName, parametersDictionary)"""
+    
     name    = slice[0].lower()
     block   = {}
     block['type'] = 'card'
@@ -186,53 +192,52 @@ def getMarks(lines):
 
     # Example return: [['namelist', 0, 7], ['namelist', 8, 20]]
 
-# Takes string like 'a = 2' and returns tuple ('a', 2)
-# Checks if the value is int, float or string
 def getParam(s):
+    """ Takes string like 'a = 2' and returns tuple ('a', 2) """
+    
     ss = s.split('=')
     for i in range(len(ss)):
         ss[i] = ss[i].strip()
         
-    # Strip comma in case if present
-    val = ss[1].strip(',')
+    val = ss[1]
     
     # Assume that there are two values only: (variable, value) pair
     assert len(ss) == 2
 
     return (ss[0], val)
 
-# Add parameter to namelist
 def addNamelistParam(namelist, param, value):
+    """ Add parameter to namelist"""
     if namelist in namelistsPW:
         qe[namelist][param] = value
         
     return  # Do nothing
 
-# Add record to card
 def addCardParam(card, record):
+    """ Add record to card"""
     if card in cardsPW:
         qe[card]['values'].append(record)
         
     return  # Do nothing
 
-# Remove parameter from namelist
 def removeNamelistParam(namelist, param):
+    """ Remove parameter from namelist"""
     if namelist in namelistsPW:
         try:
             del(qe[namelist][param])
         except KeyError:    # parameter is not present
             return    
 
-# Remove parameter from card
 def removeCard(card):
+    """ Remove card"""
     try:
         qe[card]
         del(qe[card])
     except KeyError:    # parameter is not present
         return
 
-# Edit namelist parameter in qe
 def editNamelistParam(namelist, param, value):
+    """ Edit namelist parameter in qe"""
     if namelist in namelistsPW:
         try:
             qe[namelist][param]     # Make sure that parameter exists
@@ -242,15 +247,15 @@ def editNamelistParam(namelist, param, value):
         
     return  # Do nothing
 
-# Edit card parameter in qe. 'record' is list of values
 def editCardParam(card, record):
+    """ Edit card parameter in qe. 'record' is list of values"""
     if card in cardsPW:
         qe[card]['values'] = record
         
     return  # Do nothing
 
-# Saves the qe dictionary in the configuration file
 def save(filename="config.saved"):
+    """ Saves the qe dictionary in the configuration file"""
     nind    = "    "
     cind    = " "
     br      = "\n"
