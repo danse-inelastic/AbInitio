@@ -49,16 +49,12 @@ qe = QEConfig = {}
 
 # Parses the configuration file and stores the values in qe dictionary
 def parse(filename=None):
-    """
     if filename is None: 
         if len(sys.argv) != 2:
             print "Usage: configParser.py <config_file>"
             return
         else:
             filename = sys.argv[1]
-    """
-    
-    filename = "vini/ni.scf.in" 
     
     try:
         f = open(filename)
@@ -116,7 +112,6 @@ def getNamelist(slice):
 
 # Returns (cardName, parametersDictionary)
 def getCard(slice):
-    #print slice
     name    = slice[0].lower()
     block   = {}
     block['type'] = 'card'
@@ -129,12 +124,14 @@ def getCard(slice):
     
     #Example return: ('atomic_species', {'type': 'card', 'values': ('Ni  26.98  Ni.pbe-nd-rrkjus.UPF', 'Other line', 'Another line')})
 
-# Determines start and end of namelist and card blocks: [type, start, end]
-# E.g ['namelist', 0, 7] for CONTROL namelist
-# Iterate over number of lines. Empty lines are included
-# Not tested very well yet
 
 def getMarks(lines):
+    """
+    Determines start and end of namelist and card blocks: [type, start, end]
+    E.g ['namelist', 0, 7] for CONTROL namelist
+    Iterate over number of lines. Empty lines are included
+    Not tested very well yet
+    """
     blocklist   = []
     isNamelist  = False
     isCard      = False
@@ -204,20 +201,6 @@ def getParam(s):
 
     return (ss[0], val)
 
-# Adds parameter to qe
-
-"""
-# Delete
-def add(blockname, param, value):
-    if blockname in namelistsPW:
-        addNamelistParam(blockname, param, value)
-        
-    if blockname in cardsPW:
-        addCardParam(blockname, param, value)
-        
-    return  # Do nothing
-"""
-
 # Add parameter to namelist
 def addNamelistParam(namelist, param, value):
     if namelist in namelistsPW:
@@ -231,19 +214,6 @@ def addCardParam(card, record):
         qe[card]['values'].append(record)
         
     return  # Do nothing
-
-"""
-
-# Remove parameter from qe
-def remove(blockname, param):
-    if blockname in namelistsPW:
-        removeNamelistParam(blockname, param)
-        
-    if blockname in cardsPW:
-        removeCardRecord(blockname, param)
-        
-    return  # Do nothing
-"""
 
 # Remove parameter from namelist
 def removeNamelistParam(namelist, param):
@@ -311,11 +281,10 @@ def save(filename="config.saved"):
             s += "%s%s%s" % (cind, cp, br)
 
     f.write(s)
-    print s
     f.close()
 
 def test():
-    parse()
+    parse("vini/ni.scf.in")
     addNamelistParam('control', 'title', 'Ni')
     removeNamelistParam('control', 'title') #'verbosity')
     removeCard('atomic_species', )
