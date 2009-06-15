@@ -201,21 +201,6 @@ def getParam(s):
     # Assume that there are two values only: (variable, value) pair
     assert len(ss) == 2
     
-    # Do I need to convert them to int or float values?
-    # Probably, no
-    """
-    try:
-        # Try convert to int
-        val = int(ss[1])
-    except ValueError:
-        try:
-            # Try convert to float
-            val = float(ss[1])
-        except ValueError:
-            # Default: remains string
-            val = ss[1]
-    """
-            
     return (ss[0], val)
 
 # Adds parameter to qe
