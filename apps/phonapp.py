@@ -69,12 +69,14 @@ class PhonApp(Script):
         pc.calcPhonons()
 
         # parse phon outputs and convert them to idf output files
-        from AbInitio.AbiPhon.parsing.phonParsers import parsePhon2IDF
+        from AbInitio.AbiPhon.parsing.phonParsers import parsePhon2IDF, parseDOS_meV2IDF
         parsePhon2IDF()
-        
+
+        # convert DOS.meV to idf format
+        parseDOS_meV2IDF()
         return
-
-
+    
+    
     def _callVASP(self):
         from crystal.crystalIO import converters
         from AbInitio.vasp.vasp import VASP
