@@ -270,10 +270,27 @@ def parseFastPhon2IDF(inputfilename='phon.out',
     return
                         
                        
-                        
-                
-            
-
+def parseDOS_meV2IDF(infile='DOS.meV', outfile='DOS_meV.idf'):
+    f = open(infile)
+    lines = f.readlines()
+    es = []; Is = []
+    for line in lines:
+        line = line.strip()
+        if not line: continue
+        tokens = line.split()
+        if len(tokens)!=2:
+            #
+            continue
+        e, I = tokens
+        e = float(e); es.append(e)
+        I = float(I); Is.append(I)
+        continue
+    import numpy
+    E = numpy.array(es)
+    DOS = numpy.array(Is)
+    from idf.DOS import write
+    write(E, DOS, filename=outfile)
+    return
 
 
 def test():
