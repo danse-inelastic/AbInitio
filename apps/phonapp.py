@@ -57,6 +57,9 @@ class PhonApp(Script):
 
 
     def main(self, *args, **kwds):
+        # write Qgridinfo
+        self._writeQgridinfo()
+
         #self._callVASP()
         #return
     
@@ -74,6 +77,21 @@ class PhonApp(Script):
 
         # convert DOS.meV to idf format
         parseDOS_meV2IDF()
+
+        return
+
+
+    def _writeQgridinfo(self):
+        f = open('Qgridinfo', 'w')
+        unitcell = self.unitcell
+        bs = unitcell.getRecipVectors()
+        ns = self.qgridsize
+        for i in range(3):
+            b = bs[i]
+            b = tuple(b)
+            n = ns[i]
+            f.write('n%d=%d; b%d=%s\n' % (i+1, n, i+1, b) )
+            continue
         return
     
     
@@ -83,6 +101,7 @@ class PhonApp(Script):
         v = VASP(pw=268, kpts=(2,2,2), xc='pawpbe', name=self._name, vaspcmd='vasp')
 
         uc = self.unitcell
+
         loa = converters.unitCell2ListOfAtom(uc)
         v._SetListOfAtoms(loa)
         v.atoms()
@@ -137,7 +156,10 @@ class PhonApp(Script):
     def _init(self):
         Script._init(self)
         if not self._showHelpOnly:
-            self.unitcell = self._readUnitCell(self.unitcell_path)
+            unitcell = self._readUnitCell(self.unitcell_path)
+            from crystal.UnitCell import positive_volume_unitcell
+            unitcell = positive_volume_unitcell(unitcell)
+            self.unitcell = unitcell
         return
 
 
