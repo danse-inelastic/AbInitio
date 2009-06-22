@@ -128,18 +128,84 @@ def plotQpoints(qpoints):
 def parsePhon2IDF(inputfilename='phon.out',
                   polarizationsfile='polarizations.idf',
                   omega2sfile='energies.idf',
+                  padding = False, qgridsize = None,
                   D=3):
     """Parses the Phon output and writes a IDF-format file for polarization vectors.
     D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs."""
 
-    import numpy
     from idf.Polarizations import write as writePols
     from idf.Omega2 import write as writeOmega2s
+
+    pols, omega2s = readPols_and_Omega2s(inputfilename=inputfilename, D=D)
+    if padding:
+        if not qgridsize: raise ValueError, 'qgridsize not specified'
+        pols, omega2s = applyPadding(pols, omega2s, qgridsize)
+    
+    writePols(pols, filename=polarizationsfile,
+              comment='Parsed from Phon output file '+inputfilename)
+    writeOmega2s(omega2s, filename=omega2sfile,
+                 comment='Parsed from Phon output file '+inputfilename, D=3)
+    return
+
+
+def applyPadding(pols, omega2s, qgridsize, D=3):
+    '''add paddings to the ends of q grids
+    The Monkhorst Pack grid, when going through gamma point,
+    covers 0, 1/n, 2/n, ..., (n-1)/n
+    This padding makes the grid to cover 0, 1/n, 2/n, ..., (n-1)/n, 1
+    by simply applying periodic condiction.
+    '''
+    import operator
+    nqs = reduce(operator.__mul__, qgridsize)
+    
+    nqs1, nmodes, natoms, D = pols.shape
+    assert nqs == nqs1 and nmodes == natoms*D
+
+    nqs2, nmodes2 = omega2s.shape
+    assert nqs2 == nqs1 and nmodes2 == nmodes2
+
+    import numpy
+    nqx,nqy,nqz = qgridsize
+    newnqx = nqx+1
+    newnqy = nqy+1
+    newnqz = nqz+1
+    newpols = numpy.zeros((newnqx, newnqy, newnqz, nmodes, natoms,D), dtype='complex')
+    newomega2s = numpy.zeros((newnqx, newnqy, newnqz, nmodes), float)
+
+    pols.shape = nqx,nqy,nqz,nmodes, natoms,D
+    omega2s.shape = nqx,nqy,nqz,nmodes
+
+    def pad(arr, newarr):
+        newarr[:-1, :-1, :-1] = arr
+        newarr[-1, :-1, :-1] = arr[0, :, :]
+        newarr[:-1, -1, :-1] = arr[:, 0, :]
+        newarr[:-1, :-1, -1] = arr[:, :, 0]
+        newarr[-1, -1, :-1] = arr[0, 0, :]
+        newarr[-1, :-1, -1] = arr[0, :, 0]
+        newarr[:-1, -1, -1] = arr[:, 0, 0]
+        newarr[-1, -1, -1] = arr[0, 0, 0]
+
+    pad(pols, newpols)
+    pad(omega2s, newomega2s)
+
+    newpols.shape = -1, nmodes, natoms, D
+    newomega2s.shape = -1, nmodes
+
+    return newpols, newomega2s
+
+
+def readPols_and_Omega2s(
+    inputfilename='phon.out',
+    D=3):
+    """Parses the Phon output and read polarization vectors and omega2s (angular frequency sqaures)
+    D is the dimensionality for the crystal; it should be equal to 3 for Phon outputs."""
+
+    if D != 3: raise NotImplementedError
+    
+    import numpy
     
     try:
         infile = open(inputfilename, 'r')
-        #polfile = open(polarizationsfile, 'w')
-        #om2file = open(omega2sfile, 'w')
     except IOError, (errno, strerror):
         print "I/O error(%s): %s" % (errno, strerror)
     inputString = infile.read()
@@ -151,21 +217,19 @@ def parsePhon2IDF(inputfilename='phon.out',
     if nkpts == 0: raise ValueError, 'No phonon mode was parsed.'
     nmodes = len(res[0])
     natoms = nmodes / D
-    pols = numpy.zeros((nkpts, nmodes, natoms, D), dtype='float')
+    pols = numpy.zeros((nkpts, nmodes, natoms, D), dtype='complex')
     omega2s = numpy.zeros((nkpts, nmodes), dtype='float')
+    twopi2 = (2*numpy.pi)**2
     for kIndex in range(nkpts):
         for modeIndex in range(nmodes):
-            # we convert the omega^2 vaules from Phon (in Thz^2) into Hz^2 
-            omega2s[kIndex][modeIndex] = res[kIndex][modeIndex][0] * 1e24
+            # we convert the omega^2 vaules from Phon (frequencies in Thz^2)
+            # into angular frequncies in Hz^2
+            omega2s[kIndex][modeIndex] = res[kIndex][modeIndex][0] * 1e24 * twopi2
             for atomIndex in range(natoms):
                 polvec = numpy.array([x+1j*y for (x,y) in res[kIndex][modeIndex][atomIndex+1]])
                 pols[kIndex,modeIndex,atomIndex] = polvec # this will crash if D's don't match
 
-    writePols(pols, filename=polarizationsfile,
-              comment='Parsed from Phon output file '+inputfilename)
-    writeOmega2s(omega2s, filename=omega2sfile,
-                 comment='Parsed from Phon output file '+inputfilename, D=3)
-    return
+    return pols, omega2s
 
 
 def parseFastPhon2IDF(inputfilename='phon.out',
