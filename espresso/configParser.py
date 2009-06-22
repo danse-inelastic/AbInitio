@@ -296,6 +296,12 @@ def test():
     editNamelistParam('control', 'calculation', "'nscf'")
     editCardParam('atomic_positions', ['blah'])
     save("ni.scf.in.saved")
+        
+    """
+    addNamelistParam('control', 'calculation', "'scf'")
+    addNamelistParam('system', 'ibrav', 2)
+    save("testni.in")
+    """
 
 if __name__ == "__main__":
     test()
