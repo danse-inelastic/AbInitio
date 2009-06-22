@@ -52,14 +52,14 @@ class PhonApp(Script):
         qgridsize = pyre.inventory.str('qgridsize', default=[10,10,10], validator=intvec3)
         qgridsize.meta['tip'] = 'Q grid size'
 
+        qgridhasgamma = pyre.inventory.bool('qgridhasgamma', default=True)
+        fullqgrid = pyre.inventory.bool('fullqgrid', default=True)
+
         supersize = pyre.inventory.str('supersize', default=[2,2,2], validator=intvec3)
         supersize.meta['tip'] = 'super cell size'
 
 
     def main(self, *args, **kwds):
-        # write Qgridinfo
-        self._writeQgridinfo()
-
         #self._callVASP()
         #return
     
@@ -73,7 +73,18 @@ class PhonApp(Script):
 
         # parse phon outputs and convert them to idf output files
         from AbInitio.AbiPhon.parsing.phonParsers import parsePhon2IDF, parseDOS_meV2IDF
-        parsePhon2IDF()
+        if self.qgridhasgamma and self.fullqgrid:
+            # in this case we can generate Qgridinfo, and padding q grid
+            padding = True
+            qgridsize = self.qgridsize
+            # write Qgridinfo
+            self._writeQgridinfo()
+
+        else:
+            padding = False
+            qgridsize = None
+            
+        parsePhon2IDF(padding=padding, qgridsize=qgridsize)
 
         # convert DOS.meV to idf format
         parseDOS_meV2IDF()
@@ -89,7 +100,7 @@ class PhonApp(Script):
         for i in range(3):
             b = bs[i]
             b = tuple(b)
-            n = ns[i]
+            n = ns[i]+1
             f.write('n%d=%d; b%d=%s\n' % (i+1, n, i+1, b) )
             continue
         return
@@ -129,6 +140,8 @@ class PhonApp(Script):
             qgridsize=qgridsize,
             dosmin=dosmin, dosmax=dosmax,
             amplitude=amplitude,
+            LGAMMA = '.'+str(self.qgridhasgamma).upper()+'.',
+            LFULLQGRID = '.'+str(self.fullqgrid).upper()+'.',
             )
 
 
@@ -148,6 +161,8 @@ class PhonApp(Script):
         self.unitcell_path = self.inventory.unitcell
         self.dosaxis = self.inventory.dosaxis
         self.qgridsize = self.inventory.qgridsize
+        self.qgridhasgamma = self.inventory.qgridhasgamma
+        self.fullqgrid = self.inventory.fullqgrid
         self.supersize = self.inventory.supersize
         self.amplitude = self.inventory.amplitude
         return
