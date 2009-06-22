@@ -83,7 +83,7 @@ subroutine phonfunc
   write(*,*)'----------------------------------------------------------------'
   call reader( latt, dyn, temperature, lforceout, linverse, alpha, a,  lrecip, sh%rmax, &
        sh%cutoff, dosin, dosend, dosstep, dossmear, &
-       nd, iprint, symm%lsymm, dx, dy, dz, nti )
+       nd, iprint, symm%lsymm, symm%lfullqgrid, dx, dy, dz, nti )
 
   fac = evtoj   &        !  D^2 U eV  --> Joule
        /1.d-20  &        !  D^2 R A^2 --> meter 

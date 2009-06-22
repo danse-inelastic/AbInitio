@@ -1,13 +1,13 @@
 SUBROUTINE reader( latt, dyn, temperature, lforceout, linverse, alpha, a, lrecip, rmax, cutoff, &
      dosin, dosend, dosstep, dossmear, nd, iprint, &
-     lsymm, dx, dy, dz, nti )
+     lsymm, lfullqgrid, dx, dy, dz, nti )
 
   USE nrtype
   USE data
 
   IMPLICIT NONE
 
-  LOGICAL :: LDUM, lopen, lforceout, linverse, lrecip, lsymm
+  LOGICAL :: LDUM, lopen, lforceout, linverse, lrecip, lsymm, lfullqgrid
 
   CHARACTER  :: CHARAC
 
@@ -166,6 +166,18 @@ SUBROUTINE reader( latt, dyn, temperature, lforceout, linverse, alpha, a, lrecip
   if ( ( (IERR/=0) .and. (IERR/=3) ).or. &
        ((IERR==0).and.(N<1))) then
      write(iu6,*)'error reading item ''lsymm'' from file INPHON.'
+     goto 150
+  endif
+
+  !----------------------------------------------------------------------------------
+  ! Use the full qgrid, don't do any symmetry reduction of q grid
+  !----------------------------------------------------------------------------------
+  lfullqgrid = .false.
+  call rdatab( lopen, 'INPHON', iu5, 'lfullqgrid', '=', '#', ';', 'L', &
+       IDUM, RDUM, CDUM, lfullqgrid, CHARAC, N, 1, IERR )
+  if ( ( (IERR/=0) .and. (IERR/=3) ).or. &
+       ((IERR==0).and.(N<1))) then
+     write(iu6,*)'error reading item ''lfullqgrid'' from file INPHON.'
      goto 150
   endif
 

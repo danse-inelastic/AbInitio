@@ -105,7 +105,7 @@ SUBROUTINE generate_punti( symm, latt, dx, dy, dz )
   kt = matmul( transpose(at), kt )
   kt = kt - aint(2*kt)
 
-  if( .not. symm%lsymm ) then
+  if( (.not. symm%lsymm) .or. symm%lfullqgrid) then
      mask=.true.
      peso = 1
      goto 10
@@ -153,6 +153,7 @@ SUBROUTINE generate_punti( symm, latt, dx, dy, dz )
   enddo
   
 10 continue
+  if (symm%lfullqgrid) goto 20
   do i = 1, npoints
      if( mask(i) ) then
         do j = i+1, npoints
@@ -169,6 +170,8 @@ SUBROUTINE generate_punti( symm, latt, dx, dy, dz )
         enddo
      endif
   enddo
+
+20 continue
 
   write(*,'(/''Writing in file QPOINTS '',i6,'' MP points, from the grid '',3i4/)') &
        count(mask), qa, qb, qc

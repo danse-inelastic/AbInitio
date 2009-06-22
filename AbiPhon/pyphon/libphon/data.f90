@@ -32,7 +32,7 @@ MODULE data
   END TYPE dynmat
 
   TYPE symmetry
-     LOGICAL :: lsymm, invsym
+     LOGICAL :: lsymm, invsym, lfullqgrid
      INTEGER :: nsym, nrot, nsymstart
      REAL(DP), POINTER :: is(:,:,:), isstart(:,:,:), iscryst(:,:,:), ftau(:,:)
      INTEGER, POINTER :: irt(:,:), irts(:,:)
