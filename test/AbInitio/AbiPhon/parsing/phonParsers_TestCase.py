@@ -35,6 +35,24 @@ class TestCase(TestCase):
 
         self.assert_(os.path.exists(outfile))
         return
+
+
+    def test_parsePhon2IDF(self):
+        'AbInitio.AbiPhon.parsing.phonParsers: parsePhon2IDF'
+        infile = 'phon.out'
+        self.assert_(os.path.exists(infile))
+
+        outfiles = ['polarizations.idf', 'energies.idf']
+        for outfile in outfiles:
+            if os.path.exists(outfile):
+                os.remove(outfile)
+
+        from AbInitio.AbiPhon.parsing import phonParsers
+        phonParsers.parsePhon2IDF(infile, padding=True, qgridsize=(10,10,10))
+
+        for outfile in outfiles:
+            self.assert_(os.path.exists(outfile))
+        return
         
     
     pass # end of TestCase
