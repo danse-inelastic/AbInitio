@@ -218,10 +218,12 @@ class QEConfig(object):
         """ Saves the QEConfig to the configuration file"""
         default = "config.out"
 
-        if filename is None and self.filename is not None:
-            filename = self.filename
-        else:
-            filename = default
+        if filename is None:
+            if self.filename is not None:
+                filename = self.filename
+            else:
+                filename = default
+
         f = open(filename, "w")
         f.write(self.toString())
         f.close()
@@ -403,7 +405,7 @@ def testParseConfig():
     c = qe.card('atomic_positions')
     c.editLines(['Say Hi! :)'])
     print qe.toString()
-    qe.save("ni.scf.in.saved")
+    qe.save("ni.scf.in.mod")
 
 if __name__ == "__main__":
     testCreateConfig()
