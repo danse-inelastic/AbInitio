@@ -15,9 +15,7 @@ Stability issues:
 - Prints both Namelists and Cards in capital 
 - Would like to use ordered dictionary?
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
-1. Regex: ()
 """
-
 
 import configPW
 
@@ -41,10 +39,6 @@ cardsPW = ('atomic_species',
 
 import sys
 
-# Dictionary for Quantum Espresso (QE) configuration file.
-# First record in the qe['name'] refers to 'type' of the block which can be either
-#  'namelist' or 'card'. E.g. qe = {'control': {'type': 'namelist', ...}}
- 
 class Namelist():
     """Namelist class that corresponds to Namelist in QE config file"""
 
@@ -160,7 +154,6 @@ class QEConfig(object):
     """Quantum Espresso configuration class. It can:
     - Parse existing configuration file
     - Add, Edit or Remove parameters from/to namelist or card
-    
     """
 
     def __init__(self, filename=None):
