@@ -105,6 +105,7 @@ class Namelist():
 
 class Card():
     """Card class that corresponds to Card in QE config file"""
+    # May be add some more convenience methods?
 
     def __init__(self, name):
         # Verifies if the card is valid
@@ -216,90 +217,12 @@ class QEConfig(object):
             s += c.toString()
         return s
 
-    """
-    def addNamelistParam(namelist, param, value):
-        "Add parameter to Namelist class. If namelist doesn't exist, create one."
-        if namelist in namelistsPW:
-            qe[namelist][param] = value
-
-        return  # Do nothing
-
-    def addCardParam(card, record):
-        " Add record to card"
-        if card in cardsPW:
-            qe[card]['values'].append(record)
-
-        return  # Do nothing
-
-    def removeNamelistParam(namelist, param):
-        " Remove parameter from namelist"
-        if namelist in namelistsPW:
-            try:
-                del(qe[namelist][param])
-            except KeyError:    # parameter is not present
-                return
-
-    def removeCard(card):
-        "Remove card"
-        try:
-            qe[card]
-            del(qe[card])
-        except KeyError:    # parameter is not present
-            return
-
-    def editNamelistParam(namelist, param, value):
-        "Edit namelist parameter in qe"
-        if namelist in namelistsPW:
-            try:
-                qe[namelist][param]     # Make sure that parameter exists
-                qe[namelist][param] = value
-            except KeyError:    # parameter is not present
-                return
-
-        return  # Do nothing
-
-    def editCardParam(card, record):
-        "Edit card parameter in qe. 'record' is list of values"
-        if card in cardsPW:
-            qe[card]['values'] = record
-
-        return  # Do nothing
-    """
-
     def save(self, filename="config.saved"):
         """ Saves the QEConfig to the configuration file"""
 
         f = open(filename, "w")
         f.write(self.toString())
         f.close()
-
-        """
-        namelists   = []
-        cards       = []
-        for e in qe.keys():
-            if qe[e]['type'] == 'namelist': # namelist
-                namelists.append(e)
-            elif qe[e]['type'] == 'card':   # card
-                cards.append(e)
-
-        # 1. Dump namelists
-        for n in namelists:
-            s += "&%s%s" % (n.upper(), br)
-            for np in qe[n].keys():
-                if np == 'type':
-                    continue
-                s += "%s%s = %s%s" % (nind, np, qe[n][np], br)
-            s += "/%s" % br
-
-        # 2. Dump cards
-        for c in cards:
-            s += "%s%s" % (c.upper(), br)
-
-            for cp in qe[c]['values']:
-                s += "%s%s%s" % (cind, cp, br)
-        """
-
-
 
     def parse():
         """ Parses the configuration file and stores the values in qe dictionary """
