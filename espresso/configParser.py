@@ -302,37 +302,6 @@ class QEConfig(object):
 
         self.cards[name]    = c
 
-    """
-    def getNamelist(slice):
-        "" " Returns (namelistName, parametersDictionary)"" "
-
-        size    = len(slice)    # 8, numParams = 6
-        name    = slice[0].strip('&')
-        block   = {}
-        block['type'] = 'namelist'
-
-        for s in slice[1:]:
-            p           = getParam(s)
-            block[p[0]] = p[1]
-
-        return (name, block)
-
-    def getCard(slice):
-        "" " Returns (cardName, parametersDictionary)" ""
-
-        name    = slice[0].lower()
-        block   = {}
-        block['type'] = 'card'
-        vals    = []
-        for s in slice[1:]:
-            vals.append(s)
-        block['values'] = vals
-
-        return (name, block)
-
-        #Example return: ('atomic_species', {'type': 'card', 'values': ('Ni  26.98  Ni.pbe-nd-rrkjus.UPF', 'Other line', 'Another line')})
-    """
-
     def __getMarks(self, lines):
         # TODO: Cumbersome method, rewrite it
         """
