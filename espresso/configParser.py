@@ -47,35 +47,61 @@ import sys
  
 class Namelist():
     """Namelist class that corresponds to Namelist in QE config file"""
+
     def __init__(self, name):
-        self.__name   = name
+        # Verifies if the namelist is valid
+        try:
+            if name not in namelistsPW:
+                raise NameError('Not valid namelist') #NamelistNotValid
+        except NameError:
+            raise
+
+        self.__name = name.lower() # keeps lower name
         self.params = {}
-        self.indent = "    "
+
+    def name(self):
+        return self.__name
+
+    def setName(self, name):
+        self.__name = name.lower()
+
+    def param(self, param):
+        """Returns value of parameter 'param'"""
+        if self.__paramExists(param):
+            return self.params[param]
 
     def addParam(self, param, val):
         # Add verification?
+        param = param.lower()
         self.params[param]  = val
 
     def editParam(self, param, val):
         """Edits parameter. If it doesn't exist, it just ignores it """
-        try:
-            self.params[param]
+        if self.__paramExists(param):
             self.params[param] = val
-        except KeyError:    # parameter is not present
-            return # Ignore
 
-    def delParam(self, param):
+    def removeParam(self, param):
         """Deletes parameter"""
+        if self.__paramExists(param):
+            del(self.params[param])
+
+    def __paramExists(self, param):
         try:
-            del(qe[namelist][param])
+            param = param.lower()
+            self.params[param]
+            return True
         except KeyError:    # parameter is not present
-            return
+            return False 
 
-    def setName(self, name):
-        self.__name = name
+    def toString(self, indent="   ", br="\n"):
+        # Dump namelist
+        s = '&%s%s' % (self.name().upper(), br)
 
-    def toString(self):
-        return "Namelist.toString()"
+        for p in self.params.keys():
+            s += '%s%s = %s%s' % (indent, p, self.params[p], br)
+
+        s += "/%s" % br
+        return s
 
 class Card():
     """Card class that corresponds to Card in QE config file"""
@@ -88,15 +114,129 @@ class QEConfig(object):
     - Parse existing configuration file
     - Add, Edit or Remove parameters from/to namelist or card
     
-
     """
+
     def __init__(self, filename=None):
         self.filename   = filename
-        self.qe         = {}
-        self.namelists  = []
-        self.cards      = []
+        self.namelists  = {}
+        self.cards      = {}
+        self.qe         = [self.namelists, self.cards]
+
+    def createNamelist(self, name):
+        """Creates namelist and adds to QEConfig. """
+        nl  = Namelist(name)
+        self.namelists[name] = nl
+
+    def addNamelist(self, namelist):
+        """Adds namelist. """
+        self.namelists[namelist.name()] = namelist
+
+    def removeNamelist(self, namelist):
+        try:
+            del(self.namelists[namelist])
+        except KeyError:    # parameter is not present
+            return
+
+    def namelist(self, name):
+        # Do I need editNamelist()?
+        try:
+            return self.namelists[name]
+        except KeyError:    # parameter is not present
+            raise
+
+    def toString(self):
+        s = ''
+        for nl in self.namelists.values():
+            s += nl.toString()
+
+        # Same for Cards
+        return s
 
         
+
+    """
+    def addNamelistParam(namelist, param, value):
+        "Add parameter to Namelist class. If namelist doesn't exist, create one."
+        if namelist in namelistsPW:
+            qe[namelist][param] = value
+
+        return  # Do nothing
+
+    def addCardParam(card, record):
+        " Add record to card"
+        if card in cardsPW:
+            qe[card]['values'].append(record)
+
+        return  # Do nothing
+
+    def removeNamelistParam(namelist, param):
+        " Remove parameter from namelist"
+        if namelist in namelistsPW:
+            try:
+                del(qe[namelist][param])
+            except KeyError:    # parameter is not present
+                return
+
+    def removeCard(card):
+        "Remove card"
+        try:
+            qe[card]
+            del(qe[card])
+        except KeyError:    # parameter is not present
+            return
+
+    def editNamelistParam(namelist, param, value):
+        "Edit namelist parameter in qe"
+        if namelist in namelistsPW:
+            try:
+                qe[namelist][param]     # Make sure that parameter exists
+                qe[namelist][param] = value
+            except KeyError:    # parameter is not present
+                return
+
+        return  # Do nothing
+
+    def editCardParam(card, record):
+        "Edit card parameter in qe. 'record' is list of values"
+        if card in cardsPW:
+            qe[card]['values'] = record
+
+        return  # Do nothing
+    """
+
+    def save(filename="config.saved"):
+        """ Saves the qe dictionary in the configuration file"""
+        br      = "\n"
+        s = ''
+        f = open(filename, "w")
+        namelists   = []
+        cards       = []
+        for e in qe.keys():
+            if qe[e]['type'] == 'namelist': # namelist
+                namelists.append(e)
+            elif qe[e]['type'] == 'card':   # card
+                cards.append(e)
+
+        # 1. Dump namelists
+        for n in namelists:
+            s += "&%s%s" % (n.upper(), br)
+            for np in qe[n].keys():
+                if np == 'type':
+                    continue
+                s += "%s%s = %s%s" % (nind, np, qe[n][np], br)
+            s += "/%s" % br
+
+        # 2. Dump cards
+        for c in cards:
+            s += "%s%s" % (c.upper(), br)
+
+            for cp in qe[c]['values']:
+                s += "%s%s%s" % (cind, cp, br)
+
+        f.write(s)
+        f.close()
+
+
     def parse():
         """ Parses the configuration file and stores the values in qe dictionary """
 
@@ -120,6 +260,7 @@ class QEConfig(object):
             f.close()
         else:
             print "Error: You haven't specify any config file"
+
 
     def __clearLines(lines):
         """ Strips lines from white spaces, commas and empty lines"""
@@ -250,89 +391,25 @@ class QEConfig(object):
 
         return (ss[0], val)
 
-    def addNamelistParam(namelist, param, value):
-        """ Add parameter to namelist"""
-        if namelist in namelistsPW:
-            qe[namelist][param] = value
 
-        return  # Do nothing
+def testCreateConfig():
+    qe  = QEConfig()
+    nl  = Namelist('control')
+    nl.addParam('title', "'Ni'")
+    nl.addParam('restart_mode', "'from_scratch'")
+    print nl.toString()
+    nl.editParam('title', "'Fe'")
+    #nl.removeParam('title')
 
-    def addCardParam(card, record):
-        """ Add record to card"""
-        if card in cardsPW:
-            qe[card]['values'].append(record)
+    qe.addNamelist(nl)
+    print qe.toString()
+    """
+    nl  = Namelist('system')
+    nl.addParam('ibrav', 2)
+    qe.addNamelist(nl)
 
-        return  # Do nothing
-
-    def removeNamelistParam(namelist, param):
-        """ Remove parameter from namelist"""
-        if namelist in namelistsPW:
-            try:
-                del(qe[namelist][param])
-            except KeyError:    # parameter is not present
-                return
-
-    def removeCard(card):
-        """ Remove card"""
-        try:
-            qe[card]
-            del(qe[card])
-        except KeyError:    # parameter is not present
-            return
-
-    def editNamelistParam(namelist, param, value):
-        """ Edit namelist parameter in qe"""
-        if namelist in namelistsPW:
-            try:
-                qe[namelist][param]     # Make sure that parameter exists
-                qe[namelist][param] = value
-            except KeyError:    # parameter is not present
-                return
-
-        return  # Do nothing
-
-    def editCardParam(card, record):
-        """ Edit card parameter in qe. 'record' is list of values"""
-        if card in cardsPW:
-            qe[card]['values'] = record
-
-        return  # Do nothing
-
-    def save(filename="config.saved"):
-        """ Saves the qe dictionary in the configuration file"""
-        nind    = "    "
-        cind    = " "
-        br      = "\n"
-        s = ''
-        f = open(filename, "w")
-        namelists   = []
-        cards       = []
-        for e in qe.keys():
-            if qe[e]['type'] == 'namelist': # namelist
-                namelists.append(e)
-            elif qe[e]['type'] == 'card':   # card
-                cards.append(e)
-
-        # 1. Dump namelists
-        for n in namelists:
-            s += "&%s%s" % (n.upper(), br)
-            for np in qe[n].keys():
-                if np == 'type':
-                    continue
-                s += "%s%s = %s%s" % (nind, np, qe[n][np], br)
-            s += "/%s" % br
-
-        # 2. Dump cards
-        for c in cards:
-            s += "%s%s" % (c.upper(), br)
-
-            for cp in qe[c]['values']:
-                s += "%s%s%s" % (cind, cp, br)
-
-        f.write(s)
-        f.close()
-
-def test():
+    qe.save("testsNi.out")
+    """
     """
     if filename is None:
         if len(sys.argv) != 2:
@@ -341,6 +418,7 @@ def test():
         else:
             filename = sys.argv[1]
     """
+    """
     parse("vini/ni.scf.in")
     addNamelistParam('control', 'title', 'Ni')
     removeNamelistParam('control', 'title') #'verbosity')
@@ -348,7 +426,8 @@ def test():
     editNamelistParam('control', 'calculation', "'nscf'")
     editCardParam('atomic_positions', ['blah'])
     save("ni.scf.in.saved")
-        
+    """
+
     """
     addNamelistParam('control', 'calculation', "'scf'")
     addNamelistParam('system', 'ibrav', 2)
@@ -356,4 +435,4 @@ def test():
     """
 
 if __name__ == "__main__":
-    test()
+    testCreateConfig()
