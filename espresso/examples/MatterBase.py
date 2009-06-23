@@ -11,6 +11,7 @@
 #
 
 
+
 from vnf.dom.OwnedObject import OwnedObject as base
 class MatterBase(base):
     """ stores data for matter object """
