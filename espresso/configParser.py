@@ -132,6 +132,10 @@ class Card():
     def addLine(self, line):
         self.__lines.append(line)
 
+    def editLines(self, lines):
+        """Replaces lines by new 'lines' (list) """
+        self.__lines    = lines
+
     def removeLine(self, num):
         self.__checkRange(num)
         self.lines.pop(num)
@@ -278,18 +282,25 @@ class QEConfig(object):
         return
 
     def __addNamelist(self, slice):
-        """Creates namelist based on slice """
+        """Adds namelist based on slice """
         name    = slice[0].strip('&')
         nl      = Namelist(name)
 
         for s in slice[1:]:
-            p   = getParam(s)
+            p   = self.getParam(s)
             nl.addParam(p[0], p[1])
 
         self.namelists[name] = nl
 
     def __addCard(self, slice):
-        pass
+        """Adds card"""
+        name    = slice[0].lower()
+        c = Card(name)
+
+        for s in slice[1:]:
+            c.addLine(s)
+
+        self.cards[name]    = c
 
     """
     def getNamelist(slice):
@@ -322,7 +333,7 @@ class QEConfig(object):
         #Example return: ('atomic_species', {'type': 'card', 'values': ('Ni  26.98  Ni.pbe-nd-rrkjus.UPF', 'Other line', 'Another line')})
     """
 
-    def __getMarks(lines):
+    def __getMarks(self, lines):
         # TODO: Cumbersome method, rewrite it
         """
         Determines start and end of namelist and card blocks: [type, start, end]
@@ -384,7 +395,7 @@ class QEConfig(object):
 
         # Example return: [['namelist', 0, 7], ['namelist', 8, 20]]
 
-    def getParam(s):
+    def getParam(self, s):
         """ Takes string like 'a = 2' and returns tuple ('a', 2) """
 
         ss = s.split('=')
@@ -400,6 +411,7 @@ class QEConfig(object):
 
 
 def testCreateConfig():
+    print "Testing creation of config file"
     qe  = QEConfig()
     nl  = Namelist('control')
     nl.addParam('title', "'Ni'")
@@ -417,38 +429,19 @@ def testCreateConfig():
     qe.save()
 
 def testParseConfig():
-    pass
-
-    """
-    nl  = Namelist('system')
-    nl.addParam('ibrav', 2)
-    qe.addNamelist(nl)
-
-    qe.save("testsNi.out")
-    """
-    """
-    if filename is None:
-        if len(sys.argv) != 2:
-            print "Usage: configParser.py <config_file>"
-            return
-        else:
-            filename = sys.argv[1]
-    """
-    """
-    parse("vini/ni.scf.in")
-    addNamelistParam('control', 'title', 'Ni')
-    removeNamelistParam('control', 'title') #'verbosity')
-    removeCard('atomic_species', )
-    editNamelistParam('control', 'calculation', "'nscf'")
-    editCardParam('atomic_positions', ['blah'])
-    save("ni.scf.in.saved")
-    """
-
-    """
-    addNamelistParam('control', 'calculation', "'scf'")
-    addNamelistParam('system', 'ibrav', 2)
-    save("testni.in")
-    """
+    print "Testing parsing config file"
+    qe  = QEConfig("vini/ni.scf.in")
+    qe.parse()
+    print qe.toString()
+    nl  = qe.namelist('control')
+    nl.addParam('title', 'Ni')
+    nl.removeParam('restart_mode')
+    qe.removeCard('atomic_species')
+    nl.editParam('calculation', "'nscf'")
+    c = qe.card('atomic_positions')
+    c.editLines(['Say Hi! :)'])
+    print qe.toString()
+    qe.save("ni.scf.in.saved")
 
 if __name__ == "__main__":
     testCreateConfig()
