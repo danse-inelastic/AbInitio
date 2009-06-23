@@ -144,7 +144,7 @@ class Card():
         assert len(self.__lines) > num
 
     def toString(self, indent=" ", br="\n"):
-        # Dump namelist
+        # Dump card
         s = '%s%s' % (self.name().upper(), br)
 
         for l in self.__lines:
@@ -217,14 +217,19 @@ class QEConfig(object):
             s += c.toString()
         return s
 
-    def save(self, filename="config.saved"):
+    def save(self, filename=None):
         """ Saves the QEConfig to the configuration file"""
+        default = "config.out"
 
+        if filename is None and self.filename is not None:
+            filename = self.filename
+        else:
+            filename = default
         f = open(filename, "w")
         f.write(self.toString())
         f.close()
 
-    def parse():
+    def parse(self):
         """ Parses the configuration file and stores the values in qe dictionary """
 
         if self.filename is not None:
@@ -237,19 +242,18 @@ class QEConfig(object):
                 raise
 
             lines       = f.readlines()
-            lines       = __clearLines(lines)
-            marks       = __getMarks(lines)
+            lines       = self.__clearLines(lines)
+            marks       = self.__getMarks(lines)
 
             for m in marks:
-                block           = __getBlock(m[0], lines[m[1]:m[2]]) # (type, slice)
-                qe[block[0]]    = block[1]
+                block   = self.__addBlock(m[0], lines[m[1]:m[2]])
 
             f.close()
         else:
             print "Error: You haven't specify any config file"
 
 
-    def __clearLines(lines):
+    def __clearLines(self, lines):
         """ Strips lines from white spaces, commas and empty lines"""
 
         cl = []     # Lines without white spaces and empty lines
@@ -262,19 +266,34 @@ class QEConfig(object):
 
         return cl
 
-    def __getBlock(type, slice):
-        """ Returns tuple (namelistName/cardName, parametersDictionary) """
+    def __addBlock(self, type, slice):
+        """ Adds block (namelist or card to ) """
 
         # Improve calls?
         if type == 'namelist':
-            return getNamelist(slice)
+            self.__addNamelist(slice)
         elif type == 'card':
-            return getCard(slice)
+            self.__addCard(slice)
 
         return
 
+    def __addNamelist(self, slice):
+        """Creates namelist based on slice """
+        name    = slice[0].strip('&')
+        nl      = Namelist(name)
+
+        for s in slice[1:]:
+            p   = getParam(s)
+            nl.addParam(p[0], p[1])
+
+        self.namelists[name] = nl
+
+    def __addCard(self, slice):
+        pass
+
+    """
     def getNamelist(slice):
-        """ Returns (namelistName, parametersDictionary)"""
+        "" " Returns (namelistName, parametersDictionary)"" "
 
         size    = len(slice)    # 8, numParams = 6
         name    = slice[0].strip('&')
@@ -288,7 +307,7 @@ class QEConfig(object):
         return (name, block)
 
     def getCard(slice):
-        """ Returns (cardName, parametersDictionary)"""
+        "" " Returns (cardName, parametersDictionary)" ""
 
         name    = slice[0].lower()
         block   = {}
@@ -301,9 +320,10 @@ class QEConfig(object):
         return (name, block)
 
         #Example return: ('atomic_species', {'type': 'card', 'values': ('Ni  26.98  Ni.pbe-nd-rrkjus.UPF', 'Other line', 'Another line')})
-
+    """
 
     def __getMarks(lines):
+        # TODO: Cumbersome method, rewrite it
         """
         Determines start and end of namelist and card blocks: [type, start, end]
         E.g ['namelist', 0, 7] for CONTROL namelist
@@ -384,19 +404,21 @@ def testCreateConfig():
     nl  = Namelist('control')
     nl.addParam('title', "'Ni'")
     nl.addParam('restart_mode', "'from_scratch'")
-    print nl.toString()
+    print "Adding parameters to namelist:\n%s" % nl.toString()
     nl.editParam('title', "'Fe'")
-    #nl.removeParam('title')
-
     qe.addNamelist(nl)
-    print qe.toString()
+    print "Adding namelist to QEConfig:\n%s" % qe.toString()
 
     c = Card('atomic_species')
     c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
-    print c.toString()
+    print "Adding line to card:\n%s" % c.toString()
     qe.addCard(c)
-    print qe.toString()
+    print "Adding card to QEConsig:\n%s" % qe.toString()
     qe.save()
+
+def testParseConfig():
+    pass
+
     """
     nl  = Namelist('system')
     nl.addParam('ibrav', 2)
@@ -430,3 +452,4 @@ def testCreateConfig():
 
 if __name__ == "__main__":
     testCreateConfig()
+    testParseConfig()
