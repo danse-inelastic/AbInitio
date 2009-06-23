@@ -52,7 +52,7 @@ class Namelist():
         # Verifies if the namelist is valid
         try:
             if name not in namelistsPW:
-                raise NameError('Not valid namelist') #NamelistNotValid
+                raise NameError('Not valid namelist')
         except NameError:
             raise
 
@@ -93,7 +93,7 @@ class Namelist():
         except KeyError:    # parameter is not present
             return False 
 
-    def toString(self, indent="   ", br="\n"):
+    def toString(self, indent="    ", br="\n"):
         # Dump namelist
         s = '&%s%s' % (self.name().upper(), br)
 
@@ -105,9 +105,51 @@ class Namelist():
 
 class Card():
     """Card class that corresponds to Card in QE config file"""
-    def __init__(self):
-        self.params  = {}
-        self.indent = " "
+
+    def __init__(self, name):
+        # Verifies if the card is valid
+        try:
+            if name not in cardsPW:
+                raise NameError('Not valid card')
+        except NameError:
+            raise
+
+        self.__name     = name.lower() # keeps lower name
+        self.__lines    = []
+
+    def name(self):
+        return self.__name
+
+    def setName(self, name):
+        self.__name = name.lower()
+
+    def line(self, num):
+        """Returns value of parameter 'param'"""
+        self.__checkRange(num)
+        return self.__lines[num]
+
+    def addLine(self, line):
+        self.__lines.append(line)
+
+    def removeLine(self, num):
+        self.__checkRange(num)
+        self.lines.pop(num)
+
+    def removeLines(self):
+        self.__lines = []
+
+    def __checkRange(self, num):
+        assert num > 0
+        assert len(self.__lines) > num
+
+    def toString(self, indent=" ", br="\n"):
+        # Dump namelist
+        s = '%s%s' % (self.name().upper(), br)
+
+        for l in self.__lines:
+            s += '%s%s%s' % (indent, l, br)
+
+        return s
 
 class QEConfig(object):
     """Quantum Espresso configuration class. It can:
@@ -131,9 +173,9 @@ class QEConfig(object):
         """Adds namelist. """
         self.namelists[namelist.name()] = namelist
 
-    def removeNamelist(self, namelist):
+    def removeNamelist(self, name):
         try:
-            del(self.namelists[namelist])
+            del(self.namelists[name])
         except KeyError:    # parameter is not present
             return
 
@@ -144,15 +186,35 @@ class QEConfig(object):
         except KeyError:    # parameter is not present
             raise
 
+    def createCard(self, name):
+        """Creates card and adds to QEConfig. """
+        self.cards[name] = Card(name)
+
+    def addCard(self, card):
+        """Adds card. """
+        self.cards[card.name()] = card
+
+    def removeCard(self, name):
+        try:
+            del(self.cards[name])
+        except KeyError:    # parameter is not present
+            return
+
+    def card(self, name):
+        # Do I need editNamelist()?
+        try:
+            return self.cards[name]
+        except KeyError:    # parameter is not present
+            raise
+
     def toString(self):
         s = ''
         for nl in self.namelists.values():
             s += nl.toString()
 
-        # Same for Cards
+        for c in self.cards.values():
+            s += c.toString()
         return s
-
-        
 
     """
     def addNamelistParam(namelist, param, value):
@@ -204,11 +266,14 @@ class QEConfig(object):
         return  # Do nothing
     """
 
-    def save(filename="config.saved"):
-        """ Saves the qe dictionary in the configuration file"""
-        br      = "\n"
-        s = ''
+    def save(self, filename="config.saved"):
+        """ Saves the QEConfig to the configuration file"""
+
         f = open(filename, "w")
+        f.write(self.toString())
+        f.close()
+
+        """
         namelists   = []
         cards       = []
         for e in qe.keys():
@@ -232,9 +297,8 @@ class QEConfig(object):
 
             for cp in qe[c]['values']:
                 s += "%s%s%s" % (cind, cp, br)
+        """
 
-        f.write(s)
-        f.close()
 
 
     def parse():
@@ -403,6 +467,13 @@ def testCreateConfig():
 
     qe.addNamelist(nl)
     print qe.toString()
+
+    c = Card('atomic_species')
+    c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
+    print c.toString()
+    qe.addCard(c)
+    print qe.toString()
+    qe.save()
     """
     nl  = Namelist('system')
     nl.addParam('ibrav', 2)
