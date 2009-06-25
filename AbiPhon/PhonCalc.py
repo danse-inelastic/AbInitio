@@ -21,6 +21,7 @@ class PhonCalc(AbiPhonCalc):
                  dosmin=0.0, dosmax=50.0,
                  dosstep=0.2, dossmear=0.2,
                  temperature=300,
+                 amplitude=0.01,
                  **miscargs):
         AbiPhonCalc.__init__(self,unitcell, supersize, abiCalc=abiCalc, qpts=None)
         self._name = name
@@ -35,6 +36,8 @@ class PhonCalc(AbiPhonCalc):
         self._atomTypesNums = unitcell.getAtomTypeDenum()
         self._numtypes = len(self._atomTypesNums)
         self._masses = [a[1] for a in self._atomTypesNums]
+
+        self.setAmplitude(amplitude)
 
         # uses a input parser that is derived from ordered dictionary,
         # and writes to file every time an entry is modified:
