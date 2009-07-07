@@ -1,0 +1,3 @@
+include example/*
+include example/temp/*
+include src/README

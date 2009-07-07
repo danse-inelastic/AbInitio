@@ -1,0 +1,19 @@
+A small set of Quantum Espresso launchers which can be currently used to 
+check for convergence of such properties as total energy, lattice 
+parameters and phonons with respect to energy cutoffs and number of 
+k-points. Currently, to run an optimization one needs to create a python 
+file (example is main.py) and edit it according to the task desired, 
+provided the 'task' folder is in PYTHONPATH. One also needs to provide 
+all the appropriate config files for Quantum Espresso (scf.in for total 
+energy or geometry optimization; scf.in, ph.in and dynmat.in for 
+phonons) and place config.ini into working dir. An example of config.ini 
+is located in task directory. One only needs to specify the parameters 
+needed for specific task. 
+
+For now, QE config files should have one variable per line and no 
+comments 
+
+Before the run, make sure all the pseudopotentials from the config file 
+are available and all the directories are created (e.g. temp/ ) and 
+Quantum Espresso is in your PATH. See also example directory 
+
