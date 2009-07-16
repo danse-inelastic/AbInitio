@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+{% include 'navigation.html' %}
+<br />
+<form action="." method="POST">
+{{ form.ibrav.errors }}
+Bravais-Lattice Index [<b>ibrav</b>]: {{ form.ibrav }}<br />
+{{ form..errors }}
+Cutoff Energy [<b>ecutwfc</b>]: {{ form.ecutwfc }}<br />
+{{ form..errors }}
+Occupations [<b>occupations</b>]: {{ form.occupations }}<br />
+{{ form..errors }}
+Smearing [<b>smearing</b>]: {{ form.smearing }}<br />
+{{ form..errors }}
+Gaussian Spreading [<b>degauss</b>]: {{ form.degauss }}<br />
+{{ form..errors }}
+Atomic Species [<b>ATOMIC_SPECIES</b>]: <br />
+{{ form.atomic_species }} <select><option>Ni.pde-nd-rrkjus.UPF</option></select> (Pseudo Potential)<br />
+{{ form..errors }}
+Atomic Positions [<b>ATOMIC_POSITIONS</b>]: <br />
+{{ form.atomic_positions }}<br />
+{{ form..errors }}
+K-Points [<b>K_POINTS AUTOMATIC</b>]: <br />
+{{ form.kpoints }}<br />
+<br/>
+<input type="submit" value="Create Simulation"/>
+</form>
+{% include 'footer.html' %}
