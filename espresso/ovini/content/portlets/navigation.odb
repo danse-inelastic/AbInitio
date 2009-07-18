@@ -11,6 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from opal.components.Actor import Actor
+
+def portlet(app):
+    import opal.content
 
 __date__ = "$Jul 17, 2009 1:21:18 PM$"
 
