@@ -14,7 +14,6 @@ PROJECT = ovini
 PACKAGE = ovini
 
 RECURSE_DIRS = \
-    #ovini \
     content \
     bin \
     cgi \
