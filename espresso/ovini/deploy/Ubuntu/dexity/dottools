@@ -1,0 +1,9 @@
+export TARGET=shared,opt
+export EXPORT_ROOT="/home/dexity/exports/ovini"
+export BLD_ROOT="/home/dexity/exports/ovini/tmp/build"
+export PATH=/home/dexity/danse-workspace/ctrl/config/trunk/make:$PATH
+export BLD_CONFIG="/home/dexity/danse-workspace/ctrl/config/trunk"
+export PYTHONPATH=$EXPORT_ROOT/modules:$PYTHONPATH
+export PYTHON_LIBDIR='/usr/lib/python2.6'
+export PYTHON_INCDIR='/usr/include/python2.6'
+export PYTHON_CONFIGDIR='/usr/lib/python2.6/config'
