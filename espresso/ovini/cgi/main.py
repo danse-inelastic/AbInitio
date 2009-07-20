@@ -32,7 +32,6 @@ def main():
 if __name__ == '__main__':
     # invoke the application shell
     try:
-
         main()
     except:
         import traceback
