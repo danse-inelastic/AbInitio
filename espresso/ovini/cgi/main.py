@@ -18,14 +18,8 @@ def main():
     class MainApp(WebApplication):
 
         def __init__(self):
-            print 'Content-type: text/plain'
-            print
-            print 'Hello, WebApplication!'
-
-            """
             WebApplication.__init__(self, name='main')
             return
-            """
 
     app = MainApp()
     return app.run()

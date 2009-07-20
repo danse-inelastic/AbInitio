@@ -11,21 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from opal.applications.WebApplication import WebApplication as Base
 
-class WebApplication(Base):
-    def __init__(self, name):
-        Base.__init__(self, name)
-        
-        print 'Content-type: text/plain'
-        print
-        print 'Hello, WebApplication(Base)!'
-
-
-    def run(self):
-        return True
-
-
-__date__ = "$Jul 19, 2009 11:07:10 PM$"
+__date__ = "$Jul 20, 2009 7:48:26 AM$"
 
 
