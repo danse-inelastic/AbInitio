@@ -13,17 +13,19 @@
 
 def main():
 
-
-    from opal.applications.WebApplication import WebApplication
-
+    from ovini.applications.WebApplication import WebApplication
 
     class MainApp(WebApplication):
 
-
         def __init__(self):
+            print 'Content-type: text/plain'
+            print
+            print 'Hello, WebApplication!'
+
+            """
             WebApplication.__init__(self, name='main')
             return
-
+            """
 
     app = MainApp()
     return app.run()
@@ -37,7 +39,7 @@ if __name__ == '__main__':
         import traceback
         import time
         t = time.ctime()
-        messages = traceback.format_exc().split('\n')
+        messages = traceback.format_exc()
 
 """
 # Simple web application that prints "Hello World!" using pyre
