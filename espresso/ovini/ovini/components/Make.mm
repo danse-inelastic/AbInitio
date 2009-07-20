@@ -23,7 +23,9 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-	__init__.py \
+        Actor.py \
+        Form.py \
+        __init__.py \
 
 
 export:: export-package-python-modules

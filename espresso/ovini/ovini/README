@@ -1,3 +1,1 @@
-Unless you want to inherit classes from opal or pyre you don't actually need ovini directory.
-Keep the directory empty unless you need to.
-I actually need to rewrite classes from opal and pyre :).
+Notes on ovini modules go here
