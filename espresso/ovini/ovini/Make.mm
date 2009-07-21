@@ -48,6 +48,7 @@ distclean::
 
 EXPORT_PYTHON_MODULES = \
 	__init__.py \
+	depositories.py \
 
 
 export:: export-python-modules

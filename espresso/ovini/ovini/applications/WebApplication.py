@@ -62,7 +62,7 @@ class WebApplication(Base):
             # if we cannot generate a fancy report. we need a plain one
             self.plainBugReport()
         """
-    """
+
     def retrievePage(self, name):
         page = super(WebApplication, self).retrievePage(name)
         if page:
@@ -96,7 +96,15 @@ class WebApplication(Base):
     def _init(self):
         super(WebApplication, self)._init()
 
-    """
+    def _getPrivateDepositoryLocations(self):
+        from os.path import join
+        root = '..'
+        content = join(root, 'content')
+        config = join(root, 'config')
+
+        from ovini.depositories import depositories
+
+        return depositories(content)+[config]
 
 if __name__=='__main__':
     w = WebApplication(name = 'test')
