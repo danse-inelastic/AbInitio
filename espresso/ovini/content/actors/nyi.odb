@@ -32,7 +32,7 @@ def actor():
     return Actor('nyi')
 
 # version
-__id__ = "$Id: error.odb,v 1.1.1.1 2006-11-27 00:09:15 aivazis Exp $"
+__id__ = "$Id$"
 __date__ = "$Jul 20, 2009 8:09:51 AM$"
 
 

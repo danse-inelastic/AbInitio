@@ -34,6 +34,7 @@ if __name__ == '__main__':
         import time
         t = time.ctime()
         messages = traceback.format_exc()
+        print messages
 
 """
 # Simple web application that prints "Hello World!" using pyre

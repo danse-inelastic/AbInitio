@@ -17,6 +17,9 @@ class ActionLinkRenderer:
         self.cgihome = cgihome
         return
 
+    def render(self, action):
+        return action.identify(self)
+
 __date__ = "$Jul 20, 2009 10:19:30 AM$"
 
 

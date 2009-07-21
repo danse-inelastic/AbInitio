@@ -23,7 +23,11 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-	__init__.py \
+        PageMill.py \
+        ActionHrefRenderer.py \
+        ActionLinkRenderer.py \
+        ActionMill_forForm.py \
+        __init__.py \
 
 
 export:: export-package-python-modules

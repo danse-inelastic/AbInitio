@@ -17,6 +17,9 @@ class ActionMill_forForm:
         self.form = form
         return
 
+    def render(self, action):
+        return action.identify(self)
+
 __date__ = "$Jul 20, 2009 10:19:54 AM$"
 
 
