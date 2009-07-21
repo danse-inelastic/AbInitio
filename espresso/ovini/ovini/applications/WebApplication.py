@@ -37,11 +37,9 @@ class WebApplication(Base):
 
 
     def main(self, *args, **kwds):
-        pass
-        """
         actor = self.actor
         if actor is None:
-            #inquiry = self.inventory._getTraitDescriptor('actor').inquiry
+            inquiry = self.inventory._getTraitDescriptor('actor').inquiry
             self.actor = self.retrieveActor('nyi')
             print self.actor
             
@@ -61,7 +59,6 @@ class WebApplication(Base):
             noErrors = False
             # if we cannot generate a fancy report. we need a plain one
             self.plainBugReport()
-        """
 
     def retrievePage(self, name):
         page = super(WebApplication, self).retrievePage(name)
