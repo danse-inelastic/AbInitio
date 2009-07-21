@@ -14,7 +14,7 @@
 from opal.applications.WebApplication import WebApplication as Base
 
 class WebApplication(Base):
-    """
+    
     class Inventory(Base.Inventory):
 
         import opal.inventory
@@ -28,7 +28,6 @@ class WebApplication(Base):
 
         debug = pyre.inventory.bool(name="debug", default=True)
         debug.meta['tip'] = "suppress some html output for debugging purposes"
-    """
 
     def __init__(self, name):
         Base.__init__(self, name)
