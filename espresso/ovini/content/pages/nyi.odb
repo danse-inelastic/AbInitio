@@ -22,15 +22,15 @@ def page(app):
     body = page.body()
 
     # build the header
-    header = body.pageHeader()
-   
-    header.personalTools()
+    #header = body.pageHeader()
+
+    #header.personalTools()
 
     # build the client area
     content = body.pageContent()
-    left = content.leftColumn()
+    #left = content.leftColumn()
     main = content.main()
-    right = content.rightColumn()
+    #right = content.rightColumn()
 
     # populate the left column
     #nav = app.retrievePortlet("navigation-short")

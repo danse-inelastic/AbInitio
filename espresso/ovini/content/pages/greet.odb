@@ -22,15 +22,19 @@ def page(app):
     body = page.body()
 
     # build the header
-    header = body.pageHeader()
+    #header = body.pageHeader()
 
-    header.personalTools()
+    #header.personalTools()
 
     # build the client area
     content = body.pageContent()
     left = content.leftColumn()
     main = content.main()
-    right = content.rightColumn()
+
+    # populate the left column
+    nav = app.retrievePortlet("navigation")
+    if nav:
+        left.add(nav)
 
     # build the footer
     footer = body.pageFooter()
