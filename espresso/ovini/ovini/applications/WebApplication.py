@@ -74,6 +74,28 @@ class WebApplication(Base):
         print '</pre>'
         return
 
+    def recordActivity(self):
+        pass
+        """
+        from vnf.dom.Activity import Activity
+        activity = Activity()
+
+        from vnf.components.misc import new_id
+        activity.id =  new_id(self)
+
+        activity.actor = self.actor.name
+
+        activity.username = self.sentry.username
+
+        activity.routine = self.inventory.routine
+
+        activity.remote_address = self._cgi_inputs.get('REMOTE_ADDR') or 'local'
+
+        self.clerk.newRecord(activity)
+
+        return
+        """
+
     def _configure(self):
         super(WebApplication, self)._configure()
 
@@ -99,9 +121,9 @@ class WebApplication(Base):
         content = join(root, 'content')
         config = join(root, 'config')
 
-        from ovini.depositories import depositories
+        #from ovini.depositories import depositories
 
-        return depositories(content)+[config]
+        return [config, content] #depositories(content)+[config]
 
 if __name__=='__main__':
     w = WebApplication(name = 'test')

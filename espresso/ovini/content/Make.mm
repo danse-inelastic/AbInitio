@@ -20,7 +20,7 @@ EXPORT_DATADIRS = \
 	forms \
 	pages \
 	portlets \
-
+#        base \
 
 OTHERS = \
 
