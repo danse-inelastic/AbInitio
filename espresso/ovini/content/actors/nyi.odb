@@ -16,9 +16,7 @@ from ovini.components.Actor import Actor as base
 class Actor(base):
 
     def default(self, director):
-        print "Director: ", director
         page = director.retrievePage('nyi')
-        print "Page: ", page
         main = page._body._content._main
         document = main.document(title = 'Under construction...')
         p = document.paragraph()

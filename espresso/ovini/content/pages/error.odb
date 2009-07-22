@@ -17,7 +17,7 @@ def page(app):
     import ovini.content
 
     # create the page
-    page = vnf.content.page(name='error', title="Error", root=app.home)
+    page = ovini.content.page(name='error', title="Error", root=app.home)
 
     # build the body
     body = page.body()
