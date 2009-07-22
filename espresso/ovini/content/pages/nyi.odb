@@ -23,16 +23,7 @@ def page(app):
 
     # build the header
     header = body.pageHeader()
-
-    """
-    sentry = app.sentry
-    ticket = sentry.authenticate()
-
-    href = '%s?actor=greet&sentry.username=%s&sentry.ticket=%s' % (
-        app.cgihome, app.sentry.username, app.sentry.ticket)
-    header.logo(href=href)
-    """
-    
+   
     header.personalTools()
 
     # build the client area

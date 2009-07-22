@@ -11,7 +11,46 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+def page(app):
+    import os
+    import ovini.content
 
+    # create the page
+    page = ovini.content.page(name='greet', title="ovini: Opal VNF Mini", root=app.home)
+
+    # build the body
+    body = page.body()
+
+    # build the header
+    header = body.pageHeader()
+
+    header.personalTools()
+
+    # build the client area
+    content = body.pageContent()
+    left = content.leftColumn()
+    main = content.main()
+    right = content.rightColumn()
+
+    # build the footer
+    footer = body.pageFooter()
+    from opal.content.Paragraph import Paragraph
+    p = Paragraph()
+    p.text = [ 'Copyright &copy; 2009 California Institute of Technology. All rights reserved.' ]
+    footer.add( p )
+
+    # build the credits
+    credits = body.pageCredits()
+    p = credits.paragraph(cls="discreet")
+    p.text = [
+        "powered by opal"
+        ]
+
+    return page
+
+
+# version
+__id__ = "$Id$"
 __date__ = "$Jul 21, 2009 9:10:14 PM$"
 
 

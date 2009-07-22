@@ -11,6 +11,36 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from ovini.components.Actor import Actor as base
+
+class Actor(base):
+
+    def default(self, director):
+        page = director.retrievePage('greet')
+        main = page._body._content._main
+        document = main.document(title='')
+        p = document.paragraph()
+        p.text = " <b>ovini</b> ".split('\n')
+        p = document.paragraph()
+        p.text = self.message.split('\n')
+        return page
+
+    def __init__(self, *args, **kwds):
+        base.__init__(self, *args, **kwds)
+        self.message = """
+        Welcome to simple web interface for <b>Quantum Espresso</b>. So far it
+        can only do simple simulation with electrons, ions and phonons,
+        including calculation of DOS (Density Of States) and Dispersion
+        curves.
+        """
+        
+        return
+
+def actor():
+    return Actor('greet')
+
+
+
 
 __date__ = "$Jul 21, 2009 9:09:46 PM$"
 
