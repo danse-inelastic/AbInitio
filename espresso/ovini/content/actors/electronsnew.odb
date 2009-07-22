@@ -12,6 +12,9 @@
 #
 
 from ovini.components.Actor import Actor as base
+from opal.content.Paragraph import Paragraph
+from opal.content.Input import Input
+
 
 class Actor(base):
 
@@ -19,10 +22,19 @@ class Actor(base):
         page = director.retrievePage('electronsnew')
         main = page._body._content._main
         document = main.document(title='')
+        p = Paragraph()
+        p.text = self.message.split('\n')
+        document.add(p)
+        
+        ipt = Input('one', 'two', 'three', help='four', error='five', type='six', value='seven' )
+        document.add(ipt)
+
+        """
         p = document.paragraph()
         p.text = " <b>ovini</b> ".split('\n')
         p = document.paragraph()
         p.text = self.message.split('\n')
+        """
         return page
 
     def __init__(self, *args, **kwds):

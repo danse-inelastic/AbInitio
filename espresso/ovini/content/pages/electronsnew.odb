@@ -22,18 +22,10 @@ def page(app):
     # build the body
     body = page.body()
 
-    p = Paragraph()
-    p.text = ['Before']
-    body.add(p)
-
     # build the client area
     content = body.pageContent()
     left = content.leftColumn()
     main = content.main()
-
-    p = Paragraph()
-    p.text = ['After']
-    body.add(p)
 
     # populate the left column
     nav = app.retrievePortlet("navigation")
