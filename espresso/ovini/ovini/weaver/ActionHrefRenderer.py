@@ -12,7 +12,7 @@
 #
 
 # Stub class
-class ActionLinkRenderer:
+class ActionHrefRenderer:
     def __init__(self, cgihome):
         self.cgihome = cgihome
         return

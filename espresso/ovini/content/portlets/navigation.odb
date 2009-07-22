@@ -11,25 +11,38 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vnf.components.Actor import Actor, action_link, actionRequireAuthentication, AuthenticationError
-from vnf.weaver import action_href
+from ovini.components.Actor import Actor
+from ovini.weaver import action_href
 
+#, action_link, actionRequireAuthentication, AuthenticationError
 
 actor2menu = {
-    'electronsnew': 'electronsnew',
-    'electronsedit': 'electronsedit',
-    'electronsjobs': 'electronsjobs',
-    'electronsdos': 'electronsdos',
-    'phononsnew': 'phononsnew',
-    'phononsedit': 'phononsedit',
-    'phononsjobs': 'phononsjobs',
-    'phononsdos': 'phononsdos',
+    'electronsnew'  : 'electronsnew',
+    'electronsedit' : 'electronsedit',
+    'electronsjobs' : 'electronsjobs',
+    'electronsdos'  : 'electronsdos',
+    'phononsnew'    : 'phononsnew',
+    'phononsedit'   : 'phononsedit',
+    'phononsjobs'   : 'phononsjobs',
+    'phononsdos'    : 'phononsdos',
     }
 
 def portlet(app):
     import opal.content
-    portlet = opal.content.portlet(title="main", id="portlet-main--tree")
+    portlet = opal.content.portlet(title="", id="portlet-main--tree")
 
+    electronsnew = portlet.item(description="New Simulation")
+    
+    """
+    electronsnew.target = action_href(
+        actionRequireAuthentication(
+        'electronsnew', app.sentry, 'Greet'),
+        app.cgihome)
+    """
+    #electronsnew.icon = "images/link_icon.gif"
+    #electronsnew.type = "navItem"
+
+    """
     greet = portlet.item(description="Home")
     greet.target = action_href(
         actionRequireAuthentication(
@@ -113,6 +126,9 @@ def portlet(app):
         selected_menu = eval( menu )
         selected_menu.icon = "images/selectedlink_icon.gif"
         selected_menu.type = 'currentNavItem'
+
+    """
+    
     return portlet
 
 
