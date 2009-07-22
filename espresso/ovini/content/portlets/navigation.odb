@@ -11,7 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from ovini.components.Actor import Actor
+#from ovini.components.Actor import Actor
+from ovini.content import action
 from ovini.weaver import action_href
 
 #, action_link, actionRequireAuthentication, AuthenticationError
@@ -32,13 +33,8 @@ def portlet(app):
     portlet = opal.content.portlet(title="", id="portlet-main--tree")
 
     electronsnew = portlet.item(description="New Simulation")
-    
-    """
-    electronsnew.target = action_href(
-        actionRequireAuthentication(
-        'electronsnew', app.sentry, 'Greet'),
-        app.cgihome)
-    """
+    electronsnew.target = action_href(action('electronsnew', 'Greet'), app.cgihome)
+
     #electronsnew.icon = "images/link_icon.gif"
     #electronsnew.type = "navItem"
 
