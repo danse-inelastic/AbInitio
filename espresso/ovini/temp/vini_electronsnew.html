@@ -1,0 +1,48 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Vini (VNF mini)</title></head><body>
+<h2><a href="http://localhost:8000/">Vini</a> (VNF mini)</h2>
+<div style="float: left; width: 150px;">
+<h3>Electrons</h3>
+<a href="http://localhost:8000/set-electron-params/">New Simulation</a> <br>
+<a href="http://localhost:8000/edit-electron-params/">Edit Parameters</a><br>
+<a href="http://localhost:8000/electron-jobs/1/">Jobs</a><br>
+<a href="http://localhost:8000/electron-dos/">Electron DOS</a><br>
+<br>
+<h3>Phonons</h3>
+<a href="http://localhost:8000/set-phonon-params/">New Simulation</a> <br>
+<a href="http://localhost:8000/edit-phonon-params/">Edit Parameters</a><br>
+<a href="http://localhost:8000/phonon-jobs/2/">Jobs</a><br>
+<a href="http://localhost:8000/phonon-dos/">Phonon DOS</a><br>
+</div>
+<div style="float: left; margin-left: 40px; width: 600px;">
+<br>
+<form action="." method="post">
+
+Bravais-Lattice Index [<b>ibrav</b>]: <input id="id_ibrav" name="ibrav" value="2" size="5" type="text"><br>
+
+Cutoff Energy [<b>ecutwfc</b>]: <input id="id_ecutwfc" name="ecutwfc" value="27.0" size="5" type="text"><br>
+
+Occupations [<b>occupations</b>]: <input name="occupations" value="smearing" maxlength="100" id="id_occupations" size="10" type="text"><br>
+
+Smearing [<b>smearing</b>]: <input name="smearing" value="gauss" maxlength="100" id="id_smearing" size="10" type="text"><br>
+
+Gaussian Spreading [<b>degauss</b>]: <input id="id_degauss" name="degauss" value="0.02" size="5" type="text"><br>
+
+Atomic Species [<b>ATOMIC_SPECIES</b>]: <br>
+<input id="id_atomic_species" name="atomic_species" value="Ni  26.98" size="20" type="text"> <select><option>Ni.pde-nd-rrkjus.UPF</option></select> (Pseudo Potential)<br>
+
+Atomic Positions [<b>ATOMIC_POSITIONS</b>]: <br>
+<textarea id="id_atomic_positions" rows="2" cols="23" name="atomic_positions">Ni 0.00 0.00 0.00</textarea><br>
+
+K-Points [<b>K_POINTS AUTOMATIC</b>]: <br>
+<textarea id="id_kpoints" rows="2" cols="23" name="kpoints">4 4 4 1 1 1</textarea><br>
+<br>
+<input value="Create Simulation" type="submit">
+</form>
+</div>
+<div style="clear: both;"></div>
+<br>
+<br>
+<span style="font-size: 11pt; margin-left: 50pt;">All Rights Reserved © <b>VNF mini</b>, Powered by <a href="http://www.djangoproject.com/">Django</a></span>
+</body></html>
