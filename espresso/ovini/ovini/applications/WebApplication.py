@@ -22,7 +22,7 @@ class WebApplication(Base):
 
         # components
     
-        actor = opal.inventory.actor(default='nyi')
+        actor = opal.inventory.actor(default='test')
         actor.meta['tip'] = "the component that defines the application behavior"
 
 
@@ -40,7 +40,7 @@ class WebApplication(Base):
         actor = self.actor
         if actor is None:
             inquiry = self.inventory._getTraitDescriptor('actor').inquiry
-            self.actor = self.retrieveActor('nyi')
+            self.actor = self.retrieveActor('test')
             print self.actor
             
             #actor.message = "Not implemented yet! actor=%s, routine=%s" % (

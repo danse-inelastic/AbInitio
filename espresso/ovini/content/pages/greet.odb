@@ -14,15 +14,22 @@
 def page(app):
     import os
     import ovini.content
+    from opal.content.Literal import Literal
 
     # create the page
     page = ovini.content.page(name='greet', title="ovini: Opal VNF Mini", root=app.home)
 
     # build the body
     body = page.body()
+    body.pageHeader()
+    body.pageContent()
+    body.pageCredits()
 
     # build the header
-    #header = body.pageHeader()
+    header = body.pageHeader()
+    l = Literal()
+    l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+    header.add(l)
 
     #header.personalTools()
 

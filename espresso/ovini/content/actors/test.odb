@@ -21,40 +21,17 @@ class Actor(base):
     def default(self, director):
         page = director.retrievePage('greet')
 
-        body = page._body
-        #main = body._content._main
-        #document = main.document(title='')
-
-        p = Paragraph()
-        #p = document.paragraph()
-        #p.text = " <b>ovini</b> ".split('\n')
-        #p = document.paragraph()
-
-        link = '<a href="http://www.google.com">web</a>' #Link(href="www.google.com", label="web") #action_link()
-
-        text = """
-        Welcome to simple %s interface for <b>Quantum Espresso</b>. So far it
-        can only do simple simulation with electrons, ions and phonons,
-        including calculation of DOS (Density Of States) and Dispersion
-        curves.
-        """ % link
-        p.text = text.split('\n')
-        body.add(p)
-
-        
         return page
 
     def __init__(self, *args, **kwds):
         base.__init__(self, *args, **kwds)
-        
+
         return
 
 def actor():
     return Actor('greet')
 
 
-
-
-__date__ = "$Jul 21, 2009 9:09:46 PM$"
+__date__ = "$Jul 23, 2009 12:08:01 PM$"
 
 

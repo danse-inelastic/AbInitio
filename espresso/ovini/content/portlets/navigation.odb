@@ -15,8 +15,6 @@
 from ovini.content import action
 from ovini.weaver import action_href
 
-#, action_link, actionRequireAuthentication, AuthenticationError
-
 actor2menu = {
     'electronsnew'  : 'electronsnew',
     'electronsedit' : 'electronsedit',
@@ -115,15 +113,14 @@ def portlet(app):
         app.cgihome)
     logout.icon = "images/link_icon.gif"
     logout.type = "navItem"
-
+    """
+    
     actor = app.actor.name
     menu = actor2menu.get( actor )
     if menu:
         selected_menu = eval( menu )
         selected_menu.icon = "images/selectedlink_icon.gif"
         selected_menu.type = 'currentNavItem'
-
-    """
     
     return portlet
 

@@ -1,24 +1,42 @@
-#!/usr/bin/env python
+# -*- Python -*-
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                               Alex Dementsov
+#                                   Jiao Lin
 #                      California Institute of Technology
-#                        (C) 2009  All Rights Reserved
+#                        (C) 2007  All Rights Reserved
 #
 # {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Stub class
 class ActionLinkRenderer:
     def __init__(self, cgihome):
-        pass
+        self.cgihome = cgihome
+        from ActionHrefRenderer import ActionHrefRenderer
+        self.hrefer = ActionHrefRenderer( cgihome )
+        return
 
     def render(self, action):
         return action.identify(self)
 
-__date__ = "$Jul 20, 2009 10:19:07 AM$"
+    def onAction(self, action):
+        href = self.hrefer.render( action )
+        label = action.label
+        kwds = {}
+        if action.target:
+            kwds['target'] = action.target
+        return [_link( label, href, **kwds)]
 
+def _link( label, href, **kwds ):
+    arguments = kwds.items()
+    arguments.append( ('href', href) )
+    argsstr = ' '.join( ['%s="%s"' % (k,v) for k,v in arguments] )
+    return '<a %s>%s</a>' % (argsstr, label)
+
+# version
+__id__ = "$Id$"
+
+# End of file
 

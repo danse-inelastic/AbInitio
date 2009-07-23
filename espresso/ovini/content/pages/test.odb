@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+def page(app):
+    import os
+    import ovini.content
+    from opal.content.Literal import Literal
+
+    # create the page
+    page = ovini.content.page(name='greet', title="ovini: Opal VNF Mini", root=app.home)
+
+    # build the body
+    body = page.body()
+    body.pageHeader()
+    body.pageContent()
+    body.pageCredits()
+
+    return page
+
+# version
+__id__ = "$Id$"
+__date__ = "$Jul 23, 2009 12:12:04 PM$"
+
+
