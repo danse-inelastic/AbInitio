@@ -13,6 +13,7 @@
 
 from opal.components.Actor import Actor as base
 
+# Do I need Actor class? Another words: Do I need to rewrite functionality of opal Actor?)
 class Actor(base):
 
     def nyi(self, director):

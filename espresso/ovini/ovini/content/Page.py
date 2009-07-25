@@ -21,10 +21,8 @@ class Page(Base):
         head = self.head()
         head.base(url=root)
         head.title(title)
-
         head.stylesheet(rel="stylesheet", media="all", url="css/main.css")
-
-        self.home = '%s/%s.html' % (root, name)
+        self.name = name
 
         return
 

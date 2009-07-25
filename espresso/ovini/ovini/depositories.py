@@ -11,6 +11,7 @@
 
 external_depositories = []
 
+# I nowhere use 'depositories' function. Do I actually need it?
 def depositories(contentroot):
     return standard_depositories(contentroot) + external_depositories
 

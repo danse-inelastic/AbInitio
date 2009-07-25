@@ -27,6 +27,7 @@ EXPORT_PYTHON_MODULES = \
         Button.py \
         Image.py \
         Page.py \
+        Heading.py \
         __init__.py \
 
 

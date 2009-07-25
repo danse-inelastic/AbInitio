@@ -15,15 +15,18 @@ def page(app):
     import os
     import ovini.content
     from opal.content.Literal import Literal
+    from opal.content.ElementContainer import ElementContainer
 
     # create the page
-    page = ovini.content.page(name='greet', title="ovini: Opal VNF Mini", root=app.home)
+    page = ovini.content.page(name='test', title="ovini: Opal VNF Mini", root=app.home)
 
+    #page.body(id="hello", cls="world", foo="bar")
     # build the body
-    body = page.body()
-    body.pageHeader()
-    body.pageContent()
-    body.pageCredits()
+    #body = page.body()
+    
+    #body.pageHeader()
+    #body.pageContent()
+    #body.pageCredits()
 
     return page
 

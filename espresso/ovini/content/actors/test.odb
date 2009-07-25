@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from ovini.components.Actor import Actor as base
+from opal.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
 from ovini.weaver import action_link
 from opal.content.Link import Link
@@ -19,7 +19,7 @@ from opal.content.Link import Link
 class Actor(base):
 
     def default(self, director):
-        page = director.retrievePage('greet')
+        page = director.retrievePage('test')
 
         return page
 
@@ -29,7 +29,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('greet')
+    return Actor('') # Seems like I don't specify name as was before: Actor('test')
 
 
 __date__ = "$Jul 23, 2009 12:08:01 PM$"

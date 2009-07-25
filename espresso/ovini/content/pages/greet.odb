@@ -27,10 +27,11 @@ def page(app):
 
     # build the header
     header = body.pageHeader()
+
     l = Literal()
     l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
     header.add(l)
-
+    
     #header.personalTools()
 
     # build the client area

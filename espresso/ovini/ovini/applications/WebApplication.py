@@ -21,7 +21,6 @@ class WebApplication(Base):
         import pyre.inventory
 
         # components
-    
         actor = opal.inventory.actor(default='test')
         actor.meta['tip'] = "the component that defines the application behavior"
 
@@ -38,26 +37,22 @@ class WebApplication(Base):
 
     def main(self, *args, **kwds):
         actor = self.actor
+        
+        # If no actor is provided e.g.: example.com/main.cgi
         if actor is None:
-            inquiry = self.inventory._getTraitDescriptor('actor').inquiry
             self.actor = self.retrieveActor('test')
-            print self.actor
-            
-            #actor.message = "Not implemented yet! actor=%s, routine=%s" % (
-            #    inquiry, self.inventory.routine)
 
         noErrors = True
         try:
             page = self.actor.perform(self, routine=self.inventory.routine, debug=self.debug)
-            self.recordActivity()
+            #self.recordActivity() # I don't need recording activity!
 
             if isinstance(page, basestring):
-                print page,
+                print page
             else:
                 self.render(page)
         except:
             noErrors = False
-            # if we cannot generate a fancy report. we need a plain one
             self.plainBugReport()
 
     def retrievePage(self, name):
@@ -73,28 +68,6 @@ class WebApplication(Base):
         traceback.print_exc()
         print '</pre>'
         return
-
-    def recordActivity(self):
-        pass
-        """
-        from vnf.dom.Activity import Activity
-        activity = Activity()
-
-        from vnf.components.misc import new_id
-        activity.id =  new_id(self)
-
-        activity.actor = self.actor.name
-
-        activity.username = self.sentry.username
-
-        activity.routine = self.inventory.routine
-
-        activity.remote_address = self._cgi_inputs.get('REMOTE_ADDR') or 'local'
-
-        self.clerk.newRecord(activity)
-
-        return
-        """
 
     def _configure(self):
         super(WebApplication, self)._configure()
@@ -121,13 +94,34 @@ class WebApplication(Base):
         content = join(root, 'content')
         config = join(root, 'config')
 
-        #from ovini.depositories import depositories
-
-        return [config, content] #depositories(content)+[config]
+        return [config, content]
 
 if __name__=='__main__':
     w = WebApplication(name = 'test')
     print w
+
+    """
+    def recordActivity(self):
+        pass
+
+        from vnf.dom.Activity import Activity
+        activity = Activity()
+
+        from vnf.components.misc import new_id
+        activity.id =  new_id(self)
+
+        activity.actor = self.actor.name
+
+        activity.username = self.sentry.username
+
+        activity.routine = self.inventory.routine
+
+        activity.remote_address = self._cgi_inputs.get('REMOTE_ADDR') or 'local'
+
+        self.clerk.newRecord(activity)
+
+        return
+    """
 
 
 __date__ = "$Jul 19, 2009 11:07:10 PM$"
