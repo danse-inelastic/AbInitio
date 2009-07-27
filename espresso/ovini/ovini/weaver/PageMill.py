@@ -63,9 +63,10 @@ class PageMill(base):
     def __init__(self, configurations):
         base.__init__(self)
 
+        """
         from BodyMill import BodyMill
         self.bodyMill = BodyMill(self.tagger)
-        #print self.bodyMill
+        """
 
 
         """

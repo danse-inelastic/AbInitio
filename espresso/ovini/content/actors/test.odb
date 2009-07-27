@@ -24,7 +24,7 @@ class Actor(base):
 
         #print page
         body = page._body
-        header = body._header
+        #header = body._header
         #main = body._content._main
         #document = main.document(title="MMM")
 
@@ -36,7 +36,7 @@ class Actor(base):
         from opal.content.Literal import Literal
         l = Literal()
         l.text = ['Hello buddy!']
-        header.add(l)
+        body.add(l)
         #"""
 
         return page

@@ -26,12 +26,13 @@ class Page(Base):
 
         return
 
+    """
     def body(self, **kwds):
         from Body import Body
         self._body = Body(**kwds)
         self.contents.append(self._body)
         return self._body
-
+    """
 
 # version
 __id__ = "$Id$"

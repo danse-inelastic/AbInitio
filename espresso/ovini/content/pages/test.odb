@@ -16,14 +16,18 @@ def page(app):
     import ovini.content
 
     # create the page
-    # name doesn't do any useful, but it should be at least empty
+    # 'name' doesn't do any useful, but it should be at least empty
     page = ovini.content.page(name='test', title="ovini: Opal VNF Mini", root=app.home)
 
     # build the body
-    body = page.body(id="hello", cls="world", foo="bar")
+    body = page.body(id="hello")
 
-    #print body
     header = body.pageHeader()
+    from opal.content.Literal import Literal
+    l = Literal()
+    l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+    header.add(l)
+
     
     content = body.pageContent()
     #body.pageCredits()
