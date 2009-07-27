@@ -11,9 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import os
+import ovini.content
+from opal.content.Literal import Literal
+from opal.content.Paragraph import Paragraph
+
 def page(app):
-    import os
-    import ovini.content
 
     # create the page
     # 'name' doesn't do any useful, but it should be at least empty
@@ -23,14 +26,34 @@ def page(app):
     body = page.body(id="hello")
 
     header = body.pageHeader()
-    from opal.content.Literal import Literal
+
     l = Literal()
-    l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
     header.add(l)
 
-    
     content = body.pageContent()
-    #body.pageCredits()
+    left = content.leftColumn()
+    main = content.main()
+
+    #print body._content._main
+
+    # populate the left column
+    nave = app.retrievePortlet("navigationElectrons")
+    navp = app.retrievePortlet("navigationPhonons")
+    left.add(nave)
+    left.add(navp)
+
+    #content = body.pageContent()
+
+    footer = body.pageFooter()
+    p = Paragraph()
+    p.text = [ 'All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)' ]
+    footer.add( p )
+
+    # build the credits
+    credits = body.pageCredits()
+    p = credits.paragraph(cls="discreet")
+    p.text = ["powered by opal"]
 
     return page
 

@@ -1,0 +1,46 @@
+#page-content {
+    width: 800px
+}
+
+.portletBody {
+    width: 180px
+}
+
+.navItemIcon {
+    border: 0px;
+}
+
+#page-main {
+    vertical-align: top
+}
+
+#page-columnLeft {
+    vertical-align: top
+}
+
+.portlet h5{
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.navItemIcon {
+    padding-right: 5px
+}
+
+#page-footer {
+    width: 800px;
+    text-align: center;
+    font-size: 14px;
+    color: green;
+}
+
+#page-footer p {
+    margin-bottom: -10px
+}
+
+#page-credits {
+    width: 800px;
+    text-align: center;
+    font-size: 14px;
+    color:gray;
+}

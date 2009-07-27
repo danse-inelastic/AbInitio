@@ -22,8 +22,9 @@ class Actor(base):
         page = director.retrievePage('greet')
 
         body = page._body
-        #main = body._content._main
-        #document = main.document(title='')
+        main = body._content._main
+        document = main.document(title='')
+        print document
 
         p = Paragraph()
         #p = document.paragraph()
@@ -38,9 +39,9 @@ class Actor(base):
         including calculation of DOS (Density Of States) and Dispersion
         curves.
         """ % link
+        
         p.text = text.split('\n')
-        body.add(p)
-
+        document.add(p)
         
         return page
 

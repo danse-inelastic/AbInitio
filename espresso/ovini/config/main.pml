@@ -19,10 +19,10 @@
 
   <component name='main'>
     <property name='debug'>1</property>
-    <property name='home'>http://localhost/ovini</property>
+    <property name='home'>http://localhost/ovini/</property>
     <property name='cgi-home'>http://localhost/cgi-bin/ovini/main.cgi</property>
-    <property name='imagepath'>/images</property>
-    <property name='javascriptpath'>/javascripts</property>
+    <property name='imagepath'>images</property>
+    <property name='javascriptpath'>javascripts</property>
   </component>
 
 </inventory>

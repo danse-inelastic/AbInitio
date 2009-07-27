@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                             Michael A.G. Aivazis
+#                      California Institute of Technology
+#                      (C) 1998-2005  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#from ovini.components.Actor import Actor
+from ovini.content import action
+from ovini.weaver import action_href
+
+def portlet(app):
+    import opal.content
+    portlet = opal.content.portlet(title="Phonons", id="portlet-phonons")
+
+    phononsnew = portlet.item(description="New Simulation")
+    phononsnew.target = action_href(action('phononsnew', 'Greet'), app.cgihome)
+    phononsnew.icon = "images/linkicon.png"
+    phononsnew.type = "navItem"
+
+    phononsedit = portlet.item(description="Edit Simulation")
+    phononsedit.target = action_href(action('phononsedit', 'Greet'), app.cgihome)
+    phononsedit.icon = "images/linkicon.png"
+    phononsedit.type = "navItem"
+
+    phononsjobs = portlet.item(description="Jobs")
+    phononsjobs.target = action_href(action('phononsjobs', 'Greet'), app.cgihome)
+    phononsjobs.icon = "images/linkicon.png"
+    phononsjobs.type = "navItem"
+
+    phononsdos = portlet.item(description="Electron DOS")
+    phononsdos.target = action_href(action('phononsdos', 'Greet'), app.cgihome)
+    phononsdos.icon = "images/linkicon.png"
+    phononsdos.type = "navItem"
+    
+    """
+    actor = app.actor.name
+    menu = actor2menu.get( actor )
+    if menu:
+        selected_menu = eval( menu )
+        selected_menu.icon = "images/selectedlink_icon.gif"
+        selected_menu.type = 'currentNavItem'
+    """
+
+    return portlet
+
+
+# version
+__id__ = "$Id: navigation.odb,v 1.1.1.1 2006-11-27 00:09:19 aivazis Exp $"
+
+# End of file
+

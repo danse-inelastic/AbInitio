@@ -11,20 +11,23 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import os
+import ovini.content
+from opal.content.Literal import Literal
+
 def page(app):
-    import os
-    import ovini.content
-    from opal.content.Literal import Literal
 
     # create the page
     page = ovini.content.page(name='greet', title="ovini: Opal VNF Mini", root=app.home)
 
     # build the body
     body = page.body()
+    """
     body.pageHeader()
     body.pageContent()
     body.pageCredits()
-
+    """
+    
     # build the header
     header = body.pageHeader()
 
@@ -54,9 +57,7 @@ def page(app):
     # build the credits
     credits = body.pageCredits()
     p = credits.paragraph(cls="discreet")
-    p.text = [
-        "powered by opal"
-        ]
+    p.text = ["powered by opal"]
 
     return page
 

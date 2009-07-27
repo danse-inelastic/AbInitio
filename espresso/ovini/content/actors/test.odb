@@ -11,33 +11,31 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from opal.components.Actor import Actor as base
+from ovini.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
 from ovini.weaver import action_link
-from opal.content.Link import Link
 
 class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('test')
-        #print "Actor.default(): %s" % page
 
         #print page
         body = page._body
-        #header = body._header
-        #main = body._content._main
-        #document = main.document(title="MMM")
+        main = page._body._content._main
+        content = page._body._content
+        #document = main.document(title='')
 
-        #print header
-
-        #"""
-        
-
-        from opal.content.Literal import Literal
-        l = Literal()
-        l.text = ['Hello buddy!']
-        body.add(l)
-        #"""
+        p = Paragraph()
+        #p = document.paragraph(cls="greetContent")
+        p.text = [
+            """Welcome to simple web interface for <b>Quantum Espresso</b>.
+            So far it can only do simple simulation with electrons, ions and
+            phonons, including calculation of DOS (Density Of States) and
+            Dispersion curves.
+            """
+            ]
+        main.add(p)
 
         return page
 
@@ -49,7 +47,7 @@ class Actor(base):
 def actor():
     #a = Actor('')
     #print "test.odb actor: %s" % a
-    return Actor('') # Seems like I don't specify name as was before: Actor('test')
+    return Actor('test') # Seems like I don't specify name as was before: Actor('test')
 
 
 __date__ = "$Jul 23, 2009 12:08:01 PM$"
