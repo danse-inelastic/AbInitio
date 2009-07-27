@@ -17,9 +17,24 @@ class PageMill(base):
 
     def onPage(self, page):
 
-        """
         head = page._head
+        body = page._body
+
+        #header = body.pageHeader()
+
+        """
+        from opal.content.Literal import Literal
+        l = Literal()
+        l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+        header.add(l)
         
+        footer = body.pageFooter()
+        """
+
+
+        #print head, body, page
+
+        """
         # render javascripts
         includes, scripts = self.javascriptWeaver.render(page)
 
@@ -35,9 +50,23 @@ class PageMill(base):
 
         return base.onPage(self, page)
 
+    """
+    def onBody(self, body):
+        from opal.content.Literal import Literal
+        l = Literal()
+        l.text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+        body.add(l)
+
+        return base.onBody(self, body)
+    """
 
     def __init__(self, configurations):
         base.__init__(self)
+
+        from BodyMill import BodyMill
+        self.bodyMill = BodyMill(self.tagger)
+        #print self.bodyMill
+
 
         """
         from JavaScriptWeaver import JavaScriptWeaver

@@ -24,10 +24,11 @@ all: export
 
 EXPORT_PYTHON_MODULES = \
         Action.py \
+        Body.py \
         Button.py \
         Image.py \
         Page.py \
-        Heading.py \
+        PageHeader.py \
         __init__.py \
 
 

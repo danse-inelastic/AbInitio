@@ -24,6 +24,7 @@ all: export
 
 EXPORT_PYTHON_MODULES = \
         PageMill.py \
+        BodyMill.py \
         ActionHrefRenderer.py \
         ActionLinkRenderer.py \
         ActionMill_forForm.py \

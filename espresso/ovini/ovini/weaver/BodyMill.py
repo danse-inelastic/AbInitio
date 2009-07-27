@@ -11,7 +11,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from opal.weaver.BodyMill import BodyMill as base
 
-__date__ = "$Jul 23, 2009 5:54:54 PM$"
+class BodyMill(base):
+    def __init__(self, tagger):
+        base.__init__(self, tagger)
+
+    def onPageHeader(self, pageHeader):
+        text = ['<h2><a href="/">Ovini</a> (Opal VNF Mini)</h2>']
+        return text
+
+
+
+__date__ = "$Jul 26, 2009 6:08:41 PM$"
 
 

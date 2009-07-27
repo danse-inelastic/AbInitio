@@ -20,6 +20,24 @@ class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('test')
+        #print "Actor.default(): %s" % page
+
+        #print page
+        body = page._body
+        header = body._header
+        #main = body._content._main
+        #document = main.document(title="MMM")
+
+        #print header
+
+        #"""
+        
+
+        from opal.content.Literal import Literal
+        l = Literal()
+        l.text = ['Hello buddy!']
+        header.add(l)
+        #"""
 
         return page
 
@@ -29,6 +47,8 @@ class Actor(base):
         return
 
 def actor():
+    #a = Actor('')
+    #print "test.odb actor: %s" % a
     return Actor('') # Seems like I don't specify name as was before: Actor('test')
 
 
