@@ -47,3 +47,10 @@ class Estimator(Config):
         b =  vectorLength( [ float(valstr) for valstr in string.split( pwscfOut[keyCellPar+1] ) ] )
         c =  vectorLength( [ float(valstr) for valstr in string.split( pwscfOut[keyCellPar+2] ) ] )                
         return [a*a_0, b*a_0, c*a_0]
+        
+    def getMultiPhonon(self):        
+        ''' Obtain a list of phonon modes and eigen vectors from output generated \
+             by matdyn.x. Phonon modes must be in matdyn.modes'''
+        from matdyn import matdyn
+        return matdyn( 'matdyn.modes' )
+     

@@ -21,3 +21,17 @@ class Launcher(Config):
         cmdstr_dynmat = "dynmat.x < " + self.dynmatInput + " > " + self.dynmatOutput
         print cmdstr_dynmat
         os.system(cmdstr_dynmat)
+        
+    def multiPhononLauncher(self):
+        import os
+        self.pwscfLauncher()
+        cmdstr_ph = self.paraPrefix + " ph.x " +  self.paraPostfix + " -inp " + \
+                 self.phInput + " > " + self.phOutput + "< /dev/null"
+        print cmdstr_ph        
+        os.system(cmdstr_ph)
+        cmdstr_q2r = "q2r.x < " + self.q2rInput + " > " + self.q2rOutput
+        print cmdstr_q2r
+        os.system(cmdstr_q2r)
+        cmdstr_matdyn = "matdyn.x < " + self.matdynInput + " > " + self.matdynOutput
+        print cmdstr_matdyn
+        os.system(cmdstr_matdyn)

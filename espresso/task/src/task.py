@@ -24,11 +24,18 @@ class Task(Estimator, Launcher):
         self.lookupTable = {
         'total energy' : (self.pwscfLauncher, self.getTotalEnergy),
         'single phonon': (self.singlePhononLauncher, self.getSinglePhonon),
-        'geometry'     : (self.pwscfLauncher, self.getLatticeParameters)
+        'geometry'     : (self.pwscfLauncher, self.getLatticeParameters),
+        'multiple phonon': (self.multiPhononLauncher, self.getMultiPhonon)
         }        
         
         assert self.lookupTable.has_key(self.taskName), "Convergence \
-        estimator's name is not known" 
+        estimator's name is not known"
+        
+    def set(self,taskName):
+        self.taskName = taskName
+    
+    def get(self):
+        return self.taskName
     
     def isConverged(self,runHistory):
         import math

@@ -9,7 +9,7 @@ class KConverger(Task):
         self.kInit = [ int(k) for k in split(self.config.get('KConverger','kInit')) ]
         self.kStep = [ int(k) for k in split(self.config.get('KConverger','kStep')) ]
         
-#        self.kConverger()
+        self.kConverger()
         
     def kConverger(self):
         import writetopwscf   

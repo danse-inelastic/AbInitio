@@ -17,3 +17,11 @@ def k_points(fname, k_points):
     pwscfDic[key+1] = k_string + '\n'
     save_dic(pwscfDic, fname)
     
+def atomic_positions(fname, geometry):
+    'Dummy! Assumes geometry description is right after "ATOMIC_POSITIONS" (no empty lines)'
+    import string
+    pwscfDic = read_file(fname)
+    key = find_key_from_string(pwscfDic, 'ATOMIC_POSITIONS')
+    for i in range(len(geometry)):
+        pwscfDic[key+1+i] = geometry[i] + '\n'
+    save_dic(pwscfDic, fname)

@@ -13,7 +13,12 @@ class Config:
         'phInput': 'ph.in',
         'phOutput': 'ph.out',
         'dynmatInput': 'dynmat.in',
-        'dynmatOutput': 'dynmat.out'
+        'dynmatOutput': 'dynmat.out',
+        'q2rInput': 'q2r.in',
+        'q2rOutput': 'q2r.out',
+        'matdynInput': 'matdyn.in',
+        'matdynOutput': 'matdyn.out',
+        'matdynModes': 'matdyn.modes'
         }
             
         self.config = ConfigParser.SafeConfigParser(configDic)
@@ -34,7 +39,14 @@ class Config:
         self.phInput = self.config.get('Config', 'phInput')
         self.phOutput = self.config.get('Config', 'phOutput')
         
+        # dynmat input/output file relevant to 'single phonon' task        
         self.dynmatInput = self.config.get('Config', 'dynmatInput')
-        # dynmat output file relevant to 'single phonon' task
-        self.dynmatOutput = self.config.get('Config', 'dynmatOutput')        
+        self.dynmatOutput = self.config.get('Config', 'dynmatOutput')
+        
+        # input/output files relevant to 'multiple phonon' task    
+        self.q2rInput = self.config.get('Config', 'q2rInput')
+        self.q2rOutput = self.config.get('Config', 'q2rOutput')            
+        self.matdynInput = self.config.get('Config', 'matdynInput')
+        self.matdynOutput = self.config.get('Config', 'matdynOutput')
+        self.matdynModes = self.config.get('Config', 'matdynModes')     
         
