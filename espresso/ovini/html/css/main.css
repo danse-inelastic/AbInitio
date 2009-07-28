@@ -18,6 +18,10 @@
     vertical-align: top
 }
 
+.portlet {
+    margin-top: -10px
+}
+
 .portlet h5{
     font-size: 16px;
     margin-bottom: 7px;
