@@ -18,23 +18,19 @@ from ovini.weaver import action_link
 class Actor(base):
 
     def default(self, director):
-        page = director.retrievePage('greet')
+        page = director.retrievePage('template')
 
         body = page._body
         main = page._body._content._main
-        content = page._body._content
-        #document = main.document(title='')
+        document = main.document(title='Welcome', id="page-document")
 
         p = Paragraph()
-        #p = document.paragraph(cls="greetContent")
-        p.text = [
-            """Welcome to simple web interface for <b>Quantum Espresso</b>.
+        p.text = ["""Here is the simple web interface for <b>Quantum Espresso</b>.
             So far it can only do simple simulation with electrons, ions and
             phonons, including calculation of DOS (Density Of States) and
             Dispersion curves.
-            """
-            ]
-        main.add(p)
+            """]
+        document.add(p)
 
         return page
 
@@ -44,7 +40,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('greet')
+    return Actor('template')
 
 
 

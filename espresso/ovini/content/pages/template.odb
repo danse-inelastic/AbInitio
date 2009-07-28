@@ -18,11 +18,10 @@ from opal.content.Paragraph import Paragraph
 def page(app):
 
     # create the page
-    # 'name' doesn't do any useful, but it should be at least empty
-    page = ovini.content.page(name='test', title="ovini: Opal VNF Mini", root=app.home)
+    page = ovini.content.page(name='', title="ovini: Opal VNF Mini", root=app.home)
 
     # build the body
-    body = page.body(id="hello")
+    body = page.body()
     header = body.pageHeader()
 
     l = Literal()
@@ -33,15 +32,11 @@ def page(app):
     left = content.leftColumn()
     main = content.main()
 
-    #print body._content._main
-
     # populate the left column
     nave = app.retrievePortlet("navigationElectrons")
     navp = app.retrievePortlet("navigationPhonons")
     left.add(nave)
     left.add(navp)
-
-    #content = body.pageContent()
 
     footer = body.pageFooter()
     p = Paragraph()

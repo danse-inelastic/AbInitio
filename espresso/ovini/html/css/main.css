@@ -1,9 +1,9 @@
 #page-content {
-    width: 800px
+    width: 800px;
 }
 
 .portletBody {
-    width: 180px
+    width: 180px;
 }
 
 .navItemIcon {
@@ -11,11 +11,30 @@
 }
 
 #page-main {
-    vertical-align: top
+    text-align: left;
+    vertical-align: top;
+    /* padding-top: 15px; */
+}
+
+/*
+#page-main p{
+    margin-top: 3px;
+}
+*/
+
+#page-document {
+    margin-top: 15px;
+
+}
+
+
+#page-document h1 {
+    font-size: 18px;
+    margin: 5px;
 }
 
 #page-columnLeft {
-    vertical-align: top
+    vertical-align: top;
 }
 
 .portlet {

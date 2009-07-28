@@ -11,31 +11,42 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import ovini.content
+from opal.content.Literal import Literal
+from opal.content.Paragraph import Paragraph
+
 def page(app):
-    import os
-    import ovini.content
-    from opal.content.Paragraph import Paragraph
 
     # create the page
-    page = ovini.content.page(name='electronsnew', title="ovini: Opal VNF Mini", root=app.home)
+    # 'name' doesn't do any useful, but it should be at least empty
+    page = ovini.content.page(name='test', title="ovini: Opal VNF Mini", root=app.home)
 
     # build the body
-    body = page.body()
+    body = page.body(id="hello")
 
-    # build the client area
+    header = body.pageHeader()
+
+    l = Literal()
+    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
+    header.add(l)
+
     content = body.pageContent()
     left = content.leftColumn()
     main = content.main()
 
-    # populate the left column
-    nav = app.retrievePortlet("navigation")
-    if nav:
-        left.add(nav)
+    #print body._content._main
 
-    # build the footer
+    # populate the left column
+    nave = app.retrievePortlet("navigationElectrons")
+    navp = app.retrievePortlet("navigationPhonons")
+    left.add(nave)
+    left.add(navp)
+
+    #content = body.pageContent()
+
     footer = body.pageFooter()
     p = Paragraph()
-    p.text = [ 'Copyright &copy; 2009 California Institute of Technology. All rights reserved.' ]
+    p.text = [ 'All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)' ]
     footer.add( p )
 
     # build the credits
@@ -44,7 +55,6 @@ def page(app):
     p.text = ["powered by opal"]
 
     return page
-
 
 # version
 __id__ = "$Id$"
