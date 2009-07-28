@@ -21,7 +21,7 @@ class WebApplication(Base):
         import pyre.inventory
 
         # components
-        actor = opal.inventory.actor(default='test')
+        actor = opal.inventory.actor(default='greet')
         actor.meta['tip'] = "the component that defines the application behavior"
 
 
@@ -40,19 +40,16 @@ class WebApplication(Base):
         
         # If no actor is provided e.g.: example.com/main.cgi
         if actor is None:
-            self.actor = self.retrieveActor('test')
+            self.actor = self.retrieveActor('greet')
 
-        noErrors = True
         try:
             page = self.actor.perform(self, routine=self.inventory.routine, debug=self.debug)
-            #self.recordActivity() # I don't need recording activity!
 
             if isinstance(page, basestring):
                 print page
             else:
                 self.render(page)
         except:
-            noErrors = False
             self.plainBugReport()
 
     def retrievePage(self, name):
@@ -80,7 +77,6 @@ class WebApplication(Base):
             }
         import ovini.weaver
         self.pageMill = ovini.weaver.pageMill(configurations)
-
         self.debug = self.inventory.debug
         
         return
