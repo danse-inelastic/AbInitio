@@ -13,7 +13,7 @@
 
 from ovini.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
-from ovini.weaver import action_link
+#from ovini.weaver import action_link
 
 class Actor(base):
 

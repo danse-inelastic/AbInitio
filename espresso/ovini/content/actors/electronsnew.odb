@@ -13,28 +13,112 @@
 
 from ovini.components.Actor import Actor as base
 from opal.content.Literal import Literal
-from opal.content.Paragraph import Paragraph
+from opal.content.Selector import Selector
 from opal.content.Input import Input
 
 class Actor(base):
 
+    class Inventory(base.Inventory):
+
+        import pyre.inventory
+
+        ibrav           = pyre.inventory.int(name="ibrav", default=2)
+        ecutwfc         = pyre.inventory.float(name="ecutwfc", default=27.0)
+        occupations     = pyre.inventory.str(name="occupations", default="smearing")
+        smearing        = pyre.inventory.str(name="smearing", default="gauss")
+        degauss         = pyre.inventory.float(name="degauss", default=0.02)
+        atomic_species  = pyre.inventory.str(name="atomic_species", default="Ni 26.98")
+        atomic_positions = pyre.inventory.str(name="atomic_positions", default="Ni 0 0 0")
+        kpoints         = pyre.inventory.str(name="kpoints", default="4 4 4 1 1 1")
+
+
     def default(self, director):
         page = director.retrievePage('template')
 
-        body = page._body
         main = page._body._content._main
         document = main.document(title='New Electron Simulation', id="page-document")
 
+        form = document.form(name="electronsnew", legend="", action=director.cgihome)
+        ibrav = form.text(id='ibrav', name='ibrav', label='Bravais-Lattice Index [<b>ibrav</b>]:',
+            value=self.inventory.ibrav, size="5")
+        ibrav.help = ''
+
+        ecutwfc = form.text(id='ecutwfc', name='ecutwfc', label='Cutoff Energy [<b>ecutwfc</b>]:',
+            value=self.inventory.ecutwfc, size="5")
+        ecutwfc.help = ''
+
+        occupations = form.text(id='occupations', name='occupations', label='Occupations [<b>occupations</b>]:',
+            value=self.inventory.occupations, size="10", maxlength="100")
+        occupations.help = ''
+
+        smearing = form.text(id='smearing', name='smearing', label='Smearing [<b>smearing</b>]: ',
+            value=self.inventory.smearing, size="10", maxlength="100")
+        smearing.help = ''
+
+        degauss = form.text(id='degauss', name='degauss', label='Gaussian Spreading [<b>degauss</b>]:',
+            value=self.inventory.degauss, size="5")
+        degauss.help = ''
+
+        """
+        atomic_species = form.text(id='atomic_species', name='atomic_species', label='Atomic Species [<b>ATOMIC_SPECIES</b>]:',
+            value=self.inventory.atomic_species, size="20")
+        atomic_species.help = ''
+        """
+
+        """
+        l = Literal()
+        l.text = [
+            '<div class="formfield"><div>',
+            '<label for="atomic_species">Atomic Species [<b>ATOMIC_SPECIES</b>]:</label><br />']
+
+        form.add(l)
+        """
+
+        # This is the hack in order to get text field below text label
         #"""
         l = Literal()
-        l.text = ['Bravais-Lattice Index [<b>ibrav</b>]:']
-        document.add(l)
+        l.text = [
+            '<div class="formfield" >\n<div>',
+            '<label for="atomic_species">Atomic Species [<b>ATOMIC_SPECIES</b>]:</label><br /><br />\n</div>']
+            
+        form.add(l)
+        ipt = Input(id="atomic_species", name="atomic_species", label="aaa",
+            value=self.inventory.degauss, size="10")
+        form.add(ipt)
 
-        ipt = Input('one', 'two', 'three', help='four', error='five', type='six', value='seven' )
-        document.add(ipt)
+        s = Selector(id="atomic_potential", name="atomic_potential", entries=[("Ni.pde-nd-rrkjus.UPF","Ni.pde-nd-rrkjus.UPF")], label="")
+        form.add(s)
+
+        l = Literal()
+        l.text = ['</div>']
+        form.add(l)
         #"""
 
+        atomic_positions = form.textarea(id='atomic_positions', name='atomic_positions', label='Atomic Positions [<b>ATOMIC_POSITIONS</b>]:',
+            value=self.inventory.atomic_positions, rows="2" ) #cols="23"
+        atomic_positions.help = ''
+
+        kpoints = form.textarea(id='kpoints', name='kpoints', label='K-Points [<b>K_POINTS AUTOMATIC</b>]:',
+            value=self.inventory.kpoints, rows="2") #cols="23"
+        kpoints.help = ''
+
+        submit = form.control(name="submit", type="submit", value="Create Simulation")
+        
         return page
+
+    def _configure(self):
+        super(Actor, self)._configure()
+
+        self.ibrav           = self.inventory.ibrav
+        self.ecutwfc         = self.inventory.ecutwfc
+        self.occupations     = self.inventory.occupations
+        self.smearing        = self.inventory.smearing
+        self.degauss         = self.inventory.degauss
+        self.atomic_species  = self.inventory.atomic_species
+        self.atomic_positions = self.inventory.atomic_positions
+        self.kpoints         = self.inventory.kpoints
+
+        return
 
     def __init__(self, *args, **kwds):
         base.__init__(self, *args, **kwds)
