@@ -14,22 +14,41 @@
 from ovini.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
 
-text = """phonons of Ni at gamma
- &inputph
-  tr2_ph=1.0d-16,
-  prefix='ni',
-  ldisp=.true.,
-  nq1=2,
-  nq2=2,
-  nq3=2,
-  amass(1)=58.6934,
-  outdir='temp/',
-  fildyn='ni.dyn',
+text = """ &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = './',
+    outdir='temp/'
  /
- """
- 
-class Actor(base):
+ &system
+    ibrav=2,
+    celldm(1) =6.65,
+    nat=  1,
+    ntyp= 1,
+    nspin=2,
+    starting_magnetization(1)=0.5,
+    degauss=0.02,
+    smearing='gauss',
+    occupations='smearing',
+    ecutwfc =27.0
+    ecutrho =300.0
+ /
+ &electrons
+    conv_thr =  1.0d-8
+    mixing_beta = 0.7
+ /
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+"""
 
+
+class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
@@ -39,14 +58,15 @@ class Actor(base):
         page = director.retrievePage('template')
 
         main = page._body._content._main
-        document = main.document(title='Edit Phonon Configuration', id="page-document")
+        document = main.document(title='Electron Configuration', id="page-document")
 
-        form = document.form(name="phononsedit", legend="", action=director.cgihome)
-        form.hidden(name='actor', value='phononsconfig')
-        phononsconfig = form.textarea(id='phononsconfig', name='phononsconfig', label='',
-            value='', default=self.inventory.config, rows="15", cols="50")
-        phononsconfig.help = ''
-        submit = form.control(name="submit", type="submit", value="Save Parameters")
+        form = document.form(name="electronsconfig", legend="", action=director.cgihome)
+        form.hidden(name='actor', value='electronsjobs')
+        p = Paragraph()
+        p.text=[self.config]
+        form.add(p)
+
+        submit = form.control(name="submit", type="submit", value="Run Simulation")
 
         return page
 
@@ -64,6 +84,7 @@ class Actor(base):
 def actor():
     return Actor('template')
 
-__date__ = "$Jul 21, 2009 11:39:29 PM$"
+
+__date__ = "$Jul 29, 2009 11:53:51 AM$"
 
 

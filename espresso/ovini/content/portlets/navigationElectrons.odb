@@ -37,7 +37,7 @@ def portlet(app):
     electronsnew.icon = "images/new.png"
     electronsnew.type = "navItem"
 
-    electronsedit = portlet.item(description="Edit Simulation")
+    electronsedit = portlet.item(description="Edit Configuration")
     electronsedit.target = action_href(action('electronsedit', 'Edit Simulation'), app.cgihome)
     electronsedit.icon = "images/edit.png"
     electronsedit.type = "navItem"

@@ -12,9 +12,17 @@
 #
 
 from ovini.components.Actor import Actor as base
-from opal.content.Paragraph import Paragraph
+from opal.content.Literal import Literal
 
 class Actor(base):
+    class Inventory(base.Inventory):
+
+        import pyre.inventory
+
+        id      = pyre.inventory.int(name="id", default=2)
+        type    = pyre.inventory.str(name="type", default="phonon")
+        created = pyre.inventory.str(name="created", default="2009-06-11 16:47:52.790506")
+        status  = pyre.inventory.str(name="status", default="finished")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -22,7 +30,26 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Phonon Simulation Jobs', id="page-document")
 
+        l = Literal()
+        l.text = [
+            'Job Id = %s<br />' % self.id,
+            'Job Type = %s<br />' % self.type,
+            'Job Created = %s<br />' % self.created,
+            'Job Status = %s<br />' % self.status
+        ]
+        document.add(l)
+
         return page
+
+    def _configure(self):
+        super(Actor, self)._configure()
+
+        self.id         = self.inventory.id
+        self.type       = self.inventory.type
+        self.created    = self.inventory.created
+        self.status     = self.inventory.status
+
+        return
 
     def __init__(self, *args, **kwds):
         base.__init__(self, *args, **kwds)

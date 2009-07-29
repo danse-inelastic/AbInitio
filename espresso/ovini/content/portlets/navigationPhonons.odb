@@ -24,7 +24,7 @@ def portlet(app):
     phononsnew.icon = "images/new.png"
     phononsnew.type = "navItem"
 
-    phononsedit = portlet.item(description="Edit Simulation")
+    phononsedit = portlet.item(description="Edit Configuration")
     phononsedit.target = action_href(action('phononsedit', 'Edit Simulation'), app.cgihome)
     phononsedit.icon = "images/edit.png"
     phononsedit.type = "navItem"

@@ -27,9 +27,9 @@ text = """phonons of Ni at gamma
   fildyn='ni.dyn',
  /
  """
- 
-class Actor(base):
 
+
+class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
@@ -39,14 +39,15 @@ class Actor(base):
         page = director.retrievePage('template')
 
         main = page._body._content._main
-        document = main.document(title='Edit Phonon Configuration', id="page-document")
+        document = main.document(title='Phonon Configuration', id="page-document")
 
-        form = document.form(name="phononsedit", legend="", action=director.cgihome)
-        form.hidden(name='actor', value='phononsconfig')
-        phononsconfig = form.textarea(id='phononsconfig', name='phononsconfig', label='',
-            value='', default=self.inventory.config, rows="15", cols="50")
-        phononsconfig.help = ''
-        submit = form.control(name="submit", type="submit", value="Save Parameters")
+        form = document.form(name="phononsconfig", legend="", action=director.cgihome)
+        form.hidden(name='actor', value='phononsjobs')
+        p = Paragraph()
+        p.text=[self.config]
+        form.add(p)
+
+        submit = form.control(name="submit", type="submit", value="Run Simulation")
 
         return page
 
@@ -64,6 +65,6 @@ class Actor(base):
 def actor():
     return Actor('template')
 
-__date__ = "$Jul 21, 2009 11:39:29 PM$"
+__date__ = "$Jul 29, 2009 1:37:57 PM$"
 
 

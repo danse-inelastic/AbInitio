@@ -39,6 +39,9 @@ class Actor(base):
         document = main.document(title='New Electron Simulation', id="page-document")
 
         form = document.form(name="electronsnew", legend="", action=director.cgihome)
+        form.hidden(name='actor', value='electronsedit')
+        #form.attributes['method'] = "get" # Cool hack! :)
+
         ibrav = form.text(id='ibrav', name='ibrav', label='Bravais-Lattice Index [<b>ibrav</b>]:',
             value=self.inventory.ibrav, size="5")
         ibrav.help = ''
@@ -65,17 +68,7 @@ class Actor(base):
         atomic_species.help = ''
         """
 
-        """
-        l = Literal()
-        l.text = [
-            '<div class="formfield"><div>',
-            '<label for="atomic_species">Atomic Species [<b>ATOMIC_SPECIES</b>]:</label><br />']
-
-        form.add(l)
-        """
-
         # This is the hack in order to get text field below text label
-        #"""
         l = Literal()
         l.text = [
             '<div class="formfield" >\n<div>',
@@ -92,16 +85,15 @@ class Actor(base):
         l = Literal()
         l.text = ['</div>']
         form.add(l)
-        #"""
 
         atomic_positions = form.textarea(id='atomic_positions', name='atomic_positions', label='Atomic Positions [<b>ATOMIC_POSITIONS</b>]:',
-            value=self.inventory.atomic_positions, rows="2" ) #cols="23"
+            value='', default=self.inventory.atomic_positions, rows="2", cols="23")
         atomic_positions.help = ''
 
         kpoints = form.textarea(id='kpoints', name='kpoints', label='K-Points [<b>K_POINTS AUTOMATIC</b>]:',
-            value=self.inventory.kpoints, rows="2") #cols="23"
+            value='', default=self.inventory.kpoints, rows="2", cols="23")
         kpoints.help = ''
-
+        
         submit = form.control(name="submit", type="submit", value="Create Simulation")
         
         return page

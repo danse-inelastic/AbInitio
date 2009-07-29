@@ -12,7 +12,8 @@
 #
 
 from ovini.components.Actor import Actor as base
-from opal.content.Paragraph import Paragraph
+from opal.content.Literal import Literal
+#from opal.content.Paragraph import Paragraph
 
 class Actor(base):
 
@@ -21,6 +22,13 @@ class Actor(base):
 
         main = page._body._content._main
         document = main.document(title='Electron DOS', id="page-document")
+
+        # In don't to write mills and content for <img> tag, so I use literal
+        # What the heck with the opal?
+        l = Literal()
+        l.text = ['<img src="images/ni_scf_dos.png" width="500" />']
+
+        document.add(l)
 
         return page
 
