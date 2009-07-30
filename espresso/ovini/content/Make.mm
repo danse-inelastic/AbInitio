@@ -18,6 +18,7 @@ RECURSE_DIRS = \
 EXPORT_DATADIRS = \
 	actors \
 	forms \
+        data \
 	pages \
 	portlets \
 
