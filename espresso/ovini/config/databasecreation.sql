@@ -1,13 +1,6 @@
--- This is a not working script for population testing entries 
+-- Not tested script for population of testing entries to ovini database
 
-CREATE TABLE jobs
-(
-   id varchar(10) PRIMARY KEY DEFAULT 0, 
-   type varchar(100), 
-   status varchar(100), 
-   created varchar(100), 
-   config text
-);
+CREATE DATABASE ovini OWNER www-data
 
 --
 -- PostgreSQL database dump
