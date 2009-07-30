@@ -14,45 +14,11 @@
 from ovini.components.Actor import Actor as base
 #from opal.content.Paragraph import Paragraph
 
-text = """ &control
-    calculation='scf'
-    restart_mode='from_scratch',
-    tprnfor = .true.
-    prefix='ni',
-    pseudo_dir = './',
-    outdir='temp/'
- /
- &system
-    ibrav=2,
-    celldm(1) =6.65,
-    nat=  1,
-    ntyp= 1,
-    nspin=2,
-    starting_magnetization(1)=0.5,
-    degauss=0.02,
-    smearing='gauss',
-    occupations='smearing',
-    ecutwfc =27.0
-    ecutrho =300.0
- /
- &electrons
-    conv_thr =  1.0d-8
-    mixing_beta = 0.7
- /
-ATOMIC_SPECIES
- Ni  26.98  Ni.pbe-nd-rrkjus.UPF
-ATOMIC_POSITIONS
- Ni 0.00 0.00 0.00
-K_POINTS AUTOMATIC
-4 4 4 1 1 1
-"""
-
-
 class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
-        config           = pyre.inventory.str(name="config", default=text)
+        config           = pyre.inventory.str(name="config", default="")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -60,10 +26,12 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Edit Electron Configuration', id="page-document")
 
+        job = director.clerk.getJob(1) #id = 1
+
         form = document.form(name="electronsedit", legend="", action=director.cgihome)
         form.hidden(name='actor', value='electronsconfig')
         electronsconfig = form.textarea(id='electronsconfig', name='electronsconfig', label='',
-            value='', default=self.inventory.config, rows="30", cols="50")
+            value='', default=job.config, rows="30", cols="50")
         electronsconfig.help = ''
         submit = form.control(name="submit", type="submit", value="Save Parameters")
 

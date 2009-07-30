@@ -19,10 +19,10 @@ class Actor(base):
 
         import pyre.inventory
 
-        id      = pyre.inventory.int(name="id", default=1)
-        type    = pyre.inventory.str(name="type", default="electron")
-        created = pyre.inventory.str(name="created", default="2009-06-11 13:35:34.081567")
-        status  = pyre.inventory.str(name="status", default="finished")
+        id      = pyre.inventory.int(name="id", default=0)
+        type    = pyre.inventory.str(name="type", default="not defined")
+        created = pyre.inventory.str(name="created", default="")
+        status  = pyre.inventory.str(name="status", default="not defined")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -30,12 +30,16 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Electron Simulation Jobs', id="page-document")
 
+        # So far the data retrieved from the database are hardcoded!
+        job = director.clerk.getJob(1) #id = 1
+        #self.type = job.type # don't need it so far
+
         l = Literal()
         l.text = [
-            'Job Id = %s<br />' % self.id,
-            'Job Type = %s<br />' % self.type,
-            'Job Created = %s<br />' % self.created,
-            'Job Status = %s<br />' % self.status
+            'Job Id = %s<br />' % job.id,
+            'Job Type = %s<br />' % job.type,
+            'Job Created = %s<br />' % job.created,
+            'Job Status = %s<br />' % job.status
         ]
         document.add(l)
 

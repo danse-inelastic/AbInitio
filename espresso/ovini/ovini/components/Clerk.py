@@ -71,6 +71,9 @@ class Clerk(Component):
     def __init__(self, *args, **kwds):
         Component.__init__(self, *args, **kwds)
 
+    def _init(self):
+        Component._init(self)
+
         # connect to the database
         import pyre.db
         dbkwds = DbAddressResolver().resolve(self.inventory.db)

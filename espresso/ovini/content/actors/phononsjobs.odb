@@ -19,10 +19,10 @@ class Actor(base):
 
         import pyre.inventory
 
-        id      = pyre.inventory.int(name="id", default=2)
-        type    = pyre.inventory.str(name="type", default="phonon")
-        created = pyre.inventory.str(name="created", default="2009-06-11 16:47:52.790506")
-        status  = pyre.inventory.str(name="status", default="finished")
+        id      = pyre.inventory.int(name="id", default=0)
+        type    = pyre.inventory.str(name="type", default="not defined")
+        created = pyre.inventory.str(name="created", default="")
+        status  = pyre.inventory.str(name="status", default="not defined")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -30,12 +30,14 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Phonon Simulation Jobs', id="page-document")
 
+        job = director.clerk.getJob(2) #id = 2
+
         l = Literal()
         l.text = [
-            'Job Id = %s<br />' % self.id,
-            'Job Type = %s<br />' % self.type,
-            'Job Created = %s<br />' % self.created,
-            'Job Status = %s<br />' % self.status
+            'Job Id = %s<br />' % job.id,
+            'Job Type = %s<br />' % job.type,
+            'Job Created = %s<br />' % job.created,
+            'Job Status = %s<br />' % job.status
         ]
         document.add(l)
 

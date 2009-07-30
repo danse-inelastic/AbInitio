@@ -15,6 +15,7 @@ from pyre.db.Table import Table
 
 class Job(Table):
 
+    name = "job"
     import pyre.db
     
     id = pyre.db.varchar(name="id", length=10)

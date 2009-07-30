@@ -12,28 +12,14 @@
 #
 
 from ovini.components.Actor import Actor as base
-from opal.content.Paragraph import Paragraph
+#from opal.content.Paragraph import Paragraph
 
-text = """phonons of Ni at gamma
- &inputph
-  tr2_ph=1.0d-16,
-  prefix='ni',
-  ldisp=.true.,
-  nq1=2,
-  nq2=2,
-  nq3=2,
-  amass(1)=58.6934,
-  outdir='temp/',
-  fildyn='ni.dyn',
- /
- """
- 
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
 
-        config           = pyre.inventory.str(name="config", default=text)
+        config           = pyre.inventory.str(name="config", default="")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -41,10 +27,12 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Edit Phonon Configuration', id="page-document")
 
+        job = director.clerk.getJob(2) #id = 2
+        
         form = document.form(name="phononsedit", legend="", action=director.cgihome)
         form.hidden(name='actor', value='phononsconfig')
         phononsconfig = form.textarea(id='phononsconfig', name='phononsconfig', label='',
-            value='', default=self.inventory.config, rows="15", cols="50")
+            value='', default=job.config, rows="15", cols="50")
         phononsconfig.help = ''
         submit = form.control(name="submit", type="submit", value="Save Parameters")
 
