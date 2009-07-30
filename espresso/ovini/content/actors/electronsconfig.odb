@@ -29,7 +29,8 @@ class Actor(base):
         job = director.clerk.getJob(1) #id = 1
         
         form = document.form(name="electronsconfig", legend="", action=director.cgihome)
-        form.hidden(name='actor', value='electronsjobs')
+        form.hidden(name='actor', value='electronsconfig')
+        form.hidden(name='routine', value='runSimulation')
         p = Paragraph()
         p.text=[job.config]
         form.add(p)
@@ -37,6 +38,16 @@ class Actor(base):
         submit = form.control(name="submit", type="submit", value="Run Simulation")
 
         return page
+
+    def runSimulation(self, director):
+        from ovini.utils import pw
+        infile  = "/home/dexity/exports/ovini/content/data/ni.scf.in"
+        outfile = "/home/dexity/temp/ni.scf.out"
+        pw.run_pw_simulation(infile, outfile)
+
+        from ovini.utils import utils
+        utils.test()
+
 
     def _configure(self):
         super(Actor, self)._configure()

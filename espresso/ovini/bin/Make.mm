@@ -30,7 +30,9 @@ distclean::
 
 
 EXPORT_DATAFILES = \
+        dos.x \
 	idd.py \
+        pw.x \
         startservices.sh \
 
 CP_F = rsync 

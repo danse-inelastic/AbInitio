@@ -23,6 +23,10 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
+        dos.py \
+        plot.py \
+        pw.py \
+        utils.py \
 	__init__.py \
 
 
