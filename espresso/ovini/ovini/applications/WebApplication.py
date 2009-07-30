@@ -24,12 +24,27 @@ class WebApplication(Base):
         actor = opal.inventory.actor(default='greet')
         actor.meta['tip'] = "the component that defines the application behavior"
 
+        import pyre.idd
+        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
+        idd.meta['tip'] = "access to the token server"
+
+        from ovini.components import clerk
+        clerk = pyre.inventory.facility(name="clerk", factory=clerk)
+        clerk.meta['tip'] = "the component that retrieves data from the various database tables"
 
         debug = pyre.inventory.bool(name="debug", default=True)
         debug.meta['tip'] = "suppress some html output for debugging purposes"
 
+        imagepath = pyre.inventory.str(name='imagepath', default = 'images' )
+
     def __init__(self, name):
         Base.__init__(self, name)
+
+        # access to the token server
+        self.idd = None
+
+        # access to the data retriever
+        self.clerk = None
 
         # debugging mode
         self.debug = False
@@ -74,15 +89,37 @@ class WebApplication(Base):
         configurations = {
             'home': self.home,
             'cgihome':self.cgihome,
+            'imagepath':self.inventory.imagepath,
             }
         import ovini.weaver
         self.pageMill = ovini.weaver.pageMill(configurations)
+
+        self.idd = self.inventory.idd
+        self.clerk = self.inventory.clerk
+        # this next line is a problem.  Technically, many of the components can be None at
+        # this point....so trying to set an attribute of a None-type component throws an
+        # exception....root of the problem may be in initializeConfiguration() in Application.py
+        self.clerk.director = self
+
         self.debug = self.inventory.debug
         
         return
 
     def _init(self):
         super(WebApplication, self)._init()
+
+        """
+        # initialize table registry
+        import vnf.dom
+        vnf.dom.register_alltables()
+
+        # set id generator for referenceset
+        def _id():
+            from vnf.components.misc import new_id
+            return new_id(self)
+        vnf.dom.set_idgenerator(_id)
+        return
+        """
 
     def _getPrivateDepositoryLocations(self):
         from os.path import join
@@ -95,30 +132,6 @@ class WebApplication(Base):
 if __name__=='__main__':
     w = WebApplication(name = 'test')
     print w
-
-    """
-    def recordActivity(self):
-        pass
-
-        from vnf.dom.Activity import Activity
-        activity = Activity()
-
-        from vnf.components.misc import new_id
-        activity.id =  new_id(self)
-
-        activity.actor = self.actor.name
-
-        activity.username = self.sentry.username
-
-        activity.routine = self.inventory.routine
-
-        activity.remote_address = self._cgi_inputs.get('REMOTE_ADDR') or 'local'
-
-        self.clerk.newRecord(activity)
-
-        return
-    """
-
 
 __date__ = "$Jul 19, 2009 11:07:10 PM$"
 

@@ -2,9 +2,9 @@
 <!--
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
-!                             Michael A.G. Aivazis
+!                                Alex Dementsov
 !                      California Institute of Technology
-!                      (C) 1998-2005  All Rights Reserved
+!                        (C) 2009  All Rights Reserved
 !
 ! {LicenseText}
 !
@@ -18,7 +18,7 @@
     <component name="idd-session">
         <property name="marshaller">idd-pickler</property>
         <property name="host">127.0.0.1</property>
-        <property name="port">10004</property>
+        <property name="port">10002</property>
 
         <component name="idd-pickler">
             <property name="key">loe125sf9jniaqvm</property>
