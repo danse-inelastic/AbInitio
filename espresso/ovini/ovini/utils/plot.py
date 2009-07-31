@@ -20,7 +20,7 @@ def createPHPlot(infile,  imagefile):
     # Populate 'x' and 'y' lists from file
     (e,  x) = utils.parsePHFile(infile)
 
-    pyplot.plot(e, x, 'r')
+    pyplot.plot(e, x, 'g')
     pyplot.xlabel('Energy')
     pyplot.ylabel('DOS')
     pyplot.xlim(0, 300)
