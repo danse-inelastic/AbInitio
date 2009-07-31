@@ -15,8 +15,10 @@ def createPHPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
+    from ovini.utils import utils
+
     # Populate 'x' and 'y' lists from file
-    (e,  x) = parsePHFile(infile)
+    (e,  x) = utils.parsePHFile(infile)
 
     pyplot.plot(e, x, 'r')
     pyplot.xlabel('Energy')
@@ -29,10 +31,12 @@ def createPWPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
-    # Populate 'x' and 'y' lists from file
-    (e,  x,  y,  z) = parseFile(infile)
+    from ovini.utils import utils
 
-    pyplot.plot(e, x, 'b', e, y, 'g', e, z, 'r' )
+    # Populate 'x', 'y' and 'z' (cumulative) lists from file
+    (e,  x,  y,  z) = utils.parseFile(infile)
+
+    pyplot.plot(e, x, 'b', e, y, 'g')
     pyplot.xlabel('Energy')
     pyplot.ylabel('DOS')
     pyplot.xlim(5, 25)

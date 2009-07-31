@@ -40,20 +40,24 @@ class Actor(base):
         return page
 
     def runSimulation(self, director):
+        # Run PW simulation
         from ovini.utils import pw
         infile  = "/home/dexity/exports/ovini/content/data/ni.scf.in"
         outfile = "/home/dexity/exports/ovini/output/ni.scf.out"
-        # Run PW simulation
         pw.runPWSimulation(infile, outfile)
 
+        # Find electron DOS
         from ovini.utils import dos
         infile  = "/home/dexity/exports/ovini/content/data/ni.scf.dos.in"
-
-        # Generate DOS
         dos.runPW_DOS(infile)
 
-        director.redirect('electronsjobs', 'default')
+       # Plot electron DOS
+        from ovini.utils import plot
+        infile      = "/home/dexity/exports/ovini/output/ni.scf.dos.out"
+        imagefile   = "/home/dexity/exports/ovini/html/images/ni_scf_dos.png"
+        plot.createPWPlot(infile, imagefile)
 
+        director.redirect('electronsjobs', 'default')
 
     def _configure(self):
         super(Actor, self)._configure()
