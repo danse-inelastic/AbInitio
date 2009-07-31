@@ -28,7 +28,7 @@ class Actor(base):
 
         job = director.clerk.getJob(1) #id = 1
 
-        form = document.form(name="electronsedit", legend="", action=director.cgihome)
+        form = document.form(name="electronsedit", legend="", action=director.cgihome, id="formid")
         form.hidden(name='actor', value='electronsconfig')
         electronsconfig = form.textarea(id='electronsconfig', name='electronsconfig', label='',
             value='', default=job.config, rows="30", cols="50")

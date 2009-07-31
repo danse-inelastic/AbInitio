@@ -2,9 +2,11 @@
     width: 800px;
 }
 
+/*
 .portletBody {
     width: 200px;
 }
+*/
 
 .navItemIcon {
     border: 0px;
@@ -13,14 +15,11 @@
 #page-main {
     text-align: left;
     vertical-align: top;
-    /* padding-top: 15px; */
 }
 
-/*
-#page-main p{
-    margin-top: 3px;
+#page-content {
+
 }
-*/
 
 #page-document {
     margin-top: 15px;
@@ -30,11 +29,13 @@
 
 #page-document h1 {
     font-size: 18px;
-    margin: 5px;
+    margin: 5px 0px 5px 0px;
 }
+
 
 #page-columnLeft {
     vertical-align: top;
+    width: 200px
 }
 
 .portlet {
