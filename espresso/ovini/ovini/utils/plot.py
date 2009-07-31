@@ -11,12 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-def create_ph_plot(infile,  imagefile):
+def createPHPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
     # Populate 'x' and 'y' lists from file
-    (e,  x) = parse_ph_file(infile)
+    (e,  x) = parsePHFile(infile)
 
     pyplot.plot(e, x, 'r')
     pyplot.xlabel('Energy')
@@ -25,12 +25,12 @@ def create_ph_plot(infile,  imagefile):
 
     pyplot.savefig(imagefile)
 
-def create_pw_plot(infile,  imagefile):
+def createPWPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
     # Populate 'x' and 'y' lists from file
-    (e,  x,  y,  z) = parse_file(infile)
+    (e,  x,  y,  z) = parseFile(infile)
 
     pyplot.plot(e, x, 'b', e, y, 'g', e, z, 'r' )
     pyplot.xlabel('Energy')

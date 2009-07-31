@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-def parse_file(filename):
+def parseFile(filename):
     e = []
     x = []
     y = []
@@ -30,7 +30,7 @@ def parse_file(filename):
     f.close()
     return (e,  x,  y,  z)
 
-def parse_ph_file(filename):
+def parsePHFile(filename):
     e = []
     x = []
     f = open(filename,  "r")

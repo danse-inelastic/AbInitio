@@ -14,7 +14,7 @@
 from subprocess import Popen,  PIPE
 
 # For now it's just a function
-def run_pw_simulation(infile, outfile):
+def runPWSimulation(infile, outfile):
     f = open(infile)
     buf = f.read() # buf is 'string'
     f.close()
