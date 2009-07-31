@@ -42,18 +42,17 @@ class Actor(base):
     def runSimulation(self, director):
         from ovini.utils import pw
         infile  = "/home/dexity/exports/ovini/content/data/ni.scf.in"
-        outfile = "/home/dexity/exports/ovini/outputs/ni.scf.out"
+        outfile = "/home/dexity/exports/ovini/output/ni.scf.out"
         # Run PW simulation
-        #pw.runPWSimulation(infile, outfile)
+        pw.runPWSimulation(infile, outfile)
 
         from ovini.utils import dos
         infile  = "/home/dexity/exports/ovini/content/data/ni.scf.dos.in"
 
-        #
-        (stdout,   stderr) = dos.runPW_DOS(infile)
+        # Generate DOS
+        dos.runPW_DOS(infile)
 
-        print (stdout,   stderr)
-        #director.redirect('electronsjobs', 'default')
+        director.redirect('electronsjobs', 'default')
 
 
     def _configure(self):

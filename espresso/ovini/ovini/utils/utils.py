@@ -21,11 +21,12 @@ def parseFile(filename):
     line = f.readline()
     while line:
         list = line.split()
-        #print list
-        e.append(list[0])
-        x.append(list[1])
-        y.append(list[2])
-        z.append(list[3])
+
+        #Convert strings to float and append to the list
+        e.append(float(list[0]))
+        x.append(float(list[1]))
+        y.append(float(list[2]))
+        z.append(float(list[3]))
         line = f.readline()
     f.close()
     return (e,  x,  y,  z)
@@ -38,8 +39,8 @@ def parsePHFile(filename):
     while line:
         list = line.split()
         #print list
-        e.append(list[0])
-        x.append(list[1])
+        e.append(float(list[0]))
+        x.append(float(list[1]))
         line = f.readline()
     f.close()
     return (e,  x)
