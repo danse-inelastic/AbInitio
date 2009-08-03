@@ -19,7 +19,8 @@ class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
-        config           = pyre.inventory.str(name="config", default="")
+        config  = pyre.inventory.str(name="config", default="")
+        id      = pyre.inventory.str(name="id")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -27,10 +28,12 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Edit Phonon Configuration', id="page-document")
 
-        job = director.clerk.getJob(2) #id = 2
+        job = director.clerk.getJob(self.id) #id = 2
         
         form = document.form(name="phononsedit", legend="", action=director.cgihome)
         form.hidden(name='actor', value='phononsconfig')
+        form.hidden(name='phononsconfig.id', value=self.id)
+
         phononsconfig = form.textarea(id='phononsconfig', name='phononsconfig', label='',
             value='', default=job.config, rows="15", cols="50")
         phononsconfig.help = ''
@@ -40,7 +43,8 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.config           = self.inventory.config
+        self.config     = self.inventory.config
+        self.id         = self.inventory.id
 
         return
 
@@ -50,7 +54,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('phononsedit')
 
 __date__ = "$Jul 21, 2009 11:39:29 PM$"
 

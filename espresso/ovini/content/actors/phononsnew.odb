@@ -16,6 +16,8 @@ from opal.content.Literal import Literal
 #from opal.content.Selector import Selector
 #from opal.content.Input import Input
 
+JOB_ID = 2 # hardcoded
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -35,6 +37,7 @@ class Actor(base):
 
         form = document.form(name="phononsnew", legend="", action=director.cgihome)
         form.hidden(name='actor', value='phononsedit')
+        form.hidden(name='phononsedit.id', value=JOB_ID)
 
         nq1 = form.text(id='nq1', name='nq1', label='nq1 [<b>nq1</b>]:',
             value=self.inventory.nq1, size="5")
@@ -67,7 +70,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('phononsnew')
 
 __date__ = "$Jul 21, 2009 11:38:26 PM$"
 

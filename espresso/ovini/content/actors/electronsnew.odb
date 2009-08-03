@@ -16,6 +16,8 @@ from opal.content.Literal import Literal
 from opal.content.Selector import Selector
 from opal.content.Input import Input
 
+JOB_ID=1 # Hardcoded value id=1 for electrons
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -40,6 +42,7 @@ class Actor(base):
 
         form = document.form(name="electronsnew", legend="", action=director.cgihome)
         form.hidden(name='actor', value='electronsedit')
+        form.hidden(name='electronsedit.id', value=JOB_ID) # job_id=1 - for electrons
         #form.attributes['method'] = "get" # Cool hack! :)
 
         ibrav = form.text(id='ibrav', name='ibrav', label='Bravais-Lattice Index [<b>ibrav</b>]:',
@@ -118,7 +121,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('electronsnew')
 
 __date__ = "$Jul 21, 2009 11:35:48 PM$"
 

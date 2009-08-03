@@ -19,7 +19,7 @@ class Actor(base):
 
         import pyre.inventory
 
-        id      = pyre.inventory.int(name="id", default=0)
+        id      = pyre.inventory.str(name="id")
         type    = pyre.inventory.str(name="type", default="not defined")
         created = pyre.inventory.str(name="created", default="")
         status  = pyre.inventory.str(name="status", default="not defined")
@@ -30,7 +30,7 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Phonon Simulation Jobs', id="page-document")
 
-        job = director.clerk.getJob(2) #id = 2
+        job = director.clerk.getJob(self.inventory.id) #id = 2
 
         l = Literal()
         l.text = [
@@ -59,7 +59,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('phononsjobs')
 
 __date__ = "$Jul 21, 2009 11:38:55 PM$"
 

@@ -19,7 +19,7 @@ class Actor(base):
 
         import pyre.inventory
 
-        id      = pyre.inventory.int(name="id", default=0)
+        id      = pyre.inventory.str(name="id")
         type    = pyre.inventory.str(name="type", default="not defined")
         created = pyre.inventory.str(name="created", default="")
         status  = pyre.inventory.str(name="status", default="not defined")
@@ -31,7 +31,7 @@ class Actor(base):
         document = main.document(title='Electron Simulation Jobs', id="page-document")
 
         # So far the data retrieved from the database are hardcoded!
-        job = director.clerk.getJob(1) #id = 1
+        job = director.clerk.getJob(self.inventory.id) #id = 1
         #self.type = job.type # don't need it so far
 
         l = Literal()
@@ -61,7 +61,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('electronsjobs')
 
 __date__ = "$Jul 21, 2009 11:37:23 PM$"
 

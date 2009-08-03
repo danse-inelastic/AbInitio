@@ -27,13 +27,14 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Edit Electron Configuration', id="page-document")
 
-        job = director.clerk.getJob(1) #id = 1
+        job = director.clerk.getJob(self.id) #id = 1
 
         form = document.form(name="electronsedit", legend="", action=director.cgihome, id="formid")
         form.hidden(name='actor', value='electronsconfig')
+        form.hidden(name='electronsconfig.id', value=self.id) # job_id=1 - for electrons
         electronsconfig = form.textarea(id='electronsconfig', name='electronsconfig', label='',
             value='', default=job.config, rows="30", cols="50")
-        electronsconfig.help = '%s' % director.template.id
+        electronsconfig.help = ''
         
         submit = form.control(name="submit", type="submit", value="Save Parameters")
 
@@ -41,7 +42,8 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.config           = self.inventory.config
+        self.config     = self.inventory.config
+        self.id         = self.inventory.id
 
         return
     

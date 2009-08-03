@@ -19,25 +19,29 @@ class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
-        config           = pyre.inventory.str(name="config", default="")
+        config  = pyre.inventory.str(name="config", default="")
+        id      = pyre.inventory.str(name="id")
 
     def default(self, director):
         page = director.retrievePage('template')
 
         main = page._body._content._main
         document = main.document(title='Phonon Configuration', id="page-document")
+        
+        #print self.inventory.id
 
-        job = director.clerk.getJob(2) #id = 2
+        job = director.clerk.getJob(self.id) #id = 2
 
         form = document.form(name="phononsconfig", legend="", action=director.cgihome)
         form.hidden(name='actor', value='phononsconfig')
+        form.hidden(name='phononsconfig.id', value=self.id)
         form.hidden(name='routine', value='runSimulation')
         p = Paragraph()
         p.text=[job.config]
         form.add(p)
 
         submit = form.control(name="submit", type="submit", value="Run Simulation")
-
+        
         return page
 
     def runSimulation(self, director):
@@ -51,12 +55,13 @@ class Actor(base):
         imagefile   = "/home/dexity/exports/ovini/html/images/ni_ph_dos.png"
         plot.createPHPlot(infile, imagefile)
 
-        director.redirect('phononsjobs', 'default')
+        director.redirect('phononsjobs', 'default', id=self.id)
 
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.config           = self.inventory.config
+        self.config     = self.inventory.config
+        self.id         = self.inventory.id
 
         return
 
@@ -66,7 +71,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('phononsconfig')
 
 __date__ = "$Jul 29, 2009 1:37:57 PM$"
 

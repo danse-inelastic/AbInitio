@@ -15,6 +15,8 @@
 from ovini.content import action
 from ovini.weaver import action_href
 
+JOB_ID=2
+
 def portlet(app):
     import opal.content
     portlet = opal.content.portlet(title="Phonons", id="portlet-phonons")
@@ -25,12 +27,12 @@ def portlet(app):
     phononsnew.type = "navItem"
 
     phononsedit = portlet.item(description="Edit Configuration")
-    phononsedit.target = action_href(action('phononsedit', 'Edit Simulation'), app.cgihome)
+    phononsedit.target = action_href(action('phononsedit', 'Edit Simulation', id=JOB_ID), app.cgihome)
     phononsedit.icon = "images/edit.png"
     phononsedit.type = "navItem"
 
     phononsjobs = portlet.item(description="Jobs")
-    phononsjobs.target = action_href(action('phononsjobs', 'Jobs'), app.cgihome)
+    phononsjobs.target = action_href(action('phononsjobs', 'Jobs', id=JOB_ID), app.cgihome)
     phononsjobs.icon = "images/jobs.png"
     phononsjobs.type = "navItem"
 

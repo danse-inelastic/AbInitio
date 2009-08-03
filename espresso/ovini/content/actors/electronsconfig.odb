@@ -18,7 +18,8 @@ class Actor(base):
     class Inventory(base.Inventory):
         import pyre.inventory
 
-        config           = pyre.inventory.str(name="config", default="")
+        config  = pyre.inventory.str(name="config", default="")
+        id      = pyre.inventory.str(name="id")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -26,10 +27,11 @@ class Actor(base):
         main = page._body._content._main
         document = main.document(title='Electron Configuration', id="page-document")
 
-        job = director.clerk.getJob(1) #id = 1
+        job = director.clerk.getJob(self.id) #id = 1
         
         form = document.form(name="electronsconfig", legend="", action=director.cgihome)
         form.hidden(name='actor', value='electronsconfig')
+        form.hidden(name='electronsconfig.id', value=self.id)
         form.hidden(name='routine', value='runSimulation')
         p = Paragraph()
         p.text=[job.config]
@@ -41,6 +43,7 @@ class Actor(base):
 
     def runSimulation(self, director):
         # Run PW simulation
+
         from ovini.utils import pw
         infile  = "/home/dexity/exports/ovini/content/data/ni.scf.in"
         outfile = "/home/dexity/exports/ovini/output/ni.scf.out"
@@ -57,11 +60,12 @@ class Actor(base):
         imagefile   = "/home/dexity/exports/ovini/html/images/ni_scf_dos.png"
         plot.createPWPlot(infile, imagefile)
 
-        director.redirect('electronsjobs', 'default')
+        director.redirect('electronsjobs', 'default', id=self.id)
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.config           = self.inventory.config
+        self.config     = self.inventory.config
+        self.id         = self.inventory.id
 
         return
 
@@ -71,7 +75,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('template')
+    return Actor('electronsconfig')
 
 
 __date__ = "$Jul 29, 2009 11:53:51 AM$"
