@@ -24,35 +24,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
-"""
-def findClerks(extensions):
-    s = 'from vnf.components.%s.Clerk import Clerk'
-    def _(ext):
-        exec s % ext in locals()
-        return Clerk
-    return [ _(ext) for ext in extensions ]
-
-
-def findDeepCopiers(extensions):
-    s = 'from vnf.components.%s.Clerk import DeepCopier'
-    def _(ext):
-        exec s % ext in locals()
-        return DeepCopier
-    return [ _(ext) for ext in extensions ]
-
-from copy import copy
-from vnf import Undef
-from vnf.utils.variables import Variable, LazyValue
-from vnf.utils.expr import (Expr, Select, Insert, Update, Delete, Column, Count, Max, Min,
-    Avg, Sum, Eq, And, Asc, Desc, compile_python, compare_columns, SQLRaw,
-    Union, Except, Intersect, Alias, SetExpr)
-from vnf.utils.exceptions import (
-    WrongStoreError, NotFlushedError, OrderLoopError, UnorderedError,
-    NotOneError, FeatureError, CompileError, LostObjectError, ClassInfoError)
-from vnf.utils.info import get_cls_info, get_obj_info
-"""
-
 from pyre.components.Component import Component
 
 class Clerk(Component):

@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+class Actor(base):
+
+    class Inventory(base.Inventory):
+
+        import pyre.inventory
+        id = pyre.inventory.str( 'id', default = '')
+        id.meta['tip'] = 'job id'
+
+    # Write default method
+    def default(self, director):
+        return director.retrievePage('template')
+
+def actor():
+    return Actor('template')
+
+__date__ = "$Jul 31, 2009 5:19:08 PM$"
+
+
