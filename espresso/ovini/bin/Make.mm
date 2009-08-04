@@ -32,6 +32,7 @@ distclean::
 EXPORT_DATAFILES = \
         dos.x \
 	idd.py \
+        initdb.py \
         pw.x \
         startservices.sh \
 

@@ -18,6 +18,7 @@ def runPWSimulation(infile, outfile):
     f = open(infile)
     buf = f.read() # buf is 'string'
     f.close()
+
     proc = Popen("pw.x", stdin=PIPE, stdout=PIPE,  stderr=PIPE,  shell="/bin/bash")
     (stdout,   stderr) = proc.communicate(buf) # stdout is 'string'
     out = open(outfile,  "w")

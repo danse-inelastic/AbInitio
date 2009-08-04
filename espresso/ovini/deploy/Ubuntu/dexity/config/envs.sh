@@ -4,6 +4,8 @@ EXPORT_SOURCE=/home/dexity/danse-workspace/AbInitio/espresso/ovini
 #Need to explicitly specify HOME for .matplotlib (for web app)
 # www-data user doesn't set HOME variable
 export HOME=/tmp
+export ESPRESSO_PATH=/home/dexity/distribs/espresso-4.0.5/bin
+export PATH=$ESPRESSO_PATH:$PATH
 
 export PYRE_DIR=/home/dexity/exports/pythia
 export PATH=$EXPORT_ROOT/bin:$PATH
