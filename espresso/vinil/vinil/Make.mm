@@ -17,6 +17,7 @@ PACKAGE = vinil
 # directory structure
 
 BUILD_DIRS = \
+    applications \
     components \
     dom \
 

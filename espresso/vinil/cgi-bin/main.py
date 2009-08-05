@@ -23,7 +23,7 @@ webapp = './webmain.py'
 #request = {}
 #print request
 #convert it to a query string
-query_string = '&'.join( '%s=%s' % (k, ','.join(v)) for k,v in request.iteritems() )
+query_string = ''#'&'.join( '%s=%s' % (k, ','.join(v)) for k,v in request.iteritems() )
 #print 'query_string: %s<br><br>' % query_string
 os.environ['QUERY_STRING'] = query_string
 

@@ -17,7 +17,8 @@ def main():
     class MainApp(WebApplication):
 
         def __init__(self):
-            WebApplication.__init__(self, name='main')#, asCGI=True)
+            WebApplication.__init__(self, name='main') #, asCGI=True)
+            print "WebApplication"
             return
 
         def _getPrivateDepositoryLocations(self):
