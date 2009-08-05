@@ -17,7 +17,7 @@ luban = {
   'widgets': {},
   'configuration': {
     'images_base': '/images',
-    'icons_base': '/images/icons',
+    'icons_base': '/images/icons'
   }
 };
 
@@ -79,7 +79,7 @@ luban = {
       if (this.jqueryelem.hasClass(Class)) {
 	this.jqueryelem.removeClass(Class);
       }
-    },
+    }
 
   };
 
