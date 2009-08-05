@@ -3,7 +3,6 @@ export EXPORT_SOURCE=/home/dexity/danse-workspace/AbInitio/espresso/vinil
 export PYRE_DIR=/home/dexity/exports/pythia
 export LUBAN_DIR=/home/dexity/exports/luban
 
-
 #Need to explicitly specify HOME for .matplotlib (for web app)
 # www-data user doesn't set HOME variable
 export HOME=/tmp
