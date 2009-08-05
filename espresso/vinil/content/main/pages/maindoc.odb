@@ -2,22 +2,22 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                             Michael A.G. Aivazis
+#                                 Jiao Lin
 #                      California Institute of Technology
-#                      (C) 1998-2005  All Rights Reserved
+#                      (C) 2006-2009  All Rights Reserved
 #
 # {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Not sure what it is for
 
 def page(director):
-    return director.retrievePage('skeleton')
+    from luban.content.Document import Document
+    return Document()
 
-
+    
 # version
-__id__ = "$Id: nyi.odb,v 1.1.1.1 2006-11-27 00:09:19 aivazis Exp $"
+__id__ = "$Id$"
 
 # End of file 

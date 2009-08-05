@@ -18,19 +18,10 @@ from opal.components.Actor import Actor as base
 class Actor(base):
 
     class Inventory(base.Inventory):
-
         import pyre.inventory
-
         id      = pyre.inventory.str('id')
-#        subject = pyre.inventory.str('subject')
-#        content = pyre.inventory.str('content')
-#        thread  = pyre.inventory.str('thread')
-
 
     def default(self, director):
-        if not director.userIsAuthorized():
-            return director.redirect(actor='jazzclub-anonymous', routine='default')
-
         greet = director.retrievePage('greet')
         navigation = director.retrievePortlet('navigation')
 
@@ -38,6 +29,24 @@ class Actor(base):
             select(id='maindoc').replaceContent(greet),
             select(id='portletcontainer').replaceContent(navigation),
             ]
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id = self.inventory.id
+        return
+
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('greet')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 

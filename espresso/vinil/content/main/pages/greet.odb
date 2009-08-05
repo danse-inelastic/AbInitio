@@ -2,15 +2,37 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                               Alex Dementsov
+#                                 Jiao Lin
 #                      California Institute of Technology
-#                        (C) 2009  All Rights Reserved
+#                      (C) 2006-2009  All Rights Reserved
 #
 # {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
+def page(director):
+    from luban.content.Page import Page
+    page = Page(title='vinil: Luban VNF Mini')
+
+    document = page.document(id='rootdoc')
+    skeleton = director.retrievePage('skeleton')
+    document.add(skeleton)
+
+    page.maindoc = skeleton.maindoc
+    page.portletdoc = skeleton.portletdoc
+
+    portlet = director.retrievePortlet("navigation")
+    if not portlet:
+        raise RuntimeError
+    page.portletdoc.add(portlet)
+
+    return page
+
+
+# version
+__id__ = "$Id$"
 
 __date__ = "$Aug 5, 2009 11:04:29 AM$"
 

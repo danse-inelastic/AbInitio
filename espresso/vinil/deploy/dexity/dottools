@@ -1,6 +1,7 @@
 export TARGET=shared,opt
 export EXPORT_ROOT="/home/dexity/exports/vinil"
 export PATH=/home/dexity/danse-workspace/ctrl/config/trunk/make:$PATH
+
 export ESPRESSO_PATH=/home/dexity/distribs/espresso-4.0.5/bin
 export PATH=$ESPRESSO_PATH:$PATH
 

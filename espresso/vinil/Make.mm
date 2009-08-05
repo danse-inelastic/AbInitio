@@ -24,7 +24,6 @@ RECURSE_DIRS = \
 EXPORT_DATADIRS = \
 
 INIT_DATADIRS = \
-    db.pickles \
     log \
 
 
