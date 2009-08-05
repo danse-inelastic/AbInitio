@@ -13,16 +13,10 @@
 PROJECT = vinil
 PACKAGE = html
 
-RECURSE_DIRS = \
-	javascripts \
-
 EXPORT_DATADIRS = \
 	css \
 	images \
-
-EXPORT_DATAFILES = \
-	cgi-bin \
-
+	javascripts \
 
 OTHERS = \
 
@@ -47,7 +41,7 @@ RSYNC_A = rsync -a
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
 
 
-export-package-data: export-package-data-dirs export-package-data-files
+export-package-data: export-package-data-dirs
 
 
 export-package-data-dirs:: $(EXPORT_DATADIRS) 
@@ -57,13 +51,6 @@ export-package-data-dirs:: $(EXPORT_DATADIRS)
 	        $(RSYNC_A) $$x/ $(EXPORT_DATA_PATH)/$$x/ ; \
             } fi; \
         } done
-
-export-package-data-files:: $(EXPORT_DATAFILES) 
-	mkdir -p $(EXPORT_DATA_PATH); \
-	for x in $(EXPORT_DATAFILES); do { \
-	        $(RSYNC_A) $$x $(EXPORT_DATA_PATH)/ ; \
-        } done
-
 
 # version
 # $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:14 aivazis Exp $
