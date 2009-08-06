@@ -11,15 +11,23 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+#from opal.content.Literal import Literal
+from luban.content.Page import Page
+from luban.content.Link import Link
 
 def page(director):
-    from luban.content.Page import Page
     page = Page(title='vinil: Luban VNF Mini')
 
     document = page.document(id='rootdoc')
     skeleton = director.retrievePage('skeleton')
     document.add(skeleton)
 
+    #l = Link(label='Vinil', onclick=load(actor='greet', routine='default'),)
+
+
+#    l = Literal()
+#    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
+    
     page.maindoc = skeleton.maindoc
     page.portletdoc = skeleton.portletdoc
 

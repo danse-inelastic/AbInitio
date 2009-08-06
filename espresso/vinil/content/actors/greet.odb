@@ -12,7 +12,9 @@
 #
 
 
-from luban.content import select#, load
+from luban.content import select#, load # Why I need this?
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
 
 from opal.components.Actor import Actor as base
 class Actor(base):
@@ -23,17 +25,18 @@ class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('greet')
-        
+        document = Document(title='Welcome')
 
-        """
-        greet = director.retrievePage('greet')
-        navigation = director.retrievePortlet('navigation')
+        p = Paragraph()
+        p.text = ["""Here is the simple web interface for <b>Quantum Espresso</b>.
+            So far it can only do simple simulation with electrons, ions and
+            phonons, including calculation of DOS (Density Of States) and
+            Dispersion curves.
+            """]
 
-        return [
-            select(id='maindoc').replaceContent(greet),
-            select(id='portletcontainer').replaceContent(navigation),
-            ]
-        """
+        document.add(p)
+        page.maindoc.add(document)
+
         return page
 
     def __init__(self, *args, **kwds):

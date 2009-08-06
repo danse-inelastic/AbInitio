@@ -11,10 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from luban.content.Splitter import Splitter
 
 def page(director):
 
-    from luban.content.Splitter import Splitter
+    
     splitter    = Splitter(id='page-content')
     left        = splitter.section(id='page-columnLeft')
     middle      = splitter.section(id='page-main')
