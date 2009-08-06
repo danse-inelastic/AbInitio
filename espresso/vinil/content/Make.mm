@@ -19,13 +19,10 @@ EXPORT_DATADIRS = \
         actors \
         pages \
         portlets \
-	#base \
-	#main \
 
 EXPORT_DATAFILES = \
 
 INIT_DATADIRS = \
-	#data\
 
 
 OTHERS = \
