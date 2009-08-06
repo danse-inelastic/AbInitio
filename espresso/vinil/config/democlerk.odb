@@ -1,0 +1,2 @@
+#from jazzclub.components.DemoClerk import Clerk
+#def clerk(): return Clerk('democlerk')

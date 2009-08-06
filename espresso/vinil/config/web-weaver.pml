@@ -16,8 +16,8 @@
     <component name="web-weaver">
 
         <!-- transformation configuration -->
-	<property name="controller-url">/cgi-bin/main.py</property>
-	<property name="html-base">http://localhost:8100/</property>
+	<property name="controller-url">/cgi-bin/vinil/main.cgi</property>
+	<property name="html-base">http://localhost/vinil/</property>
 
         <!-- user info -->
         <property name="author">DANSE vnf team</property>

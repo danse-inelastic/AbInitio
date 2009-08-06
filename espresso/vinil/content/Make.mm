@@ -16,13 +16,16 @@ PACKAGE = content
 RECURSE_DIRS = \
 
 EXPORT_DATADIRS = \
-	base \
-	main \
+        actors \
+        pages \
+        portlets \
+	#base \
+	#main \
 
 EXPORT_DATAFILES = \
 
 INIT_DATADIRS = \
-	data\
+	#data\
 
 
 OTHERS = \
