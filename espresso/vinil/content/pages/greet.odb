@@ -12,8 +12,10 @@
 #
 
 #from opal.content.Literal import Literal
+from luban.content import load
 from luban.content.Page import Page
 from luban.content.Link import Link
+from luban.content.Paragraph import Paragraph
 
 def page(director):
     page = Page(title='vinil: Luban VNF Mini')
@@ -22,14 +24,23 @@ def page(director):
     skeleton = director.retrievePage('skeleton')
     document.add(skeleton)
 
-    #l = Link(label='Vinil', onclick=load(actor='greet', routine='default'),)
+    l = Link(label='Vinil', onclick=load(actor='greet', routine='default'))
+    skeleton.header.add(l)
 
+    p = Paragraph()
+    p.text = ['All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)']
+    skeleton.footer.add(p)
+
+    p = Paragraph()
+    p.text = ['powered by opal']
+    skeleton.footer.add(p)
 
 #    l = Literal()
 #    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
-    
-    page.maindoc = skeleton.maindoc
-    page.portletdoc = skeleton.portletdoc
+
+
+    page.maindoc = skeleton.splitter.maindoc
+    page.portletdoc = skeleton.splitter.portletdoc
 
     portlet = director.retrievePortlet("navigation")
     if not portlet:

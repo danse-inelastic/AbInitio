@@ -15,19 +15,34 @@ from luban.content.Splitter import Splitter
 
 def page(director):
 
-    
+    pagesplitter = Splitter(id='page', direction='hotizontal')
+    header      = pagesplitter.section(id='page-header')
+    content     = pagesplitter.section(id='page-main-content')
+    footer      = pagesplitter.section(id='page-footer')
+
     splitter    = Splitter(id='page-content')
+
     left        = splitter.section(id='page-columnLeft')
-    middle      = splitter.section(id='page-main')
-    padding     = middle.document(Class='visualPadding')
+    main        = splitter.section(id='page-main')
+    padding     = main.document(Class='visualPadding')
     maindoc     = padding.document(id="maindoc", Class='document-main')
 
+    #content.add(splitter)
     portletcontainer = left.document(id='portletcontainer')
 
-    splitter.maindoc = maindoc
-    splitter.portletdoc = portletcontainer
-    
-    return splitter
+    #.maindoc = maindoc
+    #splitter.portletdoc = portletcontainer
+    splitter.maindoc     = maindoc
+    splitter.portletdoc  = portletcontainer
+
+    content.add(splitter)
+
+    pagesplitter.header     = header
+    pagesplitter.content    = content
+    pagesplitter.footer     = footer
+    pagesplitter.splitter   = splitter
+ 
+    return pagesplitter
 
     
 # version
