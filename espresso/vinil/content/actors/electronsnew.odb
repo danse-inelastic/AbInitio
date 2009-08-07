@@ -15,8 +15,8 @@
 from luban.content import select#, load # Why I need this?
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
-
 from opal.components.Actor import Actor as base
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -25,16 +25,21 @@ class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('template')
-        document = Document(title='New Electron Simulation')
-
-        p = Paragraph()
-        p.text = ["""Hi.
-            """]
-
-        document.add(p)
-        page.maindoc.add(document)
+        page.maindoc.add(self.content(director))
 
         return page
+
+    def link(self, director, document=None):
+        return select(id='maindoc').replaceContent(self.content(director))
+
+    def content(self, director):
+        document = Document(title='New Electron Simulation')
+        p = Paragraph()
+        p.text = ["""Hi."""]
+        document.add(p)
+
+        return document
+        
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)

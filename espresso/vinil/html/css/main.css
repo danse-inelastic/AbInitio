@@ -1,3 +1,15 @@
+
+/* One needs to fake <a>
+*/
+a {
+    text-decoration: underline;
+    color: blue;
+}
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 #rootdoc {
     width: 800px;
 }

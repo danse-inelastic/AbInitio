@@ -20,7 +20,7 @@ def portlet(director):
     electronsnew = portlet.item(label="New Simulation")
     electronsnew.icon = "new.png"
     electronsnew.Class = "navItem"
-    electronsnew.onclick = load(actor='electronsnew', routine='default')
+    electronsnew.onclick = load(actor='electronsnew', routine='link')
     
     electronsedit = portlet.item(label="Edit Configuration")
     electronsedit.icon = "edit.png"
