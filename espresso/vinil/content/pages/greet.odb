@@ -44,10 +44,11 @@ def page(director):
     page.maindoc = skeleton.splitter.maindoc
     page.portletdoc = skeleton.splitter.portletdoc
 
-    portlet = director.retrievePortlet("navigation")
-    if not portlet:
-        raise RuntimeError
-    page.portletdoc.add(portlet)
+    portletElectrons    = director.retrievePortlet("navigationElectrons")
+    portletPhonons      = director.retrievePortlet("navigationPhonons")
+
+    page.portletdoc.add(portletElectrons)
+    page.portletdoc.add(portletPhonons)
 
     return page
 

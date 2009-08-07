@@ -11,12 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from luban.content import load
+from luban.content.Portlet import Portlet
 
 def portlet(director):
-    from luban.content import load
-    
-    from luban.content.Portlet import Portlet as portlet
-    portlet = portlet(title="Electrons", id="portlet-main--tree")
+    portlet = Portlet(title="Electrons", id="portlet-electrons")
 
     electronsnew = portlet.item(label="New Simulation")
     electronsnew.icon = "new.png"
