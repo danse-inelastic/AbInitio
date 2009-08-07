@@ -16,11 +16,45 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+text = [""" &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = './',
+    outdir='temp/'
+ /
+ &system
+    ibrav=2,
+    celldm(1) =6.65,
+    nat=  1,
+    ntyp= 1,
+    nspin=2,
+    starting_magnetization(1)=0.5,
+    degauss=0.02,
+    smearing='gauss',
+    occupations='smearing',
+    ecutwfc =27.0
+    ecutrho =300.0
+ /
+ &electrons
+    conv_thr =  1.0d-8
+    mixing_beta = 0.7
+ /
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+"""]
+
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
         id      = pyre.inventory.str('id')
+        config  = pyre.inventory.str(name="config", default="")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -33,9 +67,19 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Edit Electron Configuration')
-        p = Paragraph()
-        p.text = ["""electronsedit"""]
-        document.add(p)
+        form = document.form()
+        
+        electronsconfig = form.textarea(id='electronsedit', name='electronsedit', label='',
+            value=text) #, rows="30", cols="50"
+        electronsconfig.help = ''
+
+        submit = form.submitbutton(label="Save Parameters")
+
+        # action when form is submitted
+        form.onsubmit = select(element=form).submit(
+            actor = 'electronsconfig',
+            routine = 'link',
+            )
 
         return document
         
@@ -47,7 +91,8 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id = self.inventory.id
+        self.id         = self.inventory.id
+        self.config     = self.inventory.config
         return
 
     def _init(self):

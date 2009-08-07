@@ -34,7 +34,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Electron DOS')
         p = Paragraph()
-        p.text = ["""electronsdos"""]
+        p.text = ["""Sorry, images are not supported yet"""]
         document.add(p)
 
         return document

@@ -16,6 +16,12 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+text = ["""Job Id = 1
+Job Type = electron
+Job Created = 2009-06-11 13:35:34.081567
+Job Status = finished
+"""]
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -34,7 +40,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Electron Simulation Jobs')
         p = Paragraph()
-        p.text = ["""electronsjobs"""]
+        p.text = [text]
         document.add(p)
 
         return document
@@ -55,7 +61,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('jobs')
+    return Actor('electronsjobs')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 

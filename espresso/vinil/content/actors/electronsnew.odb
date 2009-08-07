@@ -20,7 +20,16 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id')
+        id              = pyre.inventory.str('id')
+        ibrav           = pyre.inventory.int(name="ibrav", default=2)
+        ecutwfc         = pyre.inventory.float(name="ecutwfc", default=27.0)
+        occupations     = pyre.inventory.str(name="occupations", default="smearing")
+        smearing        = pyre.inventory.str(name="smearing", default="gauss")
+        degauss         = pyre.inventory.float(name="degauss", default=0.02)
+        atomic_species  = pyre.inventory.str(name="atomic_species", default="Ni 26.98")
+        atomic_positions = pyre.inventory.str(name="atomic_positions", default="Ni 0 0 0")
+        kpoints         = pyre.inventory.str(name="kpoints", default="4 4 4 1 1 1")
+
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -33,10 +42,49 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='New Electron Simulation')
-        p = Paragraph()
-        p.text = ["""electronsnew"""]
-        document.add(p)
+        form = document.form()
 
+        ibrav = form.text(id='ibrav', name='ibrav', label='Bravais-Lattice Index [<b>ibrav</b>]:',
+            value=self.inventory.ibrav)
+        ibrav.help = ''
+
+        ecutwfc = form.text(id='ecutwfc', name='ecutwfc', label='Cutoff Energy [<b>ecutwfc</b>]:',
+            value=self.inventory.ecutwfc)
+        ecutwfc.help = ''
+
+        occupations = form.text(id='occupations', name='occupations', label='Occupations [<b>occupations</b>]:',
+            value=self.inventory.occupations)
+        occupations.help = ''
+
+        smearing = form.text(id='smearing', name='smearing', label='Smearing [<b>smearing</b>]: ',
+            value=self.inventory.smearing)
+        smearing.help = ''
+
+        degauss = form.text(id='degauss', name='degauss', label='Gaussian Spreading [<b>degauss</b>]:',
+            value=self.inventory.degauss)
+        degauss.help = ''
+
+        atomic_species = form.text(id='atomic_species', name='atomic_species', label='Atomic Species [<b>ATOMIC_SPECIES</b>]:',
+            value=self.inventory.atomic_species)#, size="20"
+        atomic_species.help = ''
+
+
+        atomic_positions = form.textarea(id='atomic_positions', name='atomic_positions', label='Atomic Positions [<b>ATOMIC_POSITIONS</b>]:',
+            value=self.inventory.atomic_positions)#, rows="2", cols="23"
+        atomic_positions.help = ''
+        
+        kpoints = form.textarea(id='kpoints', name='kpoints', label='K-Points [<b>K_POINTS AUTOMATIC</b>]:<br /><br />',
+            value=self.inventory.kpoints)#, rows="2", cols="23"
+        kpoints.help = ''
+        
+        submit = form.submitbutton(label="Create Simulation")
+
+        # action when form is submitted
+        form.onsubmit = select(element=form).submit(
+            actor = 'electronsedit',
+            routine = 'link', # verify
+            )
+            
         return document
         
 
@@ -47,7 +95,16 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id = self.inventory.id
+        self.id              = self.inventory.id
+        self.ibrav           = self.inventory.ibrav
+        self.ecutwfc         = self.inventory.ecutwfc
+        self.occupations     = self.inventory.occupations
+        self.smearing        = self.inventory.smearing
+        self.degauss         = self.inventory.degauss
+        self.atomic_species  = self.inventory.atomic_species
+        self.atomic_positions = self.inventory.atomic_positions
+        self.kpoints         = self.inventory.kpoints
+
         return
 
     def _init(self):

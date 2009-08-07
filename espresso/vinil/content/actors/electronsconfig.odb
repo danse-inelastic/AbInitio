@@ -16,15 +16,45 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+text = [""" &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = './',
+    outdir='temp/'
+ /
+ &system
+    ibrav=2,
+    celldm(1) =6.65,
+    nat=  1,
+    ntyp= 1,
+    nspin=2,
+    starting_magnetization(1)=0.5,
+    degauss=0.02,
+    smearing='gauss',
+    occupations='smearing',
+    ecutwfc =27.0
+    ecutrho =300.0
+ /
+ &electrons
+    conv_thr =  1.0d-8
+    mixing_beta = 0.7
+ /
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+"""]
+
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
         id      = pyre.inventory.str('id')
-        nq1     = pyre.inventory.int(name="nq1", default=2)
-        nq2     = pyre.inventory.int(name="nq2", default=2)
-        nq3     = pyre.inventory.int(name="nq3", default=2)
-
+        config  = pyre.inventory.str(name="config", default="")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -36,10 +66,20 @@ class Actor(base):
         return select(id='maindoc').replaceContent(self.content(director))
 
     def content(self, director):
-        document = Document(title='New Phonon Simulation')
+        document = Document(title='Electron Configuration')
+        form = document.form()
+
         p = Paragraph()
-        p.text = ["""phononsnew"""]
-        document.add(p)
+        p.text = [text]
+        form.add(p)
+
+        submit = form.submitbutton(label="Run Simulation")
+
+        # action when form is submitted
+        form.onsubmit = select(element=form).submit(
+            actor = 'electronsjobs',
+            routine = 'link',
+            )
 
         return document
         
@@ -51,11 +91,8 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id            = self.inventory.id
-        self.nq1           = self.inventory.nq1
-        self.nq2           = self.inventory.nq2
-        self.nq3           = self.inventory.nq3
-
+        self.id         = self.inventory.id
+        self.config     = self.inventory.config
         return
 
     def _init(self):
@@ -63,7 +100,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('phononsnew')
+    return Actor('electronsconfig')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 
