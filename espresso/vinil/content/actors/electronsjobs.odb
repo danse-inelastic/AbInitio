@@ -32,9 +32,9 @@ class Actor(base):
         return select(id='maindoc').replaceContent(self.content(director))
 
     def content(self, director):
-        document = Document(title='New Electron Simulation')
+        document = Document(title='Electron Simulation Jobs')
         p = Paragraph()
-        p.text = ["""electronsnew"""]
+        p.text = ["""electronsjobs"""]
         document.add(p)
 
         return document
@@ -55,7 +55,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('electronsnew')
+    return Actor('jobs')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 

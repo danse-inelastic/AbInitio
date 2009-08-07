@@ -20,22 +20,22 @@ def portlet(director):
     phononsnew = portlet.item(label="New Simulation")
     phononsnew.icon = "new.png"
     phononsnew.Class = "navItem"
-    phononsnew.onclick = load(actor='phononsnew', routine='default')
+    phononsnew.onclick = load(actor='phononsnew', routine='link')
     
     phononsedit = portlet.item(label="Edit Configuration")
     phononsedit.icon = "edit.png"
     phononsedit.Class = "navItem"
-    phononsedit.onclick = load(actor='phononsedit', routine='default')
+    phononsedit.onclick = load(actor='phononsedit', routine='link')
     
     phononsjobs = portlet.item(label="Jobs")
     phononsjobs.icon = "jobs.png"
     phononsjobs.Class = "navItem"
-    phononsjobs.onclick = load(actor='phononsjobs', routine='default')
+    phononsjobs.onclick = load(actor='phononsjobs', routine='link')
 
     phononsdos = portlet.item(label="Phonon DOS")
     phononsdos.icon = "dos.png"
     phononsdos.Class = "navItem"
-    phononsdos.onclick = load(actor='phononsdos', routine='default')
+    phononsdos.onclick = load(actor='phononsdos', routine='link')
 
     return portlet
 

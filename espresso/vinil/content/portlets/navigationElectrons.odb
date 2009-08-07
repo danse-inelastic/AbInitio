@@ -25,17 +25,17 @@ def portlet(director):
     electronsedit = portlet.item(label="Edit Configuration")
     electronsedit.icon = "edit.png"
     electronsedit.Class = "navItem"
-    electronsedit.onclick = load(actor='electronsedit', routine='default')
+    electronsedit.onclick = load(actor='electronsedit', routine='link')
     
     electronsjobs = portlet.item(label="Jobs")
     electronsjobs.icon = "jobs.png"
     electronsjobs.Class = "navItem"
-    electronsjobs.onclick = load(actor='electronsjobs', routine='default')
+    electronsjobs.onclick = load(actor='electronsjobs', routine='link')
 
     electronsdos = portlet.item(label="Electron DOS")
     electronsdos.icon = "dos.png"
     electronsdos.Class = "navItem"
-    electronsdos.onclick = load(actor='electronsdos', routine='default')
+    electronsdos.onclick = load(actor='electronsdos', routine='link')
 
     return portlet
 

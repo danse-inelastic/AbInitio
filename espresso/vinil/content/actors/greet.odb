@@ -12,7 +12,7 @@
 #
 
 
-from luban.content import select#, load # Why I need this?
+from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 
@@ -25,19 +25,25 @@ class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('template')
-        document = Document(title='Welcome')
+        page.maindoc.add(self.content(director))
 
+        return page
+
+    def link(self, director, document=None):
+        return select(id='maindoc').replaceContent(self.content(director))
+
+    def content(self, director):
+        document = Document(title='Welcome')
         p = Paragraph()
         p.text = ["""Here is the simple web interface for <b>Quantum Espresso</b>.
             So far it can only do simple simulation with electrons, ions and
             phonons, including calculation of DOS (Density Of States) and
             Dispersion curves.
             """]
-
         document.add(p)
-        page.maindoc.add(document)
 
-        return page
+        return document
+
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
