@@ -23,7 +23,7 @@
         <property name="author">DANSE vnf team</property>
         <property name="organization">California Institute of Technology</property>
         <property name="copyright">2008-2009</property>
-        <property name="creator">opal</property>
+        <property name="creator">luban</property>
 
         <!-- banner -->
         <property name="bannerWidth">78</property>

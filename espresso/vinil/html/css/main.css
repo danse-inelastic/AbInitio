@@ -1,24 +1,20 @@
-#page-content {
+#rootdoc {
     width: 800px;
 }
-
-/*
-.portletBody {
-    width: 200px;
-}
-*/
 
 .navItemIcon {
     border: 0px;
 }
 
+#page-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
 #page-main {
     text-align: left;
     vertical-align: top;
-}
-
-#page-content {
-
 }
 
 #page-document {

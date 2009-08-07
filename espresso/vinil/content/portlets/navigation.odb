@@ -19,22 +19,22 @@ def portlet(director):
     portlet = portlet(title="Electrons", id="portlet-main--tree")
 
     electronsnew = portlet.item(label="New Simulation")
-    electronsnew.icon = "images/new.png"
+    electronsnew.icon = "new.png"
     electronsnew.Class = "navItem"
     electronsnew.onclick = load(actor='electronsnew', routine='default')
     
     electronsedit = portlet.item(label="Edit Configuration")
-    electronsedit.icon = "images/edit.png"
+    electronsedit.icon = "edit.png"
     electronsedit.Class = "navItem"
     electronsedit.onclick = load(actor='electronsedit', routine='default')
     
     electronsjobs = portlet.item(label="Jobs")
-    electronsjobs.icon = "images/jobs.png"
+    electronsjobs.icon = "jobs.png"
     electronsjobs.Class = "navItem"
     electronsjobs.onclick = load(actor='electronsjobs', routine='default')
 
     electronsdos = portlet.item(label="Electron DOS")
-    electronsdos.icon = "images/dos.png"
+    electronsdos.icon = "dos.png"
     electronsdos.Class = "navItem"
     electronsdos.onclick = load(actor='electronsdos', routine='default')
 

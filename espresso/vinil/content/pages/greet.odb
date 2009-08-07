@@ -24,7 +24,9 @@ def page(director):
     skeleton = director.retrievePage('skeleton')
     document.add(skeleton)
 
-    l = Link(label='Vinil', onclick=load(actor='greet', routine='default'))
+    #p = Paragraph()
+    #p.contents = [Link(label='Vinil', onclick=load(actor='greet', routine='default'))]
+    l = Link(label='Vinil (Luban VNF Mini)', onclick=load(actor='greet', routine='default'))
     skeleton.header.add(l)
 
     p = Paragraph()
