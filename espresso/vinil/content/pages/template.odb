@@ -35,11 +35,7 @@ def page(director):
 
     p = Paragraph()
     p.text = ['powered by opal']
-    skeleton.footer.add(p)
-
-#    l = Literal()
-#    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
-
+    skeleton.credits.add(p)
 
     page.maindoc = skeleton.splitter.maindoc
     page.portletdoc = skeleton.splitter.portletdoc

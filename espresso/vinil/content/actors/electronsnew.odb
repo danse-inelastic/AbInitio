@@ -25,13 +25,10 @@ class Actor(base):
 
     def default(self, director):
         page = director.retrievePage('template')
-        document = Document(title='Welcome')
+        document = Document(title='New Electron Simulation')
 
         p = Paragraph()
-        p.text = ["""Here is the simple web interface for <b>Quantum Espresso</b>.
-            So far it can only do simple simulation with electrons, ions and
-            phonons, including calculation of DOS (Density Of States) and
-            Dispersion curves.
+        p.text = ["""Hi.
             """]
 
         document.add(p)
@@ -55,7 +52,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('greet')
+    return Actor('electronsnew')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 

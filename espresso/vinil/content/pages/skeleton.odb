@@ -19,6 +19,7 @@ def page(director):
     header      = pagesplitter.section(id='page-header')
     content     = pagesplitter.section(id='page-main-content')
     footer      = pagesplitter.section(id='page-footer')
+    credits     = pagesplitter.section(id='page-credits')
 
     splitter    = Splitter(id='page-content')
 
@@ -27,11 +28,8 @@ def page(director):
     padding     = main.document(Class='visualPadding')
     maindoc     = padding.document(id="maindoc", Class='document-main')
 
-    #content.add(splitter)
     portletcontainer = left.document(id='portletcontainer')
 
-    #.maindoc = maindoc
-    #splitter.portletdoc = portletcontainer
     splitter.maindoc     = maindoc
     splitter.portletdoc  = portletcontainer
 
@@ -40,6 +38,7 @@ def page(director):
     pagesplitter.header     = header
     pagesplitter.content    = content
     pagesplitter.footer     = footer
+    pagesplitter.credits    = credits
     pagesplitter.splitter   = splitter
  
     return pagesplitter
