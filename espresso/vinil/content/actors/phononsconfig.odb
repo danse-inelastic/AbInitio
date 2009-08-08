@@ -29,6 +29,7 @@ text = """phonons of Ni at gamma
   fildyn='ni.dyn',
  /"""
 
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -46,23 +47,22 @@ class Actor(base):
         return select(id='maindoc').replaceContent(self.content(director))
 
     def content(self, director):
-        document = Document(title='Edit Phonon Configuration')
-        
+        document = Document(title='Phonon Configuration')
         form = document.form()
-        phononsconfig = form.textarea(id='phononsedit', name='phononsedit', label='',
-            value=text) #, rows="30", cols="50"
-        phononsconfig.help = ''
 
-        submit = form.submitbutton(label="Save Parameters")
+        p = Paragraph()
+        p.text = [text]
+        form.add(p)
+
+        submit = form.submitbutton(label="Run Simulation")
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'phononsconfig',
+            actor = 'phononsjobs',
             routine = 'link',
             )
 
         return document
-        
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
@@ -80,7 +80,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('phononsedit')
+    return Actor('phononsconfig')
 
 __date__ = "$Aug 5, 2009 11:03:42 AM$"
 

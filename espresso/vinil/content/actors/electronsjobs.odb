@@ -16,11 +16,11 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
-text = ["""Job Id = 1
+text = """Job Id = 1
 Job Type = electron
 Job Created = 2009-06-11 13:35:34.081567
 Job Status = finished
-"""]
+"""
 
 class Actor(base):
 
