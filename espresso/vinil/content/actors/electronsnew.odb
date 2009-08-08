@@ -16,6 +16,8 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+JOB_ID=1 # Hardcoded value id=1 for electrons
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -68,7 +70,12 @@ class Actor(base):
             value=self.inventory.atomic_species)#, size="20"
         atomic_species.help = ''
 
+        s = form.selector(id="atomic_potential", name="atomic_potential", entries=[("Ni.pde-nd-rrkjus.UPF","Ni.pde-nd-rrkjus.UPF")], label="")
 
+        p       = Paragraph()
+        p.text  = ['(Pseudo Potential)']
+        form.add(p)
+        
         atomic_positions = form.textarea(id='atomic_positions', name='atomic_positions', label='Atomic Positions [<b>ATOMIC_POSITIONS</b>]:',
             value=self.inventory.atomic_positions)#, rows="2", cols="23"
         atomic_positions.help = ''
@@ -82,7 +89,7 @@ class Actor(base):
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
             actor = 'electronsedit',
-            routine = 'link', # verify
+            routine = 'link' # verify
             )
             
         return document

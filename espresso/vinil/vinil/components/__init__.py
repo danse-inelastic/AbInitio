@@ -11,6 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+def democlerk(**kwds):    from DummyClerk import Clerk
+
+    return Clerk(**kwds)
+
 
 __date__ = "$Aug 5, 2009 1:13:27 PM$"
 

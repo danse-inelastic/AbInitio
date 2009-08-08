@@ -26,7 +26,10 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id')
+        id      = pyre.inventory.str(name="id")
+        type    = pyre.inventory.str(name="type", default="not defined")
+        created = pyre.inventory.str(name="created", default="")
+        status  = pyre.inventory.str(name="status", default="not defined")
 
     def default(self, director):
         page = director.retrievePage('template')
@@ -39,8 +42,10 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Electron Simulation Jobs')
+        print director.clerk
+        #job = director.clerk.getJob(1) #self.inventory.id) #id = 1
         p = Paragraph()
-        p.text = [text]
+        p.text = []
         document.add(p)
 
         return document
@@ -53,7 +58,12 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id = self.inventory.id
+        
+        self.id         = self.inventory.id
+        self.type       = self.inventory.type
+        self.created    = self.inventory.created
+        self.status     = self.inventory.status
+
         return
 
     def _init(self):

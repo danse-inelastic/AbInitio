@@ -27,10 +27,13 @@ class WebApplication(Base):
 #        import pyre.idd
 #        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
 #        idd.meta['tip'] = "access to the token server"
-#
-#        from ovini.components import clerk
+
+#        from vinil.components import clerk
 #        clerk = pyre.inventory.facility(name="clerk", factory=clerk)
 #        clerk.meta['tip'] = "the component that retrieves data from the various database tables"
+
+        from luban.components.DummyClerk import DummyClerk
+        clerk = pyre.inventory.facility('clerk', factory=DummyClerk)
 
         debug = pyre.inventory.bool(name="debug", default=True)
         debug.meta['tip'] = "suppress some html output for debugging purposes"
@@ -44,8 +47,8 @@ class WebApplication(Base):
 #        # access to the token server
 #        self.idd = None
 
-#        # access to the data retriever
-#        self.clerk = None
+        # access to the data retriever
+        self.clerk = None
 
         # debugging mode
         self.debug = False
@@ -112,8 +115,7 @@ class WebApplication(Base):
         super(WebApplication, self)._configure()
 
 #        self.idd = self.inventory.idd
-#        self.clerk = self.inventory.clerk
-
+        self.clerk = self.inventory.clerk
         self.debug = self.inventory.debug
 
         return

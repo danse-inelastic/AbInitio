@@ -40,6 +40,7 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
+        Job.py \
 	__init__.py \
 
 
