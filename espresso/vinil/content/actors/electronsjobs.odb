@@ -20,7 +20,7 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str(name="id")
+        id      = pyre.inventory.str(name="id", default="")
         type    = pyre.inventory.str(name="type", default="not defined")
         created = pyre.inventory.str(name="created", default="")
         status  = pyre.inventory.str(name="status", default="not defined")
@@ -36,7 +36,7 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Electron Simulation Jobs')
-        job = director.clerk.getJob(1) #self.inventory.id) #id = 1
+        job = director.clerk.getJob(self.inventory.id)
         p = Paragraph()
         s = "Job Id = %s Job Type = %s Job Created = %s Job Status = %s" % (job.id, job.type, job.created, job.status)
         p.text = [s]

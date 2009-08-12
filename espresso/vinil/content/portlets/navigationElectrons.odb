@@ -14,6 +14,8 @@
 from luban.content import load
 from luban.content.Portlet import Portlet
 
+JOB_ID=1 # Hardcoded value id=1 for electrons
+
 def portlet(director):
     portlet = Portlet(title="Electrons", id="portlet-electrons")
 
@@ -25,12 +27,12 @@ def portlet(director):
     electronsedit = portlet.item(label="Edit Configuration")
     electronsedit.icon = "edit.png"
     electronsedit.Class = "navItem"
-    electronsedit.onclick = load(actor='electronsedit', routine='link')
+    electronsedit.onclick = load(actor='electronsedit', routine='link', id=JOB_ID)
     
     electronsjobs = portlet.item(label="Jobs")
     electronsjobs.icon = "jobs.png"
     electronsjobs.Class = "navItem"
-    electronsjobs.onclick = load(actor='electronsjobs', routine='link')
+    electronsjobs.onclick = load(actor='electronsjobs', routine='link', id=JOB_ID)
 
     electronsdos = portlet.item(label="Electron DOS")
     electronsdos.icon = "dos.png"

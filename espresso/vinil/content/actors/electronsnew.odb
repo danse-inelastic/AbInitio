@@ -88,8 +88,9 @@ class Actor(base):
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'electronsedit',
-            routine = 'link' # verify
+            actor   = 'electronsedit',
+            routine = 'link', # verify
+            id      = JOB_ID
             )
             
         return document

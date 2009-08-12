@@ -36,7 +36,7 @@ class Actor(base):
         document = Document(title='Electron Configuration')
         form = document.form()
 
-        job = director.clerk.getJob(1)
+        job = director.clerk.getJob(self.inventory.id)
         
         p = Paragraph()
         p.text = [job.config]
@@ -46,8 +46,9 @@ class Actor(base):
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'electronsjobs',
+            actor   = 'electronsjobs',
             routine = 'link',
+            id      = self.inventory.id
             )
 
         return document
