@@ -53,7 +53,28 @@ class Actor(base):
 
         return document
         
+    def runSimulation(self, director):
+        # Run PW simulation
 
+        from vinil.utils import pw
+        infile  = "/home/dexity/exports/vinil/content/data/ni.scf.in"
+        outfile = "/home/dexity/exports/vinil/output/ni.scf.out"
+        pw.runPWSimulation(infile, outfile)
+
+        # Find electron DOS
+        from vinil.utils import dos
+        infile  = "/home/dexity/exports/vinil/content/data/ni.scf.dos.in"
+        dos.runPW_DOS(infile)
+
+       # Plot electron DOS
+        from vinil.utils import plot
+        infile      = "/home/dexity/exports/vinil/output/ni.scf.dos.out"
+        imagefile   = "/home/dexity/exports/vinil/html/images/ni_scf_dos.png"
+        plot.createPWPlot(infile, imagefile)
+
+        director.redirect('electronsjobs', 'default', id=self.id)
+
+        
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
         return

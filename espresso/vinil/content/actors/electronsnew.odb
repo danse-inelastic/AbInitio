@@ -81,7 +81,7 @@ class Actor(base):
         atomic_positions.help = ''
         
         kpoints = form.textarea(id='kpoints', name='kpoints', label='K-Points [<b>K_POINTS AUTOMATIC</b>]:<br /><br />',
-            value=self.inventory.kpoints)#, rows="2", cols="23"
+            value=self.inventory.kpoints) #, rows="2", cols="23"
         kpoints.help = ''
         
         submit = form.submitbutton(label="Create Simulation")
@@ -89,7 +89,7 @@ class Actor(base):
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
             actor   = 'electronsedit',
-            routine = 'link', # verify
+            routine = 'link',
             id      = JOB_ID
             )
             
