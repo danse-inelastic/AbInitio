@@ -40,7 +40,7 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-        DummyClerk.py \
+        Clerk.py \
 	__init__.py \
 
 

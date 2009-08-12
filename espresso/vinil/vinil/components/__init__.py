@@ -12,8 +12,8 @@
 #
 
 
-def democlerk(**kwds):    
-    from DummyClerk import Clerk
+def clerk(**kwds):    
+    from Clerk import Clerk
     return Clerk(**kwds)
 
 

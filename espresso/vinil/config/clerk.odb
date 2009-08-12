@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vinil.components.DummyClerk import Clerk
+from vinil.components.Clerk import Clerk
 def clerk(): return Clerk('clerk')
 
 if __name__ =='__main__':
