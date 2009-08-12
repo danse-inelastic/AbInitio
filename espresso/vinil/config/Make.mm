@@ -30,6 +30,8 @@ distclean::
 
 
 EXPORT_DATAFILES = \
+	clerk.pml \
+	dummyclerk.pml \
 	idd-harness.pml \
 	idd-pickler.odb \
 	idd.pml \

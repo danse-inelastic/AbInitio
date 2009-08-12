@@ -34,7 +34,7 @@ class Job(Table):
     config = pyre.db.varchar(name="config", length=5000)
     config.meta['tip'] = "Configuration text"
 
-    pass # end of DbObject
+    pass # end of Job
 
 __date__ = "$Jul 29, 2009 8:31:54 PM$"
 

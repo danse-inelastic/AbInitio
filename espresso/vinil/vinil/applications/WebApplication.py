@@ -32,11 +32,12 @@ class WebApplication(Base):
 #        clerk = pyre.inventory.facility(name="clerk", factory=clerk)
 #        clerk.meta['tip'] = "the component that retrieves data from the various database tables"
 
-        from luban.components.DummyClerk import DummyClerk
-        clerk = pyre.inventory.facility('clerk', factory=DummyClerk)
+#        from vinil.components.DummyClerk import Clerk
+#        #import vinil.components
+#        clerk = pyre.inventory.facility('clerk', factory=Clerk)
 
-        debug = pyre.inventory.bool(name="debug", default=True)
-        debug.meta['tip'] = "suppress some html output for debugging purposes"
+#        debug = pyre.inventory.bool(name="debug", default=True)
+#        debug.meta['tip'] = "suppress some html output for debugging purposes"
 
         imagepath       = pyre.inventory.str(name='imagepath', default = 'images' )
         javascriptpath  = pyre.inventory.str(name='javascriptpath', default = 'javascripts' )
@@ -48,10 +49,10 @@ class WebApplication(Base):
 #        self.idd = None
 
         # access to the data retriever
-        self.clerk = None
+#        self.clerk = None
 
-        # debugging mode
-        self.debug = False
+#        # debugging mode
+#        self.debug = False
 
 
     def main(self, *args, **kwds):
@@ -115,14 +116,16 @@ class WebApplication(Base):
         super(WebApplication, self)._configure()
 
 #        self.idd = self.inventory.idd
-        self.clerk = self.inventory.clerk
-        self.debug = self.inventory.debug
+#        self.clerk = self.inventory.clerk
+#        self.debug = self.inventory.debug
+#        print self.clerk
+        self.clerk.director = self
 
         return
 
     def _init(self):
         super(WebApplication, self)._init()
-
+        
     """
     def _getPrivateDepositoryLocations(self):
 

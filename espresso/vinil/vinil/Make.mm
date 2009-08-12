@@ -48,7 +48,7 @@ EXPORT_PYTHON_MODULES = \
 export:: export-python-modules 
 
 
-docs: export-doxygen-docs
+#docs: export-doxygen-docs
 
 # version
 # $Id: Make.mm 1213 2006-11-18 16:17:08Z linjiao $

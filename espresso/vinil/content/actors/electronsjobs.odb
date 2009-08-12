@@ -42,10 +42,10 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Electron Simulation Jobs')
-        print director.clerk
-        #job = director.clerk.getJob(1) #self.inventory.id) #id = 1
+        #print director.clerk
+        job = director.clerk.getJob(1) #self.inventory.id) #id = 1
         p = Paragraph()
-        p.text = []
+        p.text = [job.id]
         document.add(p)
 
         return document

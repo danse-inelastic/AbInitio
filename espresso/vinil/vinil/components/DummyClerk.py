@@ -22,10 +22,11 @@ class Clerk( base ):
         db = pyre.inventory.str('db', default = 'ovini' )
         db.meta['tip'] = "the name of the database"
 
-        dbwrapper = pyre.inventory.str(name='dbwrapper', default='psycopg')
+        dbwrapper = pyre.inventory.str(name='dbwrapper', default='psycopg2')
         dbwrapper.meta['tip'] = "the python package that provides access to the database back end"
 
-    def __init__(self, name = 'democlerk', facility = 'clerk'):
+    # parameter 'facility' doesn't make any sense here
+    def __init__(self, name = 'clerk', facility = 'clerk'):
         base.__init__(self, name, facility)
         return
 
@@ -33,7 +34,7 @@ class Clerk( base ):
 #        Component.__init__(self, *args, **kwds)
 
     def _init(self):
-        Component._init(self)
+        base._init(self)
 
         # connect to the database
         import pyre.db
@@ -41,7 +42,7 @@ class Clerk( base ):
         self.db = pyre.db.connect(wrapper=self.inventory.dbwrapper, **dbkwds)
 
     def _configure(self):
-        Component._configure(self)
+        base._configure(self)
         self.db = self.inventory.db
 
     def getJob(self, id):
@@ -118,7 +119,7 @@ class DbAddressResolver:
             return host, port, database
         raise ValueError, 'Invalid db svr: %r' % (svr,)
 
-"""
+    """
     def indexActiveUsers(self):
         from jazzclub.dom.User import User
         index = {}
@@ -199,7 +200,7 @@ class DbAddressResolver:
 
     def _store_path(self, tablename):
         return os.path.join( self.dbroot, tablename )
-"""
+    """
 
     def _configure(self):
         base._configure(self)
