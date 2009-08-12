@@ -16,20 +16,6 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
-text = """phonons of Ni at gamma
- &inputph
-  tr2_ph=1.0d-16,
-  prefix='ni',
-  ldisp=.true.,
-  nq1=2,
-  nq2=2,
-  nq3=2,
-  amass(1)=58.6934,
-  outdir='temp/',
-  fildyn='ni.dyn',
- /"""
-
-
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -50,7 +36,7 @@ class Actor(base):
         document = Document(title='Phonon Configuration')
         form = document.form()
 
-        job = director.clerk.getJob(2)
+        job = director.clerk.getJob(self.inventory.id)
 
         p = Paragraph()
         p.text = [job.config]
@@ -60,8 +46,9 @@ class Actor(base):
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'phononsjobs',
+            actor   = 'phononsjobs',
             routine = 'link',
+            id      = self.inventory.id
             )
 
         return document

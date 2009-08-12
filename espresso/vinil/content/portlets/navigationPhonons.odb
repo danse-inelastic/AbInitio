@@ -14,6 +14,8 @@
 from luban.content import load
 from luban.content.Portlet import Portlet
 
+JOB_ID=2 # Hardcoded value id=2 for phonons
+
 def portlet(director):
     portlet = Portlet(title="Phonons", id="portlet-phonons")
 
@@ -25,12 +27,12 @@ def portlet(director):
     phononsedit = portlet.item(label="Edit Configuration")
     phononsedit.icon = "edit.png"
     phononsedit.Class = "navItem"
-    phononsedit.onclick = load(actor='phononsedit', routine='link')
+    phononsedit.onclick = load(actor='phononsedit', routine='link', id=JOB_ID)
     
     phononsjobs = portlet.item(label="Jobs")
     phononsjobs.icon = "jobs.png"
     phononsjobs.Class = "navItem"
-    phononsjobs.onclick = load(actor='phononsjobs', routine='link')
+    phononsjobs.onclick = load(actor='phononsjobs', routine='link', id=JOB_ID)
 
     phononsdos = portlet.item(label="Phonon DOS")
     phononsdos.icon = "dos.png"

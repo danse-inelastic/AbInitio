@@ -35,7 +35,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Edit Phonon Configuration')
 
-        job = director.clerk.getJob(2)
+        job = director.clerk.getJob(self.inventory.id)
 
         form = document.form()
         phononsconfig = form.textarea(id='phononsedit', name='phononsedit', label='',
@@ -46,8 +46,9 @@ class Actor(base):
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'phononsconfig',
+            actor   = 'phononsconfig',
             routine = 'link',
+            id      = self.inventory.id
             )
 
         return document

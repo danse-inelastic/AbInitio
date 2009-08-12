@@ -16,6 +16,8 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+JOB_ID=2 # Hardcoded value id=2 for phonons
+
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -56,8 +58,9 @@ class Actor(base):
 
         # action when form is submitted
         form.onsubmit = select(element=form).submit(
-            actor = 'phononsedit',
+            actor   = 'phononsedit',
             routine = 'link', # verify
+            id      = JOB_ID
             )
 
         return document

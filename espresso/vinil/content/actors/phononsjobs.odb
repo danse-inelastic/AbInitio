@@ -34,7 +34,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Phonon Simulation Jobs')
 
-        job = director.clerk.getJob(2)
+        job = director.clerk.getJob(self.inventory.id)
         p = Paragraph()
         s = "Job Id = %s Job Type = %s Job Created = %s Job Status = %s" % (job.id, job.type, job.created, job.status)
         p.text = [s]
