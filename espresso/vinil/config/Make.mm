@@ -31,7 +31,7 @@ distclean::
 
 EXPORT_DATAFILES = \
 	clerk.pml \
-	dummyclerk.pml \
+	clerk.odb \
 	idd-harness.pml \
 	idd-pickler.odb \
 	idd.pml \
@@ -39,9 +39,6 @@ EXPORT_DATAFILES = \
 	main.pml \
 	web-weaver.pml \
         widget.lib \
-#        democlerk.odb \
-#        democlerk.pml \
-
 
 CP_F = cp -f
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)

@@ -24,36 +24,11 @@ class WebApplication(Base):
         actor = opal.inventory.actor(default='greet')
         actor.meta['tip'] = "the component that defines the application behavior"
 
-#        import pyre.idd
-#        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
-#        idd.meta['tip'] = "access to the token server"
-
-#        from vinil.components import clerk
-#        clerk = pyre.inventory.facility(name="clerk", factory=clerk)
-#        clerk.meta['tip'] = "the component that retrieves data from the various database tables"
-
-#        from vinil.components.DummyClerk import Clerk
-#        #import vinil.components
-#        clerk = pyre.inventory.facility('clerk', factory=Clerk)
-
-#        debug = pyre.inventory.bool(name="debug", default=True)
-#        debug.meta['tip'] = "suppress some html output for debugging purposes"
-
         imagepath       = pyre.inventory.str(name='imagepath', default = 'images' )
         javascriptpath  = pyre.inventory.str(name='javascriptpath', default = 'javascripts' )
 
     def __init__(self, name):
         Base.__init__(self, name)
-
-#        # access to the token server
-#        self.idd = None
-
-        # access to the data retriever
-#        self.clerk = None
-
-#        # debugging mode
-#        self.debug = False
-
 
     def main(self, *args, **kwds):
         actor = self.actor
@@ -115,35 +90,14 @@ class WebApplication(Base):
     def _configure(self):
         super(WebApplication, self)._configure()
 
-#        self.idd = self.inventory.idd
-#        self.clerk = self.inventory.clerk
-#        self.debug = self.inventory.debug
-#        print self.clerk
-        self.clerk.director = self
+        # I don't know if I need this line?
+        #self.clerk.director = self
 
         return
 
     def _init(self):
         super(WebApplication, self)._init()
-        
-    """
-    def _getPrivateDepositoryLocations(self):
-
-        import os
-        odbroot = os.path.abspath('../content')
-        config = os.path.abspath('../config')
-
-        depos = []
-        depos.append(config)
-
-        for entry in os.listdir(odbroot):
-            path = os.path.join(odbroot, entry)
-            if os.path.isdir(path): depos.append(path)
-            continue
-
-        return depos
-    """
-    
+            
     def _getPrivateDepositoryLocations(self):
         from os.path import join
         root = '..'

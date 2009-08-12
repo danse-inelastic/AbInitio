@@ -50,8 +50,10 @@ class Actor(base):
         document = Document(title='Phonon Configuration')
         form = document.form()
 
+        job = director.clerk.getJob(2)
+
         p = Paragraph()
-        p.text = [text]
+        p.text = [job.config]
         form.add(p)
 
         submit = form.submitbutton(label="Run Simulation")

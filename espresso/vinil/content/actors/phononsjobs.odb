@@ -16,12 +16,6 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
-jobs = """Job Id = 2
-Job Type = phonon
-Job Created = 2009-06-11 16:47:52.790506
-Job Status = finished
-"""
-
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -39,8 +33,11 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Phonon Simulation Jobs')
+
+        job = director.clerk.getJob(2)
         p = Paragraph()
-        p.text = [jobs]
+        s = "Job Id = %s Job Type = %s Job Created = %s Job Status = %s" % (job.id, job.type, job.created, job.status)
+        p.text = [s]
         document.add(p)
 
         return document

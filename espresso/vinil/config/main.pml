@@ -17,7 +17,7 @@
 <inventory>
 
   <component name='main'>
-    <facility name='clerk'>dummyclerk</facility>
+    <facility name='clerk'>clerk</facility>
   </component>
 
 </inventory>
