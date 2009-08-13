@@ -86,6 +86,27 @@ label {
     width: 350px;
 }
 
-#ibrav+input input{
-    width: 20px;
+#phononsedit textarea {
+    height: 300px;
+    width: 350px;
 }
+
+#ibrav\+input,
+#ecutwfc\+input,
+#degauss\+input,
+#nq1\+input,
+#nq2\+input,
+#nq3\+input{
+    width:60px;
+}
+
+#occupations\+input,
+#smearing\+input,
+#atomic_species\+input{
+    width:100px;
+}
+
+#atomic_potential {
+    display: inline;
+}
+
