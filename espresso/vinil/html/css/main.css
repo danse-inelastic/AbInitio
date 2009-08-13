@@ -10,6 +10,11 @@ a:hover {
     cursor: pointer;
 }
 
+fieldset {
+    border: none;
+    padding: 0px;
+}
+
 #rootdoc {
     width: 800px;
 }
@@ -76,18 +81,11 @@ label {
     padding-top:0.2em;
 }
 
-/*
-#atomic_species {
-    margin-top: -10px;
+#electronsedit textarea {
+    height: 500px;
+    width: 350px;
 }
 
-
-#atomic_species_field {
-    display: block;
+#ibrav+input input{
+    width: 20px;
 }
-*/
-
-/*
-.formfield
-    width:25%;
-*/
