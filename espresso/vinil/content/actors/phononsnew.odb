@@ -43,15 +43,15 @@ class Actor(base):
         form = document.form()
 
         nq1 = form.text(id='nq1', name='nq1', label='nq1 [<b>nq1</b>]:',
-            value=self.inventory.nq1)# size="5"
+            value=self.inventory.nq1)
         nq1.help = ''
 
         nq2 = form.text(id='nq2', name='nq2', label='nq2 [<b>nq2</b>]:',
-            value=self.inventory.nq2) # size="5"
+            value=self.inventory.nq2)
         nq2.help = ''
 
         nq3 = form.text(id='nq3', name='nq3', label='nq3 [<b>nq3</b>]:',
-            value=self.inventory.nq3)# size="5"
+            value=self.inventory.nq3)
         nq3.help = ''
 
         submit = form.submitbutton(label="Create Simulation")

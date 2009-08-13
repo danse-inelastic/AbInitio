@@ -39,7 +39,7 @@ class Actor(base):
         job = director.clerk.getJob(self.inventory.id) # self.id
         
         electronsconfig = form.textarea(id='electronsedit', name='electronsedit', label='',
-            value=job.config) #, rows="30", cols="50"
+            value=job.config) 
         electronsconfig.help = ''
 
         submit = form.submitbutton(label="Save Parameters")
