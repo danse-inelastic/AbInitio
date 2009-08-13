@@ -22,6 +22,7 @@ RECURSE_DIRS = \
     config \
 
 EXPORT_DATADIRS = \
+    output
 
 INIT_DATADIRS = \
     log \

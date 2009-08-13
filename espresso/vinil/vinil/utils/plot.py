@@ -15,7 +15,7 @@ def createPHPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
-    from ovini.utils import utils
+    from vinil.utils import utils
 
     # Populate 'x' and 'y' lists from file
     (e,  x) = utils.parsePHFile(infile)
@@ -31,7 +31,7 @@ def createPWPlot(infile,  imagefile):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
-    from ovini.utils import utils
+    from vinil.utils import utils
 
     # Populate 'x', 'y' and 'z' (cumulative) lists from file
     (e,  x,  y,  z) = utils.parseFile(infile)

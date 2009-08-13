@@ -53,22 +53,6 @@ class WebApplication(Base):
             return page
         raise RuntimeError, "Unable to load page %s" % name
 
-    def redirect(self, actor, routine, **kwds):
-        self.inventory.routine = routine
-        self.actor = self.retrieveActor(actor)
-
-        if self.actor is not None:
-            self.configureComponent(self.actor)
-            for k,v in kwds.iteritems():
-                setattr(self.actor.inventory, k, v)
-
-        try:
-            self.main()
-        except:
-            raise RuntimeError, "redirect to actor %r, routine %r, with kwds %r failed" % (
-                actor, routine, kwds)
-        return
-
     def plainBugReport(self):
         print '<pre>'
         import traceback
