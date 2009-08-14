@@ -9,8 +9,9 @@ PostgreSQL > 8.0
 1. Install pythia (pyre, opal)
 2. Install luban
 3. Install Quantum Espresso (http://www.quantum-espresso.org/download.php )
-4. Populate database (TODO)
-5. Install vinil
+4. Create database 'vinil' (no owner can be specified).
+5. Populate database
+6. Install vinil
 
 
 Configuration where the vinil application was successfully run:

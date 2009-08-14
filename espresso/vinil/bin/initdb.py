@@ -34,9 +34,8 @@ class DbApp(Script):
 #        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
 #        idd.meta['tip'] = "access to the token server"
 
-        wwwuser = pyre.inventory.str(name='www-data', default='')
-
-        tables = pyre.inventory.list(name='tables', default=[])
+        wwwuser     = pyre.inventory.str(name='www-data', default='')
+        tables      = pyre.inventory.list(name='tables', default=[])
 
 
     def main(self, *args, **kwds):
@@ -45,13 +44,13 @@ class DbApp(Script):
 
         tables = self.tables
         if not tables:
-            from vnf.dom import alltables
+            from vinil.dom import tables as alltables
             tables = alltables()
-        else:
-            tables = [self.clerk._getTable(t) for t in tables]
+#        else:
+#            tables = [self.clerk._getTable(t) for t in tables]
 
         for table in tables:
-            #self.dropTable( table )
+            self.dropTable( table )
             self.createTable( table )
             if self.wwwuser: self.enableWWWUser( table )
             continue
@@ -120,10 +119,10 @@ class DbApp(Script):
 
     def _configure(self):
         Script._configure(self)
-        self.clerk = self.inventory.clerk
+        self.clerk          = self.inventory.clerk
         self.clerk.director = self
-        self.wwwuser = self.inventory.wwwuser
-        self.tables = self.inventory.tables
+        self.wwwuser        = self.inventory.wwwuser
+        self.tables         = self.inventory.tables
         return
 
 
@@ -134,8 +133,8 @@ class DbApp(Script):
 #        self.idd = self.inventory.idd
 
         # initialize table registry
-        import vnf.dom
-        vnf.dom.register_alltables()
+#        import vnf.dom
+#        vnf.dom.register_alltables()
 
         # id generator
 #        def guid(): return '%s' % self.idd.token().locator
