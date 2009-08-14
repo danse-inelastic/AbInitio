@@ -18,7 +18,7 @@
 <inventory>
 
   <component name='clerk'>
-     <property name='db'>ovini</property>
+     <property name='db'>vinil</property>
      <property name='dbwrapper'>psycopg2</property>
   </component>
 

@@ -21,3 +21,11 @@ Apache:         2.2.11
 PostgreSQL:     8.3.7
 Psycopg2:       2.0.8
 
+- The current database contains just one table called "job" that holds two records:
+one for electrons, and the other - for phonons. These entries are populated when database is installed.
+- Entries in the database are not created, modified or deleted.
+- There is no journaling.
+- There is no id generation.
+
+
+

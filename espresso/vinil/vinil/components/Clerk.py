@@ -19,7 +19,7 @@ class Clerk( base ):
     class Inventory( base.Inventory):
 
         import pyre.inventory
-        db = pyre.inventory.str('db', default = 'ovini' )
+        db = pyre.inventory.str('db', default = 'vinil' )
         db.meta['tip'] = "the name of the database"
 
         dbwrapper = pyre.inventory.str(name='dbwrapper', default='psycopg2')
@@ -65,6 +65,7 @@ class Clerk( base ):
         raise RuntimeError, "Cannot find record of id=%s in table %s" % (
             id, table.__name__)
 
+# Don't understand why I need this complicated class.
 class DbAddressResolver:
 
     def resolve(self, address):

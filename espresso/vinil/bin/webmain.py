@@ -17,7 +17,7 @@ def main():
     class MainApp(WebApplication):
 
         def __init__(self):
-            WebApplication.__init__(self, name='main') #, asCGI=True)
+            WebApplication.__init__(self, name='main')
 
             return
 
@@ -45,10 +45,6 @@ def main():
 # main
 if __name__ == '__main__':
     # invoke the application shell
-#    import journal,os
-#    debug = journal.debug('main' )
-#    debug.log(os.environ['PATH'] )
-#    debug.log(os.environ['PYTHONPATH'] )
     main()
 
 
