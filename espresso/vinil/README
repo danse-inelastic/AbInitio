@@ -1,0 +1,23 @@
+Installation
+
+
+Requirements:
+Python > 5.0
+Apache > 2.0
+PostgreSQL > 8.0
+
+1. Install pythia (pyre, opal)
+2. Install luban
+3. Install Quantum Espresso (http://www.quantum-espresso.org/download.php )
+4. Populate database (TODO)
+5. Install vinil
+
+
+Configuration where the vinil application was successfully run:
+OS:             Ubuntu 9.04
+Python:         2.6.2
+Quantum Espresso: 4.05
+Apache:         2.2.11
+PostgreSQL:     8.3.7
+Psycopg2:       2.0.8
+
