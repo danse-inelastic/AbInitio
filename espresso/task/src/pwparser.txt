@@ -1,0 +1,66 @@
+in QEConfig:
+
+changed
+__getMarks:
+
+changed  # Card start and card end into
+            word = line.split()[0]
+            if word in cardsPW and not isCard: ...
+
+            words = line.split()
+            if words[0] in cardsPW and not isCard and words[1] != '=':
+
+in
+ __addCard(self, slice):
+
+        """Adds card"""
+        nameArgument = slice[0].lower().split()
+#        name    = slice[0].lower()
+        name = nameArgument[0]
+        if len(nameArgument) > 1:
+            arg = nameArgument[1]
+        else:
+            arg = None
+        c = Card(name, arg)
+
+Added dictionary with card parameters:
+# Cards' parameters:
+cardsPWDic = {
+'atomic_species': (),
+'atomic_positions': ('alat','bohr','angstrom', 'crystal'),
+'k_points': ( 'tpiba', 'automatic', 'crystal', 'gamma', 'tpiba_b', 'crystal_b'),
+'cell_parameters': ( 'cubic', 'hexagonal'),
+'climbing_images': (),
+'constraints': (),
+'collective_vars': (),
+'occupations': ()
+}
+
+Class card:
+
+Changed constructor to support card arguments:
+    def __init__(self, name, argument=None):
+
+added __argument
+
+setArgument and argument methods
+
+changed toString method ...
+
+added to Card: 
+
+    def len(self):
+        return len(self.__lines)
+
+    def addLine(self, line):
+        self.__lines.append(line)
+
+Bug in Namelist constructor:
+            if name.lower() not in namelistsPW:
+
+Bug in QEConfig _addNamelist:
+needs to be 
+    def __addNamelist(self, slice):
+        """Adds namelist based on slice """
+        name    = slice[0].strip('&').lower()
+

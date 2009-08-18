@@ -20,7 +20,13 @@ class Config:
         'matdynOutput': 'matdyn.out',
         'matdynModes': 'matdyn.modes'
         }
-            
+
+        try:
+          if fname == None:
+             raise NameError("Config should be initialized with a filename")
+        except NameError:
+            raise
+        
         self.config = ConfigParser.SafeConfigParser(configDic)
         self.config.read(fname)
         
