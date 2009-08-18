@@ -18,9 +18,7 @@ def calcPartPhonDos(Omega, PolVec, iAtom, minOmega = 0., maxOmega = 110., deltaO
         for omega, vector in zip(modes, vectors[:,iAtom,:]):
             idx = int( (abs(omega) - minOmega)/deltaOmega )
             if idx < len(histPartOmega):
-#                flatVector = vector[iAtom, :].ravel()
-                flatVector = vector
-                weight = (real(flatVector*flatVector.conjugate())).sum()
+                weight = (real(vector*vector.conjugate())).sum()
                 histPartOmega[idx] = histPartOmega[idx] + weight
                 norm = norm + weight
     return histPartOmega/norm
@@ -33,12 +31,8 @@ def  calcCoeffPartPhonDos(coeffOmega, iOrder, Omega, PolVec, iAtom, minOmega = 0
         for omega, vector, coeff in zip(modes, vectors[:,iAtom,:], coeffs):
             idx = int( (abs(omega) - minOmega)/deltaOmega )
             if idx < len(histPartCoeff):
-#                flatVector = vector[iAtom, :].ravel()
-                flatVector = vector
-                weight = (real(flatVector*flatVector.conjugate())).sum()
-#                weight = 1.0
+                weight = (real(vector*vector.conjugate())).sum()
                 histPartCoeff[idx] = histPartCoeff[idx] - weight*coeff
-#                if weight*coeff
                 histPartOmega[idx] = histPartOmega[idx] + weight
                 norm = norm + weight*coeff
     for idx in range(len(histPartCoeff)):
