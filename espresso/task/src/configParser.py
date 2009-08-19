@@ -231,6 +231,18 @@ class QEConfig(object):
         except KeyError:    # parameter is not present
             raise
 
+    def namelistParameter(self, namelist, parameter):
+        try:
+            return self.namelist(namelist).param(parameter)
+        except KeyError:    # parameter is not present
+            raise
+
+    def setNamelistParameter(self, namelist, parameter, value):
+        try:
+            self.namelists[namelist].params[parameter] = str(value)
+        except KeyError:      # parameter is not present
+            raise
+
     def createCard(self, name):
         """Creates card and adds to QEConfig. """
         self.cards[name] = Card(name)
@@ -251,6 +263,13 @@ class QEConfig(object):
             return self.cards[name]
         except KeyError:    # parameter is not present
             raise
+
+    def getCardLines(self, name):
+        try:
+            return self.cards[name].getLines()
+        except KeyError:    # parameter is not present
+            raise
+
 
     def toString(self):
         s = ''
