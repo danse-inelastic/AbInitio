@@ -233,13 +233,13 @@ class QEConfig(object):
 
     def namelistParameter(self, namelist, parameter):
         try:
-            return self.namelist(namelist).param(parameter)
+            return self.namelist(namelist).param(parameter.lower())
         except KeyError:    # parameter is not present
             raise
 
     def setNamelistParameter(self, namelist, parameter, value):
         try:
-            self.namelists[namelist].params[parameter] = str(value)
+            self.namelists[namelist].params[parameter.lower()] = str(value)
         except KeyError:      # parameter is not present
             raise
 

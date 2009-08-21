@@ -82,4 +82,7 @@ added to QEConfig
         except KeyError:    # parameter is not present
             raise
 
-
+in 
+    def namelistParameter(self, namelist, parameter):
+    def setNamelistParameter(self, namelist, parameter, value):
+set parameters chck in lower()
