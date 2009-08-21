@@ -140,33 +140,62 @@ class QELattice():
         cBC = 0.0
         cAC = 0.0
         cAB = 0.0
-        a = float(qeConf.namelistParameter('system', 'celldm(1)'))
-        if ibrav > 0 and ibrav < 4:
-            return a, a, a, cBC, cAC, cAB
-        if ibrav == 4:
-            cAB = cosd(120.0)
-        if ibrav == 4 or ibrav == 6 or ibrav == 7:
-            c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
-            return a, a, c_a*a, cBC, cAC, cAB
-        if ibrav == 5:
-            cAB = float(qeConf.namelistParameter('system', 'celldm(4)'))
-            return a, a, a, cAB, cAB, cAB
-        if ibrav > 7 and ibrav < 12:
-            b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
-            c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
-            return a, b_a*a, c_a*a, cBC, cAC, cAB
-        if ibrav == 12 or ibrav == 13:
-            b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
-            c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
-            cAB = float(qeConf.namelistParameter('system', 'celldm(4)'))
-            return a, b_a*a, c_a*a, cBC, cAC, cAB
-        if ibrav == 14:
-            b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
-            c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
-            cBC = float(qeConf.namelistParameter('system', 'celldm(4)'))
-            cAC = float(qeConf.namelistParameter('system', 'celldm(5)'))
-            cAB = float(qeConf.namelistParameter('system', 'celldm(6)'))
-            return a, b_a*a, c_a*a, cBC, cAC, cAB
+        if 'celldm' in qeConf.namelists['system'].params:
+            a = float(qeConf.namelistParameter('system', 'celldm(1)'))
+            if ibrav > 0 and ibrav < 4:
+                return a, a, a, cBC, cAC, cAB
+            if ibrav == 4:
+                cAB = cosd(120.0)
+            if ibrav == 4 or ibrav == 6 or ibrav == 7:
+                c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
+                return a, a, c_a*a, cBC, cAC, cAB
+            if ibrav == 5:
+                cAB = float(qeConf.namelistParameter('system', 'celldm(4)'))
+                return a, a, a, cAB, cAB, cAB
+            if ibrav > 7 and ibrav < 12:
+                b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
+                c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
+                return a, b_a*a, c_a*a, cBC, cAC, cAB
+            if ibrav == 12 or ibrav == 13:
+                b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
+                c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
+                cAB = float(qeConf.namelistParameter('system', 'celldm(4)'))
+                return a, b_a*a, c_a*a, cBC, cAC, cAB
+            if ibrav == 14:
+                b_a = float(qeConf.namelistParameter('system', 'celldm(2)'))
+                c_a = float(qeConf.namelistParameter('system', 'celldm(3)'))
+                cBC = float(qeConf.namelistParameter('system', 'celldm(4)'))
+                cAC = float(qeConf.namelistParameter('system', 'celldm(5)'))
+                cAB = float(qeConf.namelistParameter('system', 'celldm(6)'))
+                return a, b_a*a, c_a*a, cBC, cAC, cAB
+        else:
+            a = float(qeConf.namelistParameter('system', 'A'))
+            if ibrav > 0 and ibrav < 4:
+                return a, a, a, cBC, cAC, cAB
+            if ibrav == 4:
+                cAB = cosd(120.0)
+            if ibrav == 4 or ibrav == 6 or ibrav == 7:
+                c = float(qeConf.namelistParameter('system', 'C'))
+                return a, a, c, cBC, cAC, cAB
+            if ibrav == 5:
+                cAB = float(qeConf.namelistParameter('system', 'cosAB'))
+                return a, a, a, cAB, cAB, cAB
+            if ibrav > 7 and ibrav < 12:
+                b = float(qeConf.namelistParameter('system', 'B'))
+                c = float(qeConf.namelistParameter('system', 'C'))
+                return a, b, c, cBC, cAC, cAB
+            if ibrav == 12 or ibrav == 13:
+                b = float(qeConf.namelistParameter('system', 'B'))
+                c = float(qeConf.namelistParameter('system', 'C'))
+                cAB = float(qeConf.namelistParameter('system', 'cosAB'))
+                return a, b, c, cBC, cAC, cAB
+            if ibrav == 14:
+                b = float(qeConf.namelistParameter('system', 'B'))
+                c = float(qeConf.namelistParameter('system', 'C'))
+                cBC = float(qeConf.namelistParameter('system', 'cosBC'))
+                cAC = float(qeConf.namelistParameter('system', 'cosAC'))
+                cAB = float(qeConf.namelistParameter('system', 'cosAB'))
+                return a, b, c, cBC, cAC, cAB
 
 
     def getQEBaseFromParAngles(self, ibrav = 1, a = 1, b = 1, c = 1,
@@ -262,7 +291,7 @@ class QELattice():
 
 
 
-qeLattice = QELattice(fname = 'scf.in')
+qeLattice = QELattice(fname = 'zro2.scf.in')
 qeLattice2 = QELattice()
 qeLattice2.setLatticeFromPrimitiveVectors(qeLattice.ibrav, qeLattice.primitiveLattice.base )
 #print qeLattice.primitiveLattice.base
