@@ -32,7 +32,12 @@ namelist_control = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax
                     'nberrycyc')
 
 system_namelist = ('ibrav',
-                   'celldm',
+                   'celldm(1)',
+                   'celldm(2)',
+                   'celldm(3)',
+                   'celldm(4)',
+                   'celldm(5)',
+                   'celldm(6)',
                    'A',
                    'B',
                    'C',

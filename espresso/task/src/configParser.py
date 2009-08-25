@@ -73,6 +73,7 @@ class Namelist():
 
     def param(self, param):
         """Returns value of parameter 'param'"""
+        param = param.lower()
         if self.__paramExists(param):
             return self.params[param]
 
@@ -231,17 +232,17 @@ class QEConfig(object):
         except KeyError:    # parameter is not present
             raise
 
-    def namelistParameter(self, namelist, parameter):
-        try:
-            return self.namelist(namelist).param(parameter.lower())
-        except KeyError:    # parameter is not present
-            raise
+#    def namelistParameter(self, namelist, parameter):
+#        try:
+#            return self.namelist(namelist).param(parameter.lower())
+#        except KeyError:    # parameter is not present
+#            raise
 
-    def setNamelistParameter(self, namelist, parameter, value):
-        try:
-            self.namelists[namelist].params[parameter.lower()] = str(value)
-        except KeyError:      # parameter is not present
-            raise
+#    def setNamelistParameter(self, namelist, parameter, value):
+#        try:
+#            self.namelists[namelist].params[parameter.lower()] = str(value)
+#        except KeyError:      # parameter is not present
+#            raise
 
     def createCard(self, name):
         """Creates card and adds to QEConfig. """
@@ -264,17 +265,29 @@ class QEConfig(object):
         except KeyError:    # parameter is not present
             raise
 
-    def getCardLines(self, name):
-        try:
-            return self.cards[name].getLines()
-        except KeyError:    # parameter is not present
-            raise
+#    def getCardLines(self, name):
+#        try:
+#            return self.cards[name].getLines()
+#        except KeyError:    # parameter is not present
+#            raise
 
 
     def toString(self):
         s = ''
-        for nl in self.namelists.values():
-            s += nl.toString()
+        namelistOrder = {
+        0 : 'control',
+        1 : 'system',
+        2 : 'electrons',
+        3 : 'ions',
+        4 : 'cell',
+        5 : 'phonon',
+        6 : 'ee'
+        }
+        for i in range(len(namelistOrder)):
+            if namelistOrder[i] in self.namelists:
+                s += self.namelists[namelistOrder[i]].toString()
+#        for nl in self.namelists.values():
+#            s += nl.toString()
 
         for c in self.cards.values():
             s += c.toString()
