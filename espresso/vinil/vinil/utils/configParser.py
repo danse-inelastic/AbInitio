@@ -158,10 +158,10 @@ class QEConfig(object):
     - Add, Edit or Remove parameters from/to namelist or card
     """
 
-    # Either filename or configstr (not both) can be specified
-    def __init__(self, filename=None, configstr=None):
+    # Either filename or config (not both) can be specified
+    def __init__(self, filename=None, config=None):
         self.filename   = filename
-        self.configstr  = configstr
+        self.config     = config
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
         self.qe         = [self.namelists, self.cards]
@@ -247,8 +247,8 @@ class QEConfig(object):
             lines       = f.readlines()         # Returns list of lines.
             f.close()
 
-        elif self.configstr is not None:
-            lines       = self.configstr.splitlines()
+        elif self.config is not None:
+            lines       = self.config.splitlines()
 
         else:
             print "Error: You haven't specify any config file"

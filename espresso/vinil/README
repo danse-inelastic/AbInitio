@@ -7,7 +7,7 @@ Apache > 2.0
 PostgreSQL > 8.0
 
 1. Install pythia (pyre, opal)
-2. Install luban
+2. Install luban (rev. 304)
 3. Install Quantum Espresso (http://www.quantum-espresso.org/download.php )
 4. Create database 'vinil' (no owner can be specified).
 5. Populate database
