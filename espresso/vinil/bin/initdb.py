@@ -20,8 +20,6 @@ from pyre.applications.Script import Script
 
 
 class DbApp(Script):
-
-
     class Inventory(Script.Inventory):
 
         import pyre.inventory
