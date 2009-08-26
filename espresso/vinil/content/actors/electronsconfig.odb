@@ -58,19 +58,22 @@ class Actor(base):
         
         # Run PW simulation
         from vinil.utils import pw
-        infile  = "/home/dexity/exports/vinil/content/data/ni.scf.in"
-        outfile = "/home/dexity/exports/vinil/output/ni.scf.out"
-        pw.runPWSimulation(infile, outfile)
+        import os
+        export_root = os.environ.get('EXPORT_ROOT')
+
+        infile  = export_root + "/content/data/ni.scf.in"
+        outfile = export_root + "/output/ni.scf.out"
+        pw.runPWSimulation(outfile, infile)
 
         # Find electron DOS
         from vinil.utils import dos
-        infile  = "/home/dexity/exports/vinil/content/data/ni.scf.dos.in"
+        infile  = export_root + "/content/data/ni.scf.dos.in"
         dos.runPW_DOS(infile)
 
         # Plot electron DOS
         from vinil.utils import plot
-        infile      = "/home/dexity/exports/vinil/output/ni.scf.dos.out"
-        imagefile   = "/home/dexity/exports/vinil/html/images/plots/ni_scf_dos.png"
+        infile      = export_root + "/output/ni.scf.dos.out"
+        imagefile   = export_root + "/html/images/plots/ni_scf_dos.png"
         plot.createPWPlot(infile, imagefile)
 
         # Redirection

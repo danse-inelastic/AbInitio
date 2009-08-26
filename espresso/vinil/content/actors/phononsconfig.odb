@@ -61,8 +61,11 @@ class Actor(base):
 
         # Plot phonon DOS
         from vinil.utils import plot
-        infile      = "/home/dexity/exports/vinil/content/data/ni.ph.dos.out"
-        imagefile   = "/home/dexity/exports/vinil/html/images/plots/ni_ph_dos.png"
+        import os
+        export_root = os.environ.get('EXPORT_ROOT')
+
+        infile      = export_root + "/content/data/ni.ph.dos.out"
+        imagefile   = export_root + "/html/images/plots/ni_ph_dos.png"
         plot.createPHPlot(infile, imagefile)
 
         return load(actor='phononsjobs', routine='link', id=self.inventory.id)

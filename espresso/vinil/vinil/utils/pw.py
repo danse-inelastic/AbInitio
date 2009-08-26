@@ -14,7 +14,9 @@
 from subprocess import Popen,  PIPE
 
 # For now it's just a function
-def runPWSimulation(infile, outfile):
+def runPWSimulation(outfile, infile=None):
+    # If infile is None use database
+    # else parse infile
     f = open(infile)
     buf = f.read() # buf is 'string'
     f.close()
