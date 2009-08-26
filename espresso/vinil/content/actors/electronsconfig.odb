@@ -59,6 +59,7 @@ class Actor(base):
         # Run PW simulation
         from vinil.utils import pw
         import os
+        # Variable that should be set in envs.sh
         export_root = os.environ.get('EXPORT_ROOT')
 
         infile  = export_root + "/content/data/ni.scf.in"

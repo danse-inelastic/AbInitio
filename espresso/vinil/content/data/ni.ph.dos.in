@@ -1,6 +1,6 @@
 &inputpp
    prefix='ni',
-   outdir='temp/',
+   outdir='',
    fildos='ni.scf.dos.out',
    Emin=5.0,
    Emax=25.0,
