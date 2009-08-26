@@ -3,7 +3,7 @@
     restart_mode='from_scratch',
     tprnfor = .true.
     prefix='ni',
-    pseudo_dir = '/home/dexity/exports/vinil/content/data/',
+    pseudo_dir='/home/dexity/exports/vinil/content/data/',
     outdir='/home/dexity/exports/vinil/content/temp/'
  /
  &system    
