@@ -20,6 +20,7 @@ EXPORT_DATADIRS = \
         data \
         pages \
         portlets \
+        temp \
 
 EXPORT_DATAFILES = \
 

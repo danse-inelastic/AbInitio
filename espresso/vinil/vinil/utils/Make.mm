@@ -26,6 +26,7 @@ EXPORT_PYTHON_MODULES = \
         configPW.py \
         configParser.py \
         dos.py \
+        orderedDict.py \
         plot.py \
         pw.py \
         utils.py \

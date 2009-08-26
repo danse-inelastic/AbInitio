@@ -13,11 +13,12 @@ Stability issues:
 - Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
-- Would like to use ordered dictionary?
+- Use ordered dictionary!!!
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
 import configPW
+from vinil.utils.orderedDict import OrderedDict
 
 ref = {'control': configPW.namelist_control}
 
@@ -51,7 +52,7 @@ class Namelist():
             raise
 
         self.__name = name.lower() # keeps lower name
-        self.params = {}
+        self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
     def name(self):
         return self.__name
@@ -89,10 +90,11 @@ class Namelist():
 
     def toString(self, indent="    ", br="\n"):
         # Dump namelist
+        # Should I use space?
         s = '&%s%s' % (self.name().upper(), br)
 
         for p in self.params.keys():
-            s += '%s%s = %s%s' % (indent, p, self.params[p], br)
+            s += '%s%s = %s,%s' % (indent, p, self.params[p], br)
 
         s += "/%s" % br
         return s
@@ -160,8 +162,8 @@ class QEConfig(object):
     def __init__(self, filename=None, configstr=None):
         self.filename   = filename
         self.configstr  = configstr
-        self.namelists  = {}
-        self.cards      = {}
+        self.namelists  = OrderedDict()
+        self.cards      = OrderedDict()
         self.qe         = [self.namelists, self.cards]
 
     def createNamelist(self, name):
