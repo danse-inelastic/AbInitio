@@ -1,13 +1,31 @@
 from diffpy.Structure.structure import Structure
+from diffpy.Structure.atom import Atom
 from qelattice import QELattice
 import numpy
 from configParser import *
 
 
+class AtomicSpecies():
+    def __init__(self, element = 'H', mass = 1.0, pseudopotential = ''):
+        self.element = element
+        self.pseudopotential = pseudopotential
+        self.mass = mass
+    def toString(self):
+        return self.element + ' ' + str(self.mass) + ' ' + self.pseudopotential
+
+
+
 class QEStructure():
+
+    
     def __init__(self, fname):
-        """the structure is initialized from PWSCF config file"""
+        """the structure is initialized from PWSCF config file
+           qeLattice and structure are automatically updated"""
         self.filename = fname
+        self.atomicSpecies = {}
+        self.qeLattice = None
+        # optConstraints three 1/0 for each coordinate of each atom
+        self.optConstraints = []
         self.qeConf = QEConfig(fname)
         self.qeConf.parse()
         self.setStructureFromPWSCF()
@@ -16,37 +34,90 @@ class QEStructure():
     def setStructureFromPWSCF(self):
         """ Loads structure from PWSCF config file"""
         self.qeLattice = QELattice(fname = self.filename)
-        self.structure = Structure(lattice = self.qeLattice.primitiveLattice)
-        nat  = int(self.qeConf.namelist('system').param('nat'))
-        ntyp  = int(self.qeConf.namelist('system').param('ntyp'))
+        self.structure = Structure(lattice = self.qeLattice.lattice())
+        self.nat  = int(self.qeConf.namelist('system').param('nat'))
+        self.ntyp  = int(self.qeConf.namelist('system').param('ntyp'))
         atomicLines = self.qeConf.card('atomic_positions').getLines()
         self.atomicPositionsType = self.qeConf.card('atomic_positions').argument()
         if self.atomicPositionsType == 'bohr' or self.atomicPositionsType == 'angstrom':
             raise NotImplementedError
         if self.atomicPositionsType == None:
             self.atomicPositionsType = 'alat'
-        print self.atomicPositionsType
         for line in atomicLines:
             if '!' not in line:
                 words = line.split()
-                coordsConstraints = [float(w) for w in words[1:]]
+                coords = [float(w) for w in words[1:4]]
+                constraint = []
+                if len(words) > 4:
+                    constraint = [int(c) for c in words[4:7]]
+                self.optConstraints.append(numpy.array(constraint, dtype = int))
                 atomSymbol = words[0]
                 if self.atomicPositionsType == 'alat':
-                    coords = self.qeLattice.primitiveLattice.fractional(numpy.array(coordsConstraints[0:3])*self.qeLattice.a)
+                    coords = self.qeLattice.lattice().fractional(numpy.array(coords[0:3])*self.qeLattice.a)
                 if self.atomicPositionsType == 'crystal':
-                    coords = numpy.array(coordsConstraints[0:3])
-                if len(words) > 4:
-                    constraint = [coordsConstraints[3], coordsConstraints[4],
-                                  coordsConstraints[5]]
+                    coords = numpy.array(coords[0:3])
                 self.structure.addNewAtom(atomSymbol, xyz = numpy.array(coords[0:3]))
-#    def writeStructureToPWSCF(self):
-#        """Writes structure into PWSCF config file"""
-#        if self.qeLattice.latticeType == 'celldm'
+                # parse mass ATOMIC_SPECIES section:
+                atomicSpeciesLines = self.qeConf.card('atomic_species').getLines()
+                for line in atomicSpeciesLines:
+                    if '!' not in line:
+                        atomicSpeciesWords = line.split()
+                        element = atomicSpeciesWords[0]
+                        mass = float(atomicSpeciesWords[1])
+                        ps = atomicSpeciesWords[2]
+                        self.atomicSpecies[element] =  AtomicSpecies(element, mass, ps)
 
-        
 
-        
+    def saveStructureToPWSCF(self, fname = None):
+        """Writes/updates structure into PWSCF config file,
+           if the file does not exist, new one will be created"""
+        if fname != None:
+            filename = fname
+            self.qeLattice.saveLatticeToPWSCF(filename)
+            qeConf = QEConfig(fname)
+            qeConf.parse()
+        else:
+            filename = self.filename
+            self.qeLattice.saveLatticeToPWSCF(filename)
+            qeConf = self.qeConf
+            qeConf.parse()
+
+        qeConf.namelist('system').removeParam('ntyp')
+        qeConf.namelist('system').removeParam('nat')
+        qeConf.namelist('system').addParam('ntyp', self.ntyp)
+        qeConf.namelist('system').addParam('nat', self.nat)
+
+        if 'atomic_positions' in qeConf.cards:
+            qeConf.removeCard('atomic_positions')
+        qeConf.createCard('atomic_positions')
+        qeConf.card('atomic_positions').setArgument(self.atomicPositionsType)
+        for atom, constraint in zip(self.structure, self.optConstraints):
+            if self.atomicPositionsType == 'alat':
+                coords = self.qeLattice.lattice().cartesian(atom.xyz)
+                coords = str(coords/self.qeLattice.a)[1:-1]
+            else:
+                if self.atomicPositionsType == 'crystal':
+                    coords = str(atom.xyz)[1:-1]
+                else:
+                    raise NonImplementedError
+            line = atom.element + ' ' + coords + ' ' + str(constraint)[1:-1]
+            qeConf.card('atomic_positions').addLine(line)
+
+        # update ATOMIC_SPECIES card
+        if 'atomic_species' in qeConf.cards:
+            qeConf.removeCard('atomic_species')
+        qeConf.createCard('atomic_species')
+        for element, specie in self.atomicSpecies.items():
+            qeConf.card('atomic_species').addLine(specie.toString())
+            
+        qeConf.save(filename)
+
+ #       def placeInLattice(self, new_lattice):
+
+#        def getLattice(self):
+ #           return self.structure.lattice
 
 if __name__ == '__main__':
-    myStruct = QEStructure('zro2.scf.in')
-    print myStruct.structure
+    myStruct = QEStructure('scf.in')
+    myStruct.saveStructureToPWSCF('qwe.in')
+#    print myStruct.structure

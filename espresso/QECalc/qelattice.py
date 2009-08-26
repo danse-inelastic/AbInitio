@@ -5,21 +5,27 @@ from configParser import *
 
 
 class QELattice():
+
+
     def __init__(self, ibrav = 1,a = 1 ,b = 1,c = 1,
-                 cBC = 0.,cAC = 0. ,cAB = 0., fname = None ):
+                 cBC = 0.,cAC = 0. ,cAB = 0., fname = None, base = None ):
 #        Lattice.__init__(self)
         self.filename = fname
         self.latticeType = 'celldm'
-        self.qeConfig = None   # should be none if nothing to parse
-        self.primitiveLattice = Lattice()
-        self.standardLattice = Lattice()
+        self.qeConf = None   # should be none if nothing to parse
+        self.__primitiveLattice = Lattice()
+        self.__standardLattice = Lattice()
+        self.__base = None
         if self.filename != None:
             self.setLatticeFromPWSCF(self.filename)
         else:
-            self.setLattice(ibrav ,a ,b , c, cBC ,cAC ,cAB )
-#        print self.getQEBaseFromParCos(ibrav ,a ,b ,c ,cBC ,cAC ,cAB )[1]
+            if ibrav > 0 and base != None:
+                self.setLatticeFromQEVectors(ibrav, base)
+            else:
+                self.setLattice(ibrav ,a ,b , c, cBC ,cAC ,cAB, base)
 
-    def setLatticeFromPrimitiveVectors(self, ibrav, vectors):
+
+    def setLatticeFromQEVectors(self, ibrav, vectors):
         """ Will extract conventional lattice parameters from primitive vectors.
             'vectors' - is a list with primitive vectors (in QE notation),
             including lattice parameters. For example from PWSCF output"""
@@ -99,6 +105,7 @@ class QELattice():
 
         self.setLattice(ibrav, a, b, c, cBC, cAC, cAB)
 
+
     def setLatticeFromPWSCF(self, fname = None):
         if fname != None:
             self.filename = fname
@@ -107,43 +114,67 @@ class QELattice():
         if 'ibrav' in self.qeConf.namelists['system'].params:
             ibrav  = int(self.qeConf.namelist('system').param('ibrav'))
             if ibrav >= 0:
-                a, b, c, cBC, cAC, cAB = self.getLatticeParamsFromPWSCF(
-                                                              ibrav, fname)
+                a, b, c, cBC, cAC, cAB, base = self.getLatticeParamsFromPWSCF(ibrav, fname)
             else:
                 raise NotImplementedError("ibrav should be integer >= 0")
         else:
             raise NotImplementedError("config file should have ibrav defined")
-        self.setLattice(ibrav, a, b, c, cBC, cAC, cAB)
+        self.setLattice(ibrav, a, b, c, cBC, cAC, cAB, base)
 
-    def setLattice(self, ibrav = None, a = None, b = None, c = None,
-                   cBC = None, cAC = None, cAB = None):
+
+    def setLattice(self, ibrav, a = None, b = None, c = None,
+                   cBC = None, cAC = None, cAB = None, base = None):
+        """ 'base', numpy array of lattice vectors, and 'a'  will only be used
+            if ibrav == 0. Otherwise, ibrav + lattice parameters will be used"""
         from math import acos
-        if [ibrav, a,b,c,cBC,cAC,cAB] == 7*[None]:
-            return None
-        if ibrav is not None: self.ibrav = ibrav
-        if a is not None: self.a = a
-        if b is not None: self.b = b
-        if c is not None: self.c = c
-        if cBC is not None: self.cBC = cBC
-        if cAC is not None: self.cAC = cAC
-        if cAB is not None: self.cAB = cAB
-        qeBaseTuple = self.getQEBaseFromParCos(self.ibrav, self.a, self.b,
-                                           self.c, self.cBC, self.cAC, self.cAB)
-        qeBase = numpy.array(qeBaseTuple[1], dtype = float)*qeBaseTuple[0]
-        print 'Found "' + qeBaseTuple[2] + '" cell'
-        print 'Setting the base vectors according to QE conventions:'
-        print qeBase
-        self.primitiveLattice.setLatBase(qeBase)
-        alpha = degrees(acos(self.cBC))
-        beta = degrees(acos(self.cAC))
-        gamma = degrees(acos(self.cAB))
-        self.standardLattice.setLatPar(self.a,self.b,self.c,alpha,beta,gamma)
-        print "Standard Lattice:"
-        print self.standardLattice.base
+#        if [ibrav, a,b,c,cBC,cAC,cAB, base] == 8*[None]:
+#            return None
+        if ibrav == None:
+            raise NonImplementedError('ibrav should be specified')
+        self.__ibrav = ibrav
+        if self.__ibrav == 0:
+            print 'Found "generic" cell:'
+            if base == None:
+                raise NonImplementedError('base must be specified')
+            if a == None: a = 1.0
+            qeBase = numpy.array(base, dtype = float)*a
+            print qeBase
+            self.__a = 1.0
+            self.__primitiveLattice.setLatBase(qeBase)
+            self.__standardLattice.setLatBase(qeBase)
+        else:
+            if a is not None: self.__a = a
+            if b is not None: self.__b = b
+            if c is not None: self.__c = c
+            if cBC is not None: self.__cBC = cBC
+            if cAC is not None: self.__cAC = cAC
+            if cAB is not None: self.__cAB = cAB
+            qeBaseTuple = self.__getQEBaseFromParCos(self.__ibrav, self.__a, self.__b,
+                                               self.__c, self.__cBC, self.__cAC, self.__cAB)
+            qeBase = numpy.array(qeBaseTuple[1], dtype = float)*qeBaseTuple[0]            
+            print 'Found "' + qeBaseTuple[2] + '" cell'
+            print 'Setting the base vectors according to QE conventions:'
+            print qeBase
+            self.__primitiveLattice.setLatBase(qeBase)
+            alpha = degrees(acos(self.__cBC))
+            beta = degrees(acos(self.__cAC))
+            gamma = degrees(acos(self.__cAB))
+            self.__standardLattice.setLatPar(self.__a,self.__b,self.__c,alpha,beta,gamma)
+            print "Standard Lattice:"
+            print self.__standardLattice.base
+        self.__base = qeBase
 
-    def getLatticeParams(self):
-        return [self.a, self.b,self.c, self.cBC, self.cAC, self.cAB]
-        
+
+    def latticeParams(self):
+        return [self.__a, self.__b,self.__c, self.__cBC, self.__cAC, self.__cAB]
+
+
+    def lattice(self):
+        '''Returns diffpy.Lattice object. Do not use it for reading  QE
+        (standard cell) lattice parameters. Use latticeParams instead'''
+        return self.__primitiveLattice
+
+
     def getLatticeParamsFromPWSCF(self, ibrav, fname):
         qeConf = QEConfig(fname)
         qeConf.parse()
@@ -157,39 +188,46 @@ class QELattice():
             if ibrav == 0:
                 # lattice is set in the units of celldm(1)
                 # need to parse CELL_PARAMETERS
-                cellParLines = qeConf.card('cell_parameters').getLines()
+                cellParLines = qeConf.card('cell_parameters').getLines()                
                 cellParType = qeConf.card('cell_parameters').argument()
                 if cellParType == 'cubic' or cellParType == None:
                     self.latticeType = 'generic cubic'
                 else:
                     if cellParType == 'hexagonal':
                         self.latticeType = 'generic hexagonal'
+                # convert card into list
+                base = []
+                for line in cellParLines:
+                    if '!' not in line:
+                        words = line.split()
+                        base.append([float(w) for w in words])
+                return 1.0, None, None, None, None, None, base
             if ibrav > 0 and ibrav < 4:
-                return a, a, a, cBC, cAC, cAB
+                return a, a, a, cBC, cAC, cAB, None
             if ibrav == 4:
                 cAB = cosd(120.0)
             if ibrav == 4 or ibrav == 6 or ibrav == 7:
                 c_a = float(qeConf.namelist('system').param('celldm(3)'))
-                return a, a, c_a*a, cBC, cAC, cAB
+                return a, a, c_a*a, cBC, cAC, cAB, None
             if ibrav == 5:
                 cAB = float(qeConf.namelist('system').param('celldm(4)'))
-                return a, a, a, cAB, cAB, cAB
+                return a, a, a, cAB, cAB, cAB, None
             if ibrav > 7 and ibrav < 12:
                 b_a = float(qeConf.namelist('system').param('celldm(2)'))
                 c_a = float(qeConf.namelist('system').param('celldm(3)'))
-                return a, b_a*a, c_a*a, cBC, cAC, cAB
+                return a, b_a*a, c_a*a, cBC, cAC, cAB, None
             if ibrav == 12 or ibrav == 13:
                 b_a = float(qeConf.namelist('system').param('celldm(2)'))
                 c_a = float(qeConf.namelist('system').param('celldm(3)'))
                 cAB = float(qeConf.namelist('system').param('celldm(4)'))
-                return a, b_a*a, c_a*a, cBC, cAC, cAB
+                return a, b_a*a, c_a*a, cBC, cAC, cAB, None
             if ibrav == 14:
                 b_a = float(qeConf.namelist('system').param('celldm(2)'))
                 c_a = float(qeConf.namelist('system').param('celldm(3)'))
                 cBC = float(qeConf.namelist('system').param('celldm(4)'))
                 cAC = float(qeConf.namelist('system').param('celldm(5)'))
                 cAB = float(qeConf.namelist('system').param('celldm(6)'))
-                return a, b_a*a, c_a*a, cBC, cAC, cAB
+                return a, b_a*a, c_a*a, cBC, cAC, cAB, None
         else:
             if ibrav == 0:
                 print "Should specify celldm(1) if use 'generic' lattice"
@@ -197,70 +235,105 @@ class QELattice():
             a = float(qeConf.namelist('system').param('A'))
             self.latticeType = 'traditional'   # A, B, C, cosAB, cosAC, cosBC
             if ibrav > 0 and ibrav < 4:
-                return a, a, a, cBC, cAC, cAB
+                return a, a, a, cBC, cAC, cAB, None
             if ibrav == 4:
                 cAB = cosd(120.0)
             if ibrav == 4 or ibrav == 6 or ibrav == 7:
                 c = float(qeConf.namelist('system').param('C'))
-                return a, a, c, cBC, cAC, cAB
+                return a, a, c, cBC, cAC, cAB, None
             if ibrav == 5:
                 cAB = float(qeConf.namelist('system').param('cosAB'))
-                return a, a, a, cAB, cAB, cAB
+                return a, a, a, cAB, cAB, cAB, None
             if ibrav > 7 and ibrav < 12:
                 b = float(qeConf.namelist('system').param('B'))
                 c = float(qeConf.namelist('system').param('C'))
-                return a, b, c, cBC, cAC, cAB
+                return a, b, c, cBC, cAC, cAB, None
             if ibrav == 12 or ibrav == 13:
                 b = float(qeConf.namelist('system').param('B'))
                 c = float(qeConf.namelist('system').param('C'))
                 cAB = float(qeConf.namelist('system').param('cosAB'))
-                return a, b, c, cBC, cAC, cAB
+                return a, b, c, cBC, cAC, cAB, None
             if ibrav == 14:
                 b = float(qeConf.namelist('system').param('B'))
                 c = float(qeConf.namelist('system').param('C'))
                 cBC = float(qeConf.namelist('system').param('cosBC'))
                 cAC = float(qeConf.namelist('system').param('cosAC'))
                 cAB = float(qeConf.namelist('system').param('cosAB'))
-                return a, b, c, cBC, cAC, cAB
+                return a, b, c, cBC, cAC, cAB, None
 
-    def saveLatticeToPWSCF(self):
-        if self.qeConf == None:
-            raise NotImplementedError("writeLatticeToPWSCF: qeConf was not properly initialized")
-        ibrav = self.ibrav
-        if self.latticeType == 'celldm':
-            self.qeConf.namelist('system').addParam('celldm(1)', self.a)
-            self.qeConf.namelist('system').addParam('celldm(2)', self.b/self.a)
-            self.qeConf.namelist('system').addParam('celldm(3)', self.c/self.a)
-            if self.ibrav < 14:
-                self.qeConf.namelist('system').addParam('celldm(4)', self.cAB)
+
+    def saveLatticeToPWSCF(self, fname = None):
+        """Will save the lattice either into its own file or into supplied with fname.
+           It will also create all relevant sections/cards"""
+        if fname != None:
+            filename = fname
+            qeConf = QEConfig(fname)
+            qeConf.parse()
+        else:
+            if self.filename != None:
+                filename = self.filename
+                qeConf = self.qeConf
             else:
-                self.qeConf.namelist('system').addParam('celldm(4)', self.cBC)
-                self.qeConf.namelist('system').addParam('celldm(5)', self.cAC)
-                self.qeConf.namelist('system').addParam('celldm(6)', self.cAB)
+                raise  # saveLatticeToPWSCF, filename was not supplied
+            
+        if qeConf == None:
+            raise NotImplementedError("writeLatticeToPWSCF: qeConf was not properly initialized")
+        if 'system' not in qeConf.namelists:
+            qeConf.createNamelist('system')
+        # clear geometry from qeConf:
+        qeConf.namelist('system').removeParam('a')
+        qeConf.namelist('system').removeParam('b')
+        qeConf.namelist('system').removeParam('c')
+        qeConf.namelist('system').removeParam('cosab')
+        qeConf.namelist('system').removeParam('cosbc')
+        qeConf.namelist('system').removeParam('cosac')        
+        qeConf.namelist('system').removeParam('celldm(1)')
+        qeConf.namelist('system').removeParam('celldm(2)')
+        qeConf.namelist('system').removeParam('celldm(3)')
+        qeConf.namelist('system').removeParam('celldm(4)')
+        qeConf.namelist('system').removeParam('celldm(5)')
+        qeConf.namelist('system').removeParam('celldm(6)')        
+        if 'cell_parameters' in qeConf.cards:
+            qeConf.removeCard('cell_parameters')
+        if self.latticeType == 'celldm':
+            qeConf.namelist('system').addParam('ibrav', self.__ibrav)
+            qeConf.namelist('system').addParam('celldm(1)', self.__a)
+            qeConf.namelist('system').addParam('celldm(2)', self.__b/self.__a)
+            qeConf.namelist('system').addParam('celldm(3)', self.__c/self.__a)
+            if self.__ibrav < 14:
+                qeConf.namelist('system').addParam('celldm(4)', self.__cAB)
+            else:
+                qeConf.namelist('system').addParam('celldm(4)', self.__cBC)
+                qeConf.namelist('system').addParam('celldm(5)', self.__cAC)
+                qeConf.namelist('system').addParam('celldm(6)', self.__cAB)
         else:
             if self.latticeType == 'traditional':
-                self.qeConf.namelist('system').addParam('A', self.a)
-                self.qeConf.namelist('system').addParam('B', self.a)
-                self.qeConf.namelist('system').addParam('C', self.a)
-                self.qeConf.namelist('system').addParam('cosAB', self.cAB)
-                self.qeConf.namelist('system').addParam('cosAC', self.cAC)
-                self.qeConf.namelist('system').addParam('cosBC', self.cBC)
+                qeConf.namelist('system').addParam('ibrav', self.__ibrav)
+                qeConf.namelist('system').addParam('A', self.__a)
+                qeConf.namelist('system').addParam('B', self.__a)
+                qeConf.namelist('system').addParam('C', self.__a)
+                qeConf.namelist('system').addParam('cosAB', self.__cAB)
+                qeConf.namelist('system').addParam('cosAC', self.__cAC)
+                qeConf.namelist('system').addParam('cosBC', self.__cBC)
+            else:
+                if 'generic' in self.latticeType:
+                    qeConf.namelist('system').addParam('celldm(1)', 1.0)
+                    self.__ibrav = 0
+                    qeConf.namelist('system').addParam('ibrav', self.__ibrav)
+                    if self.latticeType == 'generic hexagonal':
+                        cardArg = 'hexagonal'
+                    if self.latticeType == 'generic cubic' or self.latticeType == None:
+                        cardArg = 'cubic'
+                    qeConf.createCard('cell_parameters')
+                    qeConf.card('cell_parameters').setArgument(cardArg)
+                    qeConf.card('cell_parameters').removeLines()
+                    for i in range(3):
+                        v = self.__primitiveLattice.base[i,:]
+                        qeConf.card('cell_parameters').addLine(str(v)[1:-1])                                
+        qeConf.save(filename)
 
-        self.qeConf.save(self.filename)
 
-#        a = float(qeConf.namelistParameter('system', 'celldm(1)'))
-
-
-    def getQEBaseFromParAngles(self, ibrav = 1, a = 1, b = 1, c = 1,
-                               alpha = 90.,beta = 90 ,gamma = 90):
-        cBC = cosd(alpha)
-        cAC = cosd(beta)
-        cAB = cosd(gamma)
-        return self.getQEBaseFromParCos(ibrav, a, b, c, cBC,cAC,cAB)
-
-
-
-    def getQEBaseFromParCos( self, ibrav = 1, a = 1, b = 1, c = 1,
+    def __getQEBaseFromParCos( self, ibrav = 1, a = 1, b = 1, c = 1,
                                     cBC = 0.,cAC = 0. ,cAB = 0.):
         c_a = float(c)/a
         # description dictionary of QE base vectors:
@@ -341,12 +414,122 @@ class QELattice():
         return QEBase[ibrav]
 
 
+    ####################################################################
+    # property handlers
+    ####################################################################
+
+    # lattice parameters
+
+    def _get_aa(self):
+        print 'preved'
+        return self.__a
+
+    def _set_aa(self, value):
+        self.__a = value
+        self.setLattice(ibrav = self.__ibrav, a = self.__a)
+
+    aa = property(_get_aa, _set_aa, doc ="""lattice parameter a""")
+
+
+    def _get_b(self):
+        return self.__b
+
+    def _set_b(self, value):
+        self.__b = value
+        self.setLattice(ibrav = self.__ibrav, b = self.__b)
+
+    b = property(_get_b, _set_b, doc ="""lattice parameter b""")
+
+
+    def _get_c(self):
+        return self.__c
+
+    def _set_c(self, value):
+        self.__c = value
+        self.setLattice(ibrav = self.__ibrav, c = self.__c)
+
+    c = property(_get_c, _set_c, doc ="""lattice parameter c""")
+
+
+    def _get_cBC(self):
+        return self.__cBC
+
+    def _set_cBC(self, value):
+        self.__cBC = value
+        self.setLattice(ibrav = self.__ibrav, cBC = self.__cBC)
+
+    cBC = property(_get_cBC, _set_cBC, doc ="""lattice parameter cBC""")
+
+
+    def _get_cAC(self):
+        return self.__cAC
+
+    def _set_cAC(self, value):
+        self.__cAC = value
+        self.setLattice(ibrav = self.__ibrav, cAC = self.__cAC)
+
+    cAC = property(_get_cAC, _set_cAC, doc ="""lattice parameter cAC""")
+
+
+    def _get_cAB(self):
+        return self.__cAB
+
+    def _set_cAB(self, value):
+        self.__cAB = value
+        self.setLattice(ibrav = self.__ibrav, cAB = self.__cAB)
+
+    cAB = property(_get_cAB, _set_cAB, doc ="""lattice parameter cAB""")
+
+
+    def _get_ibrav(self):
+        return self.__ibrav
+
+    def _set_ibrav(self, value):
+        if value < 0: value = 0
+        self.__ibrav = value
+        if value == 0:
+            base = self.__base/self.__a
+            self.__type = 'generic cubic'
+            self.setLattice(ibrav = self.__ibrav, a = self.__a, base = base)
+        else:
+            if 'generic' in self.__type:
+                self.__type = 'celldm'
+            self.setLattice(ibrav = self.__ibrav)
+
+    ibrav = property(_get_ibrav, _set_ibrav, doc ="""Lattice symmetry parameter
+                    ibrav""")
+
+
+    def _get_type(self):
+        return self.__type
+
+    def _set_type(self, value):
+        if 'generic' in value:
+            self.__type = value
+            self.__ibrav = 0
+            base = self.__base/self.__a
+            self.setLattice(ibrav = self.__ibrav, a = self.__a, base = base)
+        else:
+            if self.__ibrav == 0:
+                pass
+            else:
+                self.__type = value
+
+    type = property(_get_type, _set_type, doc ="""QE lattice type: 'celldm',
+    'traditional' or 'generic cubic', 'generic hexagonal'(implies ibrav = 0""")
+
 if __name__ == '__main__':
 
-    qeLattice = QELattice(fname = 'zro2_2.scf.in')
-    qeLattice.writeLatticeToPWSCF()
+    qeLattice = QELattice(fname = 'scf.in')
+#    qeLattice = QELattice(fname = 'qwe.in')
+ #   qeLattice.setLatticeFromPrimitiveVectors(12,qeLattice.lattice().base)
+ #   print qeLattice.latticeParams()
+#    qeLattice.latticeType = 'generic hexagonal'
+    qeLattice.aa = 12
+    print qeLattice.aa
+    qeLattice.saveLatticeToPWSCF('./qwe.in')
 #    qeLattice2 = QELattice()
-#    qeLattice2.setLatticeFromPrimitiveVectors(qeLattice.ibrav, qeLattice.primitiveLattice.base )
-    #print qeLattice.primitiveLattice.base
+#    qeLattice2.setLatticeFromPrimitiveVectors(qeLattice.ibrav, qeLattice.lattice().base )
+    #print qeLattice.lattice().base
     #testLattice = Lattice(5,5,5,90,90,90)
     #print testLattice.base
