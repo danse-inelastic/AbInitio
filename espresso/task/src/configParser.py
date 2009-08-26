@@ -205,6 +205,10 @@ class QEConfig(object):
     """
 
     def __init__(self, filename=None):
+        from os.path import exists
+        # create empty file if such name does not exist
+        if not exists(filename):
+            f = open(filename, 'w')
         self.filename   = filename
         self.namelists  = {}
         self.cards      = {}
@@ -244,9 +248,9 @@ class QEConfig(object):
 #        except KeyError:      # parameter is not present
 #            raise
 
-    def createCard(self, name):
+    def createCard(self, name, argument=None):
         """Creates card and adds to QEConfig. """
-        self.cards[name] = Card(name)
+        self.cards[name] = Card(name, argument)
 
     def addCard(self, card):
         """Adds card. """
