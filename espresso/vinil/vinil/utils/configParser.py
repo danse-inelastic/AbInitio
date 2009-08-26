@@ -156,8 +156,10 @@ class QEConfig(object):
     - Add, Edit or Remove parameters from/to namelist or card
     """
 
-    def __init__(self, filename=None, str=None):
+    # Either filename or configstr (not both) can be specified
+    def __init__(self, filename=None, configstr=None):
         self.filename   = filename
+        self.configstr  = configstr
         self.namelists  = {}
         self.cards      = {}
         self.qe         = [self.namelists, self.cards]
@@ -240,16 +242,20 @@ class QEConfig(object):
                 print "Unexpected error:", sys.exc_info()[0]
                 raise
 
-            lines       = f.readlines()
-            lines       = self.__clearLines(lines)
-            marks       = self.__getMarks(lines)
-
-            for m in marks:
-                block   = self.__addBlock(m[0], lines[m[1]:m[2]])
-
+            lines       = f.readlines()         # Returns list of lines.
             f.close()
+
+        elif self.configstr is not None:
+            lines       = self.configstr.splitlines()
+
         else:
             print "Error: You haven't specify any config file"
+
+        lines       = self.__clearLines(lines)
+        marks       = self.__getMarks(lines)
+
+        for m in marks:
+            block   = self.__addBlock(m[0], lines[m[1]:m[2]])
 
 
     def __clearLines(self, lines):

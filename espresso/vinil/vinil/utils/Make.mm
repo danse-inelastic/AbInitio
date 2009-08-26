@@ -23,6 +23,8 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
+        configPW.py \
+        configParser.py \
         dos.py \
         plot.py \
         pw.py \
