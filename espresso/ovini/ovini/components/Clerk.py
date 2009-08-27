@@ -36,7 +36,7 @@ class Clerk(Component):
         db = pyre.inventory.str(name='db', default='ovini')
         db.meta['tip'] = "the name of the database"
 
-        dbwrapper = pyre.inventory.str(name='dbwrapper', default='psycopg')
+        dbwrapper = pyre.inventory.str(name='dbwrapper', default='psycopg2')
         dbwrapper.meta['tip'] = "the python package that provides access to the database back end"
 
     def __init__(self, *args, **kwds):

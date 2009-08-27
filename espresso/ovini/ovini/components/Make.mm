@@ -25,7 +25,6 @@ all: export
 EXPORT_PYTHON_MODULES = \
         Actor.py \
         Clerk.py \
-        Form.py \
         __init__.py \
 
 
