@@ -26,6 +26,7 @@ Requirements:
 Python > 5.0
 Apache > 2.0
 PostgreSQL > 8.0
+Matlotlib > 0.98 # For generating plots
 
 0. Make sure you have Python, Apache and PostgreSQL installed.
 1. Install pythia (pyre, opal)
@@ -75,6 +76,7 @@ Quantum Espresso: 4.05
 Apache:         2.2.11
 PostgreSQL:     8.3.7
 Psycopg2:       2.0.8
+Matplotlib:     0.98.5.2
 
 Notes:
 - You might have different system so make sure to adjust settings accordingly.
