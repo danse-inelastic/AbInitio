@@ -13,144 +13,13 @@ Stability issues:
 - Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
-- Use ordered dictionary!!!
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
-import configPW
 from vinil.utils.orderedDict import OrderedDict
-
-ref = {'control': configPW.namelist_control}
-
-namelistsPW = ('control',
-             'system',
-             'electrons',
-             'ions',
-             'cell',
-             'phonon')
-
-cardsPW = ('atomic_species', 
-           'atomic_positions',
-           'k_points automatic',
-           'cell_parameters',
-           'climbing_images',
-           'constraints',
-           'collective_vars',
-           'occupations')
-
-import sys
-
-class Namelist():
-    """Namelist class that corresponds to Namelist in QE config file"""
-
-    def __init__(self, name):
-        # Verifies if the namelist is valid
-        try:
-            if name not in namelistsPW:
-                raise NameError('Not valid namelist')
-        except NameError:
-            raise
-
-        self.__name = name.lower() # keeps lower name
-        self.params = OrderedDict() # Replace dictionary by ordered dictionry
-
-    def name(self):
-        return self.__name
-
-    def setName(self, name):
-        self.__name = name.lower()
-
-    def param(self, param):
-        """Returns value of parameter 'param'"""
-        if self.__paramExists(param):
-            return self.params[param]
-
-    def addParam(self, param, val):
-        # Add verification?
-        param = param.lower()
-        self.params[param]  = val
-
-    def editParam(self, param, val):
-        """Edits parameter. If it doesn't exist, it just ignores it """
-        if self.__paramExists(param):
-            self.params[param] = val
-
-    def removeParam(self, param):
-        """Deletes parameter"""
-        if self.__paramExists(param):
-            del(self.params[param])
-
-    def __paramExists(self, param):
-        try:
-            param = param.lower()
-            self.params[param]
-            return True
-        except KeyError:    # parameter is not present
-            return False 
-
-    def toString(self, indent="    ", br="\n"):
-        # Dump namelist
-        # Should I use space?
-        s = '&%s%s' % (self.name().upper(), br)
-
-        for p in self.params.keys():
-            s += '%s%s = %s,%s' % (indent, p, self.params[p], br)
-
-        s += "/%s" % br
-        return s
-
-class Card():
-    """Card class that corresponds to Card in QE config file"""
-    # May be add some more convenience methods?
-
-    def __init__(self, name):
-        # Verifies if the card is valid
-        try:
-            if name not in cardsPW:
-                raise NameError('Not valid card')
-        except NameError:
-            raise
-
-        self.__name     = name.lower() # keeps lower name
-        self.__lines    = []
-
-    def name(self):
-        return self.__name
-
-    def setName(self, name):
-        self.__name = name.lower()
-
-    def line(self, num):
-        """Returns value of parameter 'param'"""
-        self.__checkRange(num)
-        return self.__lines[num]
-
-    def addLine(self, line):
-        self.__lines.append(line)
-
-    def editLines(self, lines):
-        """Replaces lines by new 'lines' (list) """
-        self.__lines    = lines
-
-    def removeLine(self, num):
-        self.__checkRange(num)
-        self.lines.pop(num)
-
-    def removeLines(self):
-        self.__lines = []
-
-    def __checkRange(self, num):
-        assert num > 0
-        assert len(self.__lines) > num
-
-    def toString(self, indent=" ", br="\n"):
-        # Dump card
-        s = '%s%s' % (self.name().upper(), br)
-
-        for l in self.__lines:
-            s += '%s%s%s' % (indent, l, br)
-
-        return s
+from vinil.utils.namelist import Namelist
+from vinil.utils.card import Card
+import configPW
 
 class QEConfig(object):
     """Quantum Espresso configuration class. It can:
@@ -241,6 +110,7 @@ class QEConfig(object):
             except IOError:
                 print "I/O error"
             except:
+                import sys
                 print "Unexpected error:", sys.exc_info()[0]
                 raise
 
@@ -333,7 +203,7 @@ class QEConfig(object):
             if l[0] == '&' and not isNamelist:
                 name = l[1:].lower()
 
-                if not name in namelistsPW:
+                if not name in configPW.namelists:
                     continue             # namelist is not recognizable
 
                 block       = []
@@ -344,7 +214,7 @@ class QEConfig(object):
             # Card part
             line    = l.lower()
             # Card end
-            if line in cardsPW and isCard:
+            if line in configPW.cards and isCard:
                 #print "End: %s, line: %d" % (line, i-1)
                 isCard  = False
                 block.append(i)
@@ -356,7 +226,7 @@ class QEConfig(object):
                 blocklist.append(block)
 
             # Card start
-            if line in cardsPW and not isCard:
+            if line in configPW.cards and not isCard:
                 #print "Start: %s, line: %d" % (line, i)
                 block   = []
                 isCard  = True

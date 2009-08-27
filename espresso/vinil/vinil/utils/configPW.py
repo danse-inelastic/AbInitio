@@ -4,6 +4,27 @@
 
 # Namelist: CONTROL
 
+# Simple verification for namelists and cards:
+
+namelists = ('control',
+             'system',
+             'electrons',
+             'ions',
+             'cell',
+             'phonon',
+             # Put in a separate namelist later!
+             # as it belongs to dos.x simulation
+             'inputpp')
+
+cards =   ('atomic_species',
+           'atomic_positions',
+           'k_points automatic',
+           'cell_parameters',
+           'climbing_images',
+           'constraints',
+           'collective_vars',
+           'occupations')
+
 namelist_control = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax', 'md', 'vc-relax', 'vc-md', 'neb', 'smd', 'metadyn'),
                     'title',        #: (''),
                     'verbosity',    #: ('high', 'default', 'low', 'minimal'),

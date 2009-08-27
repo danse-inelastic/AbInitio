@@ -23,12 +23,14 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
+        card.py \
         configPW.py \
-        configParser.py \
         dos.py \
+        namelist.py \
         orderedDict.py \
         plot.py \
         pw.py \
+        qeconfig.py \
         utils.py \
 	__init__.py \
 

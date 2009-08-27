@@ -98,9 +98,9 @@ def inittable(db):
         r.config    = config
         return r
     records = [
-        job( 1, 'electron', 'finished', '2009-06-11 13:35:34.081567', config_electons),
-        job( 2, 'phonon', 'finished', '2009-06-11 16:47:52.790506', config_phonons),
-        job( 3, 'pp', 'finished', '2009-06-11 16:44:32.345214', config_pp)
+        job( 1, 'pw', 'finished', '2009-06-11 13:35:34.081567', config_electons),
+        job( 2, 'ph', 'finished', '2009-06-11 16:47:52.790506', config_phonons),
+        job( 3, 'dos', 'finished', '2009-06-11 16:44:32.345214', config_pp)
         ]
     for r in records: db.insertRow( r )
     return
