@@ -18,8 +18,8 @@ config_electons = """ &control
     restart_mode='from_scratch',
     tprnfor = .true.
     prefix='ni',
-    pseudo_dir = '/home/dexity/exports/vinil/content/data/',
-    outdir='/home/dexity/exports/vinil/content/temp/'
+    pseudo_dir = '',
+    outdir=''
  /
  &system
     ibrav=2,
@@ -54,14 +54,14 @@ config_phonons = """phonons of Ni at gamma
   nq2=2,
   nq3=2,
   amass(1)=58.6934,
-  outdir='temp/',
+  outdir='',
   fildyn='ni.dyn',
 /"""
 
 config_pp = """&inputpp
    prefix='ni',
-   outdir='/home/dexity/exports/vinil/content/temp/',
-   fildos='/home/dexity/exports/vinil/output/ni.scf.dos.out',
+   outdir='',
+   fildos='',
    Emin=5.0,
    Emax=25.0,
    DeltaE=0.1

@@ -27,6 +27,9 @@ one for electrons, and the other - for phonons. These entries are populated when
 - Entries in the database are not created, modified or deleted.
 - There is no journaling.
 - There is no id generation.
+- 'pseudo_dir' and 'outdir' in PW simulation, 'outdir' and 'fildos' in DOS simulation,
+  'outdir' in PH simulation and are hardcoded (change in database will not have an effect)
+-
 
 
 

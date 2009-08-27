@@ -16,7 +16,7 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
-JOB_ID=1 # Hardcoded value id=1 for electrons
+JOB_ID=1 # Hardcoded value id=1 for pw (electron) simulation
 
 class Actor(base):
 

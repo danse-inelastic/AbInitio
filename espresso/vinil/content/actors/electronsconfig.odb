@@ -18,6 +18,9 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
+# Hardcoded value id=1 for pw (electron) simulation
+JOB_ID_DOS=3
+
 # Variable that should be set in envs.sh
 EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
 
@@ -68,7 +71,7 @@ class Actor(base):
         return load(actor='electronsjobs', routine='link', id=self.inventory.id)
 
     # Sets pseudo_dir and outdir (hardcoded) and saves to the same file.
-    def setConfig(self, filename=None, config=None):
+    def setPWConfig(self, filename=None, config=None):
         from vinil.utils.qeconfig import QEConfig
         qe = QEConfig(filename, config)
         qe.parse()
@@ -86,25 +89,48 @@ class Actor(base):
         if config is not None:
             return qe.toString()
 
+    def setPW_DOSConfig(self, filename=None, config=None):
+        from vinil.utils.qeconfig import QEConfig
+        qe = QEConfig(filename, config)
+        qe.parse()
+        pd = qe.namelist('inputpp')
+
+        outdir      = EXPORT_ROOT + "/content/temp/"
+        fildos      = EXPORT_ROOT + "/output/ni.scf.dos.out"
+
+        pd.editParam('outdir', "'%s'" % outdir)
+        pd.editParam('fildos', "'%s'" % fildos)
+
+        if filename is not None:
+            qe.save()
+            return
+
+        if config is not None:
+            return qe.toString()
+
+
     # Run PW simulation
     def runPWSimulation(self, director):
         job = director.clerk.getJob(self.inventory.id)
-
         config = job.config
 
         #infile  = EXPORT_ROOT + "/content/data/ni.scf.in"
         outfile = EXPORT_ROOT + "/output/ni.scf.out"
 
         from vinil.utils import pw
-        configmod = self.setConfig(config=config)
+        configmod = self.setPWConfig(config=config)
         pw.runPWSimulation(outfile, config=configmod)
 
     # Find electron DOS
     def runPW_DOS(self, director):
-        infile  = EXPORT_ROOT + "/content/data/ni.scf.dos.in"
+        job = director.clerk.getJob(JOB_ID_DOS)
+        config = job.config
 
+        #infile  = EXPORT_ROOT + "/content/data/ni.scf.dos.in"
+
+        configmod = self.setPW_DOSConfig(config=config)
         from vinil.utils import dos
-        dos.runPW_DOS(infile)
+        dos.runPW_DOS(config=configmod)
 
     # Plot electron DOS
     def createPWPlot(self, director):
