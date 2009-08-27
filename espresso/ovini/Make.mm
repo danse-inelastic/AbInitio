@@ -17,13 +17,14 @@ RECURSE_DIRS = \
     ovini \
     content \
     bin \
-    cgi \
+    cgi-bin \
+    html \
+    config \
 
 EXPORT_DATADIRS = \
-    html \
+    output \
 
 INIT_DATADIRS = \
-    config \
     log \
 
 OTHERS = \

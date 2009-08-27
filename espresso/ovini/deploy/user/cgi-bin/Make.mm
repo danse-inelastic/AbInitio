@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = ovini
-PACKAGE = bin
+PACKAGE = cgi-bin
 
 #--------------------------------------------------------------------------
 #
@@ -30,14 +30,13 @@ distclean::
 
 
 EXPORT_DATAFILES = \
-	idd.py \
-        initdb.py \
-        startservices.sh \
+	main.cgi \
 
-CP_F = rsync 
+
+CP_F = rsync
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
 
-export-data-files:: 
+export-data-files::
 	mkdir -p $(EXPORT_DATA_PATH); \
 	for x in $(EXPORT_DATAFILES); do { \
 	  $(CP_F) $$x $(EXPORT_DATA_PATH)/ ; \
@@ -45,6 +44,6 @@ export-data-files::
 
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:14 aivazis Exp $
+# $Id$
 
 # End of file

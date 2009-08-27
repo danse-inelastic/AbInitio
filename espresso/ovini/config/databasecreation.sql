@@ -1,4 +1,4 @@
--- Not tested script for population of testing entries to ovini database
+-- Not working script for population of testing entries to ovini database
 
 CREATE DATABASE ovini OWNER www-data
 
