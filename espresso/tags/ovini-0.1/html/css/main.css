@@ -1,0 +1,95 @@
+#page-content {
+    width: 800px;
+}
+
+/*
+.portletBody {
+    width: 200px;
+}
+*/
+
+.navItemIcon {
+    border: 0px;
+}
+
+#page-main {
+    text-align: left;
+    vertical-align: top;
+}
+
+#page-content {
+
+}
+
+#page-document {
+    margin-top: 15px;
+
+}
+
+
+#page-document h1 {
+    font-size: 18px;
+    margin: 5px 0px 5px 0px;
+}
+
+
+#page-columnLeft {
+    vertical-align: top;
+    width: 200px
+}
+
+.portlet {
+    margin-top: -10px
+}
+
+.portlet h5{
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.navItemIcon {
+    padding-right: 5px
+}
+
+#page-footer {
+    width: 800px;
+    text-align: center;
+    font-size: 14px;
+    color: green;
+}
+
+#page-footer p {
+    margin-bottom: -10px
+}
+
+#page-credits {
+    width: 800px;
+    text-align: center;
+    font-size: 14px;
+    color:gray;
+}
+
+/* Form */
+
+label {
+    float: left;
+    text-align:right;
+    margin-right:0.5em;
+    padding-top:0.2em;
+}
+
+
+#atomic_species {
+    margin-top: -10px;
+}
+
+/*
+#atomic_species_field {
+    display: block;
+}
+*/
+
+/*
+.formfield
+    width:25%;
+*/

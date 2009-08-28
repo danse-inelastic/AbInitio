@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+import ovini.content
+from opal.content.Literal import Literal
+from opal.content.Paragraph import Paragraph
+
+def page(app):
+
+    # create the page
+    page = ovini.content.page(name='', title="ovini: Opal VNF Mini", root=app.home)
+
+    # build the body
+    body = page.body()
+    header = body.pageHeader()
+
+    l = Literal()
+    l.text = ['<h2><a href="%s">Ovini</a> (Opal VNF Mini)</h2>' % app.cgihome]
+    header.add(l)
+
+    content = body.pageContent()
+    left = content.leftColumn()
+    main = content.main()
+
+    # populate the left column
+    nave = app.retrievePortlet("navigationElectrons")
+    navp = app.retrievePortlet("navigationPhonons")
+    left.add(nave)
+    left.add(navp)
+
+    footer = body.pageFooter()
+    p = Paragraph()
+    p.text = [ 'All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)' ]
+    footer.add( p )
+
+    # build the credits
+    credits = body.pageCredits()
+    p = credits.paragraph(cls="discreet")
+    p.text = ["powered by opal"]
+
+    return page
+
+# version
+__id__ = "$Id$"
+__date__ = "$Jul 21, 2009 9:10:14 PM$"
+
+

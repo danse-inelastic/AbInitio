@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from ovini.components.Actor import Actor as base
+from opal.content.Literal import Literal
+
+class Actor(base):
+    class Inventory(base.Inventory):
+
+        import pyre.inventory
+
+        id      = pyre.inventory.str(name="id")
+        type    = pyre.inventory.str(name="type", default="not defined")
+        created = pyre.inventory.str(name="created", default="")
+        status  = pyre.inventory.str(name="status", default="not defined")
+
+    def default(self, director):
+        page = director.retrievePage('template')
+
+        main = page._body._content._main
+        document = main.document(title='Electron Simulation Jobs', id="page-document")
+
+        # So far the data retrieved from the database are hardcoded!
+        job = director.clerk.getJob(self.inventory.id) #id = 1
+        #self.type = job.type # don't need it so far
+
+        l = Literal()
+        l.text = [
+            'Job Id = %s<br />' % job.id,
+            'Job Type = %s<br />' % job.type,
+            'Job Created = %s<br />' % job.created,
+            'Job Status = %s<br />' % job.status
+        ]
+        document.add(l)
+
+        return page
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        
+        self.id         = self.inventory.id
+        self.type       = self.inventory.type
+        self.created    = self.inventory.created
+        self.status     = self.inventory.status
+
+        return
+
+    def __init__(self, *args, **kwds):
+        base.__init__(self, *args, **kwds)
+
+        return
+
+def actor():
+    return Actor('electronsjobs')
+
+__date__ = "$Jul 21, 2009 11:37:23 PM$"
+
+

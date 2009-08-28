@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                             Michael A.G. Aivazis
+#                      California Institute of Technology
+#                      (C) 1998-2005  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#from ovini.components.Actor import Actor
+from ovini.content import action
+from ovini.weaver import action_href
+
+JOB_ID=2
+
+def portlet(app):
+    import opal.content
+    portlet = opal.content.portlet(title="Phonons", id="portlet-phonons")
+
+    phononsnew = portlet.item(description="New Simulation")
+    phononsnew.target = action_href(action('phononsnew', 'New Simulation'), app.cgihome)
+    phononsnew.icon = "images/new.png"
+    phononsnew.type = "navItem"
+
+    phononsedit = portlet.item(description="Edit Configuration")
+    phononsedit.target = action_href(action('phononsedit', 'Edit Simulation', id=JOB_ID), app.cgihome)
+    phononsedit.icon = "images/edit.png"
+    phononsedit.type = "navItem"
+
+    phononsjobs = portlet.item(description="Jobs")
+    phononsjobs.target = action_href(action('phononsjobs', 'Jobs', id=JOB_ID), app.cgihome)
+    phononsjobs.icon = "images/jobs.png"
+    phononsjobs.type = "navItem"
+
+    phononsdos = portlet.item(description="Phonon DOS")
+    phononsdos.target = action_href(action('phononsdos', 'Phonon DOS'), app.cgihome)
+    phononsdos.icon = "images/dos.png"
+    phononsdos.type = "navItem"
+    
+    return portlet
+
+
+# version
+__id__ = "$Id: navigation.odb,v 1.1.1.1 2006-11-27 00:09:19 aivazis Exp $"
+
+# End of file
+

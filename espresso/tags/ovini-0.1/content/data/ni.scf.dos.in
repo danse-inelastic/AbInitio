@@ -1,0 +1,8 @@
+&inputpp
+   prefix='ni',
+   outdir='/home/dexity/exports/ovini/content/temp/',
+   fildos='/home/dexity/exports/ovini/output/ni.scf.dos.out',
+   Emin=5.0,
+   Emax=25.0,
+   DeltaE=0.1
+/

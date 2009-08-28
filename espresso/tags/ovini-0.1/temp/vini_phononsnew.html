@@ -1,0 +1,36 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Vini (VNF mini)</title></head><body>
+<h2><a href="http://localhost:8000/">Vini</a> (VNF mini)</h2>
+<div style="float: left; width: 150px;">
+<h3>Electrons</h3>
+<a href="http://localhost:8000/set-electron-params/">New Simulation</a> <br>
+<a href="http://localhost:8000/edit-electron-params/">Edit Parameters</a><br>
+<a href="http://localhost:8000/electron-jobs/1/">Jobs</a><br>
+<a href="http://localhost:8000/electron-dos/">Electron DOS</a><br>
+<br>
+<h3>Phonons</h3>
+<a href="http://localhost:8000/set-phonon-params/">New Simulation</a> <br>
+<a href="http://localhost:8000/edit-phonon-params/">Edit Parameters</a><br>
+<a href="http://localhost:8000/phonon-jobs/2/">Jobs</a><br>
+<a href="http://localhost:8000/phonon-dos/">Phonon DOS</a><br>
+</div>
+<div style="float: left; margin-left: 40px; width: 600px;">
+<br>
+<b>Multi-phonon calculation:</b><br>
+<br>
+Q point vector:<br>
+<br>
+<form action="." method="post">
+nq1 [<b>nq1</b>]: <input name="nq1" value="2" size="5" type="text"><br>
+nq2 [<b>nq2</b>]: <input name="nq2" value="2" size="5" type="text"><br>
+nq3 [<b>nq3</b>]: <input name="nq3" value="2" size="5" type="text"><br>
+<br>
+<input value="Create Simulation" type="submit">
+</form>
+</div>
+<div style="clear: both;"></div>
+<br>
+<br>
+<span style="font-size: 11pt; margin-left: 50pt;">All Rights Reserved © <b>VNF mini</b>, Powered by <a href="http://www.djangoproject.com/">Django</a></span>
+</body></html>

@@ -1,0 +1,13 @@
+export TARGET=shared,opt
+export EXPORT_ROOT="/home/dexity/exports/ovini"
+export PATH=/home/dexity/danse-workspace/ctrl/config/trunk/make:$PATH
+
+export ESPRESSO_PATH=/home/dexity/distribs/espresso-4.0.5/bin
+export PATH=$ESPRESSO_PATH:$PATH
+
+export PATH=$EXPORT_ROOT/bin:$PATH
+export BLD_CONFIG="/home/dexity/danse-workspace/ctrl/config/trunk"
+export PYTHONPATH=$EXPORT_ROOT/modules:$PYTHONPATH
+export PYTHON_LIBDIR='/usr/lib/python2.6'
+export PYTHON_INCDIR='/usr/include/python2.6'
+export PYTHON_CONFIGDIR='/usr/lib/python2.6/config'

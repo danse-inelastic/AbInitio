@@ -1,0 +1,15 @@
+export TARGET=shared,opt
+export EXPORT_ROOT="/home/user/exports/ovini"
+export PATH=/home/user/danse-workspace/ctrl/config/trunk/make:$PATH
+
+export ESPRESSO_PATH=/home/user/distribs/espresso-4.0.5/bin
+export PATH=$ESPRESSO_PATH:$PATH
+
+export PATH=$EXPORT_ROOT/bin:$PATH
+export BLD_CONFIG="/home/user/danse-workspace/ctrl/config/trunk"
+export PYTHONPATH=$EXPORT_ROOT/modules:$PYTHONPATH
+
+# In case if you have multiple python versions installed
+export PYTHON_LIBDIR='/usr/lib/python2.6'
+export PYTHON_INCDIR='/usr/include/python2.6'
+export PYTHON_CONFIGDIR='/usr/lib/python2.6/config'
