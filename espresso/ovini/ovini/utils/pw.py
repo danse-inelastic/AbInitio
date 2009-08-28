@@ -14,10 +14,16 @@
 from subprocess import Popen,  PIPE
 
 # For now it's just a function
-def runPWSimulation(infile, outfile):
-    f = open(infile)
-    buf = f.read() # buf is 'string'
-    f.close()
+def runPWSimulation(outfile, infile=None, config=None):
+    # If infile is None use database
+    # else parse infile
+    if infile is not None:
+        f = open(infile)
+        buf = f.read() # buf is 'string'
+        f.close()
+
+    if config is not None:
+        buf = config
 
     proc = Popen("pw.x", stdin=PIPE, stdout=PIPE,  stderr=PIPE,  shell="/bin/bash")
     (stdout,   stderr) = proc.communicate(buf) # stdout is 'string'

@@ -11,8 +11,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import os
 from ovini.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
+
+# Hardcoded value id=3 for dos (electron dos) simulation
+JOB_ID_DOS=3
+
+# Variable that should be set in envs.sh
+EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
 
 class Actor(base):
     class Inventory(base.Inventory):
@@ -44,23 +51,82 @@ class Actor(base):
     def runSimulation(self, director):
         # Run PW simulation
 
-        from ovini.utils import pw
-        infile  = "/home/dexity/exports/ovini/content/data/ni.scf.in"
-        outfile = "/home/dexity/exports/ovini/output/ni.scf.out"
-        pw.runPWSimulation(infile, outfile)
-
-        # Find electron DOS
-        from ovini.utils import dos
-        infile  = "/home/dexity/exports/ovini/content/data/ni.scf.dos.in"
-        dos.runPW_DOS(infile)
-
-       # Plot electron DOS
-        from ovini.utils import plot
-        infile      = "/home/dexity/exports/ovini/output/ni.scf.dos.out"
-        imagefile   = "/home/dexity/exports/ovini/html/images/ni_scf_dos.png"
-        plot.createPWPlot(infile, imagefile)
+        self.runPWSimulation(director)
+        self.runPW_DOS(director)
+        self.createPWPlot(director)
 
         director.redirect('electronsjobs', 'default', id=self.id)
+
+    # Sets pseudo_dir and outdir (hardcoded) and saves to the same file.
+    def setPWConfig(self, filename=None, config=None):
+        from ovini.utils.qeconfig import QEConfig
+        qe = QEConfig(filename, config)
+        qe.parse()
+        pd = qe.namelist('control')
+
+        pseudo_dir  = EXPORT_ROOT + "/content/data/"
+        outdir      = EXPORT_ROOT + "/content/temp/"
+        pd.editParam('pseudo_dir', "'%s'" % pseudo_dir)
+        pd.editParam('outdir',     "'%s'" % outdir)
+
+        if filename is not None:
+            qe.save()
+            return
+
+        if config is not None:
+            return qe.toString()
+
+    def setPW_DOSConfig(self, filename=None, config=None):
+        from ovini.utils.qeconfig import QEConfig
+        qe = QEConfig(filename, config)
+        qe.parse()
+        pd = qe.namelist('inputpp')
+
+        outdir      = EXPORT_ROOT + "/content/temp/"
+        fildos      = EXPORT_ROOT + "/output/ni.scf.dos.out"
+
+        pd.editParam('outdir', "'%s'" % outdir)
+        pd.editParam('fildos', "'%s'" % fildos)
+
+        if filename is not None:
+            qe.save()
+            return
+
+        if config is not None:
+            return qe.toString()
+
+
+    # Run PW simulation
+    def runPWSimulation(self, director):
+        job = director.clerk.getJob(self.inventory.id)
+        config = job.config
+
+        #infile  = EXPORT_ROOT + "/content/data/ni.scf.in" # Uses database
+        outfile = EXPORT_ROOT + "/output/ni.scf.out"
+
+        from ovini.utils import pw
+        configmod = self.setPWConfig(config=config)
+        pw.runPWSimulation(outfile, config=configmod)
+
+    # Find electron DOS
+    def runPW_DOS(self, director):
+        job = director.clerk.getJob(JOB_ID_DOS)
+        config = job.config
+
+        #infile  = EXPORT_ROOT + "/content/data/ni.scf.dos.in" # Uses database
+
+        configmod = self.setPW_DOSConfig(config=config)
+        from ovini.utils import dos
+        dos.runPW_DOS(config=configmod)
+
+    # Plot electron DOS
+    def createPWPlot(self, director):
+        infile      = EXPORT_ROOT + "/output/ni.scf.dos.out"
+        imagefile   = EXPORT_ROOT + "/html/images/plots/ni_scf_dos.png"
+
+        from ovini.utils import plot
+        plot.createPWPlot(infile, imagefile)
+
 
     def _configure(self):
         super(Actor, self)._configure()

@@ -21,6 +21,7 @@ EXPORT_DATADIRS = \
         data \
 	pages \
 	portlets \
+        temp \
 
 OTHERS = \
 

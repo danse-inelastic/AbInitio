@@ -13,7 +13,10 @@
 
 from ovini.components.Actor import Actor as base
 from opal.content.Paragraph import Paragraph
+import os
 
+# Variable that should be set in envs.sh
+EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
 
 class Actor(base):
     class Inventory(base.Inventory):
@@ -50,9 +53,10 @@ class Actor(base):
         # TODO: Find phonon DOS
 
         # Plot phonon DOS
+        infile      = EXPORT_ROOT + "/content/data/ni.ph.dos.out"
+        imagefile   = EXPORT_ROOT + "/html/images/plots/ni_ph_dos.png"
+
         from ovini.utils import plot
-        infile      = "/home/dexity/exports/ovini/content/data/ni.ph.dos.out"
-        imagefile   = "/home/dexity/exports/ovini/html/images/ni_ph_dos.png"
         plot.createPHPlot(infile, imagefile)
 
         director.redirect('phononsjobs', 'default', id=self.id)

@@ -18,7 +18,7 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from opal.components.Actor import Actor as base
 
-# Hardcoded value id=1 for pw (electron) simulation
+# Hardcoded value id=3 for dos (electron dos) simulation
 JOB_ID_DOS=3
 
 # Variable that should be set in envs.sh

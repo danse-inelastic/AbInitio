@@ -26,7 +26,7 @@ class Actor(base):
         # In don't to write mills and content for <img> tag, so I use literal
         # What the heck with the opal?
         l = Literal()
-        l.text = ['<img src="images/ni_ph_dos.png" width="500" />']
+        l.text = ['<img src="images/plots/ni_ph_dos.png" width="500" />']
 
         document.add(l)
 
