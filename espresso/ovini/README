@@ -13,7 +13,7 @@
 General:
 ==============================================================
 Ovini is a prototype application that runs simple Quantum Espresso simulation on
-a desktop. It uses the pw.x and dos.x to do electron simulation and plot electron DOS.
+a desktop using pyre/opal. It uses the pw.x and dos.x to do electron simulation and plot electron DOS.
 It can also plot phonon DOS based on presimulated phonon calculation (it doesn't
 run any simulation though). Database data are pregenerated and cannot be modified from the
 web interface.
@@ -35,7 +35,7 @@ Matlotlib > 0.98 # For generating plots
 4. Populate database
 5. Install ovini
 
-Go to the root source directory.
+Go to the root source directory of ovini.
 
 Set environmental variables:
 

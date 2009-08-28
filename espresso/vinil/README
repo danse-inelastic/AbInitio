@@ -13,7 +13,7 @@
 General:
 ==============================================================
 Vinil is a prototype application that runs simple Quantum Espresso simulation on
-a desktop. It uses the pw.x and dos.x to do electron simulation and plot electron DOS.
+a desktop using pyre/luban. It uses the pw.x and dos.x to do electron simulation and plot electron DOS.
 It can also plot phonon DOS based on presimulated phonon calculation (it doesn't
 run any simulation though). Database data are pregenerated and cannot be modified from the
 web interface.
