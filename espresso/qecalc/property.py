@@ -53,7 +53,7 @@ class Property(Setting):
         ''' Obtain a list of phonon modes and eigen vectors from output generated \
              by matdyn.x'''
         from parser.matdyn import matdyn
-        if fname == None: return matdyn( matdynModes )
+        if fname == None: return matdyn( self.matdynModes )
         else: return matdyn( fname )
         
      

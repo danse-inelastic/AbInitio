@@ -112,6 +112,9 @@ class QEStructure():
             
         qeConf.save(filename)
 
+    def diffpy(self):
+        return self.structure
+
  #       def placeInLattice(self, new_lattice):
 
 #        def getLattice(self):
