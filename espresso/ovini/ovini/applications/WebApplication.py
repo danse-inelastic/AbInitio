@@ -35,7 +35,7 @@ class WebApplication(Base):
         debug = pyre.inventory.bool(name="debug", default=True)
         debug.meta['tip'] = "suppress some html output for debugging purposes"
 
-        imagepath = pyre.inventory.str(name='imagepath', default = 'images' )
+        imagepath   = pyre.inventory.str(name='imagepath', default = 'images' )
 
     def __init__(self, name):
         Base.__init__(self, name)
@@ -104,7 +104,7 @@ class WebApplication(Base):
         configurations = {
             'home': self.home,
             'cgihome':self.cgihome,
-            'imagepath':self.inventory.imagepath,
+            'imagepath':self.inventory.imagepath
             }
         import ovini.weaver
         self.pageMill = ovini.weaver.pageMill(configurations)
