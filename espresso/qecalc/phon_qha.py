@@ -13,8 +13,8 @@ def Gaussian(x, mu, FWHM):
 def convoluteGaussian(axis, data, FWHM):
     conv = numpy.zeros(data.shape[0])
     for i, omega0 in enumerate(axis):
-        for omega in axis:
-            conv[i] = conv[i] + data[i]*Gaussian(omega0 - omega, 0.0 , FWHM)
+        for j, omega in enumerate(axis):
+            conv[i] = conv[i] + data[j]*Gaussian(omega0 - omega, 0.0 , FWHM)
     return conv
 #            print conv[i]
 def isNaN(x):
@@ -54,7 +54,21 @@ print gDOS.shape
 for atom, sigma, pdos in zip(mp.structure.diffpy(), neutronCrossSections, pDOS):
     gDOS = gDOS + pdos[:,2]*sigma/mp.structure.atomicSpecies[atom.element].mass
 
-gDOSConv = convoluteGaussian(axis, gDOS, 20.0)
+gDOSConv = convoluteGaussian(axis, gDOS, 4.0)
+
+str1 = ''
+str2 = ''
+for i, omega in enumerate(axis):
+    str1 = str1 + str(omega) + '    ' + str(gDOS[i]) + '\n'
+    str2 = str2 + str(omega) + '    ' + str(gDOSConv[i]) + '\n'
+
+
+gDOS_file = open('gdos.dat', 'w')
+gDOSConv_file = open('gdos_conv.dat', 'w')
+
+gDOS_file.write(str1)
+gDOSConv_file.write(str2)
+
 
 # check total DOS:
 totalDos = (pDOS[0][:,2] + 2.0*pDOS[1][:,2])/3.0
@@ -66,6 +80,4 @@ area2 = numpy.sum( pDOS[0][:,1])
 pylab.plot(axis, gDOSConv)
 pylab.show()
     
-
-
 

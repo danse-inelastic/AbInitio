@@ -110,12 +110,13 @@ class KConverger(Converger):
         self.kConverger()
 
     def kConverger(self):
-        import parser.writetopwscf
+#        import parser.writetopwscf
 
         k_points = self.kInit
         runHistory = []
         for iK in range(self.nMaxSteps):
-            writetopwscf.k_points(self.pwscfInput,k_points)
+            self.setkPointsAutomatic(k_points)
+#            writetopwscf.k_points(self.pwscfInput,k_points)
             self.getLauncher()
             runHistory.append( self.getEstimator() )
             if iK >= 2:
