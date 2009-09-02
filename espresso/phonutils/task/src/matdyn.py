@@ -51,8 +51,6 @@ def matdyn(fname):
         Omegas.append( Omega )
     npOmega = np.array(Omegas)
     npPol = np.array(Pol)
-#    print npPol
-#    print npPol.shape
     THz2meV = 4.1357 # meV * s
     return npPol, npOmega*THz2meV, qPoints
     
