@@ -1,8 +1,5 @@
-#import numpy
 import os
 from qephon import QEPhon
-#from task.writetopwscf import varnameValue, atomic_positions
-#from task.task import Task
 
 
 
