@@ -86,6 +86,7 @@ class EcutConverger(Converger):
             ecutrho = ecutrhoMult*ecutwfc
             self.qeConfig.namelist('system').addParam('ecutwfc', ecutwfc)
             self.qeConfig.namelist('system').addParam('ecutrho', ecutrho)
+            self.qeConfig.save()
 #            varnameValue(self.pwscfInput,"ecutwfc", ecutwfc)
 #            varnameValue(self.pwscfInput,"ecutrho", ecutrho)
             self.getLauncher()

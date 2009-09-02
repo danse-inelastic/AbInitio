@@ -77,6 +77,7 @@ class QECalc(Launcher, Property):
         self.qeConfig.parse()
         return float(self.qeConfig.namelist('system').param('ecutwfc'))
 
+
 if __name__ == '__main__':
     qe = QECalc('config.ini')
     qe.qeConfig.setNamelistParameter('system', 'ecutwfc', 44)

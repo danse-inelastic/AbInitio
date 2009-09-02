@@ -18,25 +18,44 @@ class Launcher(Setting):
         print cmdstr         
         self.__check(os.system(cmdstr))
 
-    def singlePhononLauncher(self):
-        import os
-        self.pwscfLauncher()
+    def phLauncher(self):
         cmdstr_ph = self.paraPrefix + " ph.x " +  self.paraPostfix + " -inp " + \
                  self.phInput + " > " + self.phOutput + "< /dev/null"
         print cmdstr_ph        
         self.__check(os.system(cmdstr_ph))
 
-        cmdstr_dynmat = "dynmat.x < " + self.dynmatInput + " > " + self.dynmatOutput
-        print cmdstr_dynmat
-        self.__check(os.system(cmdstr_dynmat))
-        
-    def multiPhononLauncher(self):
+    def singlePhononLauncher(self):
         import os
         self.pwscfLauncher()
-        cmdstr_ph = self.paraPrefix + " ph.x " +  self.paraPostfix + " -inp " + \
-                 self.phInput + " > " + self.phOutput + "< /dev/null"
-        print cmdstr_ph        
-        self.__check(os.system(cmdstr_ph))
+        self.phLauncher()
+
+        cmdstr_dynmat = "dynmat.x -inp " + self.dynmatInput + " > " + self.dynmatOutput
+        print cmdstr_dynmat
+        self.__check(os.system(cmdstr_dynmat))
+
+    def matdynLauncher(self):
+        """Execute matdyn.x after successful run of pw.x + ph.x + q2r.x"""
+        cmdstr_matdyn = "matdyn.x -inp " + self.matdynInput + " > " + self.matdynOutput
+        print cmdstr_matdyn
+        self.__check(os.system(cmdstr_matdyn))
+
+    def multiPhononLauncher(self):
+        """Runs complete sequence of programms needed to extract phonons except
+        the last step: matdyn.x. Usecase: One then can regenerate matdyn.in
+        for dispersions along different directions, phonon DOS etc"""
+        import os
+        self.pwscfLauncher()
+        self.phLauncher()
+        cmdstr_q2r = "q2r.x < " + self.q2rInput + " > " + self.q2rOutput
+        print cmdstr_q2r
+        self.__check(os.system(cmdstr_q2r))
+
+
+    def multiPhononTaskLauncher(self):
+        """Runs complete sequence of programms needed to extract phonons"""
+        import os
+        self.pwscfLauncher()
+        self.phLauncher()
         cmdstr_q2r = "q2r.x < " + self.q2rInput + " > " + self.q2rOutput
         print cmdstr_q2r
         self.__check(os.system(cmdstr_q2r))
