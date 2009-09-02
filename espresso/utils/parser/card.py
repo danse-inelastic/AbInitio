@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import configPW
-from vinil.utils.orderedDict import OrderedDict
+import inputs.inputpw
+from orderedDict import OrderedDict
 
 class Card():
     """Card class that corresponds to Card in QE config file"""
@@ -21,7 +21,7 @@ class Card():
     def __init__(self, name):
         # Verifies if the card is valid
         try:
-            if name not in configPW.cards:
+            if name not in inputs.inputpw.cards:
                 raise NameError('Not valid card')
         except NameError:
             raise

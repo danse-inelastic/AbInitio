@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import configPW
-from vinil.utils.orderedDict import OrderedDict
+import inputs.inputpw
+from orderedDict import OrderedDict
 
 class Namelist():
     """Namelist class that corresponds to Namelist in QE config file"""
@@ -20,7 +20,7 @@ class Namelist():
     def __init__(self, name):
         # Verifies if the namelist is valid
         try:
-            if name not in configPW.namelists:
+            if name not in inputs.inputpw.namelists:
                 raise NameError('Not valid namelist')
         except NameError:
             raise

@@ -16,10 +16,10 @@ Stability issues:
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
-from vinil.utils.orderedDict import OrderedDict
-from vinil.utils.namelist import Namelist
-from vinil.utils.card import Card
-import configPW
+from orderedDict import OrderedDict
+from namelist import Namelist
+from card import Card
+import inputs.inputpw
 
 class QEConfig(object):
     """Quantum Espresso configuration class. It can:
@@ -203,7 +203,7 @@ class QEConfig(object):
             if l[0] == '&' and not isNamelist:
                 name = l[1:].lower()
 
-                if not name in configPW.namelists:
+                if not name in inputs.inputpw.namelists:
                     continue             # namelist is not recognizable
 
                 block       = []
@@ -214,7 +214,7 @@ class QEConfig(object):
             # Card part
             line    = l.lower()
             # Card end
-            if line in configPW.cards and isCard:
+            if line in inputs.inputpw.cards and isCard:
                 #print "End: %s, line: %d" % (line, i-1)
                 isCard  = False
                 block.append(i)
@@ -226,7 +226,7 @@ class QEConfig(object):
                 blocklist.append(block)
 
             # Card start
-            if line in configPW.cards and not isCard:
+            if line in inputs.inputpw.cards and not isCard:
                 #print "Start: %s, line: %d" % (line, i)
                 block   = []
                 isCard  = True
