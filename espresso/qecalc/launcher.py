@@ -19,6 +19,7 @@ class Launcher(Setting):
         self.__check(os.system(cmdstr))
 
     def phLauncher(self):
+        import os
         cmdstr_ph = self.paraPrefix + " ph.x " +  self.paraPostfix + " -inp " + \
                  self.phInput + " > " + self.phOutput + "< /dev/null"
         print cmdstr_ph        
@@ -35,6 +36,7 @@ class Launcher(Setting):
 
     def matdynLauncher(self):
         """Execute matdyn.x after successful run of pw.x + ph.x + q2r.x"""
+        import os
         cmdstr_matdyn = "matdyn.x -inp " + self.matdynInput + " > " + self.matdynOutput
         print cmdstr_matdyn
         self.__check(os.system(cmdstr_matdyn))
