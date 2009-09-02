@@ -2,8 +2,6 @@
 # Configuration parameters from INPUT_PW.html file
 # First value is default value
 
-# Namelist: CONTROL
-
 # Simple verification for namelists and cards:
 
 namelists = ('control',
@@ -25,6 +23,7 @@ cards =   ('atomic_species',
            'collective_vars',
            'occupations')
 
+# Namelist: CONTROL
 namelist_control = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax', 'md', 'vc-relax', 'vc-md', 'neb', 'smd', 'metadyn'),
                     'title',        #: (''),
                     'verbosity',    #: ('high', 'default', 'low', 'minimal'),
