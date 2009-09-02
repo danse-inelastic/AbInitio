@@ -1,6 +1,5 @@
  &control
     calculation='scf'
-!    restart_mode='from_scratch',
     wf_collect = .true.,
     tstress = .true. ,
     tprnfor = .true. ,
@@ -13,14 +12,12 @@
  &system    
     ibrav=4,
     celldm(1) = 5.7858,
-    celldm(2) = 5.7858,
     celldm(3) = 1.1356,
     nat  =  3, 
     ntyp  = 2,
     nspin = 1,
     nbnd = 12,
-    occupations='smearing',
-!   degauss=0.025    
+    occupations='smearing',  
     degauss=0.025,     
     smearing = 'methfessel-paxton' ,
     ecutwfc =32.0,
