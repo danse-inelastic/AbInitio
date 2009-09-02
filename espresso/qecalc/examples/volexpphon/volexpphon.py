@@ -19,26 +19,9 @@ for i in indexRange:
     qe.structure.saveStructureToPWSCF()
     qe.multiPhononTaskLauncher()
 
-#    varnameValue(task.pwscfInput, 'celldm(1)', a_range[i])
-#    varnameValue(task.pwscfInput, 'celldm(2)', a_range[i])
-#    varnameValue(task.pwscfInput, 'celldm(3)', c_a_range[i])
-#    geometry = ['Al       0.000000000   0.0000000000000000   0.000000000',
-#                'B        0.500000000   0.2886751345948129   '+str(c_a_range[i]/2.),
-#                'B        0.000000000   0.5773502691896257   '+str(c_a_range[i]/2.)]
-#    atomic_positions(task.pwscfInput, geometry)
-#    task.getLauncher()
-
-#    Pol, Omega, qPoints = task.getEstimator()
-#    polName = "polarizations"+str(i)+".txt"
-#    omegaName = "freqs"+str(i)+".txt"
-#    qPointsName = "qpoints"+str(i)+".txt"
     cpMatdynModesCmdStr = "cp "+"matdyn.modes "+ "matdyn" + str(i) + ".modes"
     os.system(cpMatdynModesCmdStr)
-#   save pol vectors, frequencies and qpoints:
-    #numpy.savetxt(polName, Pol)
-#    numpy.savetxt(omegaName, Omega)
-#    numpy.savetxt(qPointsName, qPoints)
-#   backup the current state
+
     backupName = 'backup'+str(i)+'.tgz'
     backupCmdStr = "tar -zcf" + backupName + " *  --exclude='*tgz' --no-recursion"
     os.system(backupCmdStr)
