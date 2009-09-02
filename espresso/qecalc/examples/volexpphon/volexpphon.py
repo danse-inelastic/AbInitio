@@ -19,3 +19,4 @@ for i in indexRange:
     backupName = 'backup'+str((i+1)*2)+'.tgz'
     backupCmdStr = "tar -zcf" + backupName + " *  --exclude='*tgz' --no-recursion"
     os.system(backupCmdStr)
+

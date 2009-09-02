@@ -1,13 +1,13 @@
 &CONTROL
     calculation = 'scf'
-    verbosity = 'high'
-    pseudo_dir = '/home/markovsk/projects/pslib/espresso/mgb2'
+!    verbosity = 'high'
+    pseudo_dir = './'
     tprnfor = .true.
     prefix = 'almgb4'
     lkpoint_dir = .false.
     restart_mode = 'from_scratch'
-    outdir = '/scratch/almgb4'
-    tstress = .true.
+    outdir = 'temp/'
+!    tstress = .true.
 /
 &SYSTEM
     nbnd = 21
