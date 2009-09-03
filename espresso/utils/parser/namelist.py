@@ -39,17 +39,18 @@ class Namelist():
         if self.__paramExists(param):
             return self.params[param]
 
-    def addParam(self, param, val):
-        # Add verification?
+    def add(self, param, val):
+        # Replaces addParam() Add verification? 
         param = param.lower()
         self.params[param]  = val
 
-    def editParam(self, param, val):
+    def set(self, param, val):
+        #  Replaces editParam() and addParam(). Merge with add()?
         """Edits parameter. If it doesn't exist, it just ignores it """
         if self.__paramExists(param):
             self.params[param] = val
 
-    def removeParam(self, param):
+    def remove(self, param):
         """Deletes parameter"""
         if self.__paramExists(param):
             del(self.params[param])
@@ -72,6 +73,19 @@ class Namelist():
 
         s += "/%s" % br
         return s
+
+    # Depricated methods
+    # Depricated
+    def addParam(self, param, val):
+        self.add(param, val)
+
+    # Depricated
+    def editParam(self, param, val):
+        self.set(param, val)
+
+    # Depricated 
+    def removeParam(self, param):
+        self.remove()
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 

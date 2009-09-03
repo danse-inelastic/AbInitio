@@ -28,9 +28,10 @@ class QEConfig(object):
     """
 
     # Either filename or config (not both) can be specified
-    def __init__(self, filename=None, config=None):
+    def __init__(self, filename=None, config=None, type='inputpw'):
         self.filename   = filename
         self.config     = config
+        self.type       = type
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
         self.qe         = [self.namelists, self.cards]
@@ -101,34 +102,41 @@ class QEConfig(object):
         f.write(self.toString())
         f.close()
 
+    def type(self):
+        return self.type
+
     def parse(self):
         """ Parses the configuration file and stores the values in qe dictionary """
 
         if self.filename is not None:
-            try:
-                f = open(self.filename)
-            except IOError:
-                print "I/O error"
-            except:
-                import sys
-                print "Unexpected error:", sys.exc_info()[0]
-                raise
-
-            lines       = f.readlines()         # Returns list of lines.
-            f.close()
+            lines       = self.__getLines(self.filename)
 
         elif self.config is not None:
             lines       = self.config.splitlines()
 
         else:
-            print "Error: You haven't specify any config file"
+            print "Error: You haven't specify any config file or string"
 
         lines       = self.__clearLines(lines)
         marks       = self.__getMarks(lines)
 
         for m in marks:
-            block   = self.__addBlock(m[0], lines[m[1]:m[2]])
+            self.__addBlock(m[0], lines[m[1]:m[2]])
 
+    def __getLines(self, filename):
+        try:
+            f = open(filename)
+        except IOError:
+            print "I/O error"
+        except:
+            import sys
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
+
+        lines       = f.readlines()         # Returns list of lines.
+        f.close()
+        
+        return lines
 
     def __clearLines(self, lines):
         """ Strips lines from white spaces, commas and empty lines"""
@@ -161,7 +169,7 @@ class QEConfig(object):
 
         for s in slice[1:]:
             p   = self.getParam(s)
-            nl.addParam(p[0], p[1])
+            nl.add(p[0], p[1])
 
         self.namelists[name] = nl
 
@@ -256,10 +264,10 @@ def testCreateConfig():
     print "Testing creation of config file"
     qe  = QEConfig()
     nl  = Namelist('control')
-    nl.addParam('title', "'Ni'")
-    nl.addParam('restart_mode', "'from_scratch'")
+    nl.add('title', "'Ni'")
+    nl.add('restart_mode', "'from_scratch'")
     print "Adding parameters to namelist:\n%s" % nl.toString()
-    nl.editParam('title', "'Fe'")
+    nl.set('title', "'Fe'")
     qe.addNamelist(nl)
     print "Adding namelist to QEConfig:\n%s" % qe.toString()
 
@@ -276,10 +284,10 @@ def testParseConfig():
     qe.parse()
     print qe.toString()
     nl  = qe.namelist('control')
-    nl.addParam('title', 'Ni')
-    nl.removeParam('restart_mode')
+    nl.add('title', 'Ni')
+    nl.remove('restart_mode')
     qe.removeCard('atomic_species')
-    nl.editParam('calculation', "'nscf'")
+    nl.set('calculation', "'nscf'")
     c = qe.card('atomic_positions')
     c.editLines(['Say Hi! :)'])
     print qe.toString()
