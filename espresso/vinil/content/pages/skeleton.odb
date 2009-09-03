@@ -15,31 +15,48 @@ from luban.content.Splitter import Splitter
 
 def page(director):
 
+    # Navigation splitter
+    navsplitter = Splitter(id='page-nav-content', direction='hotizontal')
+    navuser     = navsplitter.section(id='page-user')
+    navmenus    = navsplitter.section(id='page-menus')
+    navsplitter.navuser     = navuser
+    navsplitter.navmenus    = navmenus
+
+    # Top splitter
+    # direction='vertical' is the default value
+    topsplitter = Splitter(id='page-top')
+    logo        = topsplitter.section(id='page-logo')
+    nav         = topsplitter.section(id='page-nav')
+    topsplitter.logo    = logo
+    topsplitter.nav     = nav
+
+    nav.add(navsplitter)
+
+    # Page splitter
     pagesplitter = Splitter(id='page', direction='hotizontal')
     header      = pagesplitter.section(id='page-header')
     content     = pagesplitter.section(id='page-main-content')
     footer      = pagesplitter.section(id='page-footer')
     credits     = pagesplitter.section(id='page-credits')
-
-    splitter    = Splitter(id='page-content')
-
-    left        = splitter.section(id='page-columnLeft')
-    main        = splitter.section(id='page-main')
-    padding     = main.document(Class='visualPadding')
-    maindoc     = padding.document(id="maindoc", Class='document-main')
-
-    portletcontainer = left.document(id='portletcontainer')
-
-    splitter.maindoc     = maindoc
-    splitter.portletdoc  = portletcontainer
-
-    content.add(splitter)
-
     pagesplitter.header     = header
     pagesplitter.content    = content
     pagesplitter.footer     = footer
     pagesplitter.credits    = credits
     pagesplitter.splitter   = splitter
+
+    # Content splitter
+    splitter    = Splitter(id='page-content')
+    left        = splitter.section(id='page-columnLeft')
+    main        = splitter.section(id='page-main')
+    padding     = main.document(Class='visualPadding')
+    maindoc     = padding.document(id="maindoc", Class='document-main')
+    portletcontainer     = left.document(id='portletcontainer')
+    splitter.maindoc     = maindoc
+    splitter.portletdoc  = portletcontainer
+
+    header.add(topsplitter)
+    content.add(splitter)
+
  
     return pagesplitter
 
