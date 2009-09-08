@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from opal.components.Actor import Actor as base
+
+JOB_ID=2 # Hardcoded value id=2 for phonons
+
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id')
+        nq1     = pyre.inventory.int(name="nq1", default=2)
+        nq2     = pyre.inventory.int(name="nq2", default=2)
+        nq3     = pyre.inventory.int(name="nq3", default=2)
+
+
+    def default(self, director):
+        page = director.retrieveVisual('template')
+        page.maindoc.add(self.content(director))
+
+        return page
+
+    def link(self, director, document=None):
+        return select(id='maindoc').replaceContent(self.content(director))
+
+    def content(self, director):
+        document = Document(title='New Phonon Simulation')
+        
+        form = document.form()
+
+        nq1 = form.text(id='nq1', name='nq1', label='nq1 [<b>nq1</b>]:',
+            value=self.inventory.nq1)
+        nq1.help = ''
+
+        nq2 = form.text(id='nq2', name='nq2', label='nq2 [<b>nq2</b>]:',
+            value=self.inventory.nq2)
+        nq2.help = ''
+
+        nq3 = form.text(id='nq3', name='nq3', label='nq3 [<b>nq3</b>]:',
+            value=self.inventory.nq3)
+        nq3.help = ''
+
+        submit = form.submitbutton(label="Create Simulation")
+
+        # action when form is submitted
+        form.onsubmit = select(element=form).submit(
+            actor   = 'phononsedit',
+            routine = 'link', # verify
+            id      = JOB_ID
+            )
+
+        return document
+        
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id            = self.inventory.id
+        self.nq1           = self.inventory.nq1
+        self.nq2           = self.inventory.nq2
+        self.nq3           = self.inventory.nq3
+
+        return
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('phononsnew')
+
+__date__ = "$Aug 5, 2009 11:03:42 AM$"
+
+

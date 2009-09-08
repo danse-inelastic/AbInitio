@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from opal.components.Actor import Actor as base
+
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id')
+        config  = pyre.inventory.str(name="config", default="")
+
+    def default(self, director):
+        page = director.retrieveVisual('template')
+        page.maindoc.add(self.content(director))
+
+        return page
+
+    def link(self, director, document=None):
+        return select(id='maindoc').replaceContent(self.content(director))
+
+    def content(self, director):
+        document = Document(title='Edit Phonon Configuration')
+
+        job = director.clerk.getJob(self.inventory.id)
+
+        form = document.form()
+        phononsconfig = form.textarea(id='phononsedit', name='phononsedit', label='',
+            value=job.config) #, rows="30", cols="50"
+        phononsconfig.help = ''
+
+        submit = form.submitbutton(label="Save Parameters")
+
+        # action when form is submitted
+        form.onsubmit = select(element=form).submit(
+            actor   = 'phononsconfig',
+            routine = 'link',
+            id      = self.inventory.id
+            )
+
+        return document
+        
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id         = self.inventory.id
+        self.config     = self.inventory.config
+        return
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('phononsedit')
+
+__date__ = "$Aug 5, 2009 11:03:42 AM$"
+
+

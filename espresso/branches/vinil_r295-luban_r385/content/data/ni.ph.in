@@ -1,0 +1,12 @@
+phonons of Ni at gamma
+&inputph
+  tr2_ph=1.0d-16,
+  prefix='ni',
+  ldisp=.true.,
+  nq1=2,
+  nq2=2,
+  nq3=2,
+  amass(1)=58.6934,
+  outdir='temp/',
+  fildyn='ni.dyn',
+/
