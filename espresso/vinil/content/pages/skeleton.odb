@@ -35,14 +35,10 @@ def page(director):
     # Page splitter
     pagesplitter = Splitter(id='page', direction='hotizontal')
     header      = pagesplitter.section(id='page-header')
+    path        = pagesplitter.section(id='page-path')
     content     = pagesplitter.section(id='page-main-content')
     footer      = pagesplitter.section(id='page-footer')
     credits     = pagesplitter.section(id='page-credits')
-    pagesplitter.header     = header
-    pagesplitter.content    = content
-    pagesplitter.footer     = footer
-    pagesplitter.credits    = credits
-    pagesplitter.splitter   = splitter
 
     # Content splitter
     splitter    = Splitter(id='page-content')
@@ -54,9 +50,19 @@ def page(director):
     splitter.maindoc     = maindoc
     splitter.portletdoc  = portletcontainer
 
+    pagesplitter.header     = header
+    pagesplitter.path       = path
+    pagesplitter.content    = content
+    pagesplitter.footer     = footer
+    pagesplitter.credits    = credits
+
+    # Hierarchy of splitters.
+    pagesplitter.splitter    = splitter     # Store content splitter!
+    pagesplitter.topsplitter = topsplitter  # Store top splitter!
+    topsplitter.navsplitter  = navsplitter  # Store navigation splitter!
+
     header.add(topsplitter)
     content.add(splitter)
-
  
     return pagesplitter
 

@@ -33,13 +33,24 @@ class Actor(base):
         return select(id='maindoc').replaceContent(self.content(director))
 
     def content(self, director):
-        document = Document(title='Welcome')
+        document = Document(title='Welcome to VNF (Virtual Neuron Facility)!')
         p = Paragraph()
-        p.text = ["""Here is the simple web interface for <b>Quantum Espresso</b>.
-            So far it can only do simple simulation with electrons, ions and
-            phonons, including calculation of DOS (Density Of States) and
-            Dispersion curves.
-            """]
+        p.text = ["""In this web service facility, you can run virtual neutron experiments.
+        In a virtual neutron experiment, virtual neutrons are generated from a virtual
+        neutron moderator, guided by virtual neutron guides, scattered by a virtual
+        sample and sample environment, and intercepted by detectors."""]
+        document.add(p)
+
+        p = Paragraph()
+        p.text = ["""You can do your experiments on a variety of neutron instruments,
+        both actual physical instruments and conceptual, nonphysical instruments"""]
+        document.add(p)
+
+        p = Paragraph()
+        p.text = ["""You can also create your sample and predict its neutron scattering properties
+        by calculating its structure or dynamics. For example, the material behaviors calculated by
+        ab initio or molecular dynamics methods become scattering kernels that can be used in
+        the sample simulation part of your virtual experiment. """]
         document.add(p)
 
         return document

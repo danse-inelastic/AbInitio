@@ -18,14 +18,29 @@ from luban.content.Link import Link
 from luban.content.Paragraph import Paragraph
 
 def page(director):
-    page = Page(title='vinil: Luban VNF Mini')
+    page = Page(title='VNF: Virtual Neutron Facility')
 
-    document = page.document(id='rootdoc')
-    skeleton = director.retrievePage('skeleton')
+    document    = page.document(id='rootdoc')
+    skeleton    = director.retrievePage('skeleton')
+    topsplitter = skeleton.topsplitter
+    splitter    = skeleton.splitter
+    navsplitter = topsplitter.navsplitter
     document.add(skeleton)
 
-    l = Link(label='Vinil (Luban VNF Mini)', onclick=load(actor='greet', routine='link'))
-    skeleton.header.add(l)
+    p = Paragraph()
+    p.text = ['Hello, dexity! | Settings | News | Help | Logout']
+    navsplitter.navuser.add(p)
+
+    p = Paragraph()
+    p.text = ['New    Jobs   Templates']
+    navsplitter.navmenus.add(p)
+
+    l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
+    topsplitter.logo.add(l)
+
+    p = Paragraph()
+    p.text = ['Home > Quantum Espresso']
+    skeleton.path.add(p)
 
     p = Paragraph()
     p.text = ['All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)']
@@ -35,14 +50,14 @@ def page(director):
     p.text = ['powered by luban']
     skeleton.credits.add(p)
 
-    page.maindoc = skeleton.splitter.maindoc
-    page.portletdoc = skeleton.splitter.portletdoc
+    page.maindoc    = splitter.maindoc
+    page.portletdoc = splitter.portletdoc
 
-    portletElectrons    = director.retrievePortlet("navigationElectrons")
-    portletPhonons      = director.retrievePortlet("navigationPhonons")
+    #portletElectrons    = director.retrievePortlet("navigationElectrons")
+    #portletPhonons      = director.retrievePortlet("navigationPhonons")
 
-    page.portletdoc.add(portletElectrons)
-    page.portletdoc.add(portletPhonons)
+    #page.portletdoc.add(portletElectrons)
+    #page.portletdoc.add(portletPhonons)
 
     return page
 

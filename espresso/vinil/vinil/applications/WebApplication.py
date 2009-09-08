@@ -35,7 +35,7 @@ class WebApplication(Base):
 
         # If no actor is provided e.g.: example.com/main.cgi
         if actor is None:
-            self.actor = self.retrieveActor('greet')
+            self.actor = self.retrieveActor('greet')#render('greet') #
 
         try:
             page = self.actor.perform(self, routine=self.inventory.routine, debug=self.debug)
@@ -48,7 +48,7 @@ class WebApplication(Base):
             self.plainBugReport()
 
     def retrievePage(self, name):
-        page = super(WebApplication, self).retrievePage(name)
+        page = super(WebApplication, self).retrievePage(name)#.retrieveVisual(name) #
         if page:
             return page
         raise RuntimeError, "Unable to load page %s" % name
