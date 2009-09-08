@@ -17,10 +17,8 @@ RECURSE_DIRS = \
 
 EXPORT_DATADIRS = \
         actors \
-        components \
         data \
-        pages \
-        portlets \
+        visuals \
         temp \
 
 EXPORT_DATAFILES = \
@@ -48,7 +46,7 @@ distclean::
 
 
 RSYNC_A = rsync -a
-EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
+EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PROJECT)/$(PACKAGE)
 
 export-package-data:: export-package-datadirs export-package-datafiles
 

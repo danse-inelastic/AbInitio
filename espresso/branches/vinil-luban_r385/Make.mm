@@ -48,7 +48,7 @@ distclean::
 
 
 RSYNC_A = rsync -a
-EXPORT_DATA_PATH = $(EXPORT_ROOT)
+EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PROJECT)
 
 export-package-data:: $(EXPORT_DATADIRS) init-data-dirs
 	mkdir -p $(EXPORT_DATA_PATH); \

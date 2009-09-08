@@ -30,18 +30,18 @@ distclean::
 
 
 EXPORT_DATAFILES = \
+        SimpleHttpServer.pml \
 	clerk.pml \
 	clerk.odb \
-	idd-harness.pml \
-	idd-pickler.odb \
-	idd.pml \
+	journal.pml \
 	librarian.pml \
 	main.pml \
+	main-superapp.pml \
 	web-weaver.pml \
         widget.lib \
 
 CP_F = cp -f
-EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
+EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PROJECT)/$(PACKAGE)
 
 export-config-files:: 
 	mkdir -p $(EXPORT_DATA_PATH); \

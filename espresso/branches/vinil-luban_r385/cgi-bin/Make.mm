@@ -35,7 +35,7 @@ EXPORT_DATAFILES = \
 
 
 CP_F = rsync 
-EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
+EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PROJECT)/$(PACKAGE)
 
 export-data-files:: 
 	mkdir -p $(EXPORT_DATA_PATH); \

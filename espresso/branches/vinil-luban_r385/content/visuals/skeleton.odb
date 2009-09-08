@@ -13,18 +13,17 @@
 
 from luban.content.Splitter import Splitter
 
-def page(director):
+def visual(director):
 
     # Navigation splitter
-    navsplitter = Splitter(id='page-nav-content', direction='hotizontal')
+    navsplitter = Splitter(id='page-nav-content', orientation='vertical')
     navuser     = navsplitter.section(id='page-user')
     navmenus    = navsplitter.section(id='page-menus')
     navsplitter.navuser     = navuser
     navsplitter.navmenus    = navmenus
 
     # Top splitter
-    # direction='vertical' is the default value
-    topsplitter = Splitter(id='page-top')
+    topsplitter = Splitter(id='page-top', orientation='horizontal')
     logo        = topsplitter.section(id='page-logo')
     nav         = topsplitter.section(id='page-nav')
     topsplitter.logo    = logo
@@ -33,7 +32,7 @@ def page(director):
     nav.add(navsplitter)
 
     # Page splitter
-    pagesplitter = Splitter(id='page', direction='hotizontal')
+    pagesplitter = Splitter(id='page', orientation='vertical')
     header      = pagesplitter.section(id='page-header')
     path        = pagesplitter.section(id='page-path')
     content     = pagesplitter.section(id='page-main-content')

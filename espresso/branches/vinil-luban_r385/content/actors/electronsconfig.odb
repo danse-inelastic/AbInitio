@@ -32,7 +32,7 @@ class Actor(base):
         config  = pyre.inventory.str(name="config", default="")
 
     def default(self, director):
-        page = director.retrievePage('template')
+        page = director.retrieveVisual('template')
         page.maindoc.add(self.content(director))
 
         return page

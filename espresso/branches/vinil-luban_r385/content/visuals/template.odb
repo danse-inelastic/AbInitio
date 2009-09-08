@@ -17,11 +17,11 @@ from luban.content.Page import Page
 from luban.content.Link import Link
 from luban.content.Paragraph import Paragraph
 
-def page(director):
+def visual(director):
     page = Page(title='VNF: Virtual Neutron Facility')
 
     document    = page.document(id='rootdoc')
-    skeleton    = director.retrievePage('skeleton')
+    skeleton    = director.retrieveVisual('skeleton')
     topsplitter = skeleton.topsplitter
     splitter    = skeleton.splitter
     navsplitter = topsplitter.navsplitter

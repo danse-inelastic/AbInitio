@@ -16,8 +16,8 @@
     <component name="web-weaver">
 
         <!-- transformation configuration -->
-	<property name="controller-url">/cgi-bin/vinil/main.cgi</property>
-	<property name="html-base">http://localhost/vinil/</property>
+	<property name="controller-url">/cgi-bin/main.py</property>
+	<property name="html-base">http://localhost:8301/</property>
 
         <!-- user info -->
         <property name="author">Alex Dementsov</property>
