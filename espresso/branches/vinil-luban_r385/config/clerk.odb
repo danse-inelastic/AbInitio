@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from vinil.components.Clerk import Clerk
+def clerk(): return Clerk('clerk')
+
+if __name__ =='__main__':
+    clerk()
+
+__date__ = "$Aug 12, 2009 11:36:56 AM$"
+
+

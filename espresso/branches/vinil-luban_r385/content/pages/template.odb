@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                                 Jiao Lin
+#                      California Institute of Technology
+#                      (C) 2006-2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#from opal.content.Literal import Literal
+from luban.content import load
+from luban.content.Page import Page
+from luban.content.Link import Link
+from luban.content.Paragraph import Paragraph
+
+def page(director):
+    page = Page(title='VNF: Virtual Neutron Facility')
+
+    document    = page.document(id='rootdoc')
+    skeleton    = director.retrievePage('skeleton')
+    topsplitter = skeleton.topsplitter
+    splitter    = skeleton.splitter
+    navsplitter = topsplitter.navsplitter
+    document.add(skeleton)
+
+    p = Paragraph()
+    p.text = ['Hello, dexity! | Settings | News | Help | Logout']
+    navsplitter.navuser.add(p)
+
+    p = Paragraph()
+    p.text = ['New    Jobs   Templates']
+    navsplitter.navmenus.add(p)
+
+    l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
+    topsplitter.logo.add(l)
+
+    p = Paragraph()
+    p.text = ['Home > Quantum Espresso']
+    skeleton.path.add(p)
+
+    p = Paragraph()
+    p.text = ['All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)']
+    skeleton.footer.add(p)
+
+    p = Paragraph()
+    p.text = ['powered by luban']
+    skeleton.credits.add(p)
+
+    page.maindoc    = splitter.maindoc
+    page.portletdoc = splitter.portletdoc
+
+    #portletElectrons    = director.retrievePortlet("navigationElectrons")
+    #portletPhonons      = director.retrievePortlet("navigationPhonons")
+
+    #page.portletdoc.add(portletElectrons)
+    #page.portletdoc.add(portletPhonons)
+
+    return page
+
+
+# version
+__id__ = "$Id$"
+
+__date__ = "$Aug 5, 2009 11:04:29 AM$"
+
+
