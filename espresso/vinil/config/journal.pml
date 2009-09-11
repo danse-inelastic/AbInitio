@@ -16,14 +16,25 @@
 
 <inventory>
 
-  <component name='idd-harness'>
-    <property name='home'>../config</property>
+  <component name='journal'>
+
+    <facility name='device'>remote</facility>
+
+    <component name='info'>
+      <property name='ipa'>off</property>
+      <property name='main'>off</property>
+    </component>
+
+    <component name='debug'>
+      <property name='ipa'>off</property>
+    </component>
+
   </component>
 
 </inventory>
 
 
 <!-- version-->
-<!-- $Id: idd-harness.pml,v 1.1.1.1 2006-11-27 00:09:15 aivazis Exp $-->
+<!-- $Id: journal.pml,v 1.1.1.1 2006-11-27 00:09:15 aivazis Exp $-->
 
 <!-- End of file -->

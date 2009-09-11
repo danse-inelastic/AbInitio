@@ -2,9 +2,9 @@
 <!--
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
-!                             Michael A.G. Aivazis
+!                                   Jiao Lin
 !                      California Institute of Technology
-!                      (C) 1998-2005  All Rights Reserved
+!                      (C) 2006-2009  All Rights Reserved
 !
 ! {LicenseText}
 !
@@ -16,14 +16,16 @@
 
 <inventory>
 
-  <component name='idd'>
-    <property name='port'>50002</property>
+  <component name='main-superapp'>
+    <facility name='config'>/tmp/luban-services,../config,../content</facility>
   </component>
 
 </inventory>
 
 
 <!-- version-->
-<!-- $Id: idd.pml,v 1.1.1.1 2006-11-27 00:09:15 aivazis Exp $-->
+<!-- $Id$-->
+
+<!-- Generated automatically by XMLMill on Sun May 24 06:50:52 2009-->
 
 <!-- End of file -->

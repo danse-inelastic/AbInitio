@@ -30,10 +30,7 @@ distclean::
 
 
 EXPORT_DATAFILES = \
-	idd.py \
-	startservices.sh \
 	initdb.py \
-	webmain.py \
 
 CP_F = rsync
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)

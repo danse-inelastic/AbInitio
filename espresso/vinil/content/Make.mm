@@ -22,6 +22,7 @@ EXPORT_DATADIRS = \
         pages \
         portlets \
         temp \
+        visuals \
 
 EXPORT_DATAFILES = \
 

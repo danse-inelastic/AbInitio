@@ -14,9 +14,13 @@ PROJECT = vinil
 PACKAGE = html
 
 EXPORT_DATADIRS = \
+	cgi-bin \
 	css \
 	images \
 	javascripts \
+
+EXPORT_DATAFILES = \
+        main-superapp.pml \ 
 
 OTHERS = \
 
@@ -41,7 +45,7 @@ RSYNC_A = rsync -a
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
 
 
-export-package-data: export-package-data-dirs
+export-package-data: export-package-data-dirs export-package-data-files
 
 
 export-package-data-dirs:: $(EXPORT_DATADIRS) 
@@ -49,6 +53,14 @@ export-package-data-dirs:: $(EXPORT_DATADIRS)
 	for x in $(EXPORT_DATADIRS); do { \
             if [ -d $$x ]; then { \
 	        $(RSYNC_A) $$x/ $(EXPORT_DATA_PATH)/$$x/ ; \
+            } fi; \
+        } done
+
+export-package-data-files:: $(EXPORT_DATAFILES)
+	mkdir -p $(EXPORT_DATA_PATH); \
+	for x in $(EXPORT_DATAFILES); do { \
+            if [ -f $$x ]; then { \
+	        $(RSYNC_A) $$x $(EXPORT_DATA_PATH)/$$x ; \
             } fi; \
         } done
 

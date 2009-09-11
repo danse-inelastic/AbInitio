@@ -32,9 +32,7 @@ distclean::
 EXPORT_DATAFILES = \
 	clerk.pml \
 	clerk.odb \
-	idd-harness.pml \
-	idd-pickler.odb \
-	idd.pml \
+	journal.pml \
 	librarian.pml \
 	main.pml \
 	web-weaver.pml \

@@ -40,7 +40,6 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-        WebApplication.py \
 	__init__.py \
 
 

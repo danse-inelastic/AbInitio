@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
 from luban.applications.WebApplication import WebApplication as Base
 
 class WebApplication(Base):
@@ -93,7 +94,7 @@ class WebApplication(Base):
 if __name__=='__main__':
     w = WebApplication(name = 'test')
     print w
-
+"""
 
 __date__ = "$Aug 5, 2009 4:23:32 PM$"
 
