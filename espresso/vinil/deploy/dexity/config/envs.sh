@@ -8,6 +8,7 @@ export LUBAN_DIR=/home/dexity/exports/luban
 export HOME=/tmp
 export ESPRESSO=/home/dexity/distribs/espresso-4.0.5
 export PATH=$ESPRESSO/bin:$PATH
+export PATH=$LUBAN_DIR/bin:$PATH
 export PATH=$EXPORT_ROOT/bin:$PATH
 
 export LD_LIBRARY_PATH=$EXPORT_ROOT/lib:$LD_LIBRARY_PATH

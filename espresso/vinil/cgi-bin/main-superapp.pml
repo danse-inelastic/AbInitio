@@ -16,9 +16,8 @@
 
 <inventory>
 
-  <component name='main'>
-    <facility name='clerk'>clerk</facility>
-    <facility name="actor">greet</facility>
+  <component name='main-superapp'>
+    <property name='config'>/tmp/luban-services,../config,../content</property>
   </component>
 
 </inventory>

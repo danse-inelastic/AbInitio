@@ -30,6 +30,7 @@ distclean::
 
 
 EXPORT_DATAFILES = \
+	main-superapp.pml \
 	main.py \
 
 
