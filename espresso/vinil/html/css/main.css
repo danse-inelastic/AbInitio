@@ -1,6 +1,12 @@
 
 /* One needs to fake <a>
 */
+
+body {
+	margin: 0px;
+	font-family: arial,sans-serif;
+}
+
 a {
     text-decoration: underline;
     color: blue;
@@ -15,7 +21,13 @@ fieldset {
     padding: 0px;
 }
 
+/*
 #rootdoc {
+    width: 900px;
+}
+*/
+
+#page {
     width: 800px;
 }
 
@@ -23,24 +35,68 @@ fieldset {
     border: 0px;
 }
 
-/*
-#page-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 20px;
+#page-user p {
+    margin: 0px;
 }
-*/
+
+#page-nav p {
+    margin: 0px;
+}
+
+#page-top {
+    height: 100px;
+    display: inline;
+    vertical-align: top;
+}
 
 #page-logo {
     font-size: 24px;
     font-weight: bold;
-    margin-top: 20px;
+    float: left;
+    width: 120px;
+    margin: 20px 40px;
+    text-align: center;
 }
 
+#page-nav {
+    width: 600px;
+    float: left;
+    padding: 0px;
+}
 
+#page-user {
+    text-align: right;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 30px;
+}
+
+#page-menus {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#page-path {
+    clear:left;
+    font-size: 14px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+#page-path p{
+    margin: 0px;
+}
+
+/*
 #page-main {
     text-align: left;
     vertical-align: top;
+}
+*/
+
+#page-main-content {
+    padding-left: 20px;
 }
 
 .document-title {

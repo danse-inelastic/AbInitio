@@ -32,18 +32,18 @@ def visual(director):
     navsplitter.navuser.add(p)
 
     p = Paragraph()
-    p.text = ['New    Jobs   Templates']
+    p.text = ['Materials  Simulations  Experiments  Jobs']
     navsplitter.navmenus.add(p)
 
     l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
     topsplitter.logo.add(l)
 
     p = Paragraph()
-    p.text = ['Home > Quantum Espresso']
+    p.text = ['Home > Simulations > Quantum Espresso > MgB2 > Single-Phonon']
     skeleton.path.add(p)
 
     p = Paragraph()
-    p.text = ['All Rights Reserved &copy; <b>Ovini</b> (Opal VNF Mini)']
+    p.text = ['Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved']
     skeleton.footer.add(p)
 
     p = Paragraph()
