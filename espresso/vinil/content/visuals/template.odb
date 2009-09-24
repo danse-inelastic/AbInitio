@@ -27,20 +27,96 @@ def visual(director):
     navsplitter = topsplitter.navsplitter
     document.add(skeleton)
 
-    p = Paragraph()
-    p.text = ['Hello, dexity! | Settings | News | Help | Logout']
-    navsplitter.navuser.add(p)
+    # User Navigation
+    l = Link(label='Logout', onclick=load(actor='greet', routine='link'))
+    navsplitter.navuser.add(l)
 
     p = Paragraph()
-    p.text = ['Materials  Simulations  Experiments  Jobs']
-    navsplitter.navmenus.add(p)
+    p.text = ['|']
+    navsplitter.navuser.add(p)
+
+    l = Link(label='Help', onclick=load(actor='greet', routine='link'))
+    navsplitter.navuser.add(l)
+
+    p = Paragraph()
+    p.text = ['|']
+    navsplitter.navuser.add(p)
+
+    l = Link(label='News', onclick=load(actor='greet', routine='link'))
+    navsplitter.navuser.add(l)
+
+    p = Paragraph()
+    p.text = ['|']
+    navsplitter.navuser.add(p)
+
+    l = Link(label='Settings', onclick=load(actor='greet', routine='link'))
+    navsplitter.navuser.add(l)
+
+    p = Paragraph()
+    p.text = ['|']
+    navsplitter.navuser.add(p)
+
+    p = Paragraph(id="exclamation-mark")
+    p.text = ['!']
+    navsplitter.navuser.add(p)
+
+    l = Link(label='dexity', onclick=load(actor='greet', routine='link'))
+    navsplitter.navuser.add(l)
+
+    p = Paragraph()
+    p.text = ['Hello, ']
+    navsplitter.navuser.add(p)
 
     l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
     topsplitter.logo.add(l)
 
+    # Menus
+    l = Link(label='Materials', onclick=load(actor='greet', routine='link'))
+    navsplitter.navmenus.add(l)
+
+    l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
+    navsplitter.navmenus.add(l)
+
+    l = Link(label='Experiments', onclick=load(actor='greet', routine='link'))
+    navsplitter.navmenus.add(l)
+
+    l = Link(label='Jobs', onclick=load(actor='greet', routine='link'))
+    navsplitter.navmenus.add(l)
+
+    # Path
+    l = Link(label='Home', onclick=load(actor='greet', routine='link'))
+    skeleton.path.add(l)
+
+    p = Paragraph()
+    p.text = ['>']
+    skeleton.path.add(p)
+
+    l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
+    skeleton.path.add(l)
+
+    p = Paragraph()
+    p.text = ['>']
+    skeleton.path.add(p)
+
+    l = Link(label='Quantum Espresso', onclick=load(actor='greet', routine='link'))
+    skeleton.path.add(l)
+
+    p = Paragraph()
+    p.text = ['>']
+    skeleton.path.add(p)
+
+    l = Link(label='MgB2', onclick=load(actor='greet', routine='link'))
+    skeleton.path.add(l)
+
+    p = Paragraph()
+    p.text = ['> Single-Phonon']
+    skeleton.path.add(p)
+
+    """
     p = Paragraph()
     p.text = ['Home > Simulations > Quantum Espresso > MgB2 > Single-Phonon']
     skeleton.path.add(p)
+    """
 
     p = Paragraph()
     p.text = ['Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved']

@@ -68,24 +68,49 @@ fieldset {
     text-align: right;
     font-size: 14px;
     padding-top: 5px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
 }
+
+#page-user p,
+#page-user a {
+    float: right;
+    padding: 0px 2px;
+}
+
+/*
+#page-user p #exclamation-mark {
+    padding: 0px 2px 0px -2px;
+}
+*/
 
 #page-menus {
     font-weight: bold;
     font-size: 17px;
 }
 
+
+
+#page-menus a{
+    padding-right: 15px;
+    text-decoration: none;
+}
 #page-path {
-    clear:left;
+    clear:both;
     font-size: 14px;
     padding-top: 10px;
     padding-left: 20px;
     padding-bottom: 20px;
 }
 
-#page-path p{
+#page-path a{
     margin: 0px;
+    float: left;
+}
+
+#page-path p {
+    margin: 0px;
+    float: left;
+    padding: 0px 2px;
 }
 
 /*
