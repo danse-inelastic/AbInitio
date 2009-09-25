@@ -53,13 +53,13 @@ fieldset {
     font-size: 24px;
     font-weight: bold;
     float: left;
-    width: 120px;
+    width: 200px;
     margin: 20px 40px;
     text-align: center;
 }
 
 #page-nav {
-    width: 600px;
+    width: 520px;
     float: left;
     padding: 0px;
 }

@@ -36,9 +36,10 @@ def visual(director):
     experimentsmenu = navmenus.menu(label='Experiments')
 
     jobsmenu        = navmenus.menu(label='Jobs')
-
-    #widgetmenu = director.retrieveVisual('widgetmenu')
-    #menubar.add(widgetmenu)
+    jobsall         = jobsmenu.item(label='All',        onclick=load('greet', routine='link'))
+    jobsrunning     = jobsmenu.item(label='Running',    onclick=load('greet', routine='link'))
+    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('greet', routine='link'))
+    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('greet', routine='link'))
 
     return navmenus
 
