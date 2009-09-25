@@ -71,17 +71,27 @@ def visual(director):
     topsplitter.logo.add(l)
 
     # Menus
+    """
+    from luban.content.AppMenuBar import AppMenuBar
+    menubar = AppMenuBar(id='menubar')
+
     l = Link(label='Materials', onclick=load(actor='greet', routine='link'))
     navsplitter.navmenus.add(l)
 
-    l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
-    navsplitter.navmenus.add(l)
+    simulationmenu = menubar.menu(label='Simulations')
+    simulationQE = simulationmenu.item(
+        label='Quantum Espresso',
+        onclick=load('greet', routine='link'))
+
+    #l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
+    navsplitter.navmenus.add(simulationmenu)
 
     l = Link(label='Experiments', onclick=load(actor='greet', routine='link'))
     navsplitter.navmenus.add(l)
 
     l = Link(label='Jobs', onclick=load(actor='greet', routine='link'))
     navsplitter.navmenus.add(l)
+    """
 
     # Path
     l = Link(label='Home', onclick=load(actor='greet', routine='link'))

@@ -18,9 +18,14 @@ def visual(director):
     # Navigation splitter
     navsplitter = Splitter(id='page-nav-content', orientation='vertical')
     navuser     = navsplitter.section(id='page-user')
-    navmenus    = navsplitter.section(id='page-menus')
+
+    navmenus     = director.retrieveVisual('navmenus')
     navsplitter.navuser     = navuser
+
+    navmenuscontainer = navsplitter.section(id='page-menus')
     navsplitter.navmenus    = navmenus
+    
+    navmenuscontainer.add(navmenus)
 
     # Top splitter
     topsplitter = Splitter(id='page-top', orientation='horizontal')

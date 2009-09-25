@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from luban.content import load
+
+def visual(director):
+
+    from luban.content.AppMenuBar import AppMenuBar
+    navmenus = AppMenuBar(id='menubar')
+
+    materialsmenu   = navmenus.menu(label='Materials')
+
+    simulationsmenu = navmenus.menu(label='Simulations')
+    simulationsQE = simulationsmenu.item(
+        label='Quantum Espresso',
+        onclick=load('greet', routine='link'))
+
+    simulationsVASP = simulationsmenu.item(
+        label='VASP',
+        onclick=load('greet', routine='link'))
+
+    simulationsGULP = simulationsmenu.item(
+        label='GULP',
+        onclick=load('greet', routine='link'))
+
+    experimentsmenu = navmenus.menu(label='Experiments')
+
+    jobsmenu        = navmenus.menu(label='Jobs')
+
+    #widgetmenu = director.retrieveVisual('widgetmenu')
+    #menubar.add(widgetmenu)
+
+    return navmenus
+
+
+__date__ = "$Sep 24, 2009 10:37:48 AM$"
+
+

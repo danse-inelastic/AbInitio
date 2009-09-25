@@ -5,6 +5,7 @@
         ],
      "jslibs":      [
         "jquery/jquery.js",
+        "jquery/ui/ui.core.js",
         "luban/luban-core.js",
         "luban/luban-controller.js",
         "luban/luban-actioncompiler.js",
@@ -29,20 +30,36 @@
   },
   "treeview": {
      "stylesheets": [
-        "jquery/jquery.treeview.css"
+        "jquery/jsTree/tree_component.css"
         ],
      "jslibs":      [
-        "jquery/jquery.cookie.js",
-        "jquery/treeview/jquery.treeview.js"
+        "jquery/jsTree/_lib/css.js",
+        "jquery/jsTree/source/tree_component.js"
         ]
   },
   "tabs": {
      "stylesheets": [
-        "jquery/ui/smoothness/ui.all.css"
         ],
      "jslibs":      [
-        "jquery/ui/ui.core.js",
         "jquery/ui/ui.tabs.js"
+        ]
+  },
+  "appmenubar": {
+     "stylesheets": [
+        "jquery/jquery.jdMenu.css"
+        ],
+     "jslibs":      [
+        "jquery/jdMenu-1.4.1/jquery.jdMenu.js",
+        "jquery/jdMenu-1.4.1/jquery.dimensions.js",
+        "jquery/jdMenu-1.4.1/jquery.bgiframe.js",
+        "jquery/jdMenu-1.4.1/jquery.positionBy.js"
+        ]
+  },
+  "accordion": {
+     "stylesheets": [
+        ],
+     "jslibs":      [
+        "jquery/ui/ui.accordion.js"
         ]
   }
 }
