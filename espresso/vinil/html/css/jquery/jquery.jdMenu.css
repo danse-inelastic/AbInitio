@@ -99,14 +99,13 @@ ul.jd_menu li a {
 
 ul.jd_menu li.jdm_hover,
 ul.jd_menu li.jdm_active {
-    background-color: #fdff6b;
+    background-color: #FFF;
     color: blue;
-
     padding: 3px 6px 2px 6px;
-    border: 1px solid #fdff6b;
-    border-left: 1px solid #fdff6b;
-    border-top: 1px solid #fdff6b;
-
+    border: 1px solid white;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+}
 
 /*
     background-color: #69C;
@@ -117,4 +116,3 @@ ul.jd_menu li.jdm_active {
     border-left: 1px solid #9CF;
     border-top: 1px solid #9CF;
 */
-}
