@@ -26,11 +26,21 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def default(self, director):
-        page = director.retrieveVisual('template')
+        """
+        from luban.content.Page import Page
+        page = Page(title='Testing HtmlDocument')
+        document = page.document(title='Testing HtmlDocument')
 
+        from luban.content.HtmlDocument import HtmlDocument
+        d = HtmlDocument(text='&copy')
+        document.add(d)
+        """
+
+        page = director.retrieveVisual('template')
+        
         page.skeleton.path.add(self.path())
         page.maindoc.add(self.content(director))
-        
+
         return page
 
     def link(self, director, document=None):
