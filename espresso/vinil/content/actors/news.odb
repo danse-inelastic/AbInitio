@@ -11,6 +11,71 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from luban.content import load
+from luban.content.Link import Link
+
+from opal.components.Actor import Actor as base
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id')
+
+    def default(self, director):
+        page = director.retrieveVisual('template')
+
+        page.skeleton.path.add(self.path())
+        page.maindoc.add(self.content(director))
+
+        return page
+
+    def link(self, director, document=None):
+        actions = []
+        actions.append(select(id='maindoc').replaceContent(self.content(director)))
+        actions.append(select(id='page-path').replaceContent(self.path()))
+
+        return actions
+
+    def content(self, director):
+        document = Document(title='News')
+        p = Paragraph()
+        p.text = ["""News related to VNF"""]
+        document.add(p)
+
+        return document
+
+    def path(self):
+        d   = Document(id='path-container')
+
+        l = Link(label='Home', onclick=load(actor='greet', routine='link'))
+        d.add(l)
+
+        p = Paragraph()
+        p.text = ['> News']
+        d.add(p)
+
+        return d
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id = self.inventory.id
+        return
+
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('news')
 
 __date__ = "$Sep 25, 2009 1:01:14 PM$"
 
