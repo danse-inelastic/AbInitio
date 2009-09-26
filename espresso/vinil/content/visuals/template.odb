@@ -16,6 +16,7 @@ from luban.content import load
 from luban.content.Page import Page
 from luban.content.Link import Link
 from luban.content.Paragraph import Paragraph
+from luban.content.HtmlDocument import HtmlDocument
 
 def visual(director):
     page = Page(title='VNF: Virtual Neutron Facility')
@@ -68,40 +69,12 @@ def visual(director):
     navsplitter.navuser.add(p)
 
     l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
+    #l.text = ['VNF']
     topsplitter.logo.add(l)
 
     # Menus are implemented in navmenus.odb
 
-    # Path
-    """
-    l = Link(label='Home', onclick=load(actor='greet', routine='link'))
-    skeleton.path.add(l)
-
-    p = Paragraph()
-    p.text = ['>']
-    skeleton.path.add(p)
-
-    l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
-    skeleton.path.add(l)
-
-    p = Paragraph()
-    p.text = ['>']
-    skeleton.path.add(p)
-
-    l = Link(label='Quantum Espresso', onclick=load(actor='greet', routine='link'))
-    skeleton.path.add(l)
-
-    p = Paragraph()
-    p.text = ['>']
-    skeleton.path.add(p)
-
-    l = Link(label='MgB2', onclick=load(actor='greet', routine='link'))
-    skeleton.path.add(l)
-
-    p = Paragraph()
-    p.text = ['> Single-Phonon']
-    skeleton.path.add(p)
-    """
+    # Path implementation moved to actors
 
     """
     p = Paragraph()
@@ -109,9 +82,10 @@ def visual(director):
     skeleton.path.add(p)
     """
 
-    p = Paragraph()
-    p.text = ['Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved']
-    skeleton.footer.add(p)
+    #p = Paragraph()
+    d = HtmlDocument()
+    d.text = ['Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved']
+    skeleton.footer.add(d)
 
     p = Paragraph()
     p.text = ['powered by luban']
