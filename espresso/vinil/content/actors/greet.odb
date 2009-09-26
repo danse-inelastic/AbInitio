@@ -26,13 +26,13 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def default(self, director):
-        """
+        
         from luban.content.Page import Page
         page = Page(title='Testing HtmlDocument')
         document = page.document(title='Testing HtmlDocument')
 
         from luban.content.HtmlDocument import HtmlDocument
-        d = HtmlDocument(text='&copy')
+        d = HtmlDocument(text='Hello &copy')
         document.add(d)
         """
 
@@ -40,6 +40,7 @@ class Actor(base):
         
         page.skeleton.path.add(self.path())
         page.maindoc.add(self.content(director))
+        """
 
         return page
 
