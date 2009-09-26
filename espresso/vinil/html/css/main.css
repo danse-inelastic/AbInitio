@@ -97,15 +97,19 @@ fieldset {
     font-size: 14px;
     padding-top: 10px;
     padding-left: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
-#page-path a{
+#path-container {
+    display: inline;
+}
+
+#path-container a{
     margin: 0px;
     float: left;
 }
 
-#page-path p {
+#path-container p {
     margin: 0px;
     float: left;
     padding: 0px 2px;
@@ -123,7 +127,8 @@ fieldset {
 }
 
 .document-title {
-    font-size: 18px;
+    font-size: 17px;
+    /* font-weight: normal;*/
     margin: 15px 0px 5px 0px;
 }
 

@@ -28,28 +28,28 @@ def visual(director):
     document.add(skeleton)
 
     # User Navigation
-    l = Link(label='Logout', onclick=load(actor='greet', routine='link'))
+    l = Link(label='Logout', onclick=load(actor='logout', routine='link'))
     navsplitter.navuser.add(l)
 
     p = Paragraph()
     p.text = ['|']
     navsplitter.navuser.add(p)
 
-    l = Link(label='Help', onclick=load(actor='greet', routine='link'))
+    l = Link(label='Help', onclick=load(actor='help', routine='link'))
     navsplitter.navuser.add(l)
 
     p = Paragraph()
     p.text = ['|']
     navsplitter.navuser.add(p)
 
-    l = Link(label='News', onclick=load(actor='greet', routine='link'))
+    l = Link(label='News', onclick=load(actor='news', routine='link'))
     navsplitter.navuser.add(l)
 
     p = Paragraph()
     p.text = ['|']
     navsplitter.navuser.add(p)
 
-    l = Link(label='Settings', onclick=load(actor='greet', routine='link'))
+    l = Link(label='Settings', onclick=load(actor='settings', routine='link'))
     navsplitter.navuser.add(l)
 
     p = Paragraph()
@@ -70,30 +70,10 @@ def visual(director):
     l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
     topsplitter.logo.add(l)
 
-    # Menus
-    """
-    from luban.content.AppMenuBar import AppMenuBar
-    menubar = AppMenuBar(id='menubar')
-
-    l = Link(label='Materials', onclick=load(actor='greet', routine='link'))
-    navsplitter.navmenus.add(l)
-
-    simulationmenu = menubar.menu(label='Simulations')
-    simulationQE = simulationmenu.item(
-        label='Quantum Espresso',
-        onclick=load('greet', routine='link'))
-
-    #l = Link(label='Simulations', onclick=load(actor='greet', routine='link'))
-    navsplitter.navmenus.add(simulationmenu)
-
-    l = Link(label='Experiments', onclick=load(actor='greet', routine='link'))
-    navsplitter.navmenus.add(l)
-
-    l = Link(label='Jobs', onclick=load(actor='greet', routine='link'))
-    navsplitter.navmenus.add(l)
-    """
+    # Menus are implemented in navmenus.odb
 
     # Path
+    """
     l = Link(label='Home', onclick=load(actor='greet', routine='link'))
     skeleton.path.add(l)
 
@@ -121,6 +101,7 @@ def visual(director):
     p = Paragraph()
     p.text = ['> Single-Phonon']
     skeleton.path.add(p)
+    """
 
     """
     p = Paragraph()
@@ -138,6 +119,7 @@ def visual(director):
 
     page.maindoc    = splitter.maindoc
     page.portletdoc = splitter.portletdoc
+    page.skeleton   = skeleton
 
     #portletElectrons    = director.retrievePortlet("navigationElectrons")
     #portletPhonons      = director.retrievePortlet("navigationPhonons")
