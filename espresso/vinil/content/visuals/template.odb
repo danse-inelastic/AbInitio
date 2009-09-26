@@ -16,7 +16,8 @@ from luban.content import load
 from luban.content.Page import Page
 from luban.content.Link import Link
 from luban.content.Paragraph import Paragraph
-from luban.content.HtmlDocument import HtmlDocument
+#from luban.content.HtmlDocument import HtmlDocument
+from luban.weaver.web.content.HtmlDocument import HtmlDocument
 
 def visual(director):
     page = Page(title='VNF: Virtual Neutron Facility')
@@ -72,8 +73,7 @@ def visual(director):
     #l.text = ['VNF']
     topsplitter.logo.add(l)
 
-    # Menus are implemented in navmenus.odb
-
+    # Menus implemention moved to navmenus.odb
     # Path implementation moved to actors
 
     """
@@ -83,7 +83,7 @@ def visual(director):
     """
 
     #p = Paragraph()
-    d = HtmlDocument()
+    d = Paragraph()#HtmlDocument()
     d.text = ['Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved']
     skeleton.footer.add(d)
 
