@@ -2,33 +2,32 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                                 Jiao Lin
+#                               Alex Dementsov
 #                      California Institute of Technology
-#                      (C) 2006-2009  All Rights Reserved
+#                        (C) 2009  All Rights Reserved
 #
 # {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-#from opal.content.Literal import Literal
 from luban.content import load
-from luban.content.Page import Page
-from luban.content.Link import Link
 from luban.content.Paragraph import Paragraph
-from luban.content.HtmlDocument import HtmlDocument
+from luban.content.Page import Page
 
 def visual(director):
-    page = Page(title='VNF: Virtual Neutron Facility')
+    page = Page(title='Testing HtmlDocument')
 
-    document    = page.document(id='rootdoc')
+    document = page.document(id='rootdoc')
     skeleton    = director.retrieveVisual('skeleton')
     topsplitter = skeleton.topsplitter
     splitter    = skeleton.splitter
     navsplitter = topsplitter.navsplitter
     document.add(skeleton)
 
+
     # User Navigation
+    from luban.content.Link import Link
     l = Link(label='Logout', onclick=load(actor='logout', routine='link'))
     navsplitter.navuser.add(l)
 
@@ -71,15 +70,7 @@ def visual(director):
     l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
     topsplitter.logo.add(l)
 
-    # Menus implemention moved to navmenus.odb
-    # Path implementation moved to actors
-
-    """
-    p = Paragraph()
-    p.text = ['Home > Simulations > Quantum Espresso > MgB2 > Single-Phonon']
-    skeleton.path.add(p)
-    """
-
+    from luban.content.HtmlDocument import HtmlDocument
     text = 'Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved'
     d = HtmlDocument(text=text)
     skeleton.footer.add(d)
@@ -91,18 +82,9 @@ def visual(director):
     page.maindoc    = splitter.maindoc
     page.skeleton   = skeleton
 
-    #portletElectrons    = director.retrievePortlet("navigationElectrons")
-    #portletPhonons      = director.retrievePortlet("navigationPhonons")
-
-    #page.portletdoc.add(portletElectrons)
-    #page.portletdoc.add(portletPhonons)
-
     return page
 
 
-# version
-__id__ = "$Id$"
-
-__date__ = "$Aug 5, 2009 11:04:29 AM$"
+__date__ = "$Sep 26, 2009 3:06:35 AM$"
 
 

@@ -39,7 +39,7 @@ class Actor(base):
         
         actions = []
         actions.append(select(id='maindoc').replaceContent(self.content(director)))
-        actions.append(select(id='page-path').replaceContent(self.path()))
+        actions.append(select(id='path-content').replaceContent(self.path()))
 
         return actions
 
@@ -52,7 +52,7 @@ class Actor(base):
         return document
 
     def path(self):
-        d   = Document(id='path-container')
+        d   = Document(id='path-content')
 
         l = Link(label='Home', onclick=load(actor='greet', routine='link'))
         d.add(l)

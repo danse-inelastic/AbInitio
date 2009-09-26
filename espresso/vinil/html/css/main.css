@@ -100,16 +100,16 @@ fieldset {
     padding-bottom: 30px;
 }
 
-#path-container {
+#path-content {
     display: inline;
 }
 
-#path-container a{
+#path-content a{
     margin: 0px;
     float: left;
 }
 
-#path-container p {
+#path-content p {
     margin: 0px;
     float: left;
     padding: 0px 2px;
@@ -126,7 +126,7 @@ fieldset {
     padding-left: 20px;
 }
 
-.document-title {
+.luban-document-title {
     font-size: 17px;
     /* font-weight: normal;*/
     margin: 15px 0px 5px 0px;
@@ -134,8 +134,9 @@ fieldset {
 
 #page-columnLeft {
     vertical-align: top;
-    width: 200px
+    width: 0px
 }
+
 
 .portlet {
     margin-top: -10px
