@@ -33,7 +33,7 @@ OTHER_DIRS = \
 
 RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 
-all: export-python-modules 
+all: export-package-python-modules #export-python-modules
 	BLD_ACTION="all" $(MM) recurse
 
 tidy::
