@@ -58,19 +58,6 @@ class Actor(base):
         pb = PathBuilder(list)
         return pb.buildPath()
 
-        """
-        d   = Document(id='path-content')
-
-        l = Link(label='Home', onclick=load(actor='greet', routine='link'))
-        d.add(l)
-
-        p = Paragraph(text='> Settings')
-        #p.text = ['> Settings']
-        d.add(p)
-
-        return d
-        """
-
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
         return
