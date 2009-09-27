@@ -13,11 +13,10 @@
 
 # Builds path (navigation line) for vinil
 
-# Input:
+# Example of Input:
 # list = [["Home","greet","link"], [label, actor, routine]]
-
-#Output
-#"<a href="###">Home</a> > Settings"
+# Example of Output
+# <a href="###">Home</a> > Settings
 
 
 class PathItem:
@@ -68,7 +67,7 @@ class PathBuilder:
         #self.pathlist   = list # Do I need pathlist?
 
 
-    def buildPath():
+    def buildPath(self):
         from luban.content.Paragraph import Paragraph
         from luban.content.Document import Document
         from luban.content import load
@@ -76,7 +75,7 @@ class PathBuilder:
 
         doc     = Document(id='path-content')
 
-        for i in self.path.size():
+        for i in range(self.path.size()):
             item    = self.path.item(i)
             if item.isLink():
                 pi = Link(label=item.label, onclick=load(actor=item.actor, routine=item.routine))
