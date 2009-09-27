@@ -35,11 +35,11 @@ def visual(director):
 
     experimentsmenu = navmenus.menu(label='Experiments')
 
-    jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('greet', routine='link'))
-    jobsall         = jobsmenu.item(label='All',        onclick=load('greet', routine='link'))
-    jobsrunning     = jobsmenu.item(label='Running',    onclick=load('greet', routine='link'))
-    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('greet', routine='link'))
-    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('greet', routine='link'))
+    jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))
+    jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
+    jobsrunning     = jobsmenu.item(label='Running',    onclick=load('jobs', routine='linkRunning'))
+    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs', routine='link'))
+    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs', routine='link'))
 
     return navmenus
 

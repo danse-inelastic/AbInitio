@@ -55,6 +55,31 @@ class Actor(base):
         pb = PathBuilder(list)
         return pb.buildPath()
 
+    # Running jobs
+    def linkRunning(self, director, document=None):
+        actions = []
+        actions.append(select(id='maindoc').replaceContent(self.contentRunning(director)))
+        actions.append(select(id='path-content').replaceContent(self.pathRunning()))
+
+        return actions
+
+    def contentRunning(self, director):
+        document = Document(title='Running Jobs')
+        p = Paragraph()
+        p.text = ["""Table of running jobs """]
+        document.add(p)
+
+        return document
+
+    def pathRunning(self):
+        list = [["Home","greet","link"],
+                ["Jobs", "jobs", "link"],
+                ["Running", None, None]]
+
+        from vinil.utils.pathbuilder import PathBuilder
+        pb = PathBuilder(list)
+        return pb.buildPath()
+
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
