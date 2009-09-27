@@ -1,9 +1,964 @@
+# Database schema for VNF
+
 
 CREATE TABLE job (
     id          char(10) PRIMARY KEY,   # Job id
-    kind        varchar(100), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP"
-    type        varchar(100), NULL      # Type of the simulation
-    status      varchar(100), NOT NULL  # Status of the job: "Not started", "Running", "Finished"
-    created     varchar(100), NOT NULL  # 
-    config      varchar(5000), NOT NULL # Configuration text
+    kind        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
+    type        varchar(128), NULL      # Type of the simulation
+    status      varchar(128), NOT NULL  # Status of the job: "Not started", "Running", "Finished"
+    created     varchar(128), NOT NULL  #
+    config      varchar(4096), NOT NULL # Configuration text
 );
+
+================================================
+
+# Already implemented table in VNF
+
+CREATE TABLE abinitio
+(
+  engine                character varying(64) DEFAULT 'vasp'::character varying,
+  creator               character varying(64) DEFAULT ''::character varying,
+  results_state         character varying(16) DEFAULT ''::character varying,
+  job                   character varying(64) DEFAULT ''::character varying,
+  generateinputsonly    boolean DEFAULT false,
+  date                  date,
+  id                    character varying(64) NOT NULL DEFAULT ''::character varying,
+  kineticenergycutoff   real DEFAULT 140.0,
+  matter                character varying(1024),
+  short_description     character varying(128) DEFAULT ''::character varying,
+  monkhorstpackmesh     integer[],
+  xcfunctional          character varying(64) DEFAULT 'PAW-PBE'::character varying,
+
+  CONSTRAINT abinitio_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE acl1
+(
+  userid                character varying(64) DEFAULT ''::character varying,
+  id                    character varying(64) NOT NULL DEFAULT ''::character varying,
+  groupid character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT acl1_pkey PRIMARY KEY (id),
+  CONSTRAINT acl1_groupid_fkey FOREIGN KEY (groupid)
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT acl1_userid_fkey FOREIGN KEY (userid)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+CREATE TABLE acl2
+(
+  userid character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  groupid character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT acl2_pkey PRIMARY KEY (id),
+  CONSTRAINT acl2_groupid_fkey FOREIGN KEY (groupid)
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT acl2_userid_fkey FOREIGN KEY (userid)
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+CREATE TABLE acl_instrumentsimulationprivileges
+(
+  instrument character varying(64) DEFAULT ''::character varying,
+  "role" character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT acl_instrumentsimulationprivileges_pkey PRIMARY KEY (id),
+  CONSTRAINT acl_instrumentsimulationprivileges_instrument_fkey FOREIGN KEY (instrument)
+      REFERENCES instruments (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT acl_instrumentsimulationprivileges_role_fkey FOREIGN KEY ("role")
+      REFERENCES roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+CREATE TABLE activities
+(
+  username character varying(64) DEFAULT ''::character varying,
+  requesttime timestamp without time zone,
+  remote_address character varying(32) DEFAULT ''::character varying,
+  actor character varying(32) DEFAULT ''::character varying,
+  routine character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT activities_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE blocks
+(
+  width real DEFAULT 0.050000000000000003,
+  creator character varying(64) DEFAULT ''::character varying,
+  thickness real DEFAULT 0.002,
+  date date,
+  short_description character varying(128) DEFAULT ''::character varying,
+  height real DEFAULT 0.10000000000000001,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT blocks_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE bvkcomputations
+(
+  creator character varying(64) DEFAULT ''::character varying,
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  date date,
+  n1 integer DEFAULT 10,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  de real DEFAULT 0.5,
+  matter character varying(1024),
+  short_description character varying(128) DEFAULT ''::character varying,
+  model character varying(64) DEFAULT ''::character varying,
+  "type" character varying(16) DEFAULT ''::character varying,
+  CONSTRAINT bvkcomputations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE bvkmodels
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  matter character varying(1024),
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT bvkmodels_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE channeledguides
+(
+  qcx real DEFAULT 0.20000000000000001,
+  r0 real DEFAULT 0.0,
+  w real DEFAULT 0.002,
+  alphay real DEFAULT 0.0,
+  h2 real DEFAULT 0.10000000000000001,
+  alphax real DEFAULT 0.0,
+  qcy real DEFAULT 0.20000000000000001,
+  h1 real DEFAULT 0.10000000000000001,
+  l real DEFAULT 1,
+  mx real DEFAULT 3.6000000000000001,
+  w2 real DEFAULT 0.10000000000000001,
+  w1 real DEFAULT 0.10000000000000001,
+  short_description character varying(128) DEFAULT ''::character varying,
+  k integer DEFAULT 1,
+  my real DEFAULT 0.10000000000000001,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  d real DEFAULT 0.0,
+  CONSTRAINT channeledguides_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE cylinders
+(
+  outerradius real DEFAULT 0.002,
+  creator character varying(64) DEFAULT ''::character varying,
+  innerradius real DEFAULT 0.0,
+  height real DEFAULT 0.10000000000000001,
+  date date,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT cylinders_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE detectorsystem_fromxmls
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  tofmin real DEFAULT 3000.0,
+  ntofbins integer DEFAULT 300,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  tofmax real DEFAULT 6000.0,
+  CONSTRAINT detectorsystem_fromxmls_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE disordered
+(
+  creator character varying(64) DEFAULT ''::character varying,
+  fractional_coordinates double precision[],
+  atom_symbols character varying(2)[],
+  cartesian_lattice double precision[],
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  chemical_formula character varying(1024) DEFAULT ''::character varying,
+  CONSTRAINT disordered_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE emonitors
+(
+  nchan integer DEFAULT 100,
+  y_min real DEFAULT (-0.10000000000000001),
+  emin real DEFAULT 10,
+  emax real DEFAULT 100,
+  y_max real DEFAULT 0.10000000000000001,
+  x_min real DEFAULT (-0.10000000000000001),
+  x_max real DEFAULT 0.10000000000000001,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT emonitors_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE fermichoppers
+(
+  ymax real DEFAULT 0.032500000000000001,
+  nchans integer DEFAULT 10,
+  tc real DEFAULT 0.0,
+  len real DEFAULT 0.10000000000000001,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  bw real DEFAULT 0.00050000000000000001,
+  w real DEFAULT 0.059999999999999998,
+  delta real DEFAULT 0.0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  ymin real DEFAULT (-0.032500000000000001),
+  nu integer DEFAULT 600,
+  blader real DEFAULT 0.5,
+  CONSTRAINT fermichoppers_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE gulpsimulations
+(
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  date date,
+  creator character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  matter character varying(1024),
+  CONSTRAINT gulpsimulations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE instrumentconfigurations
+(
+  target character varying(64) DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  configured boolean DEFAULT false,
+  date date,
+  componentsequence character varying(128)[],
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT instrumentconfigurations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE instruments
+(
+  category character varying(64) DEFAULT ''::character varying,
+  status character varying(32) DEFAULT 'online'::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  long_description character varying(8192) DEFAULT ''::character varying,
+  date date,
+  componentsequence character varying(128)[],
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT instruments_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE itasks
+(
+  time_start timestamp without time zone,
+  time_completion timestamp without time zone,
+  worker character varying(32) DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  progress_text character varying(1024) DEFAULT ''::character varying,
+  progress_percentage real DEFAULT 0.0,
+  beneficiary character varying(1024),
+  date date,
+  state character varying(16) DEFAULT ''::character varying,
+  options character varying(64)[],
+  error character varying(8192) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  "type" character varying(32) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT itasks_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE jobs
+(
+  time_start timestamp without time zone,
+  creator character varying(64) DEFAULT ''::character varying,
+  time_completion timestamp without time zone,
+  exit_code integer DEFAULT (-1),
+  remote_errorfilename character varying(512) DEFAULT ''::character varying,
+  server character varying(100) DEFAULT ''::character varying,
+  date date,
+  numprocessors integer DEFAULT 1,
+  state character varying(16) DEFAULT ''::character varying,
+  remote_outputfilename character varying(512) DEFAULT ''::character varying,
+  computation character varying(1024),
+  error character varying(2048) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  output character varying(2048) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  id_incomputingserver character varying(64) DEFAULT ''::character varying,
+  walltime integer DEFAULT 1,
+  CONSTRAINT jobs_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE mdanalysis
+(
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  date date,
+  creator character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  matter character varying(1024),
+  CONSTRAINT mdanalysis_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE mmtksimulations
+(
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  date date,
+  creator character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  matter character varying(1024),
+  CONSTRAINT mmtksimulations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE monochromaticsources
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  energy real DEFAULT 70.0,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT monochromaticsources_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE neutronexperiments
+(
+  status character varying(32) DEFAULT ''::character varying,
+  instrument_configuration character varying(1024),
+  samplecomponent character varying(1024),
+  creator character varying(64) DEFAULT ''::character varying,
+  sampleassembly character varying(64) DEFAULT ''::character varying,
+  ncount real DEFAULT 1000000.0,
+  date date,
+  job character varying(64) DEFAULT ''::character varying,
+  instrument character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  sampleenvironment character varying(64) DEFAULT ''::character varying,
+  expected_results character varying(128)[],
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  constructed character varying(4) DEFAULT ''::character varying,
+  CONSTRAINT neutronexperiments_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE neutronrecorders
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  packetsize integer DEFAULT 10000,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT neutronrecorders_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE phonondispersions
+(
+  origin character varying(1024),
+  matter character varying(1024),
+  creator character varying(64) DEFAULT ''::character varying,
+  date date,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT phonondispersions_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE phonondoses
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT phonondoses_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE phononsfromabinitio
+(
+  creator character varying(64) DEFAULT ''::character varying,
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  supercell integer[],
+  date date,
+  displacementamplitude real DEFAULT 0.01,
+  abinitio character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  qgrid integer[],
+  matter character varying(1024),
+  short_description character varying(128) DEFAULT ''::character varying,
+  CONSTRAINT phononsfromabinitio_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE polycrystals
+(
+  creator character varying(64) DEFAULT ''::character varying,
+  fractional_coordinates double precision[],
+  atom_symbols character varying(2)[],
+  cartesian_lattice double precision[],
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  chemical_formula character varying(1024) DEFAULT ''::character varying,
+  CONSTRAINT polycrystals_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE polyxtalcoherentphononscatteringkernels
+(
+  ei real DEFAULT 70,
+  creator character varying(64) DEFAULT ''::character varying,
+  max_momentum_transfer real DEFAULT 12.5,
+  dispersion character varying(64) DEFAULT ''::character varying,
+  date date,
+  max_energy_transfer real DEFAULT 55.0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT polyxtalcoherentphononscatteringkernels_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE qemonitors
+(
+  max_angle_in_plane real DEFAULT 120.0,
+  min_angle_in_plane real DEFAULT (-30),
+  emax real DEFAULT 50.0,
+  emin real DEFAULT (-50.0),
+  ne integer DEFAULT 100,
+  min_angle_out_of_plane real DEFAULT (-30),
+  qmax real DEFAULT 13.0,
+  qmin real DEFAULT 0.0,
+  max_angle_out_of_plane real DEFAULT 30,
+  short_description character varying(128) DEFAULT ''::character varying,
+  nq integer DEFAULT 130,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT qemonitors_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE qmonitors
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  nq integer DEFAULT 130,
+  qmin real DEFAULT 0.0,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  qmax real DEFAULT 13.0,
+  CONSTRAINT qmonitors_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE registrants
+(
+  username character varying(64) DEFAULT ''::character varying,
+  firstname character varying(16) DEFAULT ''::character varying,
+  lastname character varying(16) DEFAULT ''::character varying,
+  email character varying(256) DEFAULT ''::character varying,
+  organization character varying(256) DEFAULT ''::character varying,
+  "password" character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT registrants_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE roles
+(
+  status character(1) DEFAULT 'l'::bpchar,
+  rolename character varying(64) DEFAULT ''::character varying,
+  description character varying(255) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT roles_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sampleassemblies
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  status character varying(16) DEFAULT 'new'::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT sampleassemblies_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE samplecomponentexamples
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  samplecomponent character varying(1024),
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT samplecomponentexamples_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE samplecomponents
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT samplecomponents_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sampleenvironments
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  pressure real DEFAULT 1.0,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  temperature real DEFAULT 300,
+  magnetic_field double precision[],
+  CONSTRAINT sampleenvironments_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE samples
+(
+  matter character varying(1024),
+  creator character varying(64) DEFAULT ''::character varying,
+  date date,
+  shape character varying(1024),
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT samples_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sansspheremodelkernels
+(
+  scale real DEFAULT 0.00000099999999999999995,
+  creator character varying(64) DEFAULT ''::character varying,
+  date date,
+  radius real DEFAULT 60.0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  contrast real DEFAULT 1.0,
+  CONSTRAINT sansspheremodelkernels_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE scattererexampless
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  scatterer character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT scattererexampless_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE scatterers
+(
+  matter character varying(1024),
+  creator character varying(64) DEFAULT ''::character varying,
+  date date,
+  shape character varying(1024),
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT scatterers_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE servers
+(
+  username character varying(100) DEFAULT ''::character varying,
+  workdir character varying(1024) DEFAULT ''::character varying,
+  group_access character varying(128) DEFAULT ''::character varying,
+  port character varying(8) DEFAULT '22'::character varying,
+  scheduler character varying(64) DEFAULT ''::character varying,
+  address character varying(128) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(100) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT servers_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE simpleiqcomputations
+(
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  qmin real DEFAULT 0,
+  date date,
+  creator character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  model character varying(1024),
+  dq real DEFAULT 10,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  qmax real DEFAULT 10,
+  CONSTRAINT simpleiqcomputations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE singlecrystals
+(
+  creator character varying(64) DEFAULT ''::character varying,
+  fractional_coordinates double precision[],
+  atom_symbols character varying(2)[],
+  cartesian_lattice double precision[],
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  chemical_formula character varying(1024) DEFAULT ''::character varying,
+  CONSTRAINT singlecrystals_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE siniqmodels
+(
+  bg real DEFAULT 0,
+  creator character varying(64) DEFAULT ''::character varying,
+  l real DEFAULT 0,
+  date date,
+  phase real DEFAULT 0,
+  amplitude real DEFAULT 0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT siniqmodels_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE snsmoderatormcsimulateddata
+(
+  instrument character varying(32) DEFAULT ''::character varying,
+  id character varying(128) DEFAULT ''::character varying
+)
+
+CREATE TABLE snsmoderators
+(
+  yh real DEFAULT 0.10000000000000001,
+  dist real DEFAULT 2.5,
+  emin real DEFAULT 0,
+  emax real DEFAULT 100,
+  height real DEFAULT 0.10000000000000001,
+  width real DEFAULT 0.10000000000000001,
+  neutronprofile character varying(128) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  xw real DEFAULT 0.10000000000000001,
+  CONSTRAINT snsmoderators_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sphericalpsds
+(
+  short_description character varying(128) DEFAULT ''::character varying,
+  nrows integer DEFAULT 100,
+  ncolumns integer DEFAULT 100,
+  radius real DEFAULT 3.0,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT sphericalpsds_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sqekernels
+(
+  emin real DEFAULT (-50),
+  emax real DEFAULT 50,
+  creator character varying(64) DEFAULT ''::character varying,
+  qmax real DEFAULT 10,
+  date date,
+  qmin real DEFAULT 0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  sqe character varying(1024),
+  CONSTRAINT sqekernels_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE sqes
+(
+  origin character varying(1024),
+  short_description character varying(128) DEFAULT ''::character varying,
+  date date,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  CONSTRAINT sqes_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE t0choppers
+(
+  ymax real DEFAULT 0.050000000000000003,
+  tc real DEFAULT 0.0,
+  len real DEFAULT 0.10000000000000001,
+  nu integer DEFAULT 300,
+  w2 real DEFAULT 0.059999999999999998,
+  w1 real DEFAULT 0.059999999999999998,
+  delta real DEFAULT 0.0,
+  short_description character varying(128) DEFAULT ''::character varying,
+  ymin real DEFAULT (-0.050000000000000003),
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT t0choppers_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE tofmonitors
+(
+  nchan integer DEFAULT 100,
+  tmin real DEFAULT 0.0030000000000000001,
+  y_min real DEFAULT (-0.10000000000000001),
+  tmax real DEFAULT 0.0060000000000000001,
+  y_max real DEFAULT 0.10000000000000001,
+  x_min real DEFAULT (-0.10000000000000001),
+  x_max real DEFAULT 0.10000000000000001,
+  short_description character varying(128) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT tofmonitors_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE users
+(
+  username character varying(64) DEFAULT ''::character varying,
+  fullname character varying(1024) DEFAULT ''::character varying,
+  "password" character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  email character varying(128) DEFAULT ''::character varying,
+  CONSTRAINT users_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE vacfcomputations
+(
+  results_state character varying(16) DEFAULT ''::character varying,
+  job character varying(64) DEFAULT ''::character varying,
+  short_description character varying(128) DEFAULT ''::character varying,
+  weights character varying(16) DEFAULT 'mass'::character varying,
+  creator character varying(64) DEFAULT ''::character varying,
+  date date,
+  gulpsimulation character varying(64) DEFAULT ''::character varying,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  units character varying(16) DEFAULT 'nm'::character varying,
+  CONSTRAINT vacfcomputations_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE vanadiumplates
+(
+  target_position double precision[],
+  target_radius real DEFAULT 0,
+  height real DEFAULT 0.10000000000000001,
+  width real DEFAULT 0.050000000000000003,
+  short_description character varying(128) DEFAULT ''::character varying,
+  thickness real DEFAULT 0.002,
+  id character varying(64) NOT NULL DEFAULT ''::character varying,
+  CONSTRAINT vanadiumplates_pkey PRIMARY KEY (id)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE abinitio (
+
+)
+
+CREATE TABLE acl1 (
+
+)
+
+CREATE TABLE acl2 (
+
+)
+
+CREATE TABLE acl_instrumentsimulationprivileges (
+
+)
+
+CREATE TABLE activities (
+
+)
+
+CREATE TABLE blocks (
+
+)
+
+CREATE TABLE bvkcomputations (
+
+)
+
+CREATE TABLE bvkmodels (
+
+)
+
+CREATE TABLE channeledguides (
+
+)
+
+CREATE TABLE cylinders (
+
+)
+
+CREATE TABLE detectorsystem_fromxmls (
+
+)
+
+CREATE TABLE disordered (
+
+)
+
+CREATE TABLE emonitors (
+
+)
+
+CREATE TABLE fermichoppers (
+
+)
+
+CREATE TABLE gulpsimulations (
+
+)
+
+CREATE TABLE instrumentconfigurations (
+
+)
+
+CREATE TABLE instruments (
+
+)
+
+CREATE TABLE itasks (
+
+)
+
+CREATE TABLE jobs (
+
+)
+
+CREATE TABLE mdanalysis (
+
+)
+
+CREATE TABLE mmtksimulations (
+
+)
+
+CREATE TABLE monochromaticsources (
+
+)
+
+CREATE TABLE neutronexperiments (
+
+)
+
+CREATE TABLE neutronrecorders (
+
+)
+
+CREATE TABLE phonondispersions (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
+CREATE TABLE (
+
+)
+
