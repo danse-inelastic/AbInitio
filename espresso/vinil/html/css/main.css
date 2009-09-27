@@ -66,6 +66,12 @@ fieldset {
     padding-top: 5px;
 }
 
+#page-logo-image:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 #page-nav {
     width: 400px;
     float: left;
