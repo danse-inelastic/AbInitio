@@ -38,8 +38,8 @@ def visual(director):
     jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))
     jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
     jobsrunning     = jobsmenu.item(label='Running',    onclick=load('jobs', routine='linkRunning'))
-    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs', routine='link'))
-    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs', routine='link'))
+    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs', routine='linkFinished'))
+    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs', routine='linkFailed'))
 
     return navmenus
 
