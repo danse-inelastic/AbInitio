@@ -54,8 +54,9 @@ class Actor(base):
     def path(self):
         list = [["Home","greet","link"], ["Settings", None, None]]
 
-        from vinil.utils.pathbuilder import buildPath
-        return buildPath()
+        from vinil.utils.pathbuilder import PathBuilder
+        pb = PathBuilder(list)
+        return pb.buildPath()
 
         """
         d   = Document(id='path-content')

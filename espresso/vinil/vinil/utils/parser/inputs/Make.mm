@@ -11,30 +11,33 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = vinil
-PACKAGE = utils
+PACKAGE = utils/parser/inputs
 
 
 #--------------------------------------------------------------------------
 #
 
 EXPORT_PYTHON_MODULES = \
-        dos.py \
-        orderedDict.py \
-        pathbuilder.py \
-        plot.py \
-        pw.py \
-        utils.py \
         __init__.py \
+        inputbands.py \
+        inputcppp.py \
+        inputd3.py \
+        inputdos.py \
+        inputgipaw.py \
+        inputld1.py \
+        inputph.py \
+        inputpp.py \
+        inputprojwfc.py \
+        inputpwcond.py \
+        inputpw.py \
 
 BUILD_DIRS = \
-        parser \
 
 OTHER_DIRS = \
 
 RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 
-all: export-python-modules 
-	BLD_ACTION="all" $(MM) recurse
+all: export
 
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
@@ -45,8 +48,8 @@ clean::
 distclean::
 	BLD_ACTION="distclean" $(MM) recurse
 
-#export:: export-package-python-modules
-#	BLD_ACTION="export" $(MM) recurse
+export:: export-package-python-modules
+	BLD_ACTION="export" $(MM) recurse
 
 
 # version

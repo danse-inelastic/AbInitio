@@ -11,30 +11,26 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = vinil
-PACKAGE = utils
+PACKAGE = utils/parser
 
 
 #--------------------------------------------------------------------------
 #
 
 EXPORT_PYTHON_MODULES = \
-        dos.py \
-        orderedDict.py \
-        pathbuilder.py \
-        plot.py \
-        pw.py \
-        utils.py \
+        card.py \
+        namelist.py \
+        qeconfig.py \
         __init__.py \
 
 BUILD_DIRS = \
-        parser \
+        inputs \
 
 OTHER_DIRS = \
 
 RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 
-all: export-python-modules 
-	BLD_ACTION="all" $(MM) recurse
+all: export
 
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
@@ -45,8 +41,8 @@ clean::
 distclean::
 	BLD_ACTION="distclean" $(MM) recurse
 
-#export:: export-package-python-modules
-#	BLD_ACTION="export" $(MM) recurse
+export:: export-package-python-modules
+	BLD_ACTION="export" $(MM) recurse
 
 
 # version
