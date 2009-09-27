@@ -52,17 +52,23 @@ class Actor(base):
         return document
 
     def path(self):
+        list = [["Home","greet","link"], ["Settings", None, None]]
+
+        from vinil.utils.pathbuilder import buildPath
+        return buildPath()
+
+        """
         d   = Document(id='path-content')
 
         l = Link(label='Home', onclick=load(actor='greet', routine='link'))
         d.add(l)
 
-        p = Paragraph()
-        p.text = ['> Settings']
+        p = Paragraph(text='> Settings')
+        #p.text = ['> Settings']
         d.add(p)
-        
-        return d
 
+        return d
+        """
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
