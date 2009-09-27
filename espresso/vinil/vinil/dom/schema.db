@@ -1,0 +1,9 @@
+
+CREATE TABLE job (
+    id          char(10) PRIMARY KEY,   # Job id
+    kind        varchar(100), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP"
+    type        varchar(100), NULL      # Type of the simulation
+    status      varchar(100), NOT NULL  # Status of the job: "Not started", "Running", "Finished"
+    created     varchar(100), NOT NULL  # 
+    config      varchar(5000), NOT NULL # Configuration text
+);
