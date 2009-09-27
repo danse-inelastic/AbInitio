@@ -28,14 +28,11 @@ def visual(director):
     navsplitter = topsplitter.navsplitter
     document.add(skeleton)
 
-    #Logo
+    # Logo
     from luban.content.HtmlDocument import HtmlDocument
     text = '<img src="images/icons/vnflogo.png" id="page-logo-image"/>'
     d = HtmlDocument(text=text, onclick=load(actor='greet', routine='link'))
     topsplitter.logo.add(d)
-
-    #l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
-
 
     # User Navigation
     l = Link(label='Logout', onclick=load(actor='logout', routine='link'))
@@ -77,29 +74,22 @@ def visual(director):
     p.text = ['Hello, ']
     navsplitter.navuser.add(p)
 
-    """
-    p = Paragraph()
-    p.text = ['Home > Simulations > Quantum Espresso > MgB2 > Single-Phonon']
-    skeleton.path.add(p)
-    """
+    #p.text = ['Home > Simulations > Quantum Espresso > MgB2 > Single-Phonon']
 
+    # Footer
     text = """Copyright  &copy; 2008-2009 California Institute of Technology. All rights reserved<br />
     VNF (Virtual Network Facility) is part of the DANSE project"""
+
     d = HtmlDocument(text=text)
     skeleton.footer.add(d)
 
+    # Credits
     p = Paragraph()
-    p.text = ['powered by luban']
+    p.text = ['Powered by luban']
     skeleton.credits.add(p)
 
     page.maindoc    = splitter.maindoc
     page.skeleton   = skeleton
-
-    #portletElectrons    = director.retrievePortlet("navigationElectrons")
-    #portletPhonons      = director.retrievePortlet("navigationPhonons")
-
-    #page.portletdoc.add(portletElectrons)
-    #page.portletdoc.add(portletPhonons)
 
     return page
 

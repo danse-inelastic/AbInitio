@@ -40,9 +40,9 @@ class Actor(base):
         return actions
 
     def content(self, director):
-        document = Document(title='Quantum Espresso')
+        document = Document(title='GULP')
         p = Paragraph()
-        p.text = ["""Display favorite simualations of Quantum Espresso and button "Create New Simulation" """]
+        p.text = ["""Display favorite simualations of GULP and button "Create New Simulation" """]
         document.add(p)
 
         return document
@@ -50,7 +50,7 @@ class Actor(base):
     def path(self):
         list = [["Home","greet","link"],
                 ["Simulations", "simulations", "link"],
-                ["Quantum Espresso", None, None]]
+                ["GULP", None, None]]
 
         from vinil.utils.pathbuilder import PathBuilder
         pb = PathBuilder(list)
@@ -73,7 +73,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso')
+    return Actor('gulp')
 
 
 __date__ = "$Sep 26, 2009 1:59:59 PM$"

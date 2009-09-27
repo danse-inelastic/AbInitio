@@ -23,15 +23,15 @@ def visual(director):
     simulationsmenu = navmenus.menu(label='Simulations')
     simulationsQE = simulationsmenu.item(
         label='Quantum Espresso',
-        onclick=load('greet', routine='link'))
+        onclick=load('espresso', routine='link'))
 
     simulationsVASP = simulationsmenu.item(
         label='VASP',
-        onclick=load('greet', routine='link'))
+        onclick=load('vasp', routine='link'))
 
     simulationsGULP = simulationsmenu.item(
         label='GULP',
-        onclick=load('greet', routine='link'))
+        onclick=load('gulp', routine='link'))
 
     experimentsmenu = navmenus.menu(label='Experiments')
 
