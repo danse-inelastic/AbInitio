@@ -28,6 +28,15 @@ def visual(director):
     navsplitter = topsplitter.navsplitter
     document.add(skeleton)
 
+    #Logo
+    from luban.content.HtmlDocument import HtmlDocument
+    text = '<img src="images/icons/vnflogo.png" id="page-logo-image"/>'
+    d = HtmlDocument(text=text)
+    topsplitter.logo.add(d)
+
+    #l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
+
+
     # User Navigation
     l = Link(label='Logout', onclick=load(actor='logout', routine='link'))
     navsplitter.navuser.add(l)
@@ -68,8 +77,6 @@ def visual(director):
     p.text = ['Hello, ']
     navsplitter.navuser.add(p)
 
-    l = Link(label='VNF', onclick=load(actor='greet', routine='link'))
-    topsplitter.logo.add(l)
 
     # Menus implemention moved to navmenus.odb
     # Path implementation moved to actors

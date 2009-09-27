@@ -50,16 +50,24 @@ fieldset {
 }
 
 #page-logo {
+    width: 400px;
+    /*
     font-size: 24px;
     font-weight: bold;
     float: left;
     width: 200px;
-    margin: 20px 40px;
+    margin: 10px 10px;
     text-align: center;
+    */
+}
+
+#page-logo-image {
+    padding-left: 20px;
+    padding-top: 5px;
 }
 
 #page-nav {
-    width: 520px;
+    width: 400px;
     float: left;
     padding: 0px;
 }
@@ -68,7 +76,7 @@ fieldset {
     text-align: right;
     font-size: 14px;
     padding-top: 5px;
-    padding-bottom: 50px;
+    padding-bottom: 55px;
 }
 
 #page-user p,

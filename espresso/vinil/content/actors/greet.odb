@@ -43,11 +43,6 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Welcome to VNF (Virtual Neuron Facility)!')
 
-        from luban.content.HtmlDocument import HtmlDocument
-        text = '<img src="images/icons/vnflogo.png" />'
-        d = HtmlDocument(text=text)
-        document.add(d)
-
         p = Paragraph()
         p.text = ["""In this web service facility, you can run virtual neutron experiments.
         In a virtual neutron experiment, virtual neutrons are generated from a virtual
