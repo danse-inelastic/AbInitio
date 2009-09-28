@@ -33,6 +33,20 @@ def visual(director):
         label='GULP',
         onclick=load('gulp', routine='link'))
 
+    simulationsMCVINE = simulationsmenu.item(
+        label='MCViNE',
+        onclick=load('mcvine', routine='link'))
+
+    simulationsBVK = simulationsmenu.item(
+        label='BvK',
+        onclick=load('bvk', routine='link'))
+
+    simulationsMMTK = simulationsmenu.item(
+        label='MMTK',
+        onclick=load('mmtk', routine='link'))
+
+    # Molecular Modelling Toolkit
+
     experimentsmenu = navmenus.menu(label='Experiments')
 
     jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))

@@ -111,7 +111,7 @@ fieldset {
     font-size: 14px;
     padding-top: 10px;
     padding-left: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 #path-content {
@@ -137,6 +137,7 @@ fieldset {
 */
 
 #page-main-content {
+    clear: both;
     padding-left: 20px;
 }
 
@@ -148,22 +149,11 @@ fieldset {
 
 #page-columnLeft {
     vertical-align: top;
-    width: 0px
+    width: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
-
-.portlet {
-    margin-top: -10px
-}
-
-.portlet h5{
-    font-size: 16px;
-    margin-bottom: 7px;
-}
-
-.navItemIcon {
-    padding-right: 5px
-}
 
 #page-footer {
     width: 800px;
@@ -180,8 +170,29 @@ fieldset {
     color:gray;
 }
 
+/* Simulations */
+
+
+
+/*
+.portlet {
+    margin-top: -10px
+}
+
+.portlet h5{
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.navItemIcon {
+    padding-right: 5px
+}
+*/
+
+
 /* Form */
 
+/*
 label {
     float: left;
     text-align:right;
@@ -217,4 +228,4 @@ label {
 #atomic_potential {
     display: inline;
 }
-
+*/

@@ -14,7 +14,6 @@
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
-from luban.content.HtmlDocument import HtmlDocument
 from luban.content import load
 from luban.content.Link import Link
 
@@ -35,20 +34,15 @@ class Actor(base):
 
     def link(self, director, document=None):
         actions = []
-        actions.append(select(id='path-content').replaceContent(self.path()))
         actions.append(select(id='maindoc').replaceContent(self.content(director)))
+        actions.append(select(id='path-content').replaceContent(self.path()))
 
         return actions
 
     def content(self, director):
-        document = Document(title='Quantum Espresso')
-
-        text = '<img src="images/icons/newsimulation.png" id="create-new-simulation"/>'
-        d = HtmlDocument(text=text, onclick=load(actor='greet', routine='link'))
-        document.add(d)
-
+        document = Document(title='MCViNE')
         p = Paragraph()
-        p.text = ["""Display favorite simualations of Quantum Espresso and button "Create New Simulation" """]
+        p.text = ["""[Stub] Display favorite simualations of MCViNE and button "Create New Simulation" """]
         document.add(p)
 
         return document
@@ -56,7 +50,7 @@ class Actor(base):
     def path(self):
         list = [["Home","greet","link"],
                 ["Simulations", "simulations", "link"],
-                ["Quantum Espresso", None, None]]
+                ["MCViNE", None, None]]
 
         from vinil.utils.pathbuilder import PathBuilder
         pb = PathBuilder(list)
@@ -79,7 +73,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso')
+    return Actor('mcvine')
 
 
 __date__ = "$Sep 26, 2009 1:59:59 PM$"
