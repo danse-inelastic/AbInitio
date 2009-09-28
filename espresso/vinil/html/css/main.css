@@ -172,8 +172,21 @@ fieldset {
 
 /* Simulations */
 
+#create-new-simulation {
+    margin-top: 15px;
+    cursor:pointer;
+    float: left;
+}
 
+#text-or {
+    margin-left: 10px;
+    padding-top: 14px;
+    float: left;
+}
 
+#test-after-or {
+    clear:both;
+}
 /*
 .portlet {
     margin-top: -10px

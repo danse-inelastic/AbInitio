@@ -15,9 +15,7 @@
   },
   "table": {
      "stylesheets": [
-        "tabulator/datePicker.css",
-        "tabulator/tabulator.css",
-        "tabulator/tabulator-color.css"
+        "table/table.css"
         ],
      "jslibs":      [
         "jquery/date.js",

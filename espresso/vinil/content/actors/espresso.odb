@@ -44,19 +44,52 @@ class Actor(base):
         document = Document(title='Quantum Espresso')
 
         text = '<img src="images/icons/newsimulation.png" id="create-new-simulation"/>'
-        d = HtmlDocument(text=text, onclick=load(actor='greet', routine='link'))
+        d = HtmlDocument(text=text, onclick=load(actor='espresso', routine='createNew'))
         document.add(d)
 
-        p = Paragraph()
-        p.text = ["""Display favorite simualations of Quantum Espresso and button "Create New Simulation" """]
+        text = "or"
+        p = Paragraph(text=text, id="text-or")
         document.add(p)
+
+        text = """use existing simulation from Favorites:"""
+        p = Paragraph(text=text, id="test-after-or")
+        document.add(p)
+
+        from luban.content.table import Table, Model, View
+
+        # create a model class
+        class model(Model):
+            name        = Model.descriptors.str(name='name')
+            type        = Model.descriptors.str(name='type')
+            description = Model.descriptors.str(name='description')
+            configs     = Model.descriptors.str(name='configs')
+            created     = Model.descriptors.str(name='created')
+            details     = Model.descriptors.str(name='details')
+
+        # create a view
+        view = View( columns =  [ View.Column(label='Name', measure='name'),
+                                  View.Column(label='Type', measure='type'),
+                                  View.Column(label='Description', measure='description'),
+                                  View.Column(label='Config Files', measure='configs'),
+                                  View.Column(label='Created', measure='created'),
+                                  View.Column(label='Details', measure='details'),                                 ]
+                                  )
+
+        # enter data
+        data = [('MgB2_SP', 'Single-Phonon', 'Single-Phonon simualtion', 'filename_sp.conf', '25-09-2009', 'Cool Sim'),
+                ('MgB2_E', 'Electron', 'Electron simualtion', 'filename_e.conf', '26-09-2009', 'Cool Sim'),
+                ('MgB2_MP', 'Multy-Phonon', 'Multy-Phonon simualtion', 'filename_mp.conf', '27-09-2009', 'Cool Sim')]
+
+        # create the table
+        table = Table(model=model, data=data, view=view)
+        document.add(table)
 
         return document
 
     def path(self):
-        list = [["Home","greet","link"],
-                ["Simulations", "simulations", "link"],
-                ["Quantum Espresso", None, None]]
+        list = [("Home","greet","link"),
+                ("Simulations", "simulations", "link"),
+                ("Quantum Espresso", None, None)]
 
         from vinil.utils.pathbuilder import PathBuilder
         pb = PathBuilder(list)
