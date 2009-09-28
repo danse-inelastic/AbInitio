@@ -44,7 +44,7 @@ ul.jd_menu,
 ul.jd_menu ul,
 ul.jd_menu_vertical,
 ul.jd_menu_vertical ul {
-    background-color: #e5ecf9;
+    background-color: #e5ecf9; /* Light blue */
 
 /*
     background-color: #369;
@@ -75,7 +75,6 @@ ul.jd_menu li {
     cursor: pointer;
     white-space: nowrap;
 
-    
 /*
     font-family: sans-serif;
     font-size: 12px;

@@ -129,12 +129,15 @@ fieldset {
     padding: 0px 2px;
 }
 
-/*
+
 #page-main {
+    font-size: 15px;
+/*
     text-align: left;
     vertical-align: top;
-}
 */
+}
+
 
 #page-main-content {
     clear: both;
@@ -158,15 +161,16 @@ fieldset {
 #page-footer {
     width: 800px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     color: green;
+    margin-top: 30px;
     margin-bottom: -10px;
 }
 
 #page-credits {
     width: 800px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     color:gray;
 }
 
@@ -187,6 +191,7 @@ fieldset {
 #test-after-or {
     clear:both;
 }
+
 /*
 .portlet {
     margin-top: -10px
