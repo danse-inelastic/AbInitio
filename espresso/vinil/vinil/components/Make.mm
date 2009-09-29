@@ -40,13 +40,13 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-        Clerk.py \
+        Actor.py \
+	Clerk.py \
 	__init__.py \
 
 
 export:: export-package-python-modules
 	BLD_ACTION="export" $(MM) recurse
-
 
 # version
 # $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:19 aivazis Exp $

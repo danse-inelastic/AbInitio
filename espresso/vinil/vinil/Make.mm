@@ -30,7 +30,11 @@ RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 #--------------------------------------------------------------------------
 #
 
-all: export
+EXPORT_PYTHON_MODULES = \
+	__init__.py \
+
+
+all: export-python-modules
 	BLD_ACTION="all" $(MM) recurse
 
 
@@ -38,14 +42,12 @@ all: export
 #
 # export
 
-EXPORT_PYTHON_MODULES = \
-	__init__.py \
 
 
 
 #include doxygen/default.def
 
-export:: export-python-modules 
+#export:: export-python-modules
 
 
 #docs: export-doxygen-docs

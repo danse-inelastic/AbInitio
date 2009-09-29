@@ -187,12 +187,12 @@ fieldset {
     padding-top: 14px;
     float: left;
 }
-
+/*
 #test-after-or {
     clear:both;
 }
 
-/*
+
 .portlet {
     margin-top: -10px
 }

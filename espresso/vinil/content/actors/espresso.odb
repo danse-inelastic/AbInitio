@@ -18,27 +18,12 @@ from luban.content.HtmlDocument import HtmlDocument
 from luban.content import load
 from luban.content.Link import Link
 
-from opal.components.Actor import Actor as base
+from vinil.components.Actor import Actor as base
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
         id      = pyre.inventory.str('id')
-
-    def default(self, director):
-        page = director.retrieveVisual('template')
-
-        page.skeleton.path.add(self.path())
-        page.maindoc.add(self.content(director))
-
-        return page
-
-    def link(self, director, document=None):
-        actions = []
-        actions.append(select(id='path-content').replaceContent(self.path()))
-        actions.append(select(id='maindoc').replaceContent(self.content(director)))
-
-        return actions
 
     def content(self, director):
         document = Document(title='Quantum Espresso')
@@ -52,7 +37,7 @@ class Actor(base):
         document.add(p)
 
         """
-        text = """"""
+        text = 
         p = Paragraph(text=text, id="test-after-or")
         document.add(p)
         """
@@ -61,18 +46,13 @@ class Actor(base):
 
         return document
 
-    def path(self):
-        list = [("Home","greet","link"),
-                ("Simulations", "simulations", "link"),
-                ("Quantum Espresso", None, None)]
-
-        from vinil.utils.pathbuilder import PathBuilder
-        pb = PathBuilder(list)
-        return pb.buildPath()
-
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
+        self.list = [("Home","greet","link"),
+                     ("Simulations", "simulations", "link"),
+                     ("Quantum Espresso", None, None)]
+
         return
 
 
@@ -97,7 +77,7 @@ def table():
         name        = Model.descriptors.link(name='name')
         type        = Model.descriptors.str(name='type')
         description = Model.descriptors.str(name='description')
-        configs     = Model.descriptors.str(name='configs')
+        configs     = Model.descriptors.str(name='configs') 
         created     = Model.descriptors.str(name='created')
         edit        = Model.descriptors.link(name='edit')
         remove      = Model.descriptors.link(name='remove')
@@ -107,7 +87,7 @@ def table():
     view = View( columns =  [ View.Column(label='Name', measure='name'),
                               View.Column(label='Type', measure='type'),
                               View.Column(label='Description', measure='description'),
-                              View.Column(label='Config Files', measure='configs'),
+                              View.Column(label='Formula', measure='configs'), #?
                               View.Column(label='Created', measure='created'),
                               View.Column(label=' ', measure='edit'),
                               View.Column(label=' ', measure='remove'),
@@ -115,9 +95,9 @@ def table():
                               )
     # Populate the data list.
     names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
-    columns = [['Single-Phonon', 'Single-Phonon simualtion', 'filename_sp.conf', '25-09-2009'],
-               ['Electron', 'Electron simualtion', 'filename_e.conf', '26-09-2009'],
-               ['Multy-Phonon', 'Multy-Phonon simualtion', 'filename_mp.conf', '27-09-2009'],
+    columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
+               ['Electron', 'Electron simualtion', 'MgB2', '26-09-2009'],
+               ['Multy-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
                 ]
 
     def name(i):
