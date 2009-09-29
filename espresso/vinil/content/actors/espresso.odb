@@ -36,6 +36,7 @@ class Actor(base):
         "Create New Simulation" or use existing simulation from Favorites as a template.
         To start using Quantum Espresso it is usefull to try out running 
         simulations from Examples"""
+        
         p = Paragraph(text=text)
         document.add(p)
 
@@ -43,7 +44,7 @@ class Actor(base):
         d = HtmlDocument(text=text, onclick=load(actor='espresso', routine='createNew'))
         document.add(d)
 
-        headers = ("Name", "Type", "Description", "Formula", "Created")
+        headers = ["Name", "Type", "Description", "Formula", "Created"]
 
         # Sample data for Favorites
         names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
@@ -92,11 +93,11 @@ def actor():
 
 
 def tableController(headers):
-    d = Document()
+    d = Document()#Class="")
     d.add(Paragraph(text="Sort by"))
 
     from luban.content.FormSelectorField import FormSelectorField
-    d.add(FormSelectorField(entries=["Hello", "world!"]))
+    d.add(FormSelectorField(entries=enumerate(headers)))
     
     return d
 

@@ -19,7 +19,7 @@ EXPORT_DATADIRS = \
 	javascripts \
 
 EXPORT_DATAFILES = \
-        main-superapp.pml \ 
+        main-superapp.pml \
 
 OTHERS = \
 
@@ -40,7 +40,7 @@ distclean::
 
 
 
-RSYNC_A = rsync -a
+RSYNC_A = rsync -a --copy-links
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
 
 
