@@ -21,6 +21,17 @@ fieldset {
     padding: 0px;
 }
 
+.header-h2 {
+    clear: both;
+    padding-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+p {
+    text-align: justify;
+}
+
 /*
 #rootdoc {
     width: 900px;
@@ -167,7 +178,7 @@ fieldset {
     margin-bottom: -10px;
 }
 
-#page-credits {
+#page-credits-content {
     width: 800px;
     text-align: center;
     font-size: 13px;
@@ -177,9 +188,10 @@ fieldset {
 /* Simulations */
 
 #create-new-simulation {
-    margin-top: 15px;
+    margin-top: 10px;
     cursor:pointer;
     float: left;
+    clear:both;
 }
 
 #text-or {

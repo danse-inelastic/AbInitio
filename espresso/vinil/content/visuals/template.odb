@@ -84,7 +84,7 @@ def visual(director):
     skeleton.footer.add(d)
 
     # Credits
-    p = Paragraph()
+    p = Paragraph(id="page-credits-content")
     p.text = ['Powered by luban']
     skeleton.credits.add(p)
 
