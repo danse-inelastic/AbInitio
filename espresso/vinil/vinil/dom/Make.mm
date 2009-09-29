@@ -40,7 +40,6 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-        Actor.py \
         Job.py \
 	__init__.py \
 

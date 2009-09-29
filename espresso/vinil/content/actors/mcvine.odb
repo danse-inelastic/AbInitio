@@ -17,48 +17,30 @@ from luban.content.Document import Document
 from luban.content import load
 from luban.content.Link import Link
 
-from opal.components.Actor import Actor as base
+from vinil.components.Actor import Actor as base
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
         id      = pyre.inventory.str('id')
 
-    def default(self, director):
-        page = director.retrieveVisual('template')
-
-        page.skeleton.path.add(self.path())
-        page.maindoc.add(self.content(director))
-
-        return page
-
-    def link(self, director, document=None):
-        actions = []
-        actions.append(select(id='maindoc').replaceContent(self.content(director)))
-        actions.append(select(id='path-content').replaceContent(self.path()))
-
-        return actions
-
     def content(self, director):
         document = Document(title='MCViNE')
         p = Paragraph()
-        p.text = ["""[Stub] Display favorite simualations of MCViNE and button "Create New Simulation" """]
+        p.text = ["""MCViNE is a framework to construct simulated neutron instruments,
+        and manage the flow of neutrons through them from moderator to detector as well as
+        to provide a structure for assembling a sample, composed of a container,
+        pieces of material, and scattering laws within the material"""]
         document.add(p)
 
         return document
 
-    def path(self):
-        list = [["Home","greet","link"],
-                ["Simulations", "simulations", "link"],
-                ["MCViNE", None, None]]
-
-        from vinil.utils.pathbuilder import PathBuilder
-        pb = PathBuilder(list)
-        return pb.buildPath()
-
-
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
+        self.list = [("Home","greet","link"),
+                     ("Simulations", "simulations", "link"),
+                     ("MCViNE", None, None)]
+
         return
 
 
