@@ -1,0 +1,12 @@
+Vinil uses some javascripts from luban. So in order for vinil to properly work you need to go to "vinil/html/javascripts" and create symbolic links to luban and jquery javascripts:
+
+	Luban/branches/include-opal/luban/weaver/web/jslib/luban
+	Luban/branches/include-opal/luban/weaver/web/jslib/jquery
+
+In my case it will look like:
+
+	$ pwd
+	/home/dexity/danse-workspace/AbInitio/espresso/vinil/html/javascripts
+	$ ln -s /home/dexity/danse-workspace/luban/luban/weaver/web/jslib/jquery jquery
+	$ ln -s /home/dexity/danse-workspace/luban/luban/weaver/web/jslib/luban luban
+

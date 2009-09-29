@@ -14,7 +14,6 @@ PROJECT = vinil
 PACKAGE = html
 
 EXPORT_DATADIRS = \
-	cgi-bin \
 	css \
 	images \
 	javascripts \
