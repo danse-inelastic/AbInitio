@@ -30,7 +30,6 @@ class Actor(base):
     def content(self, director):
         splitter    = Splitter(orientation='vertical', id="step-splitter")
 
-
         from vinil.utils.simulationsteps import SimulationSteps
         simsteps       = SimulationSteps(current=1)
         s_steps        = simsteps.getSteps()

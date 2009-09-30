@@ -28,13 +28,17 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def content(self, director):
-        document = Document(title='Run Simulation')
+        splitter    = Splitter(orientation='vertical', id="step-splitter")
 
-        text = """Run Simulation"""
-        p = Paragraph(text=text)
-        document.add(p)
+        from vinil.utils.simulationsteps import SimulationSteps
+        simsteps       = SimulationSteps(current=4)
+        s_steps        = simsteps.getSteps()
 
-        return document
+        splitter.add(s_steps)
+        s_content   = splitter.section()
+        s_direction = splitter.section()
+
+        return splitter
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
