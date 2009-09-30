@@ -213,6 +213,69 @@ p {
     padding-bottom: -5px;
 }
 
+/* Steps */
+
+/*
+Colors:
+
+#dcf6db - Light green
+#48f640 - Deep green (border), Options: #8ff68a
+#d4e4ff - Light gray
+#949dad - Deep gray (border)
+*/
+
+#step-splitter {
+    margin-left: 50px;
+}
+
+.step-item {
+    float: left;
+    margin-right: 20px;
+    width: 130px;
+}
+
+.step-number,
+.step-number-disabled {
+    text-align: center;
+    vertical-align:bottom;
+    width: 45px;
+    height: 35px;
+    padding-top: 9px;
+    font: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, Sans-serif;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.step-number {
+    border: 2px solid #48f640;
+    background-color: #dcf6db;
+    color: #48f640;
+}
+
+.step-number-disabled {
+    border: 2px solid #949dad;
+    background-color: #d4e4ff;
+    color: #949dad;
+}
+
+
+.step-text,
+.step-text-disabled {
+    font: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, Sans-serif;
+    font-weight: bold;
+    text-align: left;
+    /*padding-left: 10px;*/
+    margin-top: -10px;
+}
+
+.step-text {
+    color: #48f640;
+}
+
+.step-text-disabled {
+    color: #949dad;
+}
+
 /*
 
 .sort-by,

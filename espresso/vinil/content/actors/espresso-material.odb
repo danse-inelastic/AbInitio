@@ -28,17 +28,32 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def content(self, director):
-        document = Document(title='Set Material')
+        splitter    = Splitter(orientation='vertical', id="step-splitter")
+        s_steps     = splitter.section()
+        d           = Document(Class="step-item")
+        d.add(Paragraph(text="1", Class="step-number" ))
+        d.add(Paragraph(text="Set Material", Class="step-text"))
+        s_steps.add(d)
 
-        text = """Set Material"""
-        p = Paragraph(text=text)
-        document.add(p)
-        document.add(Link(label="Simulation Parameters",
-                          onclick = load(actor='espresso-parameters',
-                          routine='link'))
-                    )
+        d           = Document(Class="step-item")
+        d.add(Paragraph(text="2", Class="step-number-disabled"))
+        d.add(Paragraph(text="Set Simulation Parameters", Class="step-text-disabled"))
+        s_steps.add(d)
 
-        return document
+        d           = Document(Class="step-item")
+        d.add(Paragraph(text="3", Class="step-number-disabled"))
+        d.add(Paragraph(text="Review Configuration", Class="step-text-disabled"))
+        s_steps.add(d)
+
+        d           = Document(Class="step-item")
+        d.add(Paragraph(text="4", Class="step-number-disabled"))
+        d.add(Paragraph(text="Add to Jobs Queue", Class="step-text-disabled"))
+        s_steps.add(d)
+
+        s_content   = splitter.section()
+        s_direction = splitter.section()
+
+        return splitter
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
