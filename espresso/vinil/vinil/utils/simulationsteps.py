@@ -30,16 +30,11 @@ class SimulationSteps:
         self.checkRange(current, self.stepslist)
         self.current = current
 
-
-    def addStepItem(self):
-        pass
-
     def setStepsList(self, stepslist):        
         if stepslist is None:
             self.stepslist = defaultSteps
         else:
             self.stepslist  = stepslist
-
 
     def getSteps(self):
         s_steps     = SplitSection()
@@ -61,6 +56,10 @@ class SimulationSteps:
             return ("step-number-disabled", "step-text-disabled")
         
         return ("step-number", "step-text")
+
+    def addStepItem(self):
+        pass
+
 
     def checkRange(self, index, list):
         if not self.withinRange(index-1, list):
@@ -87,7 +86,7 @@ class SimulationSteps:
 
 
 def testSimulationSteps():
-    simsteps    = SimulationSteps(current=3)
+    simsteps = SimulationSteps(current=3)
     simsteps.toString()
 
 
