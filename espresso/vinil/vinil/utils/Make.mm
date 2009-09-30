@@ -24,6 +24,7 @@ EXPORT_PYTHON_MODULES = \
         plot.py \
         pw.py \
         simulationsteps.py \
+        stepper.py \
         utils.py \
         __init__.py \
 

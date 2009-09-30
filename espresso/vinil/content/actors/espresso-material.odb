@@ -28,7 +28,8 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def content(self, director):
-        from vinil.utils.simulationsteps import SimulationSteps, Stepper
+        from vinil.utils.simulationsteps import SimulationSteps
+        from vinil.utils.stepper import Stepper
         splitter    = Splitter(orientation='vertical', id="step-splitter")
         
         simsteps    = SimulationSteps(current=1)
