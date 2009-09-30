@@ -28,15 +28,20 @@ class Actor(base):
         id      = pyre.inventory.str('id')
 
     def content(self, director):
+        from vinil.utils.simulationsteps import SimulationSteps, Stepper
         splitter    = Splitter(orientation='vertical', id="step-splitter")
 
-        from vinil.utils.simulationsteps import SimulationSteps
-        simsteps       = SimulationSteps(current=3)
-        s_steps        = simsteps.getSteps()
-
+        simsteps    = SimulationSteps(current=3)
+        s_steps     = simsteps.getSteps()
         splitter.add(s_steps)
+
         s_content   = splitter.section()
-        s_direction = splitter.section()
+        s_content.add(Paragraph(text="Review Configuration", Class="step-content"))
+
+        linklist    = (("espresso-parameters", "link"), ("espresso-run", "link"))
+        stepper     = Stepper(linklist)
+        s_stepper   = stepper.getStepper()
+        splitter.add(s_stepper)
 
         return splitter
 
