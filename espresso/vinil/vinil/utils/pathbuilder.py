@@ -46,11 +46,11 @@ class Path:
     def size(self):
         return len(self.path)
 
-    def withinRange(self, idx, list):
-        if idx < len(list) and idx >= 0:
+    def withinRange(self, index, list):
+        if index < len(list) and index >= 0:
             return True
-        else:
-            return False
+
+        return False
         
     # Populate path from list of tuples in format
     # [["Home", "greet", "link"], [label, actor, routine]]

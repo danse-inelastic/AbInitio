@@ -29,27 +29,13 @@ class Actor(base):
 
     def content(self, director):
         splitter    = Splitter(orientation='vertical', id="step-splitter")
-        s_steps     = splitter.section()
-        d           = Document(Class="step-item")
-        d.add(Paragraph(text="1", Class="step-number" ))
-        d.add(Paragraph(text="Set Material", Class="step-text"))
-        s_steps.add(d)
 
-        d           = Document(Class="step-item")
-        d.add(Paragraph(text="2", Class="step-number-disabled"))
-        d.add(Paragraph(text="Set Simulation Parameters", Class="step-text-disabled"))
-        s_steps.add(d)
 
-        d           = Document(Class="step-item")
-        d.add(Paragraph(text="3", Class="step-number-disabled"))
-        d.add(Paragraph(text="Review Configuration", Class="step-text-disabled"))
-        s_steps.add(d)
-
-        d           = Document(Class="step-item")
-        d.add(Paragraph(text="4", Class="step-number-disabled"))
-        d.add(Paragraph(text="Add to Jobs Queue", Class="step-text-disabled"))
-        s_steps.add(d)
-
+        from vinil.utils.simulationsteps import SimulationSteps
+        simsteps       = SimulationSteps(current=1)
+        s_steps        = simsteps.getSteps()
+        
+        splitter.add(s_steps)
         s_content   = splitter.section()
         s_direction = splitter.section()
 

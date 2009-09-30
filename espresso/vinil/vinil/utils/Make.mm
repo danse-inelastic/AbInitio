@@ -23,6 +23,7 @@ EXPORT_PYTHON_MODULES = \
         pathbuilder.py \
         plot.py \
         pw.py \
+        simulationsteps.py \
         utils.py \
         __init__.py \
 
