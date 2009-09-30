@@ -194,12 +194,39 @@ p {
     clear:both;
 }
 
+/* Table controller */
+.table-controller {
+    margin-top: -15px;
+    margin-bottom: -5px;
+}
+
+.table-pagination {
+    font-size: 14px;
+    text-align: right;
+    margin-top: 10px;
+    vertical-align: bottom;
+    width: 620px;
+}
+
+.pagination-link {
+    padding-left: 10px;
+    padding-bottom: -5px;
+}
+
+/*
+
+.sort-by,
+.sort-by-selector {
+    float: left;
+}
+
+
 #text-or {
     margin-left: 10px;
     padding-top: 14px;
     float: left;
 }
-/*
+
 #test-after-or {
     clear:both;
 }

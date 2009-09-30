@@ -19,6 +19,7 @@ table.tabulated {
     border-width: 0px;
     border-right: 1px dashed #a6c3f9;
     border-bottom: 1px solid #e5ecf9;
+    width: 800px
 }
 
 table.tabulated thead td {

@@ -17,6 +17,8 @@ from luban.content.Document import Document
 from luban.content.HtmlDocument import HtmlDocument
 from luban.content import load
 from luban.content.Link import Link
+from luban.content.Splitter import Splitter
+from luban.content.FormSelectorField import FormSelectorField
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -64,6 +66,7 @@ class Actor(base):
                     ]
 
         document.add(Paragraph(text="Examples", Class="header-h2"))
+        document.add(tableController(headers))
         document.add(tableSimulations(names, columns))
 
         return document
@@ -93,13 +96,19 @@ def actor():
 
 
 def tableController(headers):
-    d = Document()#Class="")
-    d.add(Paragraph(text="Sort by"))
+    s               = Splitter(Class="table-controller", orientation='horizontal')
+    s_sort          = s.section()
+    s_sort.add(Paragraph(text="Sort by", Class="sort-by") )
+    s_formselect    = s.section()
+    s_formselect.add(FormSelectorField(entries=enumerate(headers)) )
+    s_pagination    = s.section()
 
-    from luban.content.FormSelectorField import FormSelectorField
-    d.add(FormSelectorField(entries=enumerate(headers)))
-    
-    return d
+    p               = Document(Class="table-pagination")
+    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+    p.add(Link(label="Prev", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+    s_pagination.add(p)
+
+    return s
 
 def tableSimulations(names, columns):
     from luban.content.table import Table, Model, View
