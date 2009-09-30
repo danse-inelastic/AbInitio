@@ -43,7 +43,7 @@ class Actor(base):
         document.add(p)
 
         text = '<img src="images/icons/newsimulation.png" id="create-new-simulation"/>'
-        d = HtmlDocument(text=text, onclick=load(actor='espresso', routine='linkMaterial'))
+        d = HtmlDocument(text=text, onclick=load(actor='espresso-material', routine='link'))
         document.add(d)
 
         headers = ["Name", "Type", "Description", "Formula", "Created"]
@@ -70,77 +70,7 @@ class Actor(base):
         document.add(tableSimulations(names, columns))
 
         return document
-
-
-    def linkMaterial(self, director):
-        pathlist = [("Home","greet","link"),
-                     ("Simulations", "simulations", "link"),
-                     ("Quantum Espresso", "espresso", "link"),
-                     ("Set Material", None, None)
-                     ]
-
-        def content(director):
-            document = Document(title='Set Material')
-
-            text = """Set Material"""
-            p = Paragraph(text=text)
-            document.add(p)
-            document.add(Link(label="Simulation Parameters",
-                              onclick = load(actor='espresso',
-                              routine='linkSimulationParameters'))
-                        )
-
-
-            return document
-
-        return self.getActions(content(director), pathlist)
-
-    def linkSimulationParameters(self, director):
-        pathlist = [("Home","greet","link"),
-                     ("Simulations", "simulations", "link"),
-                     ("Quantum Espresso", "espresso", "link"),
-                     ("Simulation Parameters", None, None)
-                     ]
-
-        def content(director):
-            document = Document(title='Simulation Parameters')
-
-            text = """Simulation Parameters"""
-            p = Paragraph(text=text)
-            document.add(p)
-            document.add(Link(label="Review Configuration",
-                              onclick = load(actor='espresso',
-                              routine='linkReview'))
-                        )
-
-
-            return document
-
-        return self.getActions(content(director), pathlist)
-
-    def linkReview(self, director):
-        pathlist = [("Home","greet","link"),
-                     ("Simulations", "simulations", "link"),
-                     ("Quantum Espresso", "espresso", "link"),
-                     ("Review Configuration", None, None)
-                     ]
-
-        def content(director):
-            document = Document(title='Review Configuration')
-
-            text = """Review Configuration"""
-            p = Paragraph(text=text)
-            document.add(p)
-            document.add(Link(label="Run Simulation",
-                              onclick = load(actor='espresso',
-                              routine='linkRun'))
-                        )
-
-
-            return document
-
-        return self.getActions(content(director), pathlist)
-
+    
 
     def linkRun(self, director):
         pathlist = [("Home","greet","link"),
