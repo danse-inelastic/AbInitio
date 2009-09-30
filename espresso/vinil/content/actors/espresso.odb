@@ -124,8 +124,9 @@ def tableController(headers):
     s_pagination    = s.section()
 
     p               = Document(Class="table-pagination")
-    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
     p.add(Link(label="Prev", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+
     s_pagination.add(p)
 
     return s

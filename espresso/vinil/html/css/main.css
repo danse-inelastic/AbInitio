@@ -226,6 +226,7 @@ Colors:
 
 #step-splitter {
     margin-left: 50px;
+    clear: both;
 }
 
 .step-item {
@@ -275,6 +276,38 @@ Colors:
 .step-text-disabled {
     color: #949dad;
 }
+
+.step-content {
+    clear: both;
+}
+
+
+.stepper {
+    clear: both;
+    text-align: right;
+    width: 720px;
+}
+
+.stepper-item {
+    cursor: pointer;
+    float: right;
+}
+
+.stepper-space {
+    width: 40px;
+    float: right;
+}
+
+.stepper-space-next {
+    width: 111px;
+    float: right;
+}
+
+.stepper-space-back {
+    width: 70px;
+    float: right;
+}
+
 
 /*
 
