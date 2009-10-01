@@ -219,22 +219,28 @@ p {
 Colors:
 
 #dcf6db - Light green
-#48f640 - Deep green (border), Options: #8ff68a
+#48f640 - Deep green (border), Optional: #8ff68a
 #d4e4ff - Light gray
 #949dad - Deep gray (border)
+
 */
 
 #step-splitter {
-    margin-left: 50px;
     clear: both;
 }
 
-.step-item {
+.step-item,
+.step-item-first{
     float: left;
     display: inline;
     margin-right: 20px;
     width: 155px;
 }
+
+.step-item-first {
+    margin-left: 50px;
+}
+
 
 .step-number,
 .step-number-disabled {
@@ -285,8 +291,15 @@ Colors:
 
 .step-content {
     clear: both;
+    /* display: block; */
 }
 
+#form-material,
+#form-parameters,
+#form-review {
+    margin-left: 50px;
+    margin-top: 20px;
+}
 
 .stepper {
     clear: both;
@@ -313,6 +326,32 @@ Colors:
     width: 70px;
     float: right;
 }
+
+/*
+.config-textarea {
+    height: 500px;
+    width: 350px;
+}
+*/
+
+/*
+.luban-formradiobox input {
+    display: inline;
+}
+
+.luban-formradiobox label {
+    float: left;
+}
+
+.luban-formradiobox{
+    text-align: left;
+}
+
+
+.luban-formradiobox input {
+float: left;
+}
+*/
 
 
 /*

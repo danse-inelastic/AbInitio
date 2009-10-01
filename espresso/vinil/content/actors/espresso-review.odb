@@ -11,6 +11,39 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+config = """ &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = '',
+    outdir=''
+ /
+ &system
+    ibrav=2,
+    celldm(1) =6.65,
+    nat=  1,
+    ntyp= 1,
+    nspin=2,
+    starting_magnetization(1)=0.5,
+    degauss=0.02,
+    smearing='gauss',
+    occupations='smearing',
+    ecutwfc =27.0
+    ecutrho =300.0
+ /
+ &electrons
+    conv_thr =  1.0d-8
+    mixing_beta = 0.7
+ /
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+"""
+
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
@@ -19,6 +52,7 @@ from luban.content import load
 from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
+from luban.content.Form import Form
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -37,7 +71,16 @@ class Actor(base):
         splitter.add(s_steps)
 
         s_content   = splitter.section()
-        s_content.add(Paragraph(text="Review Configuration", Class="step-content"))
+        d           = Document(Class="step-content")
+        text ="""Here you can edit configuration files that will be used in
+        simulations directly."""
+        d.add(Paragraph(text=text))
+
+        form        = Form(id="form-review")
+        form.textarea(label='Configuration file', value=config, Class="config-textarea")
+        d.add(form)
+
+        s_content.add(d)
 
         linklist    = (("espresso-parameters", "link"), ("espresso-run", "link"))
         stepper     = Stepper(linklist)

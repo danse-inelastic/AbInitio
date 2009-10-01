@@ -10,6 +10,19 @@ CREATE TABLE job (
     config      varchar(4096), NOT NULL # Configuration text
 );
 
+CREATE TABLE matter (
+
+)
+
+CREATE TABLE configuration (
+
+)
+
+CREATE TABLE simulation ( #?
+
+)
+
+
 ================================================
 
 # Already implemented table in VNF

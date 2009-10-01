@@ -40,7 +40,12 @@ class SimulationSteps:
         s_steps     = SplitSection()
 
         for i in range(len(self.stepslist)):
-            d = Document(Class="step-item")
+            if i == 0:
+                itemclass   = "step-item-first"
+            else:
+                itemclass   = "step-item"
+                
+            d = Document(Class=itemclass)
             num     = i+1
             classes = self.setClasses(num, self.current)
             d.add(Paragraph(text="%s" % num, Class=classes[0] ))

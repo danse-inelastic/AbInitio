@@ -19,6 +19,7 @@ from luban.content import load
 from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
+from luban.content.Form import Form
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -37,7 +38,25 @@ class Actor(base):
         splitter.add(s_steps)
 
         s_content   = splitter.section()
-        s_content.add(Paragraph(text="Simulation Parameters", Class="step-content"))
+
+        d           = Document(Class="step-content")
+        text ="""Here you can set parameters related to your simulation. This can
+        general parameters related to your simularion such as convergence and
+        iterations as well as architecture related such as the name of cluster the
+        simulation will run on or number of processes"""
+        d.add(Paragraph(text=text))
+
+        form        = Form(id="form-parameters")
+        form.text(label='Simulation Name')
+        form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
+        form.text(label='Occupations (occupations)', value="smearing")
+        form.text(label='Smearing (smearing)', value="gauss")
+        form.text(label='Smearing (smearing)', value="gauss")
+        form.text(label='Gaussian Spreading (degauss)', value="0.02")
+        form.text(label='K-Points', value="4 4 4 1 1 1")
+        d.add(form)
+
+        s_content.add(d)
 
         linklist    = (("espresso-material", "link"), ("espresso-review", "link"))
         stepper     = Stepper(linklist)
