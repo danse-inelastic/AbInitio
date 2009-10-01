@@ -1,7 +1,8 @@
 {
   "": {
      "stylesheets": [
-        "../css-vinil/main.css"
+        "../css-vinil/main.css",
+        "../css-vinil/form.css"
         ],
      "jslibs":      [
         "jquery/jquery.js",

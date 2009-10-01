@@ -17,7 +17,7 @@
 
         <!-- transformation configuration -->
 	<property name="controller-url">/cgi-bin/vinil/main.cgi</property>
-	<property name="html-base">http://localhost/vinil/</property>
+	<property name="html-base">http://131.215.30.227/vinil/</property>
 
         <!-- user info -->
         <property name="author">Alex Dementsov</property>

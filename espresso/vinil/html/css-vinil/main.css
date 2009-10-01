@@ -4,7 +4,7 @@
 
 body {
 	margin: 0px;
-	font-family: arial,sans-serif;
+	font-family: arial,sans-serif; /* "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;*/
 }
 
 a {
@@ -291,14 +291,10 @@ Colors:
 
 .step-content {
     clear: both;
-    /* display: block; */
 }
 
-#form-material,
-#form-parameters,
-#form-review {
+.step-content-form {
     margin-left: 50px;
-    margin-top: 20px;
 }
 
 .stepper {

@@ -19,6 +19,7 @@ from luban.content import load
 from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
+from luban.content.FormRadioBox import FormRadioBox
 from luban.content.Form import Form
 
 from vinil.components.Actor import Actor as base
@@ -45,6 +46,13 @@ class Actor(base):
         iterations as well as architecture related such as the name of cluster the
         simulation will run on or number of processes"""
         d.add(Paragraph(text=text))
+
+        d.add(Paragraph(text="First choose the type of the simulation from available options:"))
+        options = [ "Total Energy (Single Self-Consistent Run) (pw.x)",
+                    "Geometry Optimization (pw.x calculation=vc-relax)",
+                    "Single-Phonon (pw.x -> ph.x -> dynmat.x)",
+                    "Multi-Phonon (pw.x -> ph.x -> q2r.x -> matdyn.x)"]
+        d.add(FormRadioBox(entries=enumerate(options)) )
 
         form        = Form(id="form-parameters")
         form.text(label='Simulation Name')
