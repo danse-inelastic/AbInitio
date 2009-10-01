@@ -1,7 +1,7 @@
 {
   "": {
      "stylesheets": [
-        "main.css"
+        "../css-vinil/main.css"
         ],
      "jslibs":      [
         "jquery/jquery.js",
@@ -15,7 +15,7 @@
   },
   "table": {
      "stylesheets": [
-        "table/table.css"
+        "../css-vinil/table/table.css"
         ],
      "jslibs":      [
         "jquery/date.js",
@@ -44,7 +44,7 @@
   },
   "appmenubar": {
      "stylesheets": [
-        "jquery/jquery.jdMenu.css"
+        "../css-vinil/jquery/jquery.jdMenu.css"
         ],
      "jslibs":      [
         "jquery/jdMenu-1.4.1/jquery.jdMenu.js",

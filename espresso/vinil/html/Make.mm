@@ -15,8 +15,10 @@ PACKAGE = html
 
 EXPORT_DATADIRS = \
 	css \
+        css-vinil \
 	images \
 	javascripts \
+        javascripts-vinil \
 
 EXPORT_DATAFILES = \
         main-superapp.pml \
