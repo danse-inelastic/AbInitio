@@ -13,22 +13,22 @@
 
 config = """ &control
     calculation='scf'
-    restart_mode='from_scratch',
+    restart_mode='from_scratch'
     tprnfor = .true.
-    prefix='ni',
-    pseudo_dir = '',
+    prefix='ni'
+    pseudo_dir = ''
     outdir=''
  /
  &system
-    ibrav=2,
-    celldm(1) =6.65,
-    nat=  1,
-    ntyp= 1,
-    nspin=2,
-    starting_magnetization(1)=0.5,
-    degauss=0.02,
-    smearing='gauss',
-    occupations='smearing',
+    ibrav=2
+    celldm(1) =6.65
+    nat=  1
+    ntyp= 1
+    nspin=2
+    starting_magnetization(1)=0.5
+    degauss=0.02
+    smearing='gauss'
+    occupations='smearing'
     ecutwfc =27.0
     ecutrho =300.0
  /
@@ -76,7 +76,9 @@ class Actor(base):
         text = """You can review your configuration. If you agree with these 
         parameters, then click "Next" and you simulation will be added to jobs queue """
         d.add(Paragraph(text=text))
-        d.add(Paragraph(text=config))
+
+
+        d.add(HtmlDocument(text="""<pre style="margin-left: 100px;">%s</pre>""" % config))#Paragraph(text=config))
 
         s_content.add(d)
 

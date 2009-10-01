@@ -48,6 +48,10 @@ The basic for css styleshit is taken from "Clean and pure CSS FORM design"
     width:160px;
 }
 
+.luban-radiobutton-container label{
+    padding-left: 5px;
+}
+
 
 /* -- Original -- */
 
