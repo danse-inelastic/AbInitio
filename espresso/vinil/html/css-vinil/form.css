@@ -12,7 +12,8 @@ The basic for css styleshit is taken from "Clean and pure CSS FORM design"
 }
 
 #form-vinil input,
-#form-vinil select {
+#form-vinil select,
+#form-vinil textarea {
     float:left;
     font-size:12px;
     padding:4px 2px;
@@ -20,6 +21,11 @@ The basic for css styleshit is taken from "Clean and pure CSS FORM design"
     width:200px;
     margin:2px 0 5px 10px;
     text-align: left;
+}
+
+#form-vinil textarea {
+    width:350px;
+    height: 400px;
 }
 
 #form-vinil .formfield {

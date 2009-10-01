@@ -47,21 +47,24 @@ class Actor(base):
         simulation will run on or number of processes"""
         d.add(Paragraph(text=text))
 
-        d.add(Paragraph(text="First choose the type of the simulation from available options:"))
+        d_form      = Document(Class="step-content-form")
+
+        d_form.add(Paragraph(text="First choose the type of the simulation from available options:"))
         options = [ "Total Energy (Single Self-Consistent Run) (pw.x)",
                     "Geometry Optimization (pw.x calculation=vc-relax)",
                     "Single-Phonon (pw.x -> ph.x -> dynmat.x)",
                     "Multi-Phonon (pw.x -> ph.x -> q2r.x -> matdyn.x)"]
-        d.add(FormRadioBox(entries=enumerate(options)) )
+        d_form.add(FormRadioBox(entries=enumerate(options)) )
 
-        form        = Form(id="form-parameters")
+        form        = Form(id="form-vinil")
         form.text(label='Simulation Name')
         form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
         form.text(label='Occupations (occupations)', value="smearing")
         form.text(label='Smearing (smearing)', value="gauss")
         form.text(label='Gaussian Spreading (degauss)', value="0.02")
         form.text(label='K-Points', value="4 4 4 1 1 1")
-        d.add(form)
+        d_form.add(form)
+        d.add(d_form)
 
         s_content.add(d)
 

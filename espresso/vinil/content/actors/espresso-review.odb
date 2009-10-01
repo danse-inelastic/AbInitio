@@ -76,9 +76,12 @@ class Actor(base):
         simulations directly."""
         d.add(Paragraph(text=text))
 
-        form        = Form(id="form-review")
+        #d_form      = Document(Class="step-content-form")
+
+        form        = Form(id="form-vinil")
         form.textarea(label='Configuration file', value=config, Class="config-textarea")
         d.add(form)
+        #d.add(d_form)
 
         s_content.add(d)
 

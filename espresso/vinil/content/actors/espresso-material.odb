@@ -48,11 +48,9 @@ class Actor(base):
         d.add(Paragraph(text=text))
 
         d_form      = Document(Class="step-content-form")
-        # Bad: Radiobox items cannot arranged vertically
 
-        #d.add(FormSelectorField(label="1. Import Material",
-        #                        entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
-        d.add(FormRadioBox(entries=enumerate(["Import Material", "Create New Material"])) )
+        # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
+        d_form.add(FormRadioBox(entries=enumerate(["Import Material", "Create New Material"])) )
 
         form        = Form(id="form-vinil") # id="stylized"
         form.text(label='Material Name') # help='Help'
@@ -69,7 +67,8 @@ class Actor(base):
         #    'multiplicity',
         #    'tot_magnetization'
 
-        d.add(form)
+        d_form.add(form)
+        d.add(d_form)
 
         s_content.add(d)
 
