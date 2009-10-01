@@ -16,6 +16,8 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from luban.content import load
 from luban.content.Link import Link
+from luban.content.Splitter import Splitter
+from luban.content.FormSelectorField import FormSelectorField
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -27,9 +29,19 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Jobs')
-        p = Paragraph()
-        p.text = ["""Jobs? """]
-        document.add(p)
+        
+        headers = ["Name", "Type", "Description", "Formula", "Created"]
+
+        # Sample data for Favorites
+        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
+        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
+                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
+                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
+                    ]
+
+        #document.add(Paragraph(text="Jobs", Class="header-h2"))
+        document.add(tableController(headers))
+        document.add(tableSimulations(names, columns))
 
         return document
 
@@ -132,6 +144,76 @@ class Actor(base):
 def actor():
     return Actor('jobs')
 
+def tableController(headers):
+    s               = Splitter(Class="table-controller", orientation='horizontal')
+    s_sort          = s.section()
+    s_sort.add(Paragraph(text="Sort by", Class="sort-by") )
+    s_formselect    = s.section()
+    s_formselect.add(FormSelectorField(entries=enumerate(headers)) )
+    s_pagination    = s.section()
+
+    p               = Document(Class="table-pagination")
+    p.add(Link(label="Prev", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
+
+    s_pagination.add(p)
+
+    return s
+
+def tableSimulations(names, columns):
+    from luban.content.table import Table, Model, View
+
+    # create a model class
+    class model(Model):
+        name        = Model.descriptors.link(name='name')
+        type        = Model.descriptors.str(name='type')
+        description = Model.descriptors.str(name='description')
+        configs     = Model.descriptors.str(name='configs')
+        created     = Model.descriptors.str(name='created')
+        edit        = Model.descriptors.link(name='edit')
+        remove      = Model.descriptors.link(name='remove')
+        use         = Model.descriptors.link(name='use')
+
+    # create a view
+    view = View( columns =  [ View.Column(label='Name', measure='name'),
+                              View.Column(label='Type', measure='type'),
+                              View.Column(label='Description', measure='description'),
+                              View.Column(label='Formula', measure='configs'),
+                              View.Column(label='Created', measure='created'),
+                              View.Column(label=' ', measure='edit'),
+                              View.Column(label=' ', measure='remove'),
+                              View.Column(label=' ', measure='use'),]
+                              )
+    # Populate the data list
+    def name(i):
+        link = Link(label=names[i], onclick = load(actor='greet', routine='link'))
+        return link
+
+    def edit():
+        link = Link(label="Edit", onclick = load(actor='greet', routine='link'))
+        return link
+
+    def remove():
+        link = Link(label="Remove", onclick = load(actor='greet', routine='link'))
+        return link
+
+    def use():
+        link = Link(label="Use", onclick = load(actor='greet', routine='link'))
+        return link
+
+    data    = []
+    for i in range(len(names)):
+        n           = [name(i)]
+        data.append(n)
+        data[i]     += columns[i]
+        data[i]     += [edit()]
+        data[i]     += [remove()]
+        data[i]     += [use()]
+
+    # create the table
+    table = Table(model=model, data=data, view=view)
+
+    return table
 
 __date__ = "$Sep 26, 2009 1:59:59 PM$"
 

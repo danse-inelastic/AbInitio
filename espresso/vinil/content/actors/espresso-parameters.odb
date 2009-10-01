@@ -51,7 +51,6 @@ class Actor(base):
         form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
         form.text(label='Occupations (occupations)', value="smearing")
         form.text(label='Smearing (smearing)', value="gauss")
-        form.text(label='Smearing (smearing)', value="gauss")
         form.text(label='Gaussian Spreading (degauss)', value="0.02")
         form.text(label='K-Points', value="4 4 4 1 1 1")
         d.add(form)
