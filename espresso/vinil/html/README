@@ -1,0 +1,18 @@
+Vinil uses some javascripts and css from luban. So in order for vinil to properly work
+you need to go to "vinil/html" and create symbolic links javascripts-luban -> javascripts
+css-luban -> css:
+
+	Luban/branches/include-opal/luban/weaver/web/jslib
+	Luban/branches/include-opal/luban/weaver/web/css
+
+In my case it will look like:
+
+	$ pwd
+	/home/dexity/danse-workspace/AbInitio/espresso/vinil/html
+	$ ln -s /home/dexity/danse-workspace/luban/luban/weaver/web/javascripts javascripts-luban
+	$ ln -s /home/dexity/danse-workspace/luban/luban/weaver/web/css css-luban
+
+Note: Though 'jslib' is depricated and replaced by 'javascripts' but 'jslib' still
+holds the latest changes (that are later on copied to 'javascripts') so I would
+stick to 'jslib' for now.
+
