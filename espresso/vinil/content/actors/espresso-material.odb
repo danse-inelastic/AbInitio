@@ -19,6 +19,9 @@ from luban.content import load
 from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
+from luban.content.FormRadioBox import FormRadioBox
+from luban.content.Form import Form
+
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -30,6 +33,7 @@ class Actor(base):
     def content(self, director):
         from vinil.utils.simulationsteps import SimulationSteps
         from vinil.utils.stepper import Stepper
+
         splitter    = Splitter(orientation='vertical', id="step-splitter")
         
         simsteps    = SimulationSteps(current=1)
@@ -37,7 +41,36 @@ class Actor(base):
         splitter.add(s_steps)
 
         s_content   = splitter.section()
-        s_content.add(Paragraph(text="Set Material", Class="step-content"))
+        d           = Document(Class="step-content")
+        text ="""Before you run any simulation in Quantum Espresso you need to specify
+        the material. Here you can import existing material or create a new material
+        that will be saved in "Materials" section later on."""
+        d.add(Paragraph(text=text))
+
+        # Bad: Radiobox items cannot arranged vertically
+
+        d.add(FormSelectorField(label="1. Import Material",
+                                entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
+        d.add(FormRadioBox(entries=enumerate(["2. Create New Material"])) )
+
+        form        = Form(id="form-material")
+        form.text(label='Material Name')
+        form.text(label='Bravais-Lattice Index (ibrav)', value="2")
+        form.text(label='Element Name', value="Ni")
+        form.text(label='Element Mass (a.e.)', value="26.98")
+        form.selector(label="Pseudo Potential", entries=enumerate(["Ni.pde-nd-rrkjus.UPF", "NirelPBE.RRKJ3.UPF"]))
+
+        form.text(label='Atomic position', value="0 0 0")
+        
+        # Need to set parameters:
+        #    'nspin',
+        #    'starting_magnetization',
+        #    'multiplicity',
+        #    'tot_magnetization'
+
+        d.add(form)
+
+        s_content.add(d)
 
         linklist    = (("espresso", "link"), ("espresso-parameters", "link"))
         stepper     = Stepper(linklist)
