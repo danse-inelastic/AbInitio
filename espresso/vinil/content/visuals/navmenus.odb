@@ -21,7 +21,7 @@ def visual(director):
 
     materialsmenu   = navmenus.menu(label='Materials', onclick=load('simulations', routine='link'))
 
-    simulationsmenu = navmenus.menu(label='Simulations', onclick=load('simulations', routine='link'))
+    simulationsmenu = navmenus.menu(label='Simulations', onclick=load('greet', routine='link'))
     simulationsQE = simulationsmenu.item(
         label='Quantum Espresso',
         onclick=load('espresso', routine='link'))
