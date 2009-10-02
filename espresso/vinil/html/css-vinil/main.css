@@ -250,7 +250,7 @@ Colors:
     width: 30px;
     height: 26px;
     padding-top: 4px;
-    font: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, Sans-serif;
+    font: "Lucida Grande", Verdana, Lucida, Helvetica, arial,sans-serif;
     font-size: 19px;
     font-weight: bold;
 }
