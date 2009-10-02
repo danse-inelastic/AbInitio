@@ -19,9 +19,9 @@ def visual(director):
     from luban.content.AppMenuBar import AppMenuBar
     navmenus = AppMenuBar(id='menubar')
 
-    materialsmenu   = navmenus.menu(label='Materials', onclick=load('simulations', routine='link'))
+    materialsmenu   = navmenus.menu(label='Materials', onclick=load('materials', routine='link'))
 
-    simulationsmenu = navmenus.menu(label='Simulations', onclick=load('greet', routine='link'))
+    simulationsmenu = navmenus.menu(label='Simulations', onclick=load('simulations', routine='link'))
     simulationsQE = simulationsmenu.item(
         label='Quantum Espresso',
         onclick=load('espresso', routine='link'))
@@ -48,7 +48,7 @@ def visual(director):
 
     # Molecular Modelling Toolkit
 
-    experimentsmenu = navmenus.menu(label='Experiments')
+    experimentsmenu = navmenus.menu(label='Experiments', onclick=load('experiments', routine='link'))
 
     jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))
     jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
