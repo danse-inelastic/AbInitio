@@ -17,7 +17,7 @@ from luban.content.Document import Document
 from luban.content import load
 from luban.content.Link import Link
 
-from opal.components.Actor import Actor as base
+from vinil.components.Actor import Actor as base
 class Actor(base):
 
     class Inventory(base.Inventory):
