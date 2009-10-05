@@ -40,7 +40,11 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
+        Atom.py \
+        Configuration.py \
         Job.py \
+        Matter.py \
+        Simulation.py \
 	__init__.py \
 
 

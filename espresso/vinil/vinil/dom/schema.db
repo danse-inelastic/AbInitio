@@ -1,28 +1,56 @@
 # Database schema for VNF
 
-
+# Job - simulation that is submitted to queue
 CREATE TABLE job (
     id          char(10) PRIMARY KEY,   # Job id
-    kind        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
-    type        varchar(128), NULL      # Type of the simulation
-    status      varchar(128), NOT NULL  # Status of the job: "Not started", "Running", "Finished"
-    created     varchar(128), NOT NULL  #
-    config      varchar(4096), NOT NULL # Configuration text
+    simulationId
+    status      varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
+    submitted
+    started     varchar(128)
+    restarted
 );
 
+CREATE TABLE atom (
+    id
+    matterId
+    name
+    mass
+    massUnit
+    pseudoPotential
+    position
+)
+
 CREATE TABLE matter (
+    id
+    name
+    simulationId
 
 )
 
 CREATE TABLE configuration (
     id
-
+    name
+    simulationId
+    date
+    text
 
 )
 
 CREATE TABLE simulation (
     id
+    name
+    kind        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
+    type        varchar(128), NULL      # Type of the simulation
+    description
+    formula
+    created
+    modified
+    isFavorite
+    isExample
 
+)
+
+CREATE TABLE table (
 
 )
 
