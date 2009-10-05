@@ -15,10 +15,14 @@ CREATE TABLE matter (
 )
 
 CREATE TABLE configuration (
+    id
+
 
 )
 
-CREATE TABLE simulation ( #?
+CREATE TABLE simulation (
+    id
+
 
 )
 
