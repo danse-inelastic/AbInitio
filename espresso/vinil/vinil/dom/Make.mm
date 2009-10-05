@@ -45,6 +45,7 @@ EXPORT_PYTHON_MODULES = \
         Job.py \
         Matter.py \
         Simulation.py \
+        Table.py \
 	__init__.py \
 
 

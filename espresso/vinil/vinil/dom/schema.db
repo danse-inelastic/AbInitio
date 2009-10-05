@@ -47,7 +47,6 @@ CREATE TABLE simulation (
     modified
     isFavorite
     isExample
-
 )
 
 CREATE TABLE table (
