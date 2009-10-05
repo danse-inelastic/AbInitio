@@ -67,6 +67,8 @@ config_pp = """&inputpp
    DeltaE=0.1
 /"""
 
+# 'name' attribute should be present in every class table.
+
 class Job(Table):
 
     name = "job"

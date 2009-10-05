@@ -30,17 +30,18 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Quantum Espresso')
 
-        jobs    = director.clerk.getTable('job')
-        #jobs    = director.clerk.getSimulation()
+        #jobs    = director.clerk.getTable('job')
+        #
+        #jobs    = director.clerk.getJobs()
 
-        text = """%sQuantum ESPRESSO  is an integrated suite of
+        text = """Quantum ESPRESSO  is an integrated suite of
         computer codes for electronic-structure calculations and materials
         modeling at the nanoscale. It is based on density-functional theory,
         plane waves, and pseudopotentials (both norm-conserving and ultrasoft). 
         You can create a new simulation following the button
         "Create New Simulation" or use existing simulation from Favorites as a template.
         To start using Quantum Espresso it is usefull to try out running 
-        simulations from Examples""" % len(jobs)
+        simulations from Examples"""
         
         p = Paragraph(text=text)
         document.add(p)
@@ -52,22 +53,16 @@ class Actor(base):
         headers = ["Name", "Type", "Description", "Formula", "Created"]
 
         # Sample data for Favorites
-        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
-        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
-                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
-                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
-                    ]
+        sim     = director.clerk.getSimulations()
 
-        #simulation  = director.clerk.getSimulation(1)
-        #job = director.clerk.getJob(1)
+        names   = []
+        columns = []
 
-        """
-        names   = [simulation.sname]
-
-        columns = [[simulation.type, simulation.description, simulation.formula, simulation.created],
-                    ]
-        """
-
+        for i in range(len(sim)):
+            names.append(sim[i].sname)
+            row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
+            columns.append(row)
+            
         document.add(Paragraph(text="Favorites", Class="header-h2"))
         document.add(tableController(headers))
         document.add(tableSimulations(names, columns))

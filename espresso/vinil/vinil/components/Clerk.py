@@ -49,12 +49,12 @@ class Clerk( base ):
         base._configure(self)
         self.db = self.inventory.db
 
-    def getJob(self, id=None):
+    def getJobs(self, id=None):
         '''retrieve job record specified by id'''
         return self._getEntry('Job', id)
 
 
-    def getSimulation(self, id=None):
+    def getSimulations(self, id=None):
         '''retrieve simulation record specified by id'''
         return self._getEntry('Simulation', id)
 
