@@ -30,14 +30,17 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Quantum Espresso')
 
-        text = """Quantum ESPRESSO  is an integrated suite of
+        jobs    = director.clerk.getTable('job')
+        #jobs    = director.clerk.getSimulation()
+
+        text = """%sQuantum ESPRESSO  is an integrated suite of
         computer codes for electronic-structure calculations and materials
         modeling at the nanoscale. It is based on density-functional theory,
         plane waves, and pseudopotentials (both norm-conserving and ultrasoft). 
         You can create a new simulation following the button
         "Create New Simulation" or use existing simulation from Favorites as a template.
         To start using Quantum Espresso it is usefull to try out running 
-        simulations from Examples"""
+        simulations from Examples""" % len(jobs)
         
         p = Paragraph(text=text)
         document.add(p)
@@ -49,20 +52,21 @@ class Actor(base):
         headers = ["Name", "Type", "Description", "Formula", "Created"]
 
         # Sample data for Favorites
-#        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
-#        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
-#                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
-#                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
-#                    ]
+        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
+        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
+                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
+                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
+                    ]
 
-        simulation  = director.clerk.getSimulation(1)
+        #simulation  = director.clerk.getSimulation(1)
         #job = director.clerk.getJob(1)
 
+        """
         names   = [simulation.sname]
 
         columns = [[simulation.type, simulation.description, simulation.formula, simulation.created],
                     ]
-
+        """
 
         document.add(Paragraph(text="Favorites", Class="header-h2"))
         document.add(tableController(headers))

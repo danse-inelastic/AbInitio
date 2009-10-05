@@ -13,7 +13,6 @@
 
 maindom = 'vinil.dom'
 
-tablenames = ['Simulation', 'Job', 'Atom', 'Configuration', 'Matter', 'VTable']
 
 def tables():
     # tables in this package

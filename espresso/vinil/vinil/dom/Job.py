@@ -88,6 +88,7 @@ class Job(Table):
     config = pyre.db.varchar(name="config", length=5000)
     config.meta['tip'] = "Configuration text"
 
+
 def inittable(db):
     def job(id, type, status, created, config):
         r           = Job()

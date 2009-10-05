@@ -11,6 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+maindom = 'vinil.dom'
+
+# Contains list of (class, tablename) tuples
+tablenames = ('Simulation', 'Job', 'Atom', 'Configuration', 'Matter', 'VTable')
 
 from pyre.components.Component import Component as base
 
@@ -45,18 +49,35 @@ class Clerk( base ):
         base._configure(self)
         self.db = self.inventory.db
 
-    def getJob(self, id):
+    def getJob(self, id=None):
         '''retrieve job record specified by id'''
-        from vinil.dom.Job import Job
-        return self._getRecordByID( Job, id )
+        return self._getEntry('Job', id)
 
-    def getSimulation(self, id):
+
+    def getSimulation(self, id=None):
         '''retrieve simulation record specified by id'''
-        from vinil.dom.Simulation import Simulation
-        return self._getRecordByID( Simulation, id )
+        return self._getEntry('Simulation', id)
 
-    def getTable(self, table):
-        return self._getAll(table)
+
+    def getTable(self, tablename):
+        for t in tablenames:
+            table   = self._getClass(t)
+            if table.name == tablename:
+                return self._getAll(table)
+
+        return None
+
+    def _getClass(self, classname):
+        module  = _import("%s.%s" % (maindom, classname))
+        return getattr(module, classname)
+
+
+    def _getEntry(self, classname, id=None):
+        vclass = self._getClass(classname)
+        if id is not None:
+            return self._getRecordByID( vclass, id )
+
+        return self._getAll(vclass)
 
     def setDb(self,dbName):
         self.db = dbName
@@ -72,6 +93,12 @@ class Clerk( base ):
             return all[0]
         raise RuntimeError, "Cannot find record of id=%s in table %s" % (
             id, table.__name__)
+
+    #def importTable(self, tablename):
+        
+
+def _import(package):
+    return __import__(package, {}, {}, [''])
 
 # Don't understand why I need this complicated class.
 class DbAddressResolver:
