@@ -55,6 +55,8 @@ class Clerk( base ):
         from vinil.dom.Simulation import Simulation
         return self._getRecordByID( Simulation, id )
 
+    def getTable(self, table):
+        return self._getAll(table)
 
     def setDb(self,dbName):
         self.db = dbName

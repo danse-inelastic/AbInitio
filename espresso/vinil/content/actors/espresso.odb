@@ -30,9 +30,6 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Quantum Espresso')
 
-        simulation  = director.clerk.getSimulation(1)
-        #job = director.clerk.getJob(1)
-
         text = """Quantum ESPRESSO  is an integrated suite of
         computer codes for electronic-structure calculations and materials
         modeling at the nanoscale. It is based on density-functional theory,
@@ -57,6 +54,9 @@ class Actor(base):
 #                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
 #                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
 #                    ]
+
+        simulation  = director.clerk.getSimulation(1)
+        #job = director.clerk.getJob(1)
 
         names   = [simulation.sname]
 
