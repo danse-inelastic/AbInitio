@@ -50,6 +50,12 @@ class Clerk( base ):
         from vinil.dom.Job import Job
         return self._getRecordByID( Job, id )
 
+    def getSimulation(self, id):
+        '''retrieve simulation record specified by id'''
+        from vinil.dom.Simulation import Simulation
+        return self._getRecordByID( Simulation, id )
+
+
     def setDb(self,dbName):
         self.db = dbName
 

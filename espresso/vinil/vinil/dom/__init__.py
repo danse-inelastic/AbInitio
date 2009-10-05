@@ -13,15 +13,16 @@
 
 maindom = 'vinil.dom'
 
+tablenames = ['Simulation', 'Job', 'Atom', 'Configuration', 'Matter', 'VTable']
+
 def tables():
     # tables in this package
     tables = []
 
-    # I have one table only :)
-    m = '%s.%s' % (maindom, 'Job')
-    module = _import(m)
-    table = getattr(module, 'Job')
-    tables.append( table )
+    for t in tablenames:
+        m = '%s.%s' % (maindom, t)
+        module = _import(m)
+        tables.append( getattr(module, t) )
 
     return tables
 

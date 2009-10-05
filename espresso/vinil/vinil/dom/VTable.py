@@ -13,9 +13,9 @@
 
 from pyre.db.Table import Table as base
 
-class Table(base):
+class VTable(base):
 
-    name = "table"
+    name = "vtable"
     import pyre.db
 
     id = pyre.db.varchar(name="id", length=10)
@@ -24,13 +24,13 @@ class Table(base):
 
 
 def inittable(db):
-    def table(id):
-        r           = Table()
+    def vtable(id):
+        r           = VTable()
         r.id        = id
         return r
 
     records = [
-        table( 1 )
+        vtable( 1 )
         ]
     for r in records: db.insertRow( r )
     return

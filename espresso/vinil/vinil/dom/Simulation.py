@@ -22,8 +22,8 @@ class Simulation(Table):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    name = pyre.db.varchar(name="name", length=128)
-    name.meta['tip'] = ""
+    sname = pyre.db.varchar(name="name", length=128)
+    sname.meta['tip'] = ""
 
     kind = pyre.db.varchar(name="kind", length=128)
     kind.meta['tip'] = ""
@@ -51,13 +51,24 @@ class Simulation(Table):
 
 
 def inittable(db):
-    def simulation(id):
-        r           = Simulation()
-        r.id        = id
+    def simulation(id, name, kind, type, description, formula, created, modified, isFavorite, isExample):
+        r               = Simulation()
+        r.id            = id
+        r.sname         = name
+        r.kind          = kind
+        r.type          = type
+        r.description   = description
+        r.formula       = formula
+        r.created       = created
+        r.modified      = modified
+        r.isFavorite    = isFavorite
+        r.isExample     = isExample
         return r
 
     records = [
-        simulation( 1 )
+        simulation( id=1, name="MgB2_SP", kind="Quantum Espresso", type="Single-Phonon",
+                    description="Single-Phonon simualtion", formula="MgB2",
+                    created="25-09-2009", modified="", isFavorite="True", isExample="False")
         ]
     for r in records: db.insertRow( r )
     return
