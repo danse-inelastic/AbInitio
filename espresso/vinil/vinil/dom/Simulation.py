@@ -46,11 +46,11 @@ class Simulation(Table):
     formula = pyre.db.varchar(name="formula", length=32)
     formula.meta['tip'] = ""
 
-    created = pyre.db.varchar(name="created", length=16)
-    created.meta['tip'] = ""
+    timeCreated = pyre.db.varchar(name="timeCreated", length=16)
+    timeCreated.meta['tip'] = "timeCreated"
 
-    modified = pyre.db.varchar(name="modified", length=16)
-    modified.meta['tip'] = ""
+    timeModified = pyre.db.varchar(name="timeModified", length=16)
+    timeModified.meta['tip'] = "timeModified"
 
     isFavorite = pyre.db.boolean(name="isFavorite", default=False)
     isFavorite.meta['tip'] = ""
@@ -60,7 +60,7 @@ class Simulation(Table):
 
 
 def inittable(db):
-    def simulation(id, sname, package, type, description, formula, created, modified, isFavorite, isExample):
+    def simulation(id, sname, package, type, description, formula, timeCreated, timeModified, isFavorite, isExample):
         r               = Simulation()
         r.id            = id
         r.sname         = sname
@@ -68,8 +68,8 @@ def inittable(db):
         r.type          = type
         r.description   = description
         r.formula       = formula
-        r.created       = created
-        r.modified      = modified
+        r.timeCreated   = timeCreated
+        r.timeModified  = timeModified
         r.isFavorite    = isFavorite
         r.isExample     = isExample
         return r
@@ -83,8 +83,8 @@ def inittable(db):
                                   type      = e[3],
                                   description = e[4],
                                   formula   = e[5],
-                                  created   = e[6],
-                                  modified  = e[7],
+                                  timeCreated   = e[6],
+                                  timeModified  = e[7],
                                   isFavorite = e[8],
                                   isExample = e[9]))
 
