@@ -1,17 +1,29 @@
 # Database schema for VNF
 
+
+# Status of the job:
+    "Submitted",
+    "Submission Failed",
+    "Running",
+    "Paused",
+    "Finished",
+    "Failed",
+    "Cancelled",
+    "Terminated"
+
+
 # Job - simulation that is submitted to queue
 CREATE TABLE job (
     id              varchar(8) PRIMARY KEY,   # Job id
-    userId          varchar(8)
-    simulationId    varchar(8)
-    serverId        varchar(8)
-    description     varchar(256)
-    status          varchar(64), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
-    timeSubmitted   varcharchar(16)
-    timeStarted     varcharchar(16)
-    timeRestarted   varcharchar(16)
-    timeCompleted   varcharchar(16)
+    userId          varchar(8) REFERENCES user (id)
+    simulationId    varchar(8) REFERENCES simulation (id)
+    serverId        varchar(8) REFERENCES server (id)
+    description     varchar(1024)
+    status          varchar(64), NOT NULL  # 
+    timeSubmitted   varchar(16)
+    timeStarted     varchar(16)
+    timeRestarted   varchar(16)
+    timeCompleted   varchar(16)
     exitCode        int
     numberProcessors    int
     errorFilename   varchar(256)
@@ -21,79 +33,82 @@ CREATE TABLE job (
 
 CREATE TABLE atom (
     id              varchar(8) PRIMARY KEY
-    matterId
-    description
-    name
-    mass
-    massUnit
-    pseudoPotential
-    position
+    matterId        varchar(8) REFERENCES matter (id)
+    description     varchar(1024)
+    name            varchar(256)
+    mass            double
+    massUnit        varchar(32)
+    pseudoPotential varchar(256)
+    position        varchar(256)
 )
 
 CREATE TABLE matter (
-    id
-    name
-    simulationId
-    description
+    id              varchar(8) PRIMARY KEY
+    simulationId    varchar(8) REFERENCES simulation (id)
+    name            varchar(256)
+    description     varchar(1024)
 )
 
 CREATE TABLE configuration (
-    id
-    simulationId
-    name
-    description
-    date
-    text
+    id              varchar(8) PRIMARY KEY
+    simulationId    varchar(8) REFERENCES simulation (id)
+    name            varchar(256)
+    description     varchar(1024)
+    date            varchar(16)
+    text            varchar(8192)
 )
 
 CREATE TABLE simulation (
-    id
-    name
-    package     varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
-    type        varchar(128), NULL      # Type of the simulation
-    description
-    formula
-    created
-    modified
-    isFavorite
-    isExample
+    id              varchar(8) PRIMARY KEY
+    name            varchar(256)
+    package         varchar(256), NOT NULL  # Simulation package: "Quantum Espresso", "VASP", "GULP" etc.
+    type            varchar(512), NULL      # Type of the simulation
+    description     varchar(1024)
+    formula         varchar(256)
+    timeCreated     varchar(16)
+    timeModified    varchar(16)
+    isFavorite      boolean
+    isExample       boolean
 )
 
 CREATE TABLE server (
-    id
-    name
-    description
-    ipAddress
+    id              varchar(8) PRIMARY KEY
+    name            varchar(256)
+    description     varchar(1024)
+    ipAddress       varchar(64)
     
 )
 
+# Stub
 CREATE TABLE authorization (
-    id
-    serverId
-    userId
-    name
-    description
+    id              varchar(8) PRIMARY KEY
+    serverId        varchar(8) REFERENCES server (id)
+    userId          varchar(8) REFERENCES user (id)
+    name            varchar(256)
+    description     varchar(1024)
 )
 
 CREATE TABLE session (
-    id
-    name
+    id              varchar(8) PRIMARY KEY
+    name            varchar(256)
+    description     varchar(1024)
 )
 
 
 CREATE TABLE table (
-    id
-    name
+    id              varchar(8) PRIMARY KEY
+    name            varchar(256)
+    description     varchar(1024)
 )
 
 CREATE TABLE user (
-    id
-    username
-    firstName
-    lastName
-    email
-    affiliation
-    password
+    id              varchar(8) PRIMARY KEY
+    username        varchar(256)
+    firstName       varchar(256)
+    lastName        varchar(256)
+    email           varchar(256)
+    affiliation     varchar(512)
+    password        varchar(256)
 )
 
 

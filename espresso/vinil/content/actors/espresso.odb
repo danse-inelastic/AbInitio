@@ -20,6 +20,7 @@ from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
 from luban.content.FormTextField import FormTextField
+from vinil.utils.utils import newId
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -34,6 +35,8 @@ class Actor(base):
         #jobs    = director.clerk.getTable('job')
         #
         #jobs    = director.clerk.getJobs()
+        #token = director.idd.token()
+
 
         text = """Quantum ESPRESSO  is an integrated suite of
         computer codes for electronic-structure calculations and materials

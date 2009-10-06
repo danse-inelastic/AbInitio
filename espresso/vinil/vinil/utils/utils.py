@@ -45,6 +45,11 @@ def parsePHFile(filename):
     f.close()
     return (e,  x)
 
+def newId(director):
+    token = director.idd.token()
+    return '%s' % (token.locator,)
+
+
 def test():
     print "Testing utils.utils.test()"
 

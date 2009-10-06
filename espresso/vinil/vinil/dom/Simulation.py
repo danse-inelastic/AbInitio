@@ -34,7 +34,7 @@ class Simulation(Table):
     sname = pyre.db.varchar(name="name", length=128)
     sname.meta['tip'] = ""
 
-    package = pyre.db.varchar(name="kind", length=128)
+    package = pyre.db.varchar(name="package", length=128)
     package.meta['tip'] = ""
 
     type = pyre.db.varchar(name="type", length=128)
