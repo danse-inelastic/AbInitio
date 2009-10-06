@@ -13,7 +13,7 @@
 
 maindom = 'vinil.dom'
 
-# Contains list of (class, tablename) tuples
+# Contains list of classes
 tablenames = ('Simulation',
               'Server',
               'Matter',
@@ -63,10 +63,54 @@ class Clerk( base ):
         '''retrieve job record specified by id'''
         return self._getEntry('Job', id=id, where=where)
 
-
     def getSimulations(self, id=None, where=None):
         '''retrieve simulation record specified by id'''
         return self._getEntry('Simulation', id=id, where=where)
+
+    def getVTables(self, id=None, where=None):
+        '''retrieve vtable record specified by id'''
+        return self._getEntry('VTable', id=id, where=where)
+
+    def getSessions(self, id=None, where=None):
+        '''retrieve session record specified by id'''
+        return self._getEntry('Session', id=id, where=where)
+
+    def getServers(self, id=None, where=None):
+        '''retrieve user server specified by id'''
+        return self._getEntry('Server', id=id, where=where)
+
+    def getConfigurations(self, id=None, where=None):
+        '''retrieve user configuration specified by id'''
+        return self._getEntry('Configuration', id=id, where=where)
+
+    def getAtoms(self, id=None, where=None):
+        '''retrieve atom specified by id'''
+        return self._getEntry('Atom', id=id, where=where)
+
+    def getMatters(self, id=None, where=None):
+        '''retrieve matter specified by id'''
+        return self._getEntry('Matter', id=id, where=where)
+
+    # Not used at this point
+    def getUsers(self, id=None, where=None):
+        '''retrieve user record specified by id'''
+        return self._getEntry('User', id=id, where=where)
+    
+    # Not used at this point
+    def getAuthorizations(self, id=None, where=None):
+        '''retrieve user authorization specified by id'''
+        return self._getEntry('Authorization', id=id, where=where)
+
+
+
+
+    def getUsers(self, id=None, where=None):
+        '''retrieve user record specified by id'''
+        return self._getEntry('User', id=id, where=where)
+
+    def getUsers(self, id=None, where=None):
+        '''retrieve user record specified by id'''
+        return self._getEntry('User', id=id, where=where)
 
 
     # General methods working on database tables
