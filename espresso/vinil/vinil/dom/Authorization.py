@@ -23,11 +23,11 @@ class Authorization(Table):
     id.meta['tip'] = "the unique id"
 
     serverId    = pyre.db.varchar(name="serverId", length=8, default='')
-    serverId.constraints = 'REFERENCES server (id)'
+    #serverId.constraints = 'REFERENCES server (id)'
     serverId.meta['tip'] = "serverId"
 
     userId    = pyre.db.varchar(name="userId", length=8, default='')
-    userId.constraints = 'REFERENCES user (id)'
+    #userId.constraints = 'REFERENCES user (id)'
     userId.meta['tip'] = "userId"
 
     aname = pyre.db.varchar(name="aname", length=256, default='')

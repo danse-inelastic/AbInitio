@@ -23,15 +23,15 @@ class Job(Table):
     id.meta['tip'] = "the unique id"
 
     userId      = pyre.db.varchar(name="userId", length=8)
-    userId.constraints = 'REFERENCES user (id)'
+    #userId.constraints = 'REFERENCES user (id)'
     userId.meta['tip'] = ""
 
     simulationId = pyre.db.varchar(name="simulationId", length=8)
-    simulationId.constraints = 'REFERENCES simulation (id)'
+    #simulationId.constraints = 'REFERENCES simulation (id)'
     simulationId.meta['tip'] = ""
 
     serverId    = pyre.db.varchar(name="serverId", length=8)
-    serverId.constraints = 'REFERENCES server (id)'
+    #serverId.constraints = 'REFERENCES server (id)'
     serverId.meta['tip'] = ""
 
     description = pyre.db.varchar(name="description", length=1024, default='')

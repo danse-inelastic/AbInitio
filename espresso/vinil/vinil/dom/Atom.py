@@ -23,7 +23,7 @@ class Atom(Table):
     id.meta['tip'] = "the unique id"
 
     matterId    = pyre.db.varchar(name="matterId", length=8)
-    matterId.constraints = 'REFERENCES matter (id)'
+    #matterId.constraints = 'REFERENCES matter (id)'
     matterId.meta['tip'] = ""
 
     description = pyre.db.varchar(name="description", length=1024, default='')
