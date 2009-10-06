@@ -7,7 +7,7 @@ CREATE TABLE job (
     simulationId    varchar(8)
     serverId        varchar(8)
     description     varchar(256)
-    status          varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
+    status          varchar(64), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
     timeSubmitted   varcharchar(16)
     timeStarted     varcharchar(16)
     timeRestarted   varcharchar(16)

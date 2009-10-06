@@ -74,23 +74,56 @@ class Job(Table):
     name = "job"
     import pyre.db
     
-    id = pyre.db.varchar(name="id", length=10)
+    id          = pyre.db.varchar(name="id", length=8)
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    type = pyre.db.varchar(name="type", length=100)
-    type.meta['tip'] = "Type of the simulation (electron/phonon)"
+    userId      = pyre.db.varchar(name="userId", length=8)
+    userId.constraints = 'REFERENCES user (id)'
+    userId.meta['tip'] = ""
 
-    status = pyre.db.varchar(name="status", length=100)
-    status.meta['tip'] = "Status of the job (not started/running/finished)"
+    simulationId = pyre.db.varchar(name="simulationId", length=8)
+    simulationId.constraints = 'REFERENCES simulation (id)'
+    simulationId.meta['tip'] = ""
 
-    created = pyre.db.varchar(name="created", length=100)
-    created.meta['tip'] = "Date and time when the simulation started"
+    serverId    = pyre.db.varchar(name="serverId", length=8)
+    serverId.constraints = 'REFERENCES server (id)'
+    serverId.meta['tip'] = ""
 
-    config = pyre.db.varchar(name="config", length=5000)
-    config.meta['tip'] = "Configuration text"
+    description = pyre.db.varchar(name="description", length=256)
+    description.meta['tip'] = ""
 
+    status = pyre.db.varchar(name="status", length=64)
+    status.meta['tip'] = ""
 
+    timeSubmitted = pyre.db.varchar(name="timeSubmitted", length=16)
+    timeSubmitted.meta['tip'] = "timeSubmitted"
+
+    timeStarted = pyre.db.varchar(name="timeStarted", length=16)
+    timeStarted.meta['tip'] = "timeStarted"
+
+    timeRestarted = pyre.db.varchar(name="timeRestarted", length=16)
+    timeRestarted.meta['tip'] = "timeRestarted"
+
+    timeCompleted = pyre.db.varchar(name="timeCompleted", length=16)
+    timeCompleted.meta['tip'] = "timeCompleted"
+
+    exitCode = pyre.db.integer(name="exitCode", default=-1)
+    exitCode.meta['tip'] = "exitCode"
+
+    numberProcessors = pyre.db.integer(name="numberProcessors", default=0)
+    numberProcessors.meta['tip'] = "numberProcessors"
+
+    errorFilename = pyre.db.varchar(name="errorFilename", length=256)
+    errorFilename.meta['tip'] = "errorFilename"
+
+    outputFilename = pyre.db.varchar(name="outputFilename", length=256)
+    outputFilename.meta['tip'] = "outputFilename"
+
+    statusMessage = pyre.db.varchar(name="statusMessage", length=256)
+    statusMessage.meta['tip'] = "statusMessage"
+
+"""
 def inittable(db):
     def job(id, type, status, created, config):
         r           = Job()
@@ -107,7 +140,7 @@ def inittable(db):
         ]
     for r in records: db.insertRow( r )
     return
-
+"""
 
 
 __date__ = "$Jul 29, 2009 8:31:54 PM$"
