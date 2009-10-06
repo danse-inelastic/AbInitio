@@ -50,7 +50,7 @@ class Actor(base):
         d_form      = Document(Class="step-content-form")
 
         # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
-        d_form.add(FormRadioBox(entries=enumerate(["Import Material", "Create New Material"])) )
+        d_form.add(FormRadioBox(entries=enumerate(["Create Configuration", "Manually Add Configuration","Import Material", "Create New Material"])) )
 
         form        = Form(id="form-vinil") # id="stylized"
         form.text(label='Material Name') # help='Help'

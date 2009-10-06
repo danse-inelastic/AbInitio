@@ -1,4 +1,7 @@
 
 - Hook up database
+    Learn how to generate id
+    Learn how to store constrains
 - Run a very simple simulation
 - Implement web gui for config generation
+- Create generic table (visible)

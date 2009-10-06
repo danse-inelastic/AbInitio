@@ -49,7 +49,7 @@ CREATE TABLE configuration (
 CREATE TABLE simulation (
     id
     name
-    kind        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
+    package        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
     type        varchar(128), NULL      # Type of the simulation
     description
     formula
@@ -61,12 +61,29 @@ CREATE TABLE simulation (
 
 CREATE TABLE server (
     id
+    name
+    description
+    ipAddress
     
 )
 
+CREATE TABLE authorization (
+    id
+    serverId
+    userId
+    name
+    description
+)
+
+CREATE TABLE session (
+    id
+    name
+)
+
+
 CREATE TABLE table (
     id
-
+    name
 )
 
 CREATE TABLE user (
