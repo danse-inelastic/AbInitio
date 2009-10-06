@@ -18,9 +18,27 @@ class User(Table):
     name = "user"
     import pyre.db
 
-    id = pyre.db.varchar(name="id", length=10)
+    id = pyre.db.varchar(name="id", length=8)
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
+
+    username = pyre.db.varchar(name="username", length=256, default='')
+    username.meta['tip'] = "username"
+
+    firstName = pyre.db.varchar(name="firstName", length=256, default='')
+    firstName.meta['tip'] = "firstName"
+
+    lastName = pyre.db.varchar(name="lastName", length=256, default='')
+    lastName.meta['tip'] = "lastName"
+
+    email  = pyre.db.varchar(name="email ", length=256, default='')
+    email .meta['tip'] = "email "
+
+    affiliation = pyre.db.varchar(name="affiliation", length=512, default='')
+    affiliation.meta['tip'] = "affiliation"
+
+    password = pyre.db.varchar(name="password", length=256, default='')
+    password.meta['tip'] = "password"
 
 
 def inittable(db):

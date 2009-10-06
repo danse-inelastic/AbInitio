@@ -22,7 +22,7 @@ class VTable(base):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    tname = pyre.db.varchar(name="tname", length=256)
+    tname = pyre.db.varchar(name="tname", length=256, default='')
     tname.meta['tip'] = "tname"
 
     description = pyre.db.varchar(name="description", length=1024, default='')

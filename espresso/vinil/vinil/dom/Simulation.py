@@ -31,25 +31,25 @@ class Simulation(Table):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    sname = pyre.db.varchar(name="sname", length=128)
+    sname = pyre.db.varchar(name="sname", length=128, default='')
     sname.meta['tip'] = ""
 
-    package = pyre.db.varchar(name="package", length=128)
+    package = pyre.db.varchar(name="package", length=128, default='')
     package.meta['tip'] = ""
 
-    type = pyre.db.varchar(name="type", length=128)
+    type = pyre.db.varchar(name="type", length=128, default='')
     type.meta['tip'] = ""
 
-    description = pyre.db.varchar(name="description", length=1024)
+    description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = ""
 
-    formula = pyre.db.varchar(name="formula", length=32)
+    formula = pyre.db.varchar(name="formula", length=32, default='')
     formula.meta['tip'] = ""
 
-    timeCreated = pyre.db.varchar(name="timeCreated", length=16)
+    timeCreated = pyre.db.varchar(name="timeCreated", length=16, default='')
     timeCreated.meta['tip'] = "timeCreated"
 
-    timeModified = pyre.db.varchar(name="timeModified", length=16)
+    timeModified = pyre.db.varchar(name="timeModified", length=16, default='')
     timeModified.meta['tip'] = "timeModified"
 
     isFavorite = pyre.db.boolean(name="isFavorite", default=False)

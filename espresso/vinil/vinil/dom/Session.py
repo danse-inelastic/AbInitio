@@ -22,7 +22,7 @@ class Session(Table):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    sname = pyre.db.varchar(name="sname", length=256)
+    sname = pyre.db.varchar(name="sname", length=256, default='')
     sname.meta['tip'] = "sname"
 
     description = pyre.db.varchar(name="description", length=1024, default='')
