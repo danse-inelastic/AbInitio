@@ -22,19 +22,32 @@ class Matter(Table):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
+    simulationId    = pyre.db.varchar(name="simulationId", length=8)
+    simulationId.constraints = 'REFERENCES simulation (id)'
+    simulationId.meta['tip'] = "simulationId"
 
+    name = pyre.db.varchar(name="name", length=1024, default='')
+    name.meta['tip'] = "name"
+
+    description = pyre.db.varchar(name="description", length=1024, default='')
+    description.meta['tip'] = "description"
+
+
+"""
+# For debugging
 def inittable(db):
-    def matter(id):
-        r           = Matter()
-        r.id        = id
+    def matter(params):
+        r               = Matter()
+        r.id            = params['id']
+        r.simulationId  = params['simulationId']
         return r
 
     records = [
-        matter( 1 )
+        matter( {"id": 1, "simulationId": 1} )
         ]
     for r in records: db.insertRow( r )
     return
-
+"""
 
 __date__ = "$Oct 5, 2009 8:50:39 AM$"
 

@@ -44,7 +44,9 @@ class Atom(Table):
     position = pyre.db.varchar(name="position", length=256, default='')
     position.meta['tip'] = "position"
 
+
 # Do I need generate default jobs? For debugging, yes!
+"""
 def inittable(db):
     def atom(params):
         r           = Atom()
@@ -57,7 +59,7 @@ def inittable(db):
         ]
     for r in records: db.insertRow( r )
     return
-
+"""
 
 __date__ = "$Oct 5, 2009 8:46:22 AM$"
 

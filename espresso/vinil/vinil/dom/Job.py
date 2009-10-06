@@ -70,6 +70,7 @@ class Job(Table):
 
 # Generates only id's.
 # Do I need generate default jobs? For debugging, yes!
+"""
 def inittable(db):
     def job(params):
         r           = Job()
@@ -87,7 +88,7 @@ def inittable(db):
         ]
     for r in records: db.insertRow( r )
     return
-
+"""
 
 
 __date__ = "$Jul 29, 2009 8:31:54 PM$"
