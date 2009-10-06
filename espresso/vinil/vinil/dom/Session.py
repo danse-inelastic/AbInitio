@@ -18,19 +18,26 @@ class Session(Table):
     name = "session"
     import pyre.db
 
-    id = pyre.db.varchar(name="id", length=10)
+    id = pyre.db.varchar(name="id", length=8)
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
+    sname = pyre.db.varchar(name="sname", length=256)
+    sname.meta['tip'] = "sname"
+
+    description = pyre.db.varchar(name="description", length=1024, default='')
+    description.meta['tip'] = "description"
+
+
 
 def inittable(db):
-    def session(id):
+    def session(params):
         r           = Session()
-        r.id        = id
+        r.id        = params['id']
         return r
 
     records = [
-        session( 1 )
+        session( {"id": 1} )
         ]
     for r in records: db.insertRow( r )
     return
