@@ -18,19 +18,25 @@ class VTable(base):
     name = "vtable"
     import pyre.db
 
-    id = pyre.db.varchar(name="id", length=10)
+    id = pyre.db.varchar(name="id", length=8)
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
+    tname = pyre.db.varchar(name="tname", length=256)
+    tname.meta['tip'] = "tname"
+
+    description = pyre.db.varchar(name="description", length=1024, default='')
+    description.meta['tip'] = "description"
+
 
 def inittable(db):
-    def vtable(id):
+    def vtable(params):
         r           = VTable()
-        r.id        = id
+        r.id        = params['id']
         return r
 
     records = [
-        vtable( 1 )
+        vtable( {"id": 1} )
         ]
     for r in records: db.insertRow( r )
     return

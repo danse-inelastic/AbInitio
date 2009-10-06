@@ -95,7 +95,7 @@ CREATE TABLE session (
 )
 
 
-CREATE TABLE table (
+CREATE TABLE vtable (
     id              varchar(8) PRIMARY KEY
     tname           varchar(256)
     description     varchar(1024)
