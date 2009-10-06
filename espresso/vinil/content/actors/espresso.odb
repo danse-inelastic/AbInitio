@@ -65,7 +65,7 @@ class Actor(base):
         for i in range(len(sim)):
             if sim[i].isFavorite:
                 names.append(sim[i].sname)
-                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
+                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
                 columns.append(row)
             
         document.add(Paragraph(text="Favorites", Class="header-h2"))
@@ -78,7 +78,7 @@ class Actor(base):
         for i in range(len(sim)):
             if sim[i].isExample:
                 names.append(sim[i].sname)
-                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
+                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
                 columns.append(row)
 
 
