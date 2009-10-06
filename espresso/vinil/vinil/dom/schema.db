@@ -8,13 +8,14 @@ CREATE TABLE job (
     serverId        varchar(8)
     description     varchar(256)
     status          varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
-    timeSubmitted   char(16)
-    timeStarted     char(16)
-    timeRestarted   char(16)
-    timeCompleted   char(16)
+    timeSubmitted   varcharchar(16)
+    timeStarted     varcharchar(16)
+    timeRestarted   varcharchar(16)
+    timeCompleted   varcharchar(16)
     exitCode        int
     numberProcessors    int
     errorFilename   varchar(256)
+    outputFilename  varchar(256)
     statusMessage   varchar(256)
 );
 
@@ -43,13 +44,12 @@ CREATE TABLE configuration (
     description
     date
     text
-
 )
 
 CREATE TABLE simulation (
     id
     name
-    package        varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
+    package     varchar(128), NOT NULL  # Kind of simulation: "Quantum Espresso", "VASP", "GULP" etc.
     type        varchar(128), NULL      # Type of the simulation
     description
     formula

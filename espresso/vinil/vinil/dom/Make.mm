@@ -44,7 +44,10 @@ EXPORT_PYTHON_MODULES = \
         Configuration.py \
         Job.py \
         Matter.py \
+        Server.py \
+        Session.py \
         Simulation.py \
+        User.py \
         VTable.py \
 	__init__.py \
 
