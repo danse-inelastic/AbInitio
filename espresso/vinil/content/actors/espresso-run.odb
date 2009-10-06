@@ -11,40 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-config = """ &control
-    calculation='scf'
-    restart_mode='from_scratch'
-    tprnfor = .true.
-    prefix='ni'
-    pseudo_dir = ''
-    outdir=''
- /
- &system
-    ibrav=2
-    celldm(1) =6.65
-    nat=  1
-    ntyp= 1
-    nspin=2
-    starting_magnetization(1)=0.5
-    degauss=0.02
-    smearing='gauss'
-    occupations='smearing'
-    ecutwfc =27.0
-    ecutrho =300.0
- /
- &electrons
-    conv_thr =  1.0d-8
-    mixing_beta = 0.7
- /
-ATOMIC_SPECIES
- Ni  26.98  Ni.pbe-nd-rrkjus.UPF
-ATOMIC_POSITIONS
- Ni 0.00 0.00 0.00
-K_POINTS AUTOMATIC
-4 4 4 1 1 1
-"""
-
-
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
@@ -77,8 +43,8 @@ class Actor(base):
         parameters, then click "Next" and you simulation will be added to jobs queue """
         d.add(Paragraph(text=text))
 
-
-        d.add(HtmlDocument(text="""<pre style="margin-left: 100px;">%s</pre>""" % config))#Paragraph(text=config))
+        config      = director.clerk.getConfigurations(id=1)
+        d.add(HtmlDocument(text="""<pre style="margin-left: 100px;">%s</pre>""" % config.text))#Paragraph(text=config))
 
         s_content.add(d)
 
