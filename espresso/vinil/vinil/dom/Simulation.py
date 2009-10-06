@@ -13,10 +13,14 @@
 
 from pyre.db.Table import Table
 
-examples = ((1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', 'True', 'False'),
-           (2, 'MgB2_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009', '', 'True', 'False'),
-           (3, 'MgB2_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009', '', 'True', 'False')
-           )
+examples = (
+            (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', True, False),
+            (2, 'MgB2_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009', '', True, False),
+            (3, 'MgB2_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009', '', True, False),
+            (4, 'Ni_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'Ni', '25-09-2009', '', False, True),
+            (5, 'Al_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'Al', '26-09-2009', '', False, True),
+            (6, 'Si_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'Si', '27-09-2009', '', False, True)
+            )
 
 class Simulation(Table):
 
@@ -48,10 +52,10 @@ class Simulation(Table):
     modified = pyre.db.varchar(name="modified", length=16)
     modified.meta['tip'] = ""
 
-    isFavorite = pyre.db.varchar(name="isFavorite", length=16)
+    isFavorite = pyre.db.boolean(name="isFavorite", default=False)
     isFavorite.meta['tip'] = ""
 
-    isExample = pyre.db.varchar(name="isExample", length=16)
+    isExample = pyre.db.boolean(name="isExample", default=True)
     isExample.meta['tip'] = ""
 
 

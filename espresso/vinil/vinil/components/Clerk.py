@@ -49,14 +49,14 @@ class Clerk( base ):
         base._configure(self)
         self.db = self.inventory.db
 
-    def getJobs(self, id=None):
+    def getJobs(self, id=None, where=None):
         '''retrieve job record specified by id'''
-        return self._getEntry('Job', id)
+        return self._getEntry('Job', id=id, where=where)
 
 
-    def getSimulations(self, id=None):
+    def getSimulations(self, id=None, where=None):
         '''retrieve simulation record specified by id'''
-        return self._getEntry('Simulation', id)
+        return self._getEntry('Simulation', id=id, where=where)
 
 
     def getTable(self, tablename):
@@ -72,12 +72,12 @@ class Clerk( base ):
         return getattr(module, classname)
 
 
-    def _getEntry(self, classname, id=None):
+    def _getEntry(self, classname, id=None, where=None):
         vclass = self._getClass(classname)
         if id is not None:
             return self._getRecordByID( vclass, id )
 
-        return self._getAll(vclass)
+        return self._getAll(vclass, where)
 
     def setDb(self,dbName):
         self.db = dbName

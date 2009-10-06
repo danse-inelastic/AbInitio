@@ -59,19 +59,24 @@ class Actor(base):
         columns = []
 
         for i in range(len(sim)):
-            names.append(sim[i].sname)
-            row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
-            columns.append(row)
+            if sim[i].isFavorite:
+                names.append(sim[i].sname)
+                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
+                columns.append(row)
             
         document.add(Paragraph(text="Favorites", Class="header-h2"))
         document.add(tableController(headers))
         document.add(tableSimulations(names, columns))
 
-        names   = ['Ni_SP', 'Al_E', 'Si_MP']
-        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'Ni', '25-09-2009'],
-                   ['Total Energy', 'Electron simualtion', 'Al', '26-09-2009'],
-                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'Si', '27-09-2009'],
-                    ]
+        names   = []
+        columns = []
+
+        for i in range(len(sim)):
+            if sim[i].isExample:
+                names.append(sim[i].sname)
+                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].created]
+                columns.append(row)
+
 
         document.add(Paragraph(text="Examples", Class="header-h2"))
         document.add(tableController(headers))
