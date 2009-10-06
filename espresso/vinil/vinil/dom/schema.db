@@ -2,17 +2,26 @@
 
 # Job - simulation that is submitted to queue
 CREATE TABLE job (
-    id          char(10) PRIMARY KEY,   # Job id
+    id              char(10) PRIMARY KEY,   # Job id
+    userId
     simulationId
-    status      varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
-    submitted
-    started     varchar(128)
-    restarted
+    description
+    status          varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
+    timeSubmitted
+    timeStarted     varchar(128)
+    timeRestarted
+    timeCompleted
+    exitCode
+    server
+    numberProcessors
+    errorFilename
+    statusMessage
 );
 
 CREATE TABLE atom (
     id
     matterId
+    description
     name
     mass
     massUnit
@@ -24,13 +33,14 @@ CREATE TABLE matter (
     id
     name
     simulationId
-
+    description
 )
 
 CREATE TABLE configuration (
     id
     name
     simulationId
+    description
     date
     text
 
@@ -49,14 +59,31 @@ CREATE TABLE simulation (
     isExample
 )
 
+CREATE TABLE server (
+    id
+    
+)
+
 CREATE TABLE table (
+    id
 
 )
+
+CREATE TABLE user (
+    id
+    username
+    firstName
+    lastName
+    email
+    affiliation
+    password
+)
+
 
 
 ================================================
 
-# Already implemented table in VNF
+# Already implemented tables in VNF
 
 CREATE TABLE abinitio
 (
