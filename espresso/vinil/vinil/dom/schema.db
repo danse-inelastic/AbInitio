@@ -33,7 +33,7 @@ CREATE TABLE job (
 
 CREATE TABLE atom (
     id              varchar(8) PRIMARY KEY
-    matterId        varchar(8) REFERENCES matter (id)
+    matterId        varchar(8) REFERENCES matter (id) #?
     description     varchar(1024)
     aname           varchar(256)
     mass            double
@@ -111,7 +111,24 @@ CREATE TABLE user (
     password        varchar(256)
 )
 
-
+job
+    userId
+    simulationId
+    serverId
+user
+vtable
+simulation
+session
+server
+authorization
+    serverId
+    userId
+configuration
+    simulationId
+atom
+    matterId
+matter
+    simulationId
 
 ================================================
 

@@ -13,9 +13,9 @@
 
 from pyre.db.Table import Table
 
-class Server(Table):
+class Authorization(Table):
 
-    name = "server"
+    name = "authorization"
     import pyre.db
 
     id = pyre.db.varchar(name="id", length=8)
@@ -40,15 +40,15 @@ class Server(Table):
 """
 # For debugging
 def inittable(db):
-    def server(params):
-        r           = Server()
+    def authorization(params):
+        r           = Authorization()
         r.id        = params['id']
         r.serverId  = params['serverId']
         r.userId    = params['userId']
         return r
 
     records = [
-        server( {"id": 1, "serverId": 1, "userId": 1})
+        authorization( {"id": 1, "serverId": 1, "userId": 1})
         ]
     for r in records: db.insertRow( r )
     return

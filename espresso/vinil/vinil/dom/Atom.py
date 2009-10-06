@@ -32,7 +32,7 @@ class Atom(Table):
     aname = pyre.db.varchar(name="aname", length=256, default='')
     aname.meta['tip'] = "aname"
 
-    mass = pyre.db.double(name="mass", dafault=0.0)
+    mass = pyre.db.double(name="mass", default=0.0)
     mass.meta['tip'] = "mass"
 
     massUnit = pyre.db.varchar(name="massUnit", length=32, default='')

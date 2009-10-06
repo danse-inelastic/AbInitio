@@ -14,7 +14,16 @@
 maindom = 'vinil.dom'
 
 # Contains list of (class, tablename) tuples
-tablenames = ('Simulation', 'Job', 'Atom', 'Configuration', 'Matter', 'VTable')
+tablenames = ('User',
+              'Simulation',
+              'Server',
+              'Matter',
+              'Job',
+              'Atom',
+              'Configuration',
+              'Matter',
+              'VTable',
+              'Authorization')
 
 from pyre.components.Component import Component as base
 
@@ -49,6 +58,7 @@ class Clerk( base ):
         base._configure(self)
         self.db = self.inventory.db
 
+    # Table specific methods
     def getJobs(self, id=None, where=None):
         '''retrieve job record specified by id'''
         return self._getEntry('Job', id=id, where=where)
@@ -59,6 +69,7 @@ class Clerk( base ):
         return self._getEntry('Simulation', id=id, where=where)
 
 
+    # General methods working on database tables
     def getTable(self, tablename):
         for t in tablenames:
             table   = self._getClass(t)

@@ -41,6 +41,7 @@ distclean::
 
 EXPORT_PYTHON_MODULES = \
         Atom.py \
+        Authorization.py \
         Configuration.py \
         Job.py \
         Matter.py \
