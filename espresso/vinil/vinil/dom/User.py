@@ -40,18 +40,20 @@ class User(Table):
     password = pyre.db.varchar(name="password", length=256, default='')
     password.meta['tip'] = "password"
 
-
+"""
+# For debugging
 def inittable(db):
-    def user(id):
+    def user(params):
         r           = User()
-        r.id        = id
+        r.id        = params['id']
         return r
 
     records = [
-        user( 1 )
+        user( {"id": 1} )
         ]
     for r in records: db.insertRow( r )
     return
+"""
 
 __date__ = "$Oct 5, 2009 8:11:34 PM$"
 

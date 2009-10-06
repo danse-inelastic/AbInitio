@@ -28,7 +28,8 @@ class VTable(base):
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
-
+"""
+# For debugging
 def inittable(db):
     def vtable(params):
         r           = VTable()
@@ -40,7 +41,7 @@ def inittable(db):
         ]
     for r in records: db.insertRow( r )
     return
-
+"""
 
 __date__ = "$Oct 5, 2009 9:22:07 AM$"
 

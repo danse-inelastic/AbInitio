@@ -29,7 +29,8 @@ class Session(Table):
     description.meta['tip'] = "description"
 
 
-
+"""
+# For debugging
 def inittable(db):
     def session(params):
         r           = Session()
@@ -40,7 +41,8 @@ def inittable(db):
         session( {"id": 1} )
         ]
     for r in records: db.insertRow( r )
-    return
+    return"""
+"""
 
 __date__ = "$Oct 5, 2009 8:11:18 PM$"
 
