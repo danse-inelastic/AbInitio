@@ -196,8 +196,8 @@ p {
 
 /* Table controller */
 .table-controller {
-    margin-top: -15px;
-    margin-bottom: -5px;
+    margin-top: -10px;
+    margin-bottom: 5px;
 }
 
 .table-pagination {
@@ -205,7 +205,17 @@ p {
     text-align: right;
     margin-top: 10px;
     vertical-align: bottom;
-    width: 620px;
+    width: 430px;
+}
+
+.table-filter input {
+    float: left;
+    margin-left: 10px;
+    width: 200px;
+}
+
+.table-filter div {
+    float: left;
 }
 
 .pagination-link {

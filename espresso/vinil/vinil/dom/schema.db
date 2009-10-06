@@ -2,24 +2,24 @@
 
 # Job - simulation that is submitted to queue
 CREATE TABLE job (
-    id              char(10) PRIMARY KEY,   # Job id
-    userId
-    simulationId
-    description
+    id              varchar(8) PRIMARY KEY,   # Job id
+    userId          varchar(8)
+    simulationId    varchar(8)
+    serverId        varchar(8)
+    description     varchar(256)
     status          varchar(128), NOT NULL  # Status of the job: "In Queue", "Running", "Finished", "Failed"
-    timeSubmitted
-    timeStarted     varchar(128)
-    timeRestarted
-    timeCompleted
-    exitCode
-    server
-    numberProcessors
-    errorFilename
-    statusMessage
+    timeSubmitted   char(16)
+    timeStarted     char(16)
+    timeRestarted   char(16)
+    timeCompleted   char(16)
+    exitCode        int
+    numberProcessors    int
+    errorFilename   varchar(256)
+    statusMessage   varchar(256)
 );
 
 CREATE TABLE atom (
-    id
+    id              varchar(8) PRIMARY KEY
     matterId
     description
     name
@@ -38,8 +38,8 @@ CREATE TABLE matter (
 
 CREATE TABLE configuration (
     id
-    name
     simulationId
+    name
     description
     date
     text
