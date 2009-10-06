@@ -31,7 +31,7 @@ class Simulation(Table):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
 
-    sname = pyre.db.varchar(name="name", length=128)
+    sname = pyre.db.varchar(name="sname", length=128)
     sname.meta['tip'] = ""
 
     package = pyre.db.varchar(name="package", length=128)

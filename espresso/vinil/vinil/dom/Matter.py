@@ -26,8 +26,8 @@ class Matter(Table):
     simulationId.constraints = 'REFERENCES simulation (id)'
     simulationId.meta['tip'] = "simulationId"
 
-    name = pyre.db.varchar(name="name", length=1024, default='')
-    name.meta['tip'] = "name"
+    mname = pyre.db.varchar(name="mname", length=1024, default='')
+    mname.meta['tip'] = "mname"
 
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"

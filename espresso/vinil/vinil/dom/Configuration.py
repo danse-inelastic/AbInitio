@@ -26,8 +26,8 @@ class Configuration(Table):
     simulationId.constraints = 'REFERENCES simulation (id)'
     simulationId.meta['tip'] = "simulationId"
 
-    name = pyre.db.varchar(name="name", length=1024, default='')
-    name.meta['tip'] = "name"
+    cname = pyre.db.varchar(name="cname", length=1024, default='')
+    cname.meta['tip'] = "cname"
 
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
@@ -42,7 +42,7 @@ class Configuration(Table):
 """
 # For debugging
 def inittable(db):
-    def configuration(id):
+    def configuration(params):
         r           = Configuration()
         r.id        = params['id']
         r.simulationId  = params['simulationId']

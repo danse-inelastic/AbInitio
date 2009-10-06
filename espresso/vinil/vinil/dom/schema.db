@@ -35,7 +35,7 @@ CREATE TABLE atom (
     id              varchar(8) PRIMARY KEY
     matterId        varchar(8) REFERENCES matter (id)
     description     varchar(1024)
-    name            varchar(256)
+    aname           varchar(256)
     mass            double
     massUnit        varchar(32)
     pseudoPotential varchar(256)
@@ -45,14 +45,14 @@ CREATE TABLE atom (
 CREATE TABLE matter (
     id              varchar(8) PRIMARY KEY
     simulationId    varchar(8) REFERENCES simulation (id)
-    name            varchar(256)
+    mname           varchar(256)
     description     varchar(1024)
 )
 
 CREATE TABLE configuration (
     id              varchar(8) PRIMARY KEY
     simulationId    varchar(8) REFERENCES simulation (id)
-    name            varchar(256)
+    cname           varchar(256)
     description     varchar(1024)
     date            varchar(16)
     text            varchar(8192)
@@ -60,7 +60,7 @@ CREATE TABLE configuration (
 
 CREATE TABLE simulation (
     id              varchar(8) PRIMARY KEY
-    name            varchar(256)
+    sname           varchar(256)
     package         varchar(256), NOT NULL  # Simulation package: "Quantum Espresso", "VASP", "GULP" etc.
     type            varchar(512), NULL      # Type of the simulation
     description     varchar(1024)
@@ -73,7 +73,7 @@ CREATE TABLE simulation (
 
 CREATE TABLE server (
     id              varchar(8) PRIMARY KEY
-    name            varchar(256)
+    sname           varchar(256)
     description     varchar(1024)
     ipAddress       varchar(64)
     
@@ -84,20 +84,20 @@ CREATE TABLE authorization (
     id              varchar(8) PRIMARY KEY
     serverId        varchar(8) REFERENCES server (id)
     userId          varchar(8) REFERENCES user (id)
-    name            varchar(256)
+    aname           varchar(256)
     description     varchar(1024)
 )
 
 CREATE TABLE session (
     id              varchar(8) PRIMARY KEY
-    name            varchar(256)
+    sname           varchar(256)
     description     varchar(1024)
 )
 
 
 CREATE TABLE table (
     id              varchar(8) PRIMARY KEY
-    name            varchar(256)
+    tname           varchar(256)
     description     varchar(1024)
 )
 

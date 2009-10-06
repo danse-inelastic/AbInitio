@@ -29,8 +29,8 @@ class Atom(Table):
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
-    name = pyre.db.varchar(name="name", length=256, default='')
-    name.meta['tip'] = "name"
+    aname = pyre.db.varchar(name="aname", length=256, default='')
+    aname.meta['tip'] = "aname"
 
     mass = pyre.db.double(name="mass", dafault=0.0)
     mass.meta['tip'] = "mass"
