@@ -40,6 +40,7 @@ class User(Table):
     password = pyre.db.varchar(name="password", length=256, default='')
     password.meta['tip'] = "password"
 
+
 """
 # For debugging
 def inittable(db):

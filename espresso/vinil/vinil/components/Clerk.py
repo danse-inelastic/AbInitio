@@ -14,16 +14,16 @@
 maindom = 'vinil.dom'
 
 # Contains list of (class, tablename) tuples
-tablenames = ('User',
-              'Simulation',
+tablenames = ('Simulation',
               'Server',
               'Matter',
               'Job',
               'Atom',
               'Configuration',
-              'Matter',
               'VTable',
-              'Authorization')
+              'Session')
+              #'User',
+              #'Authorization')
 
 from pyre.components.Component import Component as base
 
