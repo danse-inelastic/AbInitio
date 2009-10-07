@@ -133,11 +133,24 @@ class Actor(base):
     def runSimulation(self, director):
 
         self.runPWSimulation(director)
-        #self.runPW_DOS(director)
-        #self.createPWPlot(director)
+        self.runPW_DOS(director)
+        self.createPWPlot(director)
 
         # Redirection
         #return load(actor='electronsjobs', routine='link', id=self.inventory.id)
+
+
+    # Run PW simulation
+    def runPWSimulation(self, director):
+        config      = director.clerk.getConfigurations(id=1)
+        configtext  = config.text
+
+        #infile  = EXPORT_ROOT + "/content/data/ni.scf.in" # Uses database
+        outfile = EXPORT_ROOT + "/output/ni.scf.out"
+
+        from vinil.utils import pw
+        configmod = self.setPWConfig(config=configtext)
+        pw.runPWSimulation(outfile, config=configmod)
 
     # Sets pseudo_dir and outdir (hardcoded) and saves to the same file.
     def setPWConfig(self, filename=None, config=None):
@@ -157,6 +170,19 @@ class Actor(base):
 
         if config is not None:
             return qe.toString()
+
+
+
+    # Find electron DOS
+    def runPW_DOS(self, director):
+        config      = director.clerk.getConfigurations(id=3)
+        configtext  = config.text
+
+        #infile  = EXPORT_ROOT + "/content/data/ni.scf.dos.in" # Uses database
+
+        configmod = self.setPW_DOSConfig(config=configtext)
+        from vinil.utils import dos
+        dos.runPW_DOS(config=configmod)
 
     def setPW_DOSConfig(self, filename=None, config=None):
         from vinil.utils.parser.qeconfig import QEConfig
@@ -178,28 +204,6 @@ class Actor(base):
             return qe.toString()
 
 
-    # Run PW simulation
-    def runPWSimulation(self, director):
-        config      = director.clerk.getConfigurations(id=1)
-        configtext  = config.text
-
-        #infile  = EXPORT_ROOT + "/content/data/ni.scf.in" # Uses database
-        outfile = EXPORT_ROOT + "/output/ni.scf.out"
-
-        from vinil.utils import pw
-        configmod = self.setPWConfig(config=configtext)
-        pw.runPWSimulation(outfile, config=configmod)
-
-    # Find electron DOS
-    def runPW_DOS(self, director):
-        config      = director.clerk.getConfigurations(id=2)
-        configtext  = config.text
-
-        #infile  = EXPORT_ROOT + "/content/data/ni.scf.dos.in" # Uses database
-
-        configmod = self.setPW_DOSConfig(config=configtext)
-        from vinil.utils import dos
-        dos.runPW_DOS(config=configmod)
 
     # Plot electron DOS
     def createPWPlot(self, director):
