@@ -16,6 +16,7 @@ from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 from luban.content import load
 from luban.content.Link import Link
+from luban.content.HtmlDocument import HtmlDocument
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -27,8 +28,12 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Materials')
         p = Paragraph()
-        p.text = ["""Materials"""]
+        p.text = ["""Here you can create new and use existing materials"""]
         document.add(p)
+
+        text = '<img src="images/icons/newmaterial.png" id="create-new-simulation"/>'
+        d = HtmlDocument(text=text, onclick=load(actor='materials', routine='link'))
+        document.add(d)
 
         return document
 
