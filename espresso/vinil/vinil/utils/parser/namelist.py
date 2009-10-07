@@ -12,7 +12,7 @@
 #
 
 import inputs.inputpw
-from orderedDict import OrderedDict
+from vinil.utils.orderedDict import OrderedDict
 
 class Namelist():
     """Namelist class that corresponds to Namelist in QE config file"""

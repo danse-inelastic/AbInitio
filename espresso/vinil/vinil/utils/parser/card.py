@@ -12,7 +12,7 @@
 #
 
 import inputs.inputpw
-from orderedDict import OrderedDict
+from vinil.utils.orderedDict import OrderedDict
 
 class Card():
     """Card class that corresponds to Card in QE config file"""

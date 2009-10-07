@@ -16,7 +16,7 @@ Stability issues:
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
-from orderedDict import OrderedDict
+from vinil.utils.orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
 import inputs.inputpw
@@ -280,7 +280,7 @@ def testCreateConfig():
 
 def testParseConfig():
     print "Testing parsing config file"
-    qe  = QEConfig("vini/ni.scf.in")
+    qe  = QEConfig("../../../content/data/ni.scf.in")
     qe.parse()
     print qe.toString()
     nl  = qe.namelist('control')
