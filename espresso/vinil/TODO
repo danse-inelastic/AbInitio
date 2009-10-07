@@ -6,5 +6,6 @@
 - Hook up flot
 - Implement web gui for config generation
 - Create generic table (visible)
+- Create Materials section
 - Create/Delete database entries
-- Learn how to use what Nikolay did
+- Learn how to use qecalc, diffpy.Structure

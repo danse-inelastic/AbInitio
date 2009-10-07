@@ -36,6 +36,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Jobs')
 
+        self.runSimulation(director)
         document.add(self.getPWPlot(director))
 
 #        headers = ["Name", "Type", "Description", "Formula", "Created"]
@@ -50,8 +51,6 @@ class Actor(base):
 #        #document.add(Paragraph(text="Jobs", Class="header-h2"))
 #        document.add(tableController(headers))
 #        document.add(tableSimulations(names, columns))
-
-        #self.runSimulation(director)
 
         return document
 
