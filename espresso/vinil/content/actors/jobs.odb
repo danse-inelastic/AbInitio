@@ -217,11 +217,22 @@ class Actor(base):
         plot.createPWPlot(infile, imagefile)
 
     def getPWPlot(self, director):
+        from vinil.utils import utils
+        infile      = EXPORT_ROOT + "/output/ni.scf.dos.out"
+
+        # Populate 'x', 'y' and 'z' (cumulative) lists from file
+        (e,  up,  down,  cum) = utils.parseFile(infile)
+        #print (e,  x,  y,  z)
+
         plot = Plot2D(width=500, height=350)
-        x = range(10)
-        y1 = x; y2 = [xi*xi for xi in x]
-        plot.curve(x=x, y=y1, label='Spin Up')
-        plot.curve(x=x, y=y2, label='Spin Down')
+        
+        plot.curve(x=e, y=up, label='Spin Up')
+        plot.curve(x=e, y=down, label='Spin Down')
+        
+#        x = range(10)
+#        y1 = x; y2 = [xi*xi for xi in x]
+#        plot.curve(x=x, y=y1, label='Spin Up')
+#        plot.curve(x=x, y=y2, label='Spin Down')
         
         return plot
 
