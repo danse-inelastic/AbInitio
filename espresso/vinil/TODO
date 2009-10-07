@@ -2,6 +2,9 @@
 - Hook up database
     [Done] Learn how to generate id
     [Done] Learn how to store constrains
-- Run a very simple simulation
+- [Done] Run a very simple simulation
+- Hook up flot
 - Implement web gui for config generation
 - Create generic table (visible)
+- Create/Delete database entries
+- Learn how to use what Nikolay did

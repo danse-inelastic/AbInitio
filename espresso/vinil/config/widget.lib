@@ -24,7 +24,11 @@
         "jquery/tabulator.js",
         "jquery/elementFactory.js",
         "jquery/tableFactory.js",
-        "luban/luban-widgets-table.js"
+        "jquery/plotxy.js",
+        "jquery/jquery.flot.js",
+        "/jquery/jquery.rightClick.js",
+        "luban/luban-widgets-table.js",
+        "luban/luban-widgets-plot2d.js"
         ]
   },
   "treeview": {

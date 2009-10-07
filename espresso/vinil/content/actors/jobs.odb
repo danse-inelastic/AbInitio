@@ -19,6 +19,7 @@ from luban.content import load
 from luban.content.Link import Link
 from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
+from luban.content.Plot2D import Plot2D
 
 # Variable that should be set in envs.sh
 EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
@@ -34,26 +35,28 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Jobs')
-        
-        headers = ["Name", "Type", "Description", "Formula", "Created"]
 
-        # Sample data for Favorites
-        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
-        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
-                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
-                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
-                    ]
+        document.add(self.getPWPlot(director))
 
-        #document.add(Paragraph(text="Jobs", Class="header-h2"))
-        document.add(tableController(headers))
-        document.add(tableSimulations(names, columns))
+#        headers = ["Name", "Type", "Description", "Formula", "Created"]
+#
+#        # Sample data for Favorites
+#        names   = ['MgB2_SP', 'MgB2_E', 'MgB2_MP']
+#        columns = [['Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009'],
+#                   ['Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009'],
+#                   ['Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009'],
+#                    ]
+#
+#        #document.add(Paragraph(text="Jobs", Class="header-h2"))
+#        document.add(tableController(headers))
+#        document.add(tableSimulations(names, columns))
 
-        self.runSimulation(director)
+        #self.runSimulation(director)
 
         return document
 
 
-    # Running jobs
+        # Running jobs
     def linkRunning(self, director, document=None):
         actions = []
         actions.append(select(id='maindoc').replaceContent(self.contentRunning(director)))
@@ -213,6 +216,14 @@ class Actor(base):
         from vinil.utils import plot
         plot.createPWPlot(infile, imagefile)
 
+    def getPWPlot(self, director):
+        plot = Plot2D(width=500, height=350)
+        x = range(10)
+        y1 = x; y2 = [xi*xi for xi in x]
+        plot.curve(x=x, y=y1, label='Spin Up')
+        plot.curve(x=x, y=y2, label='Spin Down')
+        
+        return plot
 
 
 
