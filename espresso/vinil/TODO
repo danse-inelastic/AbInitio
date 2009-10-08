@@ -22,5 +22,5 @@ Global Plan
     - Single-Phonon
     - Multi-Phonon + Phonon DOS
 3. Port these simulations to Foxtrot
-4. Implement Materials (create and edit Material, import Material )
+4. Borrow Materials implementation from group (create and edit Material, import Material )
 5. Add user authentication
