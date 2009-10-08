@@ -17,10 +17,14 @@ General Plan
 
 1. Create web GUI for creation and editing of configurations (similar to PWgui) ~ 4 days
 2. Implement the following types of calculations:
-    - PWscf (including "Total energy") + Electron DOS
+    - PWscf (including "Total energy") 
+        + Electron DOS
+        + Electron Dispersion
     - Geomentry Optimization
     - Single-Phonon
-    - Multi-Phonon + Phonon DOS
+    - Multi-Phonon 
+        + Phonon DOS
+        + Phonon Dispersion
 3. Port these simulations to Foxtrot
 4. Borrow Materials implementation from group (create and edit Material, import Material )
 5. Add user authentication
