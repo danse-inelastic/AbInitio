@@ -3,9 +3,23 @@
     [Done] Learn how to generate id
     [Done] Learn how to store constrains
 - [Done] Run a very simple simulation
-- Hook up flot
+- [Done] Hook up flot (how to add labels to axis?)
 - Implement web gui for config generation
 - Create generic table (visible)
 - Create Materials section
 - Create/Delete database entries
 - Learn how to use qecalc, diffpy.Structure
+- Add "Help" box on each page
+
+Global Plan
+===========
+
+1. Create web GUI for creation and editing of configurations (similar to PWgui) ~ 4 days
+2. Implement the following types of calculations:
+    - PWscf (including "Total energy") + Electron DOS
+    - Geomentry Optimization
+    - Single-Phonon
+    - Multi-Phonon + Phonon DOS
+3. Port these simulations to Foxtrot
+4. Implement Materials (create and edit Material, import Material )
+5. Add user authentication
