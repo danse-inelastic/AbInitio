@@ -21,6 +21,7 @@ from luban.content.Splitter import Splitter
 from luban.content.FormSelectorField import FormSelectorField
 from luban.content.FormRadioBox import FormRadioBox
 from luban.content.Form import Form
+from luban.content.Tabs import Tabs
 
 
 from vinil.components.Actor import Actor as base
@@ -42,37 +43,18 @@ class Actor(base):
 
         s_content   = splitter.section()
         d           = Document(Class="step-content")
+#        text ="""Before you run any simulation in Quantum Espresso you need to specify
+#        the material. Here you can import existing material or create a new material
+#        that will be saved in "Materials" section later on."""
         text ="""Before you run any simulation in Quantum Espresso you need to specify
-        the material. Here you can import existing material or create a new material
-        that will be saved in "Materials" section later on."""
+        the configuration."""
+
         d.add(Paragraph(text=text))
-
-        d_form      = Document(Class="step-content-form")
-
-        # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
-        d_form.add(FormRadioBox(entries=enumerate(["Create Configuration",
-                                                   "Manually Add Configuration",
-                                                   "Import Material",
-                                                   "Create New Material",
-                                                   "Go To ['Set Simulation Parameters', 'Review Configuration', 'Add to Jobs Queue']"])) )
-
-        form        = Form(id="form-vinil") # id="stylized"
-        form.text(label='Material Name') # help='Help'
-        form.text(label='Bravais-Lattice Index (ibrav)', value="2")
-        form.text(label='Element Name', value="Ni")
-        form.text(label='Element Mass (a.e.)', value="26.98")
-        form.selector(label="Pseudo Potential", entries=enumerate(["Ni.pde-nd-rrkjus.UPF", "NirelPBE.RRKJ3.UPF"]))
-
-        form.text(label='Atomic position', value="0 0 0")
         
-        # Need to set parameters:
-        #    'nspin',
-        #    'starting_magnetization',
-        #    'multiplicity',
-        #    'tot_magnetization'
-
-        d_form.add(form)
-        d.add(d_form)
+        tabs = Tabs()
+        tabs.tab('tab1').paragraph(text=['tab1 text'])
+        tabs.tab('tab2').document(title='tab2')
+        d.add(tabs)
 
         s_content.add(d)
 
@@ -80,8 +62,36 @@ class Actor(base):
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
-        
+
         return splitter
+
+#        d_form      = Document(Class="step-content-form")
+#
+#        # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
+#        d_form.add(FormRadioBox(entries=enumerate(["Create Configuration",
+#                                                   "Manually Add Configuration",
+#                                                   "Import Material",
+#                                                   "Create New Material",
+#                                                   "Go To ['Set Simulation Parameters', 'Review Configuration', 'Add to Jobs Queue']"])) )
+#
+#        form        = Form(id="form-vinil") # id="stylized"
+#        form.text(label='Material Name') # help='Help'
+#        form.text(label='Bravais-Lattice Index (ibrav)', value="2")
+#        form.text(label='Element Name', value="Ni")
+#        form.text(label='Element Mass (a.e.)', value="26.98")
+#        form.selector(label="Pseudo Potential", entries=enumerate(["Ni.pde-nd-rrkjus.UPF", "NirelPBE.RRKJ3.UPF"]))
+#
+#        form.text(label='Atomic position', value="0 0 0")
+#
+#        # Need to set parameters:
+#        #    'nspin',
+#        #    'starting_magnetization',
+#        #    'multiplicity',
+#        #    'tot_magnetization'
+#
+#        d_form.add(form)
+#        d.add(d_form)
+
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)

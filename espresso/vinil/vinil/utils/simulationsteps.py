@@ -15,7 +15,8 @@ from luban.content.Splitter import SplitSection
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 
-defaultSteps = ["Set Material",
+defaultSteps = [#"Set Material",
+                "Create Configuration",
                 "Set Simulation Parameters",
                 "Review Configuration",
                 "Add to Jobs Queue"]

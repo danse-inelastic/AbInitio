@@ -2,7 +2,8 @@
   "": {
      "stylesheets": [
         "../css-vinil/main.css",
-        "../css-vinil/form.css"
+        "../css-vinil/form.css",
+        "jquery/ui/css/smoothness/jquery-ui-1.7.1.custom.css"
         ],
      "jslibs":      [
         "jquery/jquery.js",
