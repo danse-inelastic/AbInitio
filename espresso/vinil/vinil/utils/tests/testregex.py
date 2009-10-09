@@ -82,7 +82,8 @@ blah
 
 """
 
-CARD_NAMES = ["atomic_species", "atomic_positions", "k_points"]
+CARD_NAMES      = ["atomic_species", "atomic_positions", "k_points"]
+NAMELIST_NAMES  = [ "system", "electrons"] # "control",
 
 COMMENT     = '!.*'                 # Comment
 NAME        = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
@@ -96,6 +97,7 @@ NAMELIST    = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist b
 CARD        = '(%s[\w]+)' % (SPACES)
 EMPTY_LINE  = r'^\s*'                # Empty line
 
+from vinil.utils.orderedDict import OrderedDict
 
 def parser(text):
     (namelists, cardsText)  = parseNamelists(text)
@@ -103,15 +105,16 @@ def parser(text):
     print (namelists, cards)
 
 def parseNamelists(text):
-    namelists = {}
+    namelists = OrderedDict()
     p   = re.compile(COMMENT)
     s1  = re.sub(p, '', text)       # Remove comments
     p2  = re.compile(NAMELIST)
     matches     = p2.findall(s1)      # Finds all namelist blocks
     for m in matches:
         name    = m[0]
-        params  = parseParams(m[1])     # Parse parameters from a namelist block
-        namelists[name.lower()] = params
+        if name in NAMELIST_NAMES:
+            params  = parseParams(m[1])     # Parse parameters from a namelist block
+            namelists[name.lower()] = params
         
     noneparsed = re.sub(p2, '', s1)
     return (namelists, noneparsed)
@@ -153,7 +156,7 @@ def parseCards(text):
     return cards
 
 def getCards(rawlist):
-    cards       = {}
+    cards       = OrderedDict()
     cardName    = None
     for l in rawlist:
         firstPart   = l.split()[0].lower()

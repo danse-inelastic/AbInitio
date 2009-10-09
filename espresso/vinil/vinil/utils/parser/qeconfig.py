@@ -9,8 +9,6 @@
 
 """
 Stability issues:
-- Parsing goes line by line. 
-- Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
@@ -107,23 +105,15 @@ class QEConfig(object):
 
     def parse(self):
         """ Parses the configuration file and stores the values in qe dictionary """
+        
+        configText = self.getText(self.filename)
 
-        if self.filename is not None:
-            lines       = self.__getLines(self.filename)
-
-        elif self.config is not None:
-            lines       = self.config.splitlines()
-
-        else:
-            print "Error: You haven't specify any config file or string"
-
-        lines       = self.__clearLines(lines)
-        marks       = self.__getMarks(lines)
-
-        for m in marks:
-            self.__addBlock(m[0], lines[m[1]:m[2]])
-
-    def __getLines(self, filename):
+        (namelists, cardsText)  = parseNamelists(configText)
+        cards                   = parseCards(cardsText)
+        return (namelists, cards)
+        
+            
+    def __getText(self, filename):
         try:
             f = open(filename)
         except IOError:
@@ -133,131 +123,159 @@ class QEConfig(object):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-        lines       = f.readlines()         # Returns list of lines.
+        text       = f.read()         
         f.close()
         
-        return lines
+        return text
 
-    def __clearLines(self, lines):
-        """ Strips lines from white spaces, commas and empty lines"""
-
-        cl = []     # Lines without white spaces and empty lines
-        for l in lines:
-            l = l.strip().strip(',') # Remove both lead and trailing whitespace, including '\n' and comma
-            if l == '':
-                continue
-
-            cl.append(l)
-
-        return cl
-
-    def __addBlock(self, type, slice):
-        """ Adds block (namelist or card to ) """
-
-        # Improve calls?
-        if type == 'namelist':
-            self.__addNamelist(slice)
-        elif type == 'card':
-            self.__addCard(slice)
-
-        return
-
-    def __addNamelist(self, slice):
+    def __addNamelist(self):
         """Adds namelist based on slice """
-        name    = slice[0].strip('&')
-        nl      = Namelist(name)
+        pass
 
-        for s in slice[1:]:
-            p   = self.getParam(s)
-            nl.add(p[0], p[1])
-
-        self.namelists[name] = nl
-
-    def __addCard(self, slice):
+    def __addCard(self):
         """Adds card"""
-        name    = slice[0].lower()
-        c = Card(name)
+        pass
 
-        for s in slice[1:]:
-            c.addLine(s)
 
-        self.cards[name]    = c
 
-    def __getMarks(self, lines):
-        # TODO: Cumbersome method, rewrite it
-        """
-        Determines start and end of namelist and card blocks: [type, start, end]
-        E.g ['namelist', 0, 7] for CONTROL namelist
-        Iterate over number of lines. Empty lines are included
-        Not tested very well yet
-        """
-        blocklist   = []
-        isNamelist  = False
-        isCard      = False
-        size        = len(lines)
+#
+#        if self.filename is not None:
+#            lines       = self.__getLines(self.filename)
+#
+#        elif self.config is not None:
+#            lines       = self.config.splitlines()
+#
+#        else:
+#            print "Error: You haven't specify any config file or string"
+#
+#        lines       = self.__clearLines(lines)
+#        marks       = self.__getMarks(lines)
+#
+#        for m in marks:
+#            self.__addBlock(m[0], lines[m[1]:m[2]])
 
-        for i in range(size):
-            l = lines[i]
-            # We suppose that namelists and card do not intersect
-            # Namelist part
 
-            # Namelist end
-            if l[0] == '/' and isNamelist:
-                isNamelist  = False
-                block.append(i)
-                blocklist.append(block)
 
-            # Namelist start
-            if l[0] == '&' and not isNamelist:
-                name = l[1:].lower()
+#    def __clearLines(self, lines):
+#        """ Strips lines from white spaces, commas and empty lines"""
+#
+#        cl = []     # Lines without white spaces and empty lines
+#        for l in lines:
+#            l = l.strip().strip(',') # Remove both lead and trailing whitespace, including '\n' and comma
+#            if l == '':
+#                continue
+#
+#            cl.append(l)
+#
+#        return cl
+#
+#    def __addBlock(self, type, slice):
+#        """ Adds block (namelist or card to ) """
+#
+#        # Improve calls?
+#        if type == 'namelist':
+#            self.__addNamelist(slice)
+#        elif type == 'card':
+#            self.__addCard(slice)
+#
+#        return
+#
+#    def __addNamelist(self, slice):
+#        """Adds namelist based on slice """
+#        name    = slice[0].strip('&')
+#        nl      = Namelist(name)
+#
+#        for s in slice[1:]:
+#            p   = self.getParam(s)
+#            nl.add(p[0], p[1])
+#
+#        self.namelists[name] = nl
+#
+#    def __addCard(self, slice):
+#        """Adds card"""
+#        name    = slice[0].lower()
+#        c = Card(name)
+#
+#        for s in slice[1:]:
+#            c.addLine(s)
+#
+#        self.cards[name]    = c
 
-                if not name in inputs.inputpw.namelists:
-                    continue             # namelist is not recognizable
-
-                block       = []
-                isNamelist  = True
-                block.append('namelist')
-                block.append(i)
-
-            # Card part
-            line    = l.lower()
-            # Card end
-            if line in inputs.inputpw.cards and isCard:
-                #print "End: %s, line: %d" % (line, i-1)
-                isCard  = False
-                block.append(i)
-                blocklist.append(block)
-
-            if i == size-1 and isCard:
-                isCard  = False
-                block.append(i+1)
-                blocklist.append(block)
-
-            # Card start
-            if line in inputs.inputpw.cards and not isCard:
-                #print "Start: %s, line: %d" % (line, i)
-                block   = []
-                isCard  = True
-                block.append('card')
-                block.append(i)
-
-        return blocklist
+#    def __getMarks(self, lines):
+#        # TODO: Cumbersome method, rewrite it
+#        """
+#        Determines start and end of namelist and card blocks: [type, start, end]
+#        E.g ['namelist', 0, 7] for CONTROL namelist
+#        Iterate over number of lines. Empty lines are included
+#        Not tested very well yet
+#        """
+#        blocklist   = []
+#        isNamelist  = False
+#        isCard      = False
+#        size        = len(lines)
+#
+#        for i in range(size):
+#            l = lines[i]
+#            # We suppose that namelists and card do not intersect
+#            # Namelist part
+#
+#            # Namelist end
+#            if l[0] == '/' and isNamelist:
+#                isNamelist  = False
+#                block.append(i)
+#                blocklist.append(block)
+#
+#            # Namelist start
+#            if l[0] == '&' and not isNamelist:
+#                name = l[1:].lower()
+#
+#                if not name in inputs.inputpw.namelists:
+#                    continue             # namelist is not recognizable
+#
+#                block       = []
+#                isNamelist  = True
+#                block.append('namelist')
+#                block.append(i)
+#
+#            # Card part
+#            line    = l.lower()
+#            # Card end
+#            if line in inputs.inputpw.cards and isCard:
+#                #print "End: %s, line: %d" % (line, i-1)
+#                isCard  = False
+#                block.append(i)
+#                blocklist.append(block)
+#
+#            if i == size-1 and isCard:
+#                isCard  = False
+#                block.append(i+1)
+#                blocklist.append(block)
+#
+#            # Card start
+#            if line in inputs.inputpw.cards and not isCard:
+#                #print "Start: %s, line: %d" % (line, i)
+#                block   = []
+#                isCard  = True
+#                block.append('card')
+#                block.append(i)
+#
+#        return blocklist
 
         # Example return: [['namelist', 0, 7], ['namelist', 8, 20]]
 
-    def getParam(self, s):
-        """ Takes string like 'a = 2' and returns tuple ('a', 2) """
-
-        ss = s.split('=')
-        for i in range(len(ss)):
-            ss[i] = ss[i].strip()
-
-        val = ss[1]
-
-        # Assume that there are two values only: (variable, value) pair
-        assert len(ss) == 2
-
-        return (ss[0], val)
+#    def getParam(self, s):
+#        """ Takes string like 'a = 2' and returns tuple ('a', 2) """
+#
+#        ss = s.split('=')
+#        for i in range(len(ss)):
+#            ss[i] = ss[i].strip()
+#
+#        val = ss[1]
+#
+#        # Assume that there are two values only: (variable, value) pair
+#        assert len(ss) == 2
+#
+#        return (ss[0], val)
 
 
 def testCreateConfig():
