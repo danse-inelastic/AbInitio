@@ -50,7 +50,7 @@
 
  &system
     ibrav=2,
-    celldm(<Sp>1) =6.65, ! legal
+    celldm(<Sp>1) =6.65, ! legal (will not supported by the parser)
 /
 
  &system
