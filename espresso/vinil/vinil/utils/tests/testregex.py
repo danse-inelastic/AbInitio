@@ -69,8 +69,20 @@ textC = """
     conv_thr =  1.0d-8
     mixing_beta = 0.7
  /
+
+ 
+ATOMIC_SPECIES 
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ 
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+blah
+
 """
 
+CARD_NAMES = ["atomic_species", "atomic_positions", "k_points"]
 
 COMMENT     = '!.*'                 # Comment
 NAME        = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
@@ -78,34 +90,38 @@ SPACES      = '[ \t]*'              # Spaces and tabs
 NO_SPACES   = '[^\s]*'              # No spaces
 NEWLINE     = '[\n\r]*'             # New line ()
 PARAMTER    = '[\w,()]+'            # Parameter characters (space is not allowed)
-VALUE       = '[^\s,]+'              # Parameter's value (numerate all possible characters)
-EXPRESSION  = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE) # Parameter's expression
-NAMELIST    = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME) # Namelist block
+VALUE       = '[^\s,]+'             # Parameter's value (numerate all possible characters)
+EXPRESSION  = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
+NAMELIST    = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist block
+CARD        = '(%s[\w]+)' % (SPACES)
+EMPTY_LINE  = r'^\s*'                # Empty line
+
 
 def parser(text):
-    nl  = parseNamelists(text)
-    parseCards(text)
-    print nl
+    (namelists, cardsText)  = parseNamelists(text)
+    cards                   = parseCards(cardsText)
+    print (namelists, cards)
 
 def parseNamelists(text):
-    namelists = []
+    namelists = {}
     p   = re.compile(COMMENT)
     s1  = re.sub(p, '', text)       # Remove comments
     p2  = re.compile(NAMELIST)
-    matches   = p2.findall(s1) #match(s1)
+    matches     = p2.findall(s1)      # Finds all namelist blocks
     for m in matches:
         name    = m[0]
-        params  = parseParams(m[1])
-        namelists.append((name, params))
-
-    return namelists
+        params  = parseParams(m[1])     # Parse parameters from a namelist block
+        namelists[name.lower()] = params
+        
+    noneparsed = re.sub(p2, '', s1)
+    return (namelists, noneparsed)
 
 def parseParams(text):
     params  = []
     p   = re.compile(EXPRESSION)    # Match expression
     matches = p.findall(text)
     for m in matches:
-        pl  = getParams(m) # Parameters list
+        pl  = getParams(m)          # Parameters list
         params.append(pl)
 
     return params
@@ -124,8 +140,30 @@ def getParams(text):
     return (param, val)
 
 def parseCards(text):
-    #print "Parsing Cards"
-    return
+    rawlist = []
+    #cards   = []
+    p   = re.compile(EMPTY_LINE)
+    s   = text.split('\n')
+    for line in s:
+        line    = line.strip()
+        if line != '':
+            rawlist.append(line)
+
+    cards   = getCards(rawlist)
+    return cards
+
+def getCards(rawlist):
+    cards       = {}
+    cardName    = None
+    for l in rawlist:
+        firstPart   = l.split()[0].lower()
+        if firstPart in CARD_NAMES:
+            cardName    = firstPart
+            cards[cardName]    = []
+        elif cardName is not None:
+            cards[cardName].append(l)
+
+    return cards
 
 if __name__ == "__main__":
     parser(textC)
