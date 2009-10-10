@@ -17,6 +17,7 @@
 namelists = ('input',
              'inputp',
              'test')
+cards       = ()
 
 cards     = ('allelectroncards',
              'pseudopotentialgenerationcards',

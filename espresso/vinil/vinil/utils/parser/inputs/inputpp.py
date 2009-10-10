@@ -16,8 +16,9 @@
 
 # Namelist: INPUTPP
 
-namelists = ('inputpp',
-             'plot')
+namelists   = ('inputpp',
+               'plot')
+cards       = ()
 
 namelist_inputpp = ('prefix',
                     'outdir',

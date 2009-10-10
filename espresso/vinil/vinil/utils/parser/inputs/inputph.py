@@ -16,7 +16,8 @@
 
 # Namelist: INPUTPH
 
-namelists = ('inputph')
+namelists   = ('inputph')
+cards       = ()
 
 namelist_inputph = ('amass',
                     'outdir',
