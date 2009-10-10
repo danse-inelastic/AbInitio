@@ -20,11 +20,11 @@ class Card():
 
     def __init__(self, name):
         # Verifies if the card is valid
-        try:
-            if name not in inputs.inputpw.cards:
-                raise NameError('Not valid card')
-        except NameError:
-            raise
+#        try:
+#            if name not in inputs.inputpw.cards:
+#                raise NameError('Not valid card')
+#        except NameError:
+#            raise
 
         self.__name     = name.lower() # keeps lower name
         self.__lines    = []
