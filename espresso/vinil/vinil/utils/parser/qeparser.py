@@ -11,50 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-textPW = """
- &control
-    calculation='scf'
-    restart_mode='from_scratch',
-    tprnfor = .true.
-    prefix='ni',
-    pseudo_dir = '',
-    outdir=''
- /
- &system
-    ibrav=2,
-    celldm(1) =6.65,
-    nat=  1,
-    ntyp= 1,
-    nspin=2,
-    starting_magnetization(1)=0.5,
-    degauss=0.02,
-    smearing='gauss',
-    occupations='smearing',
-    ecutwfc =27.0
-    ecutrho =300.0
- /
- &electrons
-    conv_thr =  1.0d-8
-    mixing_beta = 0.7
- /
-
-
-ATOMIC_SPECIES
- Ni  26.98  Ni.pbe-nd-rrkjus.UPF
-
-ATOMIC_POSITIONS
- Ni 0.00 0.00 0.00
-K_POINTS AUTOMATIC
-4 4 4 1 1 1
-blah
-
-"""
-
-
-
-CARD_NAMES      = ["atomic_species", "atomic_positions", "k_points"]
-NAMELIST_NAMES  = [ "control", "system", "electrons"] 
-
 # Regular expressions
 COMMENT     = '!.*'                 # Comment
 NAME        = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
@@ -216,6 +172,47 @@ def _import(package):
     return __import__(package, {}, {}, [''])
 
 
+
+textPW = """
+ &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = '',
+    outdir=''
+ /
+ &system
+    ibrav=2,
+    celldm(1) =6.65,
+    nat=  1,
+    ntyp= 1,
+    nspin=2,
+    starting_magnetization(1)=0.5,
+    degauss=0.02,
+    smearing='gauss',
+    occupations='smearing',
+    ecutwfc =27.0
+    ecutrho =300.0
+ /
+ &electrons
+    conv_thr =  1.0d-8
+    mixing_beta = 0.7
+ /
+
+
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+blah
+
+"""
+
+
 if __name__ == "__main__":
     qeparserText    = QEParser(configText = textPW)
     qeparserText.parse()
@@ -223,6 +220,7 @@ if __name__ == "__main__":
     qeparserFile    = QEParser(filename = "../../../content/data/ni.scf.in")
     qeparserFile.parse()
     qeparserFile.toString()
+
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
 
