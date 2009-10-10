@@ -17,6 +17,7 @@ Stability issues:
 from vinil.utils.orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
+from qeparser import QEParser
 import inputs.inputpw
 
 class QEConfig(object):
@@ -26,9 +27,10 @@ class QEConfig(object):
     """
 
     # Either filename or config (not both) can be specified
-    def __init__(self, filename=None, config=None, type='inputpw'):
+    def __init__(self, filename=None, config=None, type='pw'):
         self.filename   = filename
         self.config     = config
+        self.parser     = QEParser(filename, config, type)
         self.type       = type
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
@@ -106,11 +108,7 @@ class QEConfig(object):
     def parse(self):
         """ Parses the configuration file and stores the values in qe dictionary """
         
-        configText = self.getText(self.filename)
-
-        (namelists, cardsText)  = parseNamelists(configText)
-        cards                   = parseCards(cardsText)
-        return (namelists, cards)
+        (self.namelists, self.cards) = self.parser.parse()
         
             
     def __getText(self, filename):
@@ -128,13 +126,43 @@ class QEConfig(object):
         
         return text
 
-    def __addNamelist(self):
-        """Adds namelist based on slice """
-        pass
 
-    def __addCard(self):
-        """Adds card"""
-        pass
+def testCreateConfig():
+    print "Testing creation of config file"
+    qe  = QEConfig()
+    nl  = Namelist('control')
+    nl.add('title', "'Ni'")
+    nl.add('restart_mode', "'from_scratch'")
+    print "Adding parameters to namelist:\n%s" % nl.toString()
+    nl.set('title', "'Fe'")
+    qe.addNamelist(nl)
+    print "Adding namelist to QEConfig:\n%s" % qe.toString()
+
+    c = Card('atomic_species')
+    c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
+    print "Adding line to card:\n%s" % c.toString()
+    qe.addCard(c)
+    print "Adding card to QEConsig:\n%s" % qe.toString()
+    qe.save()
+
+def testParseConfig():
+    print "Testing parsing config file"
+    qe  = QEConfig("../../../content/data/ni.scf.in")
+    qe.parse()
+    print qe.toString()
+    nl  = qe.namelist('control')
+    nl.add('title', 'Ni')
+    nl.remove('restart_mode')
+    qe.removeCard('atomic_species')
+    nl.set('calculation', "'nscf'")
+    c = qe.card('atomic_positions')
+    c.editLines(['Say Hi! :)'])
+    print qe.toString()
+    qe.save("ni.scf.in.mod")
+
+if __name__ == "__main__":
+    testCreateConfig()
+    testParseConfig()
 
 
 
@@ -278,39 +306,3 @@ class QEConfig(object):
 #        return (ss[0], val)
 
 
-def testCreateConfig():
-    print "Testing creation of config file"
-    qe  = QEConfig()
-    nl  = Namelist('control')
-    nl.add('title', "'Ni'")
-    nl.add('restart_mode', "'from_scratch'")
-    print "Adding parameters to namelist:\n%s" % nl.toString()
-    nl.set('title', "'Fe'")
-    qe.addNamelist(nl)
-    print "Adding namelist to QEConfig:\n%s" % qe.toString()
-
-    c = Card('atomic_species')
-    c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
-    print "Adding line to card:\n%s" % c.toString()
-    qe.addCard(c)
-    print "Adding card to QEConsig:\n%s" % qe.toString()
-    qe.save()
-
-def testParseConfig():
-    print "Testing parsing config file"
-    qe  = QEConfig("../../../content/data/ni.scf.in")
-    qe.parse()
-    print qe.toString()
-    nl  = qe.namelist('control')
-    nl.add('title', 'Ni')
-    nl.remove('restart_mode')
-    qe.removeCard('atomic_species')
-    nl.set('calculation', "'nscf'")
-    c = qe.card('atomic_positions')
-    c.editLines(['Say Hi! :)'])
-    print qe.toString()
-    qe.save("ni.scf.in.mod")
-
-if __name__ == "__main__":
-    testCreateConfig()
-    testParseConfig()

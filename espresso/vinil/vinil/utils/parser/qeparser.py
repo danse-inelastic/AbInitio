@@ -81,22 +81,38 @@ class QEParser:
         self.configText = configText
 
     def parse(self):
-        text        = self.configText
+        text = self.configText
         self._parseNamelists(text)
         self._parseCards(text)
         return (self.namelists, self.cards)
 
     def _parseNamelists(self, text):
+        namelists  = OrderedDict()
         p   = re.compile(COMMENT)
         s1  = re.sub(p, '', text)           # Remove comments
         p2  = re.compile(NAMELIST)
         matches     = p2.findall(s1)        # Finds all namelist blocks
         for m in matches:
-            name    = m[0]
+            name    = m[0].lower()
             if name in NAMELIST_NAMES:
                 params  = self._parseParams(m[1])     # Parse parameters from a namelist block
-                self.namelists[name.lower()] = params
+                namelists[name.lower()] = params
 
+        self._convertNamelists(namelists)
+
+    # Converts from dictionary to Namelist
+    def _convertNamelists(self, namelists):
+        for name in namelists.keys():
+            nl      = Namelist(name)
+            for p in namelists[name]:
+                nl.add(p[0], p[1])
+                
+            self.namelists[name] = nl
+
+#        for n in self.namelists.keys():
+#            print self.namelists[n].toString()
+
+    # Parses parameters
     def _parseParams(self, text):
         params  = []
         p   = re.compile(EXPRESSION)        # Match expression
@@ -134,7 +150,7 @@ class QEParser:
             if line != '':
                 rawlist.append(line)
 
-        self._getCards(rawlist)
+        self._convertCards(self._getCards(rawlist))
 
     def _getCards(self, rawlist):
         cards       = OrderedDict()
@@ -147,6 +163,9 @@ class QEParser:
             elif cardName is not None:
                 cards[cardName].append(l)
 
+        return cards
+
+    def _convertCards(self, cards):
         for cname in cards.keys():
             c   = Card(cname)
             for l in cards[cname]:
