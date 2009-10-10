@@ -36,6 +36,10 @@ class QEConfig(object):
         self.cards      = OrderedDict()
         self.qe         = [self.namelists, self.cards]
 
+    def parse(self):
+        """ Parses the configuration file and stores the values in qe dictionary """
+        (self.namelists, self.cards) = self.parser.parse()
+
     def createNamelist(self, name):
         """Creates namelist and adds to QEConfig. """
         nl  = Namelist(name)
@@ -104,28 +108,7 @@ class QEConfig(object):
 
     def type(self):
         return self.type
-
-    def parse(self):
-        """ Parses the configuration file and stores the values in qe dictionary """
         
-        (self.namelists, self.cards) = self.parser.parse()
-        
-            
-    def __getText(self, filename):
-        try:
-            f = open(filename)
-        except IOError:
-            print "I/O error"
-        except:
-            import sys
-            print "Unexpected error:", sys.exc_info()[0]
-            raise
-
-        text       = f.read()         
-        f.close()
-        
-        return text
-
 
 def testCreateConfig():
     print "Testing creation of config file"

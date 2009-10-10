@@ -79,12 +79,38 @@ class QEParser:
         self.cards      = OrderedDict()
         self.filename   = filename
         self.configText = configText
+        self.namelistRef    = None
+        self.cardRef        = None
+        self.type           = type
 
     def parse(self):
-        text = self.configText
+        self._setReferences()
+
+        if self.configText is not None: # First try use configText
+            text = self.configText
+        elif self.filename is not None: # ... then from file
+            text = self._getText(self.filename)
+        else:
+            raise NameError('Dude, set config text or filename')  # Compalain
+        
         self._parseNamelists(text)
         self._parseCards(text)
         return (self.namelists, self.cards)
+
+    def toString(self):
+        for n in self.namelists.keys():
+            print self.namelists[n].toString()
+
+        for c in self.cards.keys():
+            print self.cards[c].toString()
+
+
+    def _setReferences(self):
+        input   = "input%s" % self.type
+        module  = _import("inputs.%s" % input)
+        self.namelistRef   = getattr(module, "namelists")
+        self.cardRef       = getattr(module, "cards")
+        
 
     def _parseNamelists(self, text):
         namelists  = OrderedDict()
@@ -94,7 +120,7 @@ class QEParser:
         matches     = p2.findall(s1)        # Finds all namelist blocks
         for m in matches:
             name    = m[0].lower()
-            if name in NAMELIST_NAMES:
+            if name in self.namelistRef:
                 params  = self._parseParams(m[1])     # Parse parameters from a namelist block
                 namelists[name.lower()] = params
 
@@ -108,9 +134,6 @@ class QEParser:
                 nl.add(p[0], p[1])
                 
             self.namelists[name] = nl
-
-#        for n in self.namelists.keys():
-#            print self.namelists[n].toString()
 
     # Parses parameters
     def _parseParams(self, text):
@@ -157,7 +180,7 @@ class QEParser:
         cardName    = None
         for l in rawlist:
             firstPart   = l.split()[0].lower()
-            if firstPart in CARD_NAMES:
+            if firstPart in self.cardRef:
                 cardName    = l.lower()
                 cards[cardName]    = []
             elif cardName is not None:
@@ -173,14 +196,33 @@ class QEParser:
 
             self.cards[cname]    = c
 
-        for c in self.cards.keys():
-            print self.cards[c].toString()
 
+    def _getText(self, filename):
+        try:
+            f = open(filename)
+        except IOError:
+            print "I/O error"
+        except:
+            import sys
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
+
+        text       = f.read()
+        f.close()
+
+        return text
+
+def _import(package):
+    return __import__(package, {}, {}, [''])
 
 
 if __name__ == "__main__":
-    qeparser    = QEParser(configText = textPW)
-    qeparser.parse()
+    qeparserText    = QEParser(configText = textPW)
+    qeparserText.parse()
+    qeparserText.toString()
+    qeparserFile    = QEParser(filename = "../../../content/data/ni.scf.in")
+    qeparserFile.parse()
+    qeparserFile.toString()
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
 

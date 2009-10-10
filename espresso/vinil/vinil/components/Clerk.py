@@ -101,9 +101,6 @@ class Clerk( base ):
         '''retrieve user authorization specified by id'''
         return self._getEntry('Authorization', id=id, where=where)
 
-
-
-
     def getUsers(self, id=None, where=None):
         '''retrieve user record specified by id'''
         return self._getEntry('User', id=id, where=where)
