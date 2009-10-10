@@ -44,8 +44,9 @@ class Launcher(Setting):
         if self.useTorque:
             os.system('bpsh -a rm -r -f ' + outDir)
             os.system('bpsh -a mkdir ' + outDir)
-        shutil.rmtree(outDir)
-        os.mkdir(outDir)
+        else:
+            shutil.rmtree(outDir)
+            os.mkdir(outDir)
 
     def pwscfLauncher(self):
         cmdstr = self.paraPrefix + " pw.x " +  self.paraPostfix + " -inp " + \
