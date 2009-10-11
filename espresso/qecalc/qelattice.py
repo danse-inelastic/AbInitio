@@ -219,7 +219,7 @@ class QELattice(object):
                     self._b = b
                 if c is not None: 
                     self._c = c
-                if ivrav > 7 and ibrav < 12
+                if ivrav > 7 and ibrav < 12:
                     self._cBC = self._cAC = self._cAB = 0.0
             if ivrav == 12 or ibrav == 13:
                 if cAB is not None:
