@@ -189,11 +189,11 @@ class QELattice(object):
             if ibrav == 4 or ibrav == 6 or ibrav == 7: 
                 if a is not None: 
                     self._a = self._b = a
+                else:
+                    if b is not None: 
+                        self._a = self._b = b
                     else:
-                        if b is not None: 
-                            self._a = self._b = b
-                        else:
-                            self._b = self._a
+                        self._b = self._a
                 if c is not None: 
                     self._c = c
                 if ibrav == 4:
@@ -224,10 +224,10 @@ class QELattice(object):
             if ivrav == 12 or ibrav == 13:
                 if cAB is not None:
                     self._cAB = cAB
-                    else:
-                        if cBC is not None or cAC is not None:
-                            raise Exception("Should specify cos(AB) only for" + \
-                                             " ibrav = 12 or ibrav = 13" )
+                else:
+                    if cBC is not None or cAC is not None:
+                        raise Exception("Should specify cos(AB) only for" + \
+                                         " ibrav = 12 or ibrav = 13" )
                 self._cBC = self._cAC = 0.0
             if ivrav == 14:
                 if cBC is not None:
