@@ -171,12 +171,78 @@ class QELattice(object):
             self._primitiveLattice.setLatBase(qeBase)
             self._standardLattice.setLatBase(qeBase)
         else:
-            if a is not None: self._a = a
-            if b is not None: self._b = b
-            if c is not None: self._c = c
-            if cBC is not None: self._cBC = cBC
-            if cAC is not None: self._cAC = cAC
-            if cAB is not None: self._cAB = cAB
+            # Make sure all lattice parameters are mutually consistent 
+            # according to ibrav. base array is not used:
+            if ibrav < 4 or ibrav == 5: 
+                if a is not None: 
+                    self._a = self._b = self._c = a
+                else:
+                    if b is not None: 
+                        self._a = self._b = self._c = b
+                    else:
+                        if c is not None: 
+                            self._a = self._b = self._c = c                        
+                        else:
+                            self._b = self._c = self._a
+                if ibrav < 4:                            
+                    self._cBC = self._cAC = self._cAB = 0.0
+            if ibrav == 4 or ibrav == 6 or ibrav == 7: 
+                if a is not None: 
+                    self._a = self._b = a
+                    else:
+                        if b is not None: 
+                            self._a = self._b = b
+                        else:
+                            self._b = self._a
+                if c is not None: 
+                    self._c = c
+                if ibrav == 4:
+                    self._cAB = cosd(120.0)
+                    self._cBC = self._cAC = 0.0
+            if ibrav == 5:
+                if cBC is not None:
+                    self._cBC = self._cAC = self._cAB = cBC
+                else:
+                    if cAC is not None:
+                        self._cBC = self._cAC = self._cAB = cAC
+                    else:
+                        if cAB is not None:
+                            self._cBC = self._cAC = self._cAB = cAB
+                        else:
+                            self._cAC = self._cAB = self._cBC
+            if  ibrav == 6 or ibrav == 7:
+                self._cBC = self._cAC = self._cAB = 0.0
+            if ivrav > 7 and ibrav <= 14:
+                if a is not None: 
+                    self._a = a
+                if b is not None: 
+                    self._b = b
+                if c is not None: 
+                    self._c = c
+                if ivrav > 7 and ibrav < 12
+                    self._cBC = self._cAC = self._cAB = 0.0
+            if ivrav == 12 or ibrav == 13:
+                if cAB is not None:
+                    self._cAB = cAB
+                    else:
+                        if cBC is not None or cAC is not None:
+                            raise Exception("Should specify cos(AB) only for" + \
+                                             " ibrav = 12 or ibrav = 13" )
+                self._cBC = self._cAC = 0.0
+            if ivrav == 14:
+                if cBC is not None:
+                    self._cBC = cBC
+                if cAC is not None:
+                    self._cAC = cAC
+                if cAB is not None:
+                    self._cAB = cAB
+                                    
+            # if a is not None: self._a = a
+            # if b is not None: self._b = b
+            # if c is not None: self._c = c
+            # if cBC is not None: self._cBC = cBC
+            # if cAC is not None: self._cAC = cAC
+            # if cAB is not None: self._cAB = cAB
             qeBaseTuple = self._getQEBaseFromParCos(self._ibrav, self._a, self._b,
                                                self._c, self._cBC, self._cAC, self._cAB)
             qeBase = numpy.array(qeBaseTuple[1], dtype = float)*qeBaseTuple[0]            
