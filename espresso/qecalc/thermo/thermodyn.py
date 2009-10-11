@@ -57,7 +57,18 @@ class PhononThermodynamics(Thermodyn):
 #        print 1.0 - 1.0/numpy.exp(1.0/arg)
         F = self.kb*T*( 0.5*arg + numpy.log(1.0 - 1.0/numpy.exp(arg)) )*self.g
         return F.sum()*self.Ry
-
-
+        
+    def Cv(self, T, axis = None, dos = None):
+        if dos == None:
+            if axis != None:
+                raise Exception('Should set axis together with dos')
+            # use self._g and self._axis
+        else:
+            self.setDOS(axis, dos, self.units)
+        arg = (self.h/self.kb)*self.axis/T
+        expArg = numpy.exp(arg)
+        Cv = self.g*arg**2*(expArg/(expArg-1.0)**2)
+        return Cv.sum()*self.kb*6.022214179e23 
+        
 if __name__ == "__main__":
     print "Hello World";
