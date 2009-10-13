@@ -12,8 +12,12 @@
 - Add "Help" box on each page
 - Create good parser for QE
 
+QEConfig, QEParser: Feature request and bug fixes for QE configuration file.
+==================
+
+
 General Plan
-===========
+============
 
 1. Create web GUI for creation and editing of configurations (similar to PWgui) ~ 4 days
 2. Implement the following types of calculations:

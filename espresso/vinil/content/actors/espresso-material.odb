@@ -43,17 +43,26 @@ class Actor(base):
 
         s_content   = splitter.section()
         d           = Document(Class="step-content")
+
 #        text ="""Before you run any simulation in Quantum Espresso you need to specify
 #        the material. Here you can import existing material or create a new material
 #        that will be saved in "Materials" section later on."""
+        
         text ="""Before you run any simulation in Quantum Espresso you need to specify
         the configuration."""
 
         d.add(Paragraph(text=text))
         
         tabs = Tabs()
-        tabs.tab('tab1').paragraph(text=['tab1 text'])
-        tabs.tab('tab2').document(title='tab2')
+        tabs.tab('Control').paragraph(text=['tab1 text'])
+        tabs.tab('System').document(title='tab2')
+        tabs.tab('Electrons').paragraph(text=['Some form'])
+        tabs.tab('Ions').paragraph(text=['Some form'])
+        tabs.tab('Variable Cell').paragraph(text=['Some form'])
+        tabs.tab('Phonon').paragraph(text=['Some form'])
+        tabs.tab('Lattice and Atomic Data').paragraph(text=['Some form'])
+        tabs.tab('K-Point Data').paragraph(text=['Some form'])
+        tabs.tab('Other Cards').paragraph(text=['Some form'])
         d.add(tabs)
 
         s_content.add(d)

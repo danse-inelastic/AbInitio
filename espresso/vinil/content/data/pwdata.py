@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
+"""
 source commands.tcl
 
 module PW -title "PWSCF GUI: module PW.x" -script {
@@ -1633,6 +1633,7 @@ module PW -title "PWSCF GUI: module PW.x" -script {
     # ------------------------------------------------------------------------
     source pw-help.tcl
 }
+"""
 
 __date__ = "$Oct 13, 2009 10:36:57 AM$"
 
