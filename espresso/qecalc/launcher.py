@@ -33,7 +33,7 @@ class Launcher(Setting):
         if self.useTorque:
             self.torque.serial(cmdstr)
         else:
-            self._launch(cmdstr)
+            self._check(os.system(cmdstr))
 
     def cleanOutDir(self):
         from parser.configParser import QEConfig
