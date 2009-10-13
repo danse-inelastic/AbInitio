@@ -11,6 +11,62 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from vinil.utils.orderedDict import OrderedDict
+
+PW = OrderedDict()
+
+# Namelist: CONTROL
+NAMELIST_CONTROL = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax', 'md', 'vc-relax', 'vc-md', 'neb', 'smd', 'metadyn'),
+                    'title',        #: (''),
+                    'verbosity',    #: ('high', 'default', 'low', 'minimal'),
+                    'restart_mode', #: ('from_scratch', 'restart'),
+                    'wf_collect',   #: ('.false.', '.true.'),
+                    'nstep',        #: ('???'),
+                    'iprint',
+                    'tstress',
+                    'tprnfor',
+                    'dt',
+                    'outdir',
+                    'wfcdir',
+                    'prefix',
+                    'lkpoint_dir',
+                    'max_seconds',
+                    'etot_conv_thr',
+                    'forc_conv_thr',
+                    'disk_io',
+                    'pseudo_dir',
+                    'tefield',
+                    'dipfield',
+                    'lelfield',
+                    'lberry',
+                    'gdir',
+                    'nppstr',
+                    'nberrycyc')
+
+class Param:
+    name    = ""
+    value   = None
+    label   = ""
+    widgetType  = None
+    options = None
+    default = 0         # int, default value in options
+    help    = None      # Of class Help
+
+
+class Help:
+    variable    = {"Variable": None}
+    
+
+if __name__ == "__main__":
+    h = Help()
+    h.variable =
+    
+
+#TITLE       = {"label": ""}
+
+
+#CALCULATION =
+
 """
 source commands.tcl
 
