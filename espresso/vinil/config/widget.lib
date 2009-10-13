@@ -43,8 +43,7 @@
   },
   "tabs": {
      "stylesheets": [
-        "../javascripts/jquery/ui/css/smoothness/jquery-ui-1.7.1.custom.css",
-        "../javascripts/jquery/ui/css/smoothness/ui.all.css"
+        "../css-vinil/jquery/jquery-ui.custom.css"
         ],
      "jslibs":      [
         "jquery/ui/ui.tabs.js"

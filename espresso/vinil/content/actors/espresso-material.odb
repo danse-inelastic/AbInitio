@@ -60,9 +60,9 @@ class Actor(base):
         tabs.tab('Ions').paragraph(text=['Some form'])
         tabs.tab('Variable Cell').paragraph(text=['Some form'])
         tabs.tab('Phonon').paragraph(text=['Some form'])
-        tabs.tab('Lattice and Atomic Data').paragraph(text=['Some form'])
-        tabs.tab('K-Point Data').paragraph(text=['Some form'])
-        tabs.tab('Other Cards').paragraph(text=['Some form'])
+        tabs.tab('Lattice').paragraph(text=['Some form'])
+        tabs.tab('K-Points').paragraph(text=['Some form'])
+        tabs.tab('Other').paragraph(text=['Some form'])
         d.add(tabs)
 
         s_content.add(d)
