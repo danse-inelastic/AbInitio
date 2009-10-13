@@ -53,7 +53,7 @@
         "../css-vinil/jquery/jquery.jdMenu.css"
         ],
      "jslibs":      [
-        "../javascripts-vinil/jquery/jquery.jdMenu.js",
+        "jquery/jdMenu-1.4.1/jquery.jdMenu.js",
         "jquery/jdMenu-1.4.1/jquery.dimensions.js",
         "jquery/jdMenu-1.4.1/jquery.bgiframe.js",
         "jquery/jdMenu-1.4.1/jquery.positionBy.js"
