@@ -140,6 +140,8 @@ class Dispersion():
 
 
     def printPoints(self):
+        """Generates phonon dispersions. Presently requires properly configures
+           preconfigured matdyn.in file as well as .fc (force constants) file"""
         for elem in self.__points:
             print elem[0], elem[1]
 

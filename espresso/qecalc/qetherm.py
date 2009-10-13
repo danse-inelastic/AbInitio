@@ -16,6 +16,7 @@
 # and open the template in the editor.
 
 from qecalc import QECalc
+from thermo.thermodyn import PhononThermodynamics
 import numpy
 import os
 
@@ -28,11 +29,11 @@ matdynfldos = 'mgb2666.phdos'
 indexRange = [0,2,4,6,8,10,12]
 prcntVol = 2.0*numpy.array(indexRange)/1000.0
 
-temperatures = [100,300,450,720]
+temperatures = [1, 10, 50,100,300,450,720]
 
 if __name__ == "__main__":
     qecalc = QECalc("config.ini")
-    # Generate phonon doses from different fc files
+    #Generate phonon doses from different fc files
     for i in indexRange:
         os.system('cp ' + str(i) + '_' + fc_name + ' ' + fc_name)
         qecalc.matdynLauncher()
@@ -41,13 +42,13 @@ if __name__ == "__main__":
     #plot free energies:
     for temperature in temperatures:
         lines = ''
-        for i in indexRange:
+        for i,v in zip(indexRange, prcntVol):
             axis, dos = qecalc.getPhononDOS(str(i) + '_' + matdynfldos)
             phonTherm = PhononThermodynamics(axis, dos)
             Cv = phonTherm.Cv(temperature)
             phonon = phonTherm.freeEnergy(temperature)
             totalFreeEnergy = e_total[i] + phonon
-            lines = lines + '%f    %f    %f    %f    %f\n'%(prcntVol[i], \
+            lines = lines + '%f    %f    %f    %f    %f\n'%(v, \
             totalFreeEnergy, e_total[i], phonon, Cv)
         file = open(str(temperature) + '_free_energy.out', 'w')
         file.write(lines)
