@@ -85,8 +85,8 @@ class Property(Setting):
             dos.append([max(float(ch), 0.0) for ch in line.split()]) # get rid of negatives
             line = dosFile.readline()
         dos = numpy.array(dos)
-        axis = self.dos[0:,0]
-        g = self.dos[0:,1]
+        axis = dos[0:,0]
+        g = dos[0:,1]
         return axis, g
 
     def getStress(self):
