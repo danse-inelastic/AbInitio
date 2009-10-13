@@ -1,6 +1,17 @@
-__author__="markovsk"
-__date__ ="$Sep 16, 2009 2:04:08 PM$"
-
+#!/usr/bin/env python
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# QEcalc              by DANSE Inelastic group
+#                     Brent Fultz
+#                     California Institute of Technology
+#                     (C) 2009  All Rights Reserved
+#
+# File coded by:      Nikolay Markovskiy
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import numpy
 import volufit
 from qephon import QEPhon, QEPhonQHA
@@ -62,3 +73,6 @@ if __name__ == "__main__":
     voluPhon.setPhonons(indexRange)
     voluPhon.gammaDispersion('Gamma','K', 'M', 'Gamma', 'A', 'H', 'L', 'A', \
                               100, 100, 100, 100, 100, 100, 100)
+
+__author__="markovsk"
+__date__ ="$Sep 16, 2009 2:04:08 PM$"

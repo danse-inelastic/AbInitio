@@ -1,9 +1,17 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-
-__author__="markovsk"
-__date__ ="$Sep 17, 2009 10:51:10 AM$"
-
+#!/usr/bin/env python
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# QEcalc              by DANSE Inelastic group
+#                     Brent Fultz
+#                     California Institute of Technology
+#                     (C) 2009  All Rights Reserved
+#
+# File coded by:      Nikolay Markovskiy
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 from thermo.thermodyn import PhononThermodynamics
 from voluphon import VoluPhon
 
@@ -92,3 +100,6 @@ class VoluTherm():
 
 if __name__ == "__main__":
     print "Hello World";
+
+__author__="markovsk"
+__date__ ="$Sep 17, 2009 10:51:10 AM$"

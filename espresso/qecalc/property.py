@@ -71,6 +71,24 @@ class Property(Setting):
         if fname == None: return matdyn( self.matdynModes )
         else: return matdyn( fname )
 
+    def getPhononDOS(self, fname = None):
+        """Obtain density of states from matdyn.x output. Returns DOS axis in
+           wave numbers and DOS values, normalized to the number of degrees of
+           freedom as numpy arrays"""
+        if fname == None:
+            dosFile = open(self.matdynfldos, 'r')
+        else:
+            dosFile = open(fname, 'r')
+        line = dosFile.readline()
+        dos = []
+        while line:
+            dos.append([max(float(ch), 0.0) for ch in line.split()]) # get rid of negatives
+            line = dosFile.readline()
+        dos = numpy.array(dos)
+        axis = self.dos[0:,0]
+        g = self.dos[0:,1]
+        return axis, g
+
     def getStress(self):
         '''Extract total stress in kbar after pwscf launch or geometry optimization'''
         pwscfOut = read_file(self.pwscfOutput)

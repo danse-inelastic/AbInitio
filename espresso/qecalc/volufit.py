@@ -1,9 +1,17 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-
-__author__="markovsk"
-__date__ ="$Sep 16, 2009 12:42:48 PM$"
-
+#!/usr/bin/env python
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# QEcalc              by DANSE Inelastic group
+#                     Brent Fultz
+#                     California Institute of Technology
+#                     (C) 2009  All Rights Reserved
+#
+# File coded by:      Nikolay Markovskiy
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import numpy
 import scipy.optimize
 
@@ -147,3 +155,6 @@ class ValueFit():
 
 if __name__ == "__main__":
     print "Hello World";
+
+__author__="markovsk"
+__date__ ="$Sep 16, 2009 12:42:48 PM$"
