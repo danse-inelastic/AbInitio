@@ -14,7 +14,84 @@
 
 QEConfig, QEParser: Feature request and bug fixes for QE configuration file.
 ==================
+-Card arguments support:
+    (Nikolay's current implementation:)
 
+cardsPWDic = {
+'atomic_species': (),
+'atomic_positions': ('alat', 'bohr', 'angstrom', 'crystal'),
+'k_points': ( 'tpiba', 'automatic', 'crystal', 'gamma', 'tpiba_b', 'crystal_b'),
+'cell_parameters': ( 'cubic', 'hexagonal'),
+'climbing_images': (),
+'constraints': (),
+'collective_vars': (),
+'occupations': ()
+}
+    def __init__(self, name, argument=None):
+        # Verifies if the card is valid
+        try:
+            if name.lower() not in cardsPW:
+                raise NameError('Not valid card')
+        except NameError:
+            raise
+
+        # Verifies if the argument is valid
+        if argument != None:
+            try:
+                if len(cardsPWDic[name]) > 0:
+                    if argument.lower() not in cardsPWDic[name]:
+                        raise NameError("Card's argument is not valid")
+                    else:
+                        []
+                else:
+                    print name, argument
+                    raise NameError("This card does not support arguments")
+            except NameError:
+                raise
+
+        self.__name     = name.lower() # keeps lower name
+
+        if argument != None:
+            self.__argument = argument.lower()
+        else:
+            self.__argument = None
+
+        self.__lines    = []
+
+    def argument(self):
+        return self.__argument
+
+    def setArgument(self, argument):
+        self.__argument = argument.lower()
+
+    Modify toString:
+    def toString(self, indent=" ", br="\n"):
+        # Dump card
+        if self.argument() == None:
+            s = '%s%s' % (self.name().upper(), br)
+        else:
+            s = '%s%s' % (self.name().upper() + " " + self.argument().upper(), br)
+
+        for l in self.__lines:
+            s += '%s%s%s' % (indent, l, br)
+        return s
+
+    In QEConfig:
+    def __addCard(self, slice):
+        """Adds card"""
+        # Bad!:
+        nameArgument = slice[0].lower().split()
+        name = nameArgument[0]
+        if len(nameArgument) > 1:
+            arg = nameArgument[1]
+        else:
+            arg = None
+        c = Card(name, arg)
+
+        for s in slice[1:]:
+            c.addLine(s)
+
+        self.cards[name]    = c
 
 General Plan
 ============
