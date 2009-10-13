@@ -29,7 +29,8 @@ class VoluFit():
 
         if polyOrder < 1 or polyOrder > 4:
             raise Exception('this polyOrder is not supported')
-        self.order = self._polyOrder = polyOrder
+        self._polyOrder = polyOrder
+        self.order = polyOrder + 1
 
 
     def func(self, p, x):
