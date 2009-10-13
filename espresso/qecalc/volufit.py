@@ -21,6 +21,12 @@ class VoluFit():
             raise Exception('This fit is not implemented')
         self.type = fitDirective[0]
         polyOrder = fitDirective[1]
+        hasConstantTerm = fitDirective[2]
+        if hasConstantTerm == True:
+            self.constantTerm = 1
+        else:
+            self.constantTerm = 0
+
         if polyOrder < 1 or polyOrder > 4:
             raise Exception('this polyOrder is not supported')
         self.order = self._polyOrder = polyOrder
@@ -28,13 +34,14 @@ class VoluFit():
 
     def func(self, p, x):
         if self._polyOrder == 1:
-            return p*x
+            return p[1]*self.constantTerm + p[0]*x
         if self._polyOrder == 2:
-            return p[1]*x + p[0]*x*x
+            return  p[2]*self.constantTerm + p[1]*x + p[0]*x*x
         if self._polyOrder == 3:
-            return p[2]*x + p[1]*x*x + p[0]*x*x*x
+            return p[3]*self.constantTerm + p[2]*x + p[1]*x*x + p[0]*x*x*x
         if self._polyOrder == 4:
-            return p[3]*x + p[2]*x*x + p[1]*x*x*x + p[0]*x*x*x*x
+            return p[4]*self.constantTerm + p[3]*x + p[2]*x*x + p[1]*x*x*x + \
+                                                              p[0]*x*x*x*x
 
 
     def fit(self, xdata, ydata):

@@ -21,10 +21,10 @@ class VoluTherm():
         import os
         #Initialize and fit from volume expansion:
         self.voluPhon = VoluPhon(fname, prcntVolume)
-        self.voluPhon.setPhonons(indexRange, 'polynom', 2)
-        self.voluPhon.setA(a_range, 'polynom', 1)
-        self.voluPhon.setC(c_range, 'polynom', 1)
-        self.voluPhon.setEnergy(e_range, 'polynom', 4)
+        self.voluPhon.setPhonons(indexRange, 'polynom', 2, False)
+        self.voluPhon.setA(a_range, 'polynom', 1, True)
+        self.voluPhon.setC(c_range, 'polynom', 1, True)
+        self.voluPhon.setEnergy(e_range, 'polynom', 4, True)
 
         # prepare QHA program need to generate partial_DOS file
         cmdstr = 'cp ./' + str(indexRange[0]) +'_' + \

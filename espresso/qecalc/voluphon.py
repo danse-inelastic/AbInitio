@@ -19,6 +19,7 @@ from qephon import QEPhon, QEPhonQHA
 # This class should be initialized with matdyn.modes from different
 # volume expansios and then it is fed to QHA program by Eyvaz Isaev
 # to obtain total DOSes
+# a,b,c,energy - fitting objects. fitted value is accesible through fittedValue
 class VoluPhon():
     def __init__(self, fname, prcntVolume):
         #will  need this unless QE has improved
