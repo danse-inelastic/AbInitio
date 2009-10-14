@@ -152,6 +152,13 @@ class ValueFit():
     def fittedValue(self,prcntVol):
         return (self.fitter.func(self._coeff, prcntVol) + 1.0)*self._values[0]
 
+    def chi2(self):
+        fitted = []
+        for v in self._prcntVolume:
+            fitted.append(self.fittedValue)
+        fitted = numpy.array(fitted)
+        diff = fitted - self.values()
+        return numpy.sqrt(numpy.dot(diff, diff))
 
     def values(self ):
         return(self._values)
