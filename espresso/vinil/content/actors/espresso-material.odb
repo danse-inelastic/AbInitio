@@ -49,12 +49,13 @@ class Actor(base):
 #        that will be saved in "Materials" section later on."""
         
         text ="""Before you run any simulation in Quantum Espresso you need to specify
-        the configuration."""
+        the configuration. Here you will be able to create or edit configuration
+        with the web interface."""
 
         d.add(Paragraph(text=text))
         
         tabs = Tabs()
-        tabs.tab('Control').paragraph(text=['Namelist: CONTROL'])
+        tabs.tab('Control').paragraph(text=['Namelist: CONTROL '])
         tabs.tab('System').document(title='Namelist: SYSTEM')
         tabs.tab('Electrons').paragraph(text=['Namelist: ELECTRONS'])
         tabs.tab('Ions').paragraph(text=['Namelist: IONS'])

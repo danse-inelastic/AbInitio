@@ -4,13 +4,48 @@
     [Done] Learn how to store constrains
 - [Done] Run a very simple simulation
 - [Done] Hook up flot (how to add labels to axis?)
+- Hook up the torque
+- Learn how to use qecalc, diffpy.Structure
+    - What parameters are parsed from to be implemented calculations?
 - Implement web gui for config generation
-- Create generic table (visible)
+- Fix issues with initdb.py regarding reference
+- Switch to dsaw
+
+- Create generic web page table
 - Create Materials section
 - Create/Delete database entries
-- Learn how to use qecalc, diffpy.Structure
 - Add "Help" box on each page
 - Create good parser for QE
+
+
+General Plan
+============
+
+1. Create web GUI for creation and editing of configurations (similar to PWgui)
+2. Implement the following types of calculations:
+    (Possible types of calculations: http://www.quantum-espresso.org/whatcanqedo.php)
+    - PWscf (including "Total energy") (pw.x ['scf'])   See: Example 1
+        + Electron DOS          (pw.x -> dos.x)         See: Example 8
+        + Electron Dispersion   ()                      See: Example ???
+        ? Electron Bands
+    - Geometry Optimization (pw.x calculation=vc-relax)
+    - Single-Phonon         (pw.x -> ph.x -> dynmat.x)  See: Example 2
+    - Multi-Phonon          (pw.x -> ph.x)
+        + Phonon DOS        (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example 6
+        + Phonon Dispersion (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example ???
+3. Port these simulations to Foxtrot
+4. Borrow Materials implementation from group (create and edit Material, import Material )
+5. Add user authentication
+
+Total Energy (Single Self-Consistent Run) (pw.x)
+Geometry Optimization 
+Single-Phonon 
+Multi-Phonon 
+
+
+Simulation Flow
+===============
+
 
 QEConfig, QEParser: Feature request and bug fixes for QE configuration file.
 ==================
@@ -93,20 +128,4 @@ cardsPWDic = {
 
         self.cards[name]    = c
 
-General Plan
-============
 
-1. Create web GUI for creation and editing of configurations (similar to PWgui) ~ 4 days
-2. Implement the following types of calculations:
-    (Possible types of calculations: http://www.quantum-espresso.org/whatcanqedo.php)
-    - PWscf (including "Total energy") 
-        + Electron DOS
-        + Electron Dispersion
-    - Geometry Optimization
-    - Single-Phonon
-    - Multi-Phonon 
-        + Phonon DOS
-        + Phonon Dispersion
-3. Port these simulations to Foxtrot
-4. Borrow Materials implementation from group (create and edit Material, import Material )
-5. Add user authentication

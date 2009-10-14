@@ -2,9 +2,9 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                                Jiao Lin
+#                               Alex Dementsov
 #                      California Institute of Technology
-#                        (C) 2008  All Rights Reserved
+#                        (C) 2009  All Rights Reserved
 #
 # {LicenseText}
 #
