@@ -33,6 +33,7 @@ class Thermodyn():
         self.units = units
         self.axis = axs[1:]*self.energy_units[self.units]
         self.deltaE = self.axis[1] - self.axis[0]
+        print self.deltaE
         self.g = dos[1:]
 #            else:
 #                raise Exception('dos = None!')
