@@ -157,7 +157,7 @@ class ValueFit():
         for v in self._prcntVolume:
             fitted.append(self.fittedValue)
         fitted = numpy.array(fitted)
-        diff = fitted - self.values()
+        diff = fitted - self._values
         return numpy.sqrt(numpy.dot(diff, diff))
 
     def values(self ):
