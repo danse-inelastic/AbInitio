@@ -1,0 +1,38 @@
+&CONTROL
+    !    tprnfor = .true.
+    calculation = 'scf'
+    !    tstress = .true.
+    pseudo_dir = '/home/markovsk/projects/pslib/espresso/mgb2/'
+    prefix = 'alb2'
+    lkpoint_dir = .false.
+    restart_mode = 'from_scratch'
+    outdir = '/scratch/alb2/'
+/
+&SYSTEM
+    nbnd = 12
+    nspin = 1
+    ecutwfc = 64
+    occupations = 'smearing'
+    degauss = 0.025
+    celldm(1) = 5.67151771874
+    ibrav = 4
+    celldm(3) = 1.09052436402
+    celldm(4) = -0.5
+    smearing = 'methfessel-paxton'
+    celldm(2) = 1.0
+    nat = 3
+    ntyp = 2
+    ecutrho = 352
+/
+&ELECTRONS
+    conv_thr = 1e-9
+/
+ATOMIC_SPECIES
+ Al 26.982538 al_1.ncpp
+ B 11.0 B.pbe-n-van_ak.UPF
+ATOMIC_POSITIONS ALAT
+ Al     0.  0.  0.  
+ B     0.5         0.28867513  0.54526218  
+ B      3.33773009e-10   5.77350270e-01   5.45262183e-01  
+K_POINTS AUTOMATIC
+ 24 24 24 0 0 0
