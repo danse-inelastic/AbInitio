@@ -155,9 +155,8 @@ class ValueFit():
     def chi2(self):
         fitted = []
         for v in self._prcntVolume:
-            fitted.append(self.fittedValue)
+            fitted.append(self.fittedValue(v))
         fitted = numpy.array(fitted)
-        print fitted, self._values
         diff = fitted - self._values
         return numpy.sqrt(numpy.dot(diff, diff))
 
