@@ -30,9 +30,9 @@ class Thermodyn():
                 raise Exception('Energy units are not known')
         else:
             raise Exception('dos, axis,  and units should be provided!')
+        self.deltaE = self.axis[1] - self.axis[0]
         self.units = units
         self.axis = axs[1:]*self.energy_units[self.units]
-        self.deltaE = self.axis[1] - self.axis[0]
         print self.deltaE
         self.g = dos[1:]
 #            else:
