@@ -33,7 +33,6 @@ class Thermodyn():
         self.deltaE = axs[1] - axs[0]
         self.units = units
         self.axis = axs[1:]*self.energy_units[self.units]
-        print self.deltaE
         self.g = dos[1:]
 #            else:
 #                raise Exception('dos = None!')
@@ -47,7 +46,7 @@ class PhononThermodynamics(Thermodyn):
         the unit cell (e.g. its norm is 9 for MgB2)"""
         Thermodyn.__init__(self, axis, dos, 'cm-1')
 
-    def zeroPointEnergy(self, T, axis = None, dos = None):
+    def zeroPointEnergy(self, axis = None, dos = None):
         self._checkSetDOS(axis, dos)
         zpEnergy = self.h*self.axis*0.5*self.g
         return zpEnergy.sum()*self.Ry/self.deltaE
@@ -63,7 +62,7 @@ class PhononThermodynamics(Thermodyn):
     def freeEnergy(self, T, axis = None, dos = None):
         self._checkSetDOS(axis, dos)
         if T == 0.0:
-            return self.zeroPointEnergy(T)
+            return self.zeroPointEnergy()
         else:
             arg = (self.h/self.kb)*self.axis/T
 #        print 1.0 - 1.0/numpy.exp(1.0/arg)
