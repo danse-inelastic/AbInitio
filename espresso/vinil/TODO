@@ -33,7 +33,7 @@ General Plan
     - Multi-Phonon          (pw.x -> ph.x)
         + Phonon DOS        (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example 6
         + Phonon Dispersion (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example ???
-3. Port these simulations to Foxtrot
+3. Port these simulations to Octopod (Foxtrot)
 4. Borrow Materials implementation from group (create and edit Material, import Material )
 5. Add user authentication
 
