@@ -22,7 +22,7 @@ print "Example: (using Property)"
 print "Total energy = %f" % energy
 print "Force        = %s" % force
 
-
+# Requires diffpy.Structure
 from qecalc import QECalc
 qe  = QECalc("config.ini")
 qe.pwscfLauncher()
