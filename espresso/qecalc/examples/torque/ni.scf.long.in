@@ -3,8 +3,8 @@
     restart_mode='from_scratch',
     tprnfor = .true.
     prefix='ni',
-    pseudo_dir = '',
-    outdir=''
+    pseudo_dir = './',
+    outdir='temp/'
  /
  &system
     ibrav=2,
@@ -28,4 +28,4 @@ ATOMIC_SPECIES
 ATOMIC_POSITIONS
  Ni 0.00 0.00 0.00
 K_POINTS AUTOMATIC
- 8 8 8 0 0 0
+8 8 8 0 0 0
