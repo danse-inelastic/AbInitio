@@ -11,9 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Performs self-consistent calculation and parses PW output file
+# Example: Finding total energy and force for Ni
+# # Performs self-consistent calculation using torque and parses PW output file
+# Make sure to create 'temp' directory
 
 # Requires diffpy.Structure
+
 from qecalc.qecalc import QECalc
 qe  = QECalc("multi-config.ini")
 qe.pwscfLauncher()
@@ -25,6 +28,5 @@ print "Force        = %s" % force
 
 
 
-__date__ = "$Oct 15, 2009 3:20:12 PM$"
-
+__date__ = "$Oct 14, 2009 5:19:05 PM$"
 
