@@ -49,7 +49,7 @@ class PhononThermodynamics(Thermodyn):
     def zeroPointEnergy(self, axis = None, dos = None):
         self._checkSetDOS(axis, dos)
         zpEnergy = self.h*self.axis*0.5*self.g
-        return zpEnergy.sum()*self.Ry/self.deltaE
+        return zpEnergy.sum()*self.Ry*self.deltaE
 
     def _checkSetDOS(self, axis, dos):
         if dos == None:
@@ -67,14 +67,14 @@ class PhononThermodynamics(Thermodyn):
             arg = (self.h/self.kb)*self.axis/T
 #        print 1.0 - 1.0/numpy.exp(1.0/arg)
             F = self.kb*T*( 0.5*arg + numpy.log(1.0 - 1.0/numpy.exp(arg)) )*self.g
-            return F.sum()*self.Ry/self.deltaE
+            return F.sum()*self.Ry*self.deltaE
         
     def Cv(self, T, axis = None, dos = None):
         self._checkSetDOS(axis, dos)
         arg = (self.h/self.kb)*self.axis/T
         expArg = numpy.exp(arg)
         Cv = self.g*arg**2*(expArg/(expArg-1.0)**2)
-        return Cv.sum()*self.kb*6.022214179e23/self.deltaE
+        return Cv.sum()*self.kb*6.022214179e23*self.deltaE
         
 if __name__ == "__main__":
     print "Hello World";
