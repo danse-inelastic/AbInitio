@@ -12,8 +12,9 @@
 #
 
 # Example: Finding total energy and force for Ni
-# # Performs self-consistent calculation using torque and parses PW output file
+# Performs self-consistent calculation using torque and parses PW output file
 # Make sure to create 'temp' directory
+#   Tested on octopod
 
 # Requires diffpy.Structure
 
