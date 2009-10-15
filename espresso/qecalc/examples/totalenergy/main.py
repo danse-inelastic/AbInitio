@@ -23,14 +23,14 @@ print "Total energy = %f" % energy
 print "Force        = %s" % force
 
 # Requires diffpy.Structure
-from qecalc import QECalc
-qe  = QECalc("config.ini")
-qe.pwscfLauncher()
-energy  = qe.getTotalEnergy()[0]
-force   = qe.getForces()[0]
-print "Example: (using QECalc)"
-print "Total energy = %f" % energy
-print "Force        = %s" % force
+#from qecalc import QECalc
+#qe  = QECalc("config.ini")
+#qe.pwscfLauncher()
+#energy  = qe.getTotalEnergy()[0]
+#force   = qe.getForces()[0]
+#print "Example: (using QECalc)"
+#print "Total energy = %f" % energy
+#print "Force        = %s" % force
 
 
 
