@@ -13,8 +13,9 @@
 
 # Example: Finding total energy and force for Ni
 
-from property import Property
+from qecalc.property import Property
 
+# Just parses PW output file
 p  = Property("config.ini")
 energy  = p.getTotalEnergy()[0]
 force   = p.getForces()[0]
@@ -22,7 +23,9 @@ print "Example: (using Property)"
 print "Total energy = %f" % energy
 print "Force        = %s" % force
 
+# Performs calculation and parses PW output file on a single processor
 # Requires diffpy.Structure
+
 #from qecalc import QECalc
 #qe  = QECalc("config.ini")
 #qe.pwscfLauncher()
