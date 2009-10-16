@@ -23,6 +23,7 @@ RECURSE_DIRS = \
 
 EXPORT_DATADIRS = \
     output \
+    input \
 
 INIT_DATADIRS = \
     log \
