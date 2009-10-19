@@ -54,7 +54,7 @@ class QEInput(object):
         (self.namelists, self.cards) = self.parser.parse()
 
     def createNamelist(self, name):
-        """Creates namelist and adds to QEConfig. """
+        """Creates namelist and adds to QEInput. """
         nl  = Namelist(name)
         self.namelists[name] = nl
 
@@ -76,7 +76,7 @@ class QEInput(object):
             raise
 
     def createCard(self, name):
-        """Creates card and adds to QEConfig. """
+        """Creates card and adds to QEInput. """
         self.cards[name] = Card(name)
 
     def addCard(self, card):
@@ -106,7 +106,7 @@ class QEInput(object):
         return s
 
     def save(self, filename=None):
-        """ Saves the QEConfig to the configuration file"""
+        """ Saves the QEInput to the configuration file"""
         default = "config.out"
 
         if filename is None:
@@ -132,18 +132,18 @@ def testCreateConfig():
     print "Adding parameters to namelist:\n%s" % nl.toString()
     nl.set('title', "'Fe'")
     qe.addNamelist(nl)
-    print "Adding namelist to QEConfig:\n%s" % qe.toString()
+    print "Adding namelist to QEInput:\n%s" % qe.toString()
 
     c = Card('atomic_species')
     c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
     print "Adding line to card:\n%s" % c.toString()
     qe.addCard(c)
-    print "Adding card to QEConsig:\n%s" % qe.toString()
+    print "Adding card to QEInput:\n%s" % qe.toString()
     qe.save()
 
 def testParseConfig():
     print "Testing parsing config file"
-    qe  = QEInput("../../../content/data/ni.scf.in")
+    qe  = QEInput("../tests/ni.scf.in")
     qe.parse()
     print qe.toString()
     nl  = qe.namelist('control')
