@@ -11,62 +11,74 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import inputs.inputpw
 from orderedDict import OrderedDict
 
 class Card():
     """Card class that corresponds to Card in QE config file"""
     # May be add some more convenience methods?
 
-    def __init__(self, name):
-        # Verifies if the card is valid
+    def __init__(self, name, arg = None):
+        self._arg      = arg
+        self._name     = name.lower() # keeps lower name
+        self._lines    = OrderedDict()
+
+    def name(self):
+        return self._name
+
+    def setName(self, name):
+        self._name = name.lower()
+
+    def arg(self):
+        return self._arg
+
+    def setArg(self, arg):
+        self._arg    = arg.lower()
+
+    def line(self, num):
+        """Returns value of parameter 'param'"""
+        self._checkRange(num)
+        return self._lines[num]
+
+    def addLine(self, line):
+        self._lines.append(line)
+
+    def editLines(self, lines):
+        """Replaces lines by new 'lines' (list) """
+        self._lines    = lines
+
+    def removeLine(self, num):
+        self._checkRange(num)
+        self.lines.pop(num)
+
+    def removeLines(self):
+        self._lines = []
+
+    def __checkRange(self, num):
+        assert num > 0
+        assert len(self._lines) > num
+
+    def toString(self, indent=" ", br="\n"):
+        # Dump card
+        s = self.name().upper()
+        if self._arg is not None:
+            s += ' (%s)%s' % (self._arg, br)
+        else
+            s += br
+
+        for l in self._lines:
+            s += '%s%s%s' % (indent, l, br)
+
+        return s
+
+__date__ = "$Aug 27, 2009 7:34:32 AM$"
+
+# Verifies if the card is valid
 #        try:
 #            if name not in inputs.inputpw.cards:
 #                raise NameError('Not valid card')
 #        except NameError:
 #            raise
 
-        self.__name     = name.lower() # keeps lower name
-        self.__lines    = []
 
-    def name(self):
-        return self.__name
-
-    def setName(self, name):
-        self.__name = name.lower()
-
-    def line(self, num):
-        """Returns value of parameter 'param'"""
-        self.__checkRange(num)
-        return self.__lines[num]
-
-    def addLine(self, line):
-        self.__lines.append(line)
-
-    def editLines(self, lines):
-        """Replaces lines by new 'lines' (list) """
-        self.__lines    = lines
-
-    def removeLine(self, num):
-        self.__checkRange(num)
-        self.lines.pop(num)
-
-    def removeLines(self):
-        self.__lines = []
-
-    def __checkRange(self, num):
-        assert num > 0
-        assert len(self.__lines) > num
-
-    def toString(self, indent=" ", br="\n"):
-        # Dump card
-        s = '%s%s' % (self.name().upper(), br)
-
-        for l in self.__lines:
-            s += '%s%s%s' % (indent, l, br)
-
-        return s
-
-__date__ = "$Aug 27, 2009 7:34:32 AM$"
 
 
