@@ -18,6 +18,7 @@ class QEOutput(object):
         self.filename   = filename
         self.type       = type
         self.parsers    = None
+        self.properties = None
         outModule = __import__("outputs." + self.type, globals(), \
                                 locals(), ['Output'], -1)
         self.output = outModule.Output()
@@ -38,8 +39,7 @@ class QEOutput(object):
         properties = {}
         for parserName in parserList:
             properties[parserName] = self.output.parse(parserName, filename)
-        return properties
-
+        self.properties = properties
 
 def test():
     qeOut = QEOutput('scf.out', 'pw')

@@ -21,7 +21,6 @@ class QETask(object):
             self.torque = qetorque.QETorque(self.setting.configFileName)        
         self.input = None
         self.output = None
-        self.properties = None
         self.cmdStr = None
         self.name = None
 
@@ -60,7 +59,7 @@ class QETask(object):
     def launch(self):
         self.input.parse()
         self._run()
-        self.properties = self.output.parse()
+        self.output.parse()
 
 class PWTask(QETask):
     self.qeconfig   = QEConfig(type="pw")

@@ -21,8 +21,8 @@ class PHTask(QETask):
         QETask.__init__(self, setting, cleanOutDir)
         self.input = QEInput
         self.output = QEOutput
-        self.cmdStr = self.setting.paraPrefix + " pw.x " +  \
+        self.cmdStr = self.setting.paraPrefix + " ph.x " +  \
                       self.setting.paraPostfix + " -inp " + \
-                      self.setting.pwscfInput + " > " + \
-                      self.setting.pwscfOutput + "< /dev/null"
-        self.name = 'pw.x'
+                      self.setting.phInput + " > " + \
+                      self.setting.phOutput + "< /dev/null"                 
+        self.name = 'ph.x'
