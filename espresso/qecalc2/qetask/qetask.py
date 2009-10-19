@@ -61,11 +61,6 @@ class QETask(object):
         self._run()
         self.output.parse()
 
-class PWTask(QETask):
-    self.qeconfig   = QEConfig(type="pw")
-    def __init__(self, input):
-        self.energy;
-
 __author__="kolya"
 __date__ ="$Oct 18, 2009 5:03:21 PM$"
 

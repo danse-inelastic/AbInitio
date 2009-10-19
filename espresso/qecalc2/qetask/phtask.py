@@ -19,8 +19,8 @@ from qeparser.qeoutput import QEOutput
 class PHTask(QETask):
     def __init__(self, setting, cleanOutDir = False):
         QETask.__init__(self, setting, cleanOutDir)
-        self.input = QEInput
-        self.output = QEOutput
+        self.input = QEInput(self.setting.pwscfInput)
+        self.output = QEOutput(self.setting.pwscfOutput, type='pw')        
         self.cmdStr = self.setting.paraPrefix + " ph.x " +  \
                       self.setting.paraPostfix + " -inp " + \
                       self.setting.phInput + " > " + \
