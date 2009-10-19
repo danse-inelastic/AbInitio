@@ -11,8 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from orderedDict import OrderedDict
-
 class Card():
     """Card class that corresponds to Card in QE config file"""
     # May be add some more convenience methods?
@@ -20,7 +18,7 @@ class Card():
     def __init__(self, name, arg = None):
         self._arg      = arg
         self._name     = name.lower() # keeps lower name
-        self._lines    = OrderedDict()
+        self._lines    = []
 
     def name(self):
         return self._name
@@ -71,13 +69,6 @@ class Card():
         return s
 
 __date__ = "$Aug 27, 2009 7:34:32 AM$"
-
-# Verifies if the card is valid
-#        try:
-#            if name not in inputs.inputpw.cards:
-#                raise NameError('Not valid card')
-#        except NameError:
-#            raise
 
 
 

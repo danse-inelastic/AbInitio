@@ -81,12 +81,6 @@ class Namelist():
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 
-# Verifies if the namelist is valid
-#        try:
-#            if name not in inputs.inputpw.namelists:
-#                raise NameError('Not valid namelist')
-#        except NameError:
-#            raise
 
 
 
