@@ -25,7 +25,7 @@ CARD        = '(%s[\w]+)' % (SPACES)
 EMPTY_LINE  = r'^\s*'                # Empty line
 
 import re
-from vinil.utils.orderedDict import OrderedDict
+from orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
 
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     qeparserText    = QEParser(configText = textPW)
     qeparserText.parse()
     qeparserText.toString()
-    qeparserFile    = QEParser(filename = "../../../content/data/ni.scf.in")
+    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
     qeparserFile.parse()
     qeparserFile.toString()
 

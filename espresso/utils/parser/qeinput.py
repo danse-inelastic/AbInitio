@@ -14,7 +14,7 @@ Stability issues:
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
-from vinil.utils.orderedDict import OrderedDict
+from orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
 from qeparser import QEParser
@@ -33,7 +33,7 @@ from qeparser import QEParser
 #    'projwfc'   -
 #    'pwcond'    -
 
-class QEConfig(object):
+class QEInput(object):
     """Quantum Espresso configuration class. It can:
     - Parse existing configuration file
     - Add, Edit or Remove parameters from/to namelist or card
@@ -125,7 +125,7 @@ class QEConfig(object):
 
 def testCreateConfig():
     print "Testing creation of config file"
-    qe  = QEConfig()
+    qe  = QEInput()
     nl  = Namelist('control')
     nl.add('title', "'Ni'")
     nl.add('restart_mode', "'from_scratch'")
@@ -143,7 +143,7 @@ def testCreateConfig():
 
 def testParseConfig():
     print "Testing parsing config file"
-    qe  = QEConfig("../../../content/data/ni.scf.in")
+    qe  = QEInput("../../../content/data/ni.scf.in")
     qe.parse()
     print qe.toString()
     nl  = qe.namelist('control')
