@@ -9,17 +9,29 @@
 
 """
 Stability issues:
-- Parsing goes line by line. 
-- Namelist starts with '&' and ends with '/' on a separate line
 - Card starts with card title on a separate line and values between card titles.
 - Prints both Namelists and Cards in capital 
 - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
-from orderedDict import OrderedDict
+from vinil.utils.orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
-import inputs.inputpw
+from qeparser import QEParser
+
+#Type of the configuration file can be:
+#type =
+#    'pw'        - (default)
+#    'ph'        -
+#    'pp'        -
+#    'bands'     -
+#    'cppp'      -
+#    'd3'        -
+#    'dos'       -
+#    'gipaw'     -
+#    'd1'        -
+#    'projwfc'   -
+#    'pwcond'    -
 
 class QEConfig(object):
     """Quantum Espresso configuration class. It can:
@@ -28,13 +40,18 @@ class QEConfig(object):
     """
 
     # Either filename or config (not both) can be specified
-    def __init__(self, filename=None, config=None, type='inputpw'):
+    def __init__(self, filename=None, config=None, type='pw'):
         self.filename   = filename
         self.config     = config
+        self.parser     = QEParser(filename, config, type)
         self.type       = type
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
         self.qe         = [self.namelists, self.cards]
+
+    def parse(self):
+        """ Parses the configuration file and stores the values in qe dictionary """
+        (self.namelists, self.cards) = self.parser.parse()
 
     def createNamelist(self, name):
         """Creates namelist and adds to QEConfig. """
@@ -104,161 +121,7 @@ class QEConfig(object):
 
     def type(self):
         return self.type
-
-    def parse(self):
-        """ Parses the configuration file and stores the values in qe dictionary """
-
-        if self.filename is not None:
-            lines       = self.__getLines(self.filename)
-
-        elif self.config is not None:
-            lines       = self.config.splitlines()
-
-        else:
-            print "Error: You haven't specify any config file or string"
-
-        lines       = self.__clearLines(lines)
-        marks       = self.__getMarks(lines)
-
-        for m in marks:
-            self.__addBlock(m[0], lines[m[1]:m[2]])
-
-    def __getLines(self, filename):
-        try:
-            f = open(filename)
-        except IOError:
-            print "I/O error"
-        except:
-            import sys
-            print "Unexpected error:", sys.exc_info()[0]
-            raise
-
-        lines       = f.readlines()         # Returns list of lines.
-        f.close()
         
-        return lines
-
-    def __clearLines(self, lines):
-        """ Strips lines from white spaces, commas and empty lines"""
-
-        cl = []     # Lines without white spaces and empty lines
-        for l in lines:
-            l = l.strip().strip(',') # Remove both lead and trailing whitespace, including '\n' and comma
-            if l == '':
-                continue
-
-            cl.append(l)
-
-        return cl
-
-    def __addBlock(self, type, slice):
-        """ Adds block (namelist or card to ) """
-
-        # Improve calls?
-        if type == 'namelist':
-            self.__addNamelist(slice)
-        elif type == 'card':
-            self.__addCard(slice)
-
-        return
-
-    def __addNamelist(self, slice):
-        """Adds namelist based on slice """
-        name    = slice[0].strip('&')
-        nl      = Namelist(name)
-
-        for s in slice[1:]:
-            p   = self.getParam(s)
-            nl.add(p[0], p[1])
-
-        self.namelists[name] = nl
-
-    def __addCard(self, slice):
-        """Adds card"""
-        name    = slice[0].lower()
-        c = Card(name)
-
-        for s in slice[1:]:
-            c.addLine(s)
-
-        self.cards[name]    = c
-
-    def __getMarks(self, lines):
-        # TODO: Cumbersome method, rewrite it
-        """
-        Determines start and end of namelist and card blocks: [type, start, end]
-        E.g ['namelist', 0, 7] for CONTROL namelist
-        Iterate over number of lines. Empty lines are included
-        Not tested very well yet
-        """
-        blocklist   = []
-        isNamelist  = False
-        isCard      = False
-        size        = len(lines)
-
-        for i in range(size):
-            l = lines[i]
-            # We suppose that namelists and card do not intersect
-            # Namelist part
-
-            # Namelist end
-            if l[0] == '/' and isNamelist:
-                isNamelist  = False
-                block.append(i)
-                blocklist.append(block)
-
-            # Namelist start
-            if l[0] == '&' and not isNamelist:
-                name = l[1:].lower()
-
-                if not name in inputs.inputpw.namelists:
-                    continue             # namelist is not recognizable
-
-                block       = []
-                isNamelist  = True
-                block.append('namelist')
-                block.append(i)
-
-            # Card part
-            line    = l.lower()
-            # Card end
-            if line in inputs.inputpw.cards and isCard:
-                #print "End: %s, line: %d" % (line, i-1)
-                isCard  = False
-                block.append(i)
-                blocklist.append(block)
-
-            if i == size-1 and isCard:
-                isCard  = False
-                block.append(i+1)
-                blocklist.append(block)
-
-            # Card start
-            if line in inputs.inputpw.cards and not isCard:
-                #print "Start: %s, line: %d" % (line, i)
-                block   = []
-                isCard  = True
-                block.append('card')
-                block.append(i)
-
-        return blocklist
-
-        # Example return: [['namelist', 0, 7], ['namelist', 8, 20]]
-
-    def getParam(self, s):
-        """ Takes string like 'a = 2' and returns tuple ('a', 2) """
-
-        ss = s.split('=')
-        for i in range(len(ss)):
-            ss[i] = ss[i].strip()
-
-        val = ss[1]
-
-        # Assume that there are two values only: (variable, value) pair
-        assert len(ss) == 2
-
-        return (ss[0], val)
-
 
 def testCreateConfig():
     print "Testing creation of config file"
@@ -280,7 +143,7 @@ def testCreateConfig():
 
 def testParseConfig():
     print "Testing parsing config file"
-    qe  = QEConfig("vini/ni.scf.in")
+    qe  = QEConfig("../../../content/data/ni.scf.in")
     qe.parse()
     print qe.toString()
     nl  = qe.namelist('control')
@@ -296,3 +159,6 @@ def testParseConfig():
 if __name__ == "__main__":
     testCreateConfig()
     testParseConfig()
+
+
+

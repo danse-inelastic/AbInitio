@@ -11,24 +11,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Configuration parameters from INPUT_DOS.html file
-# First value is default value
-
-# Namelist: INPUTPP
-
 namelists   = ('inputpp')
+
 cards       = ()
 
-namelist_inputpp = ('prefix',
-                    'outdir',
-                    'ngauss',
-                    'degauss',
-                    'Emin',
-                    'Emax',
-                    'DeltaE',
-                    'fildos')
+namelist_input  = ('prefix',
+                   'outdir')
 
 
-__date__ = "$Sep 2, 2009 11:46:05 AM$"
+__date__ = "$Oct 14, 2009 4:55:59 PM$"
 
 

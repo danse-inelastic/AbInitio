@@ -12,18 +12,18 @@
 #
 
 import inputs.inputpw
-from orderedDict import OrderedDict
+from vinil.utils.orderedDict import OrderedDict
 
 class Namelist():
     """Namelist class that corresponds to Namelist in QE config file"""
 
     def __init__(self, name):
         # Verifies if the namelist is valid
-        try:
-            if name not in inputs.inputpw.namelists:
-                raise NameError('Not valid namelist')
-        except NameError:
-            raise
+#        try:
+#            if name not in inputs.inputpw.namelists:
+#                raise NameError('Not valid namelist')
+#        except NameError:
+#            raise
 
         self.__name = name.lower() # keeps lower name
         self.params = OrderedDict() # Replace dictionary by ordered dictionry

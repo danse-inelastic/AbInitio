@@ -16,7 +16,9 @@
 
 # Namelist: INPUTPP
 
-namelists = ('inputpp')
+namelists   = ('inputpp')
+
+cards       = ()
 
 namelist_inputpp = ('prefix',
                     'outdir',
