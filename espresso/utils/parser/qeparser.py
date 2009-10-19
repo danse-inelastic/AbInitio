@@ -12,16 +12,18 @@
 #
 
 # Regular expressions
-COMMENT     = '!.*'                 # Comment
-NAME        = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
-SPACES      = '[ \t]*'              # Spaces and tabs
-NO_SPACES   = '[^\s]*'              # No spaces
-NEWLINE     = '[\n\r]*'             # New line ()
-PARAMTER    = '[\w,()]+'            # Parameter characters (space is not allowed)
-VALUE       = '[^\s,]+'             # Parameter's value (numerate all possible characters)
-EXPRESSION  = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
-NAMELIST    = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist block
-CARD        = '(%s[\w]+)' % (SPACES)
+COMMENT         = '!.*'                 # Comment
+NAME            = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
+SPACES          = '[ \t]*'              # Spaces and tabs
+NO_SPACES       = '[^\s]*'              # No spaces
+NEWLINE         = '[\n\r]*'             # New line ()
+PARAMTER        = '[\w,()]+'            # Parameter characters (space is not allowed)
+VALUE           = '[^\s,]+'             # Parameter's value (numerate all possible characters)
+EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
+NAMELIST        = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist block
+OPEN_BRACKET    = '[({]?'               # Open bracket
+CLOSE_BRACKET   = '[)}]?'               # Close bracket
+CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)
 EMPTY_LINE  = r'^\s*'                # Empty line
 
 import re
@@ -119,7 +121,7 @@ class QEParser:
         p   = re.compile(COMMENT)
         s1  = re.sub(p, '', text)       # Remove comments
         p2  = re.compile(NAMELIST)
-        s2  = re.sub(p2, '', s1)
+        s2  = re.sub(p2, '', s1)        # Remove namelists
         rawlist = []
 
         p   = re.compile(EMPTY_LINE)

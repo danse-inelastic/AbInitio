@@ -98,9 +98,15 @@ Ni 0.00 0.00 0.00  ! legal
 ATOMIC_POSITIONS
  Ni<Tab>0.00 0.00 0.00 ! legal
 
+Card with an argument:
+
 K_POINTS (automatic) ! legal
 K_POINTS automatic   ! legal
 K_POINTS {automatic} 
+
+Card with argument should be parsed with round brackets, no brackets and with braces.
+Output will be with round brackets and arguments in lower case,
+E.g.: K_POINTS (automatic)
 
 General
 -------
