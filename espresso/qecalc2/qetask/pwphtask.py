@@ -13,16 +13,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class PWPHTask(QETask):
+class PWPHTask(MultiTask):
     def __init__(self, pwTask, phTask, cleanOutDir = False):
-        QETask.__init__(self, pwTask.setting, cleanOutDir)
-        self.tasks = [pwTask, phTask]
-        self.cmdStr = pwTask.cmdLine() + ' ; ' + phTask.cmdLine()
-        self.name = 'pw.x -> ph.x'
-    
-    def launch(self):
-        for task in self.tasks:
-            self.tasks[task].input.parse()
-        self._run()
-        for task in self.tasks:
-            self.tasks[task].output.parse()
+        MultiTask.__init__(self, pwTask.setting, cleanOutDir)
