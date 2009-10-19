@@ -30,7 +30,10 @@ class Card():
         return self._arg
 
     def setArg(self, arg):
-        self._arg    = arg.lower()
+        if arg is None:
+            self._arg   = None
+        else:
+            self._arg    = arg.lower()
 
     def line(self, num):
         """Returns value of parameter 'param'"""
@@ -60,7 +63,7 @@ class Card():
         s = self.name().upper()
         if self._arg is not None:
             s += ' (%s)%s' % (self._arg, br)
-        else
+        else:
             s += br
 
         for l in self._lines:

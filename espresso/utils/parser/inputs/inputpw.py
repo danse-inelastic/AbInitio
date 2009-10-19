@@ -9,14 +9,11 @@ namelists = ('control',
              'electrons',
              'ions',
              'cell',
-             'phonon',
-             # Put in a separate namelist later!
-             # as it belongs to dos.x simulation
-             'inputpp')
+             'phonon')
 
 cards =   ('atomic_species',
            'atomic_positions',
-           'k_points automatic',
+           'k_points',
            'cell_parameters',
            'climbing_images',
            'constraints',

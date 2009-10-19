@@ -23,7 +23,7 @@ EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parame
 NAMELIST        = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist block
 OPEN_BRACKET    = '[({]?'               # Open bracket
 CLOSE_BRACKET   = '[)}]?'               # Close bracket
-CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)
+CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE  = r'^\s*'                # Empty line
 
 import re
@@ -137,19 +137,30 @@ class QEParser:
         cards       = OrderedDict()
         cardName    = None
         for l in rawlist:
-            firstPart   = l.split()[0].lower()
+            p   = re.compile(CARD)
+            m   = p.match(l)
+            firstPart   = m.group(1).lower()
+            secondPart  = m.group(2).strip().lower()    # Catch argument of the card
             if firstPart in self.cardRef:
-                cardName    = l.lower()
-                cards[cardName]    = []
+                cardName    = firstPart
+                cards[cardName]    = {}
+
+                if (secondPart != ''):
+                    cards[cardName]["args"] = secondPart
+                else:
+                    cards[cardName]["args"] = None
+                cards[cardName]["values"]   = []
+
             elif cardName is not None:
-                cards[cardName].append(l)
+                cards[cardName]["values"].append(l)
 
         return cards
 
     def _convertCards(self, cards):
         for cname in cards.keys():
             c   = Card(cname)
-            for l in cards[cname]:
+            c.setArg(cards[cname]["args"])
+            for l in cards[cname]["values"]:
                 c.addLine(l)
 
             self.cards[cname]    = c
@@ -206,6 +217,15 @@ textPW = """
 ATOMIC_SPECIES
  Ni  26.98  Ni.pbe-nd-rrkjus.UPF
 
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS AUTOMATIC
+4 4 4 1 1 1
+blah
+
+"""
+
+textCards = """
 ATOMIC_POSITIONS
  Ni 0.00 0.00 0.00
 K_POINTS AUTOMATIC

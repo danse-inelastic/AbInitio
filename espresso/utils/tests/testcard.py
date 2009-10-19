@@ -51,6 +51,7 @@ if __name__ == "__main__":
 
     testCards(rawlist)
     
+    # Output: {'atomic_positions': {'args': 'alat', 'values': ['Ni 0.00 0.00 0.00']}, 'k_points': {'args': 'automatic', 'values': ['4 4 4 1 1 1', 'blah']}}
 
 __date__ = "$Oct 19, 2009 2:54:35 PM$"
 
