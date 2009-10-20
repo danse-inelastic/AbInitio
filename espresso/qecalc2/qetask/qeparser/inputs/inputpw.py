@@ -2,8 +2,25 @@
 # Configuration parameters from INPUT_PW.html file
 # First value is default value
 
-# Namelist: CONTROL
+# Simple verification for namelists and cards:
 
+namelists = ('control',
+             'system',
+             'electrons',
+             'ions',
+             'cell',
+             'phonon')
+
+cards =   ('atomic_species',
+           'atomic_positions',
+           'k_points',
+           'cell_parameters',
+           'climbing_images',
+           'constraints',
+           'collective_vars',
+           'occupations')
+
+# Namelist: CONTROL
 namelist_control = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax', 'md', 'vc-relax', 'vc-md', 'neb', 'smd', 'metadyn'),
                     'title',        #: (''),
                     'verbosity',    #: ('high', 'default', 'low', 'minimal'),
@@ -32,12 +49,7 @@ namelist_control = ('calculation',  #: ('scf', 'nscf', 'bands', 'phonon', 'relax
                     'nberrycyc')
 
 system_namelist = ('ibrav',
-                   'celldm(1)',
-                   'celldm(2)',
-                   'celldm(3)',
-                   'celldm(4)',
-                   'celldm(5)',
-                   'celldm(6)',
+                   'celldm',
                    'A',
                    'B',
                    'C',

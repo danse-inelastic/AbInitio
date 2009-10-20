@@ -12,8 +12,7 @@
 # See LICENSE.txt for license information.
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-from qeparser.qeoutput import QEOutput
-from qeparser.qeconfig import QEConfig
+
 class QETask(object):
     def __init__(self, setting, cleanOutDir = False)
         self.setting = setting
@@ -42,7 +41,7 @@ class QETask(object):
             self._check(os.system(self.cmdStr))
 
     def cleanOutDir(self):
-        from parser.configParser import QEConfig
+        from qeparser.qeconfig import QEConfig
         import shutil
         qeConf = QEConfig(self.setting.pwscfInput)
         qeConf.parse()
