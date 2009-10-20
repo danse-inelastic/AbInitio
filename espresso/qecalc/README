@@ -55,7 +55,7 @@ quite Self explanatory
 qecalc/qecalc.py:
 
 kMeshCart(nq1, nq2, nq3) - Will generate k-point mesh in cartesian coordinates
-Lattice symmetry is not taken into account. Is not usefull unless matdyn
+Lattice symmetry is not taken into account. Is not useful unless matdyn
 parser is written
 
 
@@ -63,7 +63,7 @@ These methods are questionable to be public
 getkPointsFromPWSCF() - Returns array of points. Does not have to be AUTOMATIC
 
 setkPointsAutomatic(kpoints) - kpoints is a list [nkx, nky, nkz, 1|0, 1|0, 1|0]
-getEkincutoff() - reads kinnetic energy cutoff
+getEkincutoff() - reads kinetic energy cutoff
 
 qecalc/qephon:
 
