@@ -20,7 +20,7 @@ from qeparser.qeoutput import QEOutput
 class PWTask(QETask):
     def __init__(self, setting, cleanOutDir = False):
         QETask.__init__(self, setting, cleanOutDir)
-        self.input = QEInput(self.setting.pwscfInput, type = 'pw')
+        self.input = PWInput(self.setting.pwscfInput)
         self.output = QEOutput(self.setting, type='pw')
         self.cmdStr = self.setting.paraPrefix + " pw.x " +  \
                       self.setting.paraPostfix + " -inp " + \
