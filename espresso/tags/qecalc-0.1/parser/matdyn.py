@@ -59,7 +59,8 @@ def matdyn(fname):
     
 if __name__ == '__main__':
     Pol, Omega, qPoints = matdyn( 'matdyn.modes' )
-    Omega2.write( ((Omega/4.1357)**2)*1.e+24,'Omega2.idf','')
+#    Omega2.write( ((Omega/4.1357)**2)*1.e+24,'Omega2.idf','')
+
 #    Polarizations.write(Pol, 'Polarizations.idf','Polarizations')
 #    idfdata = Polarizations.read('Polarizations.idf')
 #    idfdataOmega = Omega2.read('Omega2.idf')
