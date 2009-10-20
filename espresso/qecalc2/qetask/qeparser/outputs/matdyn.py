@@ -22,20 +22,20 @@ class Output(BaseOutput):
     def __init__(self):
         BaseOutput.__init__(self)
         self.parsers = {
-                'multi phonon' : getMultiPhonon,
-                'phonon dos'   : getPhononDOS
+                'multi phonon' : self.getMultiPhonon,
+                'phonon dos'   : self.getPhononDOS
                 }
 
-    def getMultiPhonon(self,matdynModes):
+    def getMultiPhonon(self,setting):
         ''' Obtain a list of phonon modes and eigen vectors from output generated \
              by matdyn.x'''
-        return self.matdyn_modes( matdynModes )
+        return [self.matdyn_modes( setting.matdynModes )]
 
-    def getPhononDOS(self,matdynfldos):
+    def getPhononDOS(self,setting):
         """Obtain density of states from matdyn.x output. Returns DOS axis in
            wave numbers and DOS values, normalized to the number of degrees of
            freedom as numpy arrays"""
-        dosFile = open(matdynfldos, 'r')
+        dosFile = open(setting.matdynfldos, 'r')
         line = dosFile.readline()
         dos = []
         while line:
@@ -44,7 +44,7 @@ class Output(BaseOutput):
         dos = numpy.array(dos)
         axis = dos[0:,0]
         g = dos[0:,1]
-        return (axis, 'cm-1'), (g, None)
+        return [(axis, 'cm-1'), (g, None)]
 
     def matdyn_modes(self, fname):
         matdynDict = io_dict.read_file(fname)

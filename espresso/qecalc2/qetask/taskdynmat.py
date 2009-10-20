@@ -14,15 +14,21 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from qetask import QETask
+from qeparser.qeinput import QEInput
 from qeparser.qeoutput import QEOutput
 
-class PHTask(QETask):
+class DynmatTask(QETask):
     def __init__(self, setting, cleanOutDir = False):
         QETask.__init__(self, setting, cleanOutDir)
-        self.input = QEInput(self.setting.pwscfInput)
-        self.output = QEOutput(self.setting.pwscfOutput, type='pw')        
-        self.cmdStr = self.setting.paraPrefix + " ph.x " +  \
-                      self.setting.paraPostfix + " -inp " + \
-                      self.setting.phInput + " > " + \
-                      self.setting.phOutput + "< /dev/null"                 
-        self.name = 'ph.x'
+        self.input = QEInput(self.setting.dynmatInput, type = 'dynmat')
+        self.output = QEOutput(self.setting, type = 'dynmat')
+        self.cmdStr = "dynmat.x < " + self.setting.dynmatInput + " > " + \
+                       self.setting.dynmatOutput
+        self.name = 'dynamt.x'
+
+
+if __name__ == "__main__":
+    print "Hello World";
+
+__author__="Nikolay Markovskiy"
+__date__ ="$Oct 19, 2009 3:24:51 PM$"

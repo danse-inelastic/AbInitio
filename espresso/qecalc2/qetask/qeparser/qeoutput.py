@@ -14,11 +14,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 class QEOutput(object):
-    def __init__(self, filename, type='pw'):
-        self.filename   = filename
+    def __init__(self, setting, type='pw'):
+        self.setting   = setting
         self.type       = type
         self.parsers    = None
-        self.properties = None
+        self._properties = None
         outModule = __import__("outputs." + self.type, globals(), \
                                 locals(), ['Output'], -1)
         self.output = outModule.Output()
@@ -29,25 +29,49 @@ class QEOutput(object):
             parserList.append(parserName)
         return parserList
 
-    def parse(self, parserList = 'all', fname = None):
+    def parse(self, parserList = 'all'):
         if parserList == 'all':
             parserList = self.listParsers()
-        if fname == None:
-            filename = self.filename
-        else:
-            filename = fname
         properties = {}
         for parserName in parserList:
-            properties[parserName] = self.output.parse(parserName, filename)
-        self.properties = properties
+            try:
+                properties[parserName] = self.output.parse(parserName, self.setting)
+            except KeyError: pass
+            except IOError: 
+                properties[parserName] = [(None, None)]
+        self._properties = properties
+
+    def property(self, name, withUnits = False):
+        """Will output the property of interest as a set of tuples if withUnits is True.
+           Will output property itself otherwise"""
+        prop = []
+        for tpl in self._properties[name]:
+            if withUnits:
+                prop.append(tpl)
+            else:
+                prop.append(tpl[0])
+        return prop[0]
+
+    def properties(self, withUnits = False):
+        propDic = {}
+        for propertyName in self._properties:
+            propDic[propertyName] = self.property(propertyName, withUnits)
+        return propDic
 
 def test():
-    qeOut = QEOutput('scf.out', 'pw')
+    from setting import Setting
+    qeOut = QEOutput(Setting('config.ini'), 'pw')
     print qeOut.listParsers()
-    properties = qeOut.parse()
-    print properties
-    properties = qeOut.parse(['total energy', 'stress'])
-    print properties
+    qeOut.parse()
+    print qeOut.properties()
+    qeOut.parse(['total energy', 'stress'])
+    print qeOut.properties()
+    print qeOut.property('total energy')
+    print qeOut.property('stress')
+    qeOut = QEOutput(Setting('config.ini'), 'matdyn')
+    print qeOut.listParsers()
+    qeOut.parse()
+    print qeOut.properties()
 
 if __name__ == "__main__":
     test()

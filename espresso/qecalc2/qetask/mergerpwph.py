@@ -13,6 +13,8 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class PWPHTask(MultiTask):
+class PWPHMerger(TaskMerger):
     def __init__(self, pwTask, phTask, cleanOutDir = False):
-        MultiTask.__init__(self, pwTask.setting, cleanOutDir)
+        MultiTask.__init__(self, pwTask.setting, pwTask, phTask, cleanOutDir)
+        self.input = pwTask.input
+        self.output = pwTask.output

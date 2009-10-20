@@ -14,15 +14,20 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from qetask import QETask
+from qeparser.qeinput import QEInput
 from qeparser.qeoutput import QEOutput
 
-class PWTask(QETask):
+class Q2RTask(QETask):
     def __init__(self, setting, cleanOutDir = False):
         QETask.__init__(self, setting, cleanOutDir)
-        self.input = QEInput(self.setting.pwscfInput)
-        self.output = QEOutput(self.setting.pwscfOutput, type='pw')
-        self.cmdStr = self.setting.paraPrefix + " pw.x " +  \
-                      self.setting.paraPostfix + " -inp " + \
-                      self.setting.pwscfInput + " > " + \
-                      self.setting.pwscfOutput + "< /dev/null"
-        self.name = 'pw.x'
+        self.input = QEInput(self.setting.q2rInput, type = 'q2r')
+        self.cmdStr = "q2r.x < " + self.setting.q2rInput + " > " + \
+                       self.setting.q2rOutput
+        self.name = 'q2r.x'
+
+
+if __name__ == "__main__":
+    print "Hello World";
+
+__author__="Nikolay Markovskiy"
+__date__ ="$Oct 19, 2009 3:12:40 PM$"

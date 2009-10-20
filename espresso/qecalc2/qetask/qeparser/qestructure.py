@@ -14,10 +14,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 from diffpy.Structure.structure import Structure
 from diffpy.Structure.atom import Atom
+
 from qelattice import QELattice
 import numpy
-from parser.configParser import *
-from parser.orderedDict import OrderedDict
+from configParser import *
+from orderedDict import OrderedDict
 
 
 class AtomicSpecies():

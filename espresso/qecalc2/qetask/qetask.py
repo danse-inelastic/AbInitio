@@ -17,6 +17,7 @@ from qeparser.qeconfig import QEConfig
 class QETask(object):
     def __init__(self, setting, cleanOutDir = False)
         self.setting = setting
+        self.cleanOutDir = cleanOutDir
         if self.setting.useTorque:
             self.torque = qetorque.QETorque(self.setting.configFileName)        
         self.input = None
@@ -56,10 +57,16 @@ class QETask(object):
     def cmdLine(self):
         return self.cmdStr
 
-    def launch(self):
+    def launch(self, cleanOutDir = None):
+        if cleanOutDir != None:
+            clean = cleanOutDir
+        else:
+            clean = self.cleanOutDir
+        if clean:
+            self.cleanOutDir()
         self.input.parse()
         self._run()
-        self.output.parse()
+        self.output.parse(parserList = 'all')
 
 __author__="kolya"
 __date__ ="$Oct 18, 2009 5:03:21 PM$"

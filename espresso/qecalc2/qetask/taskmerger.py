@@ -13,7 +13,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class MultiTask(QETask):
+class TaskMerger(QETask):
     def __init__(self, setting, *tasks, cleanOutDir = False):
         QETask.__init__(self, setting, cleanOutDir)
         self.tasks = tasks
@@ -23,9 +23,15 @@ class MultiTask(QETask):
             self.cmdStr = self.cmdStr + ' ; ' + task.cmdLine()
             self.name = self.name + ' -> ' + self.cmdStr            
     
-    def launch(self):
+    def launch(self, cleanOutDir = None):
+        if cleanOutDir != None:
+            clean = cleanOutDir
+        else:
+            clean = self.cleanOutDir
+        if clean:
+            self.cleanOutDir()
         for task in self.tasks:
             self.tasks[task].input.parse()
         self._run()
         for task in self.tasks:
-            self.tasks[task].output.parse()
+            self.tasks[task].output.parse(parserList = 'all')

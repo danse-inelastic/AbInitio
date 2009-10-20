@@ -198,7 +198,7 @@ class Card():
 
         return s
 
-from qestructure import QEStructure
+#from qestructure import QEStructure
 class QEConfig(object):
     """Quantum Espresso configuration class. It can:
     - Parse existing configuration file
@@ -211,7 +211,7 @@ class QEConfig(object):
         if not exists(filename):
             f = open(filename, 'w')
         self.filename   = filename
-        self.structure = QEStructure(self.filename)
+ #       self.structure = QEStructure(self.filename)
         self.namelists  = {}
         self.cards      = {}
         self.qe         = [self.namelists, self.cards]

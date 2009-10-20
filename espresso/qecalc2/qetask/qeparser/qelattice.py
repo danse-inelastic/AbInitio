@@ -15,7 +15,7 @@
 from diffpy.Structure.lattice import Lattice, cosd
 from math import sqrt, degrees
 import numpy
-from parser.configParser import *
+from configParser import *
 
 
 class QELattice(object):
