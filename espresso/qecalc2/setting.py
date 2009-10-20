@@ -13,7 +13,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class Setting:
-    def __init__(self, fname=None):
+    def __init__(self, fname= None):
         import os
         import ConfigParser
         

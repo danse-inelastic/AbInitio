@@ -14,7 +14,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 class QETask(object):
-    def __init__(self, setting, cleanOutDir = False)
+    def __init__(self, setting, cleanOutDir = False):
         self.setting = setting
         self.cleanOutDir = cleanOutDir
         if self.setting.useTorque:

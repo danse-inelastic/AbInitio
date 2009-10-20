@@ -22,12 +22,21 @@ class PWKpoints(object):
     def getkPointsFromPWSCF(self):
         """ Returns array of points. Does not have to be AUTOMATIC """
         kpoints = []
+        if self.qeInput.cards['k_points'].arg() == 'automatic':
+            self.isAutomatic = True
         for line in self.qeInput.cards['k_points'].lines():
-            kpoints.append([float(k) for k in line.split()])
+            if self.isAutomatic:
+                kpoints.append([int(k) for k in line.split()])
+                break
+            else:
+                kpoints.append([float(k) for k in line.split()])
         kpoints = numpy.array(kpoints)
         if self.qeInput.cards['k_points'].arg() == 'automatic':
             self.isAutomatic = True
-            self.shifts = kpoints[0,3:]
+            if len(kpoints[0,:]) > 3:
+                shifts = [int(k) for k in kpoints[0,3:]]
+            else:
+                self.shifts = numpy.array([0,0,0])
 
         return numpy.array(kpoints)
 
