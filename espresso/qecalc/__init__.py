@@ -12,9 +12,3 @@
 # See LICENSE.txt for license information.
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-class PWPHMerger(TaskMerger):
-    def __init__(self, pwTask, phTask, cleanOutDir = False):
-        MultiTask.__init__(self, pwTask.setting, pwTask, phTask, cleanOutDir)
-        self.input = pwTask.input
-        self.output = pwTask.output
