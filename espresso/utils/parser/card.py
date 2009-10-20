@@ -40,6 +40,9 @@ class Card():
         self._checkRange(num)
         return self._lines[num]
 
+    def lines(self):
+        return self._lines
+
     def addLine(self, line):
         self._lines.append(line)
 
