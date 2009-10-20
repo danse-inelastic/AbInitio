@@ -21,17 +21,21 @@ from qeparser import QEParser
 
 #Type of the configuration file can be:
 #type =
-#    'pw'        - (default)
-#    'ph'        -
-#    'pp'        -
-#    'bands'     -
-#    'cppp'      -
-#    'd3'        -
-#    'dos'       -
-#    'gipaw'     -
-#    'd1'        -
-#    'projwfc'   -
-#    'pwcond'    -
+#    'pw'               - (default)
+#    'ph'               -
+#    'pp'               -
+#    'bands'            -
+#    'cppp'             -
+#    'd3'               -
+#    'dos'              -
+#    'dynmat'           -
+#    'initial_state'    -
+#    'gipaw'            -
+#    'd1'               -
+#    'matdyn'           -
+#    'projwfc'          -
+#    'pwcond'           -
+#    'q2r'              -
 
 class QEInput(object):
     """Quantum Espresso configuration class. It can:
