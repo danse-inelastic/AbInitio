@@ -20,11 +20,12 @@ NEWLINE         = '[\n\r]*'             # New line ()
 PARAMTER        = '[\w,()]+'            # Parameter characters (space is not allowed)
 VALUE           = '[^\s,]+'             # Parameter's value (numerate all possible characters)
 EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
-NAMELIST        = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        # Namelist block # [^/]
+NAMELIST        = """%s&%s%s(([^/]*(['"][^'"]*['"])?)*)/""" % (SPACES, SPACES, NAME)        # Namelist block (handles directory slashes)
 OPEN_BRACKET    = '[({]?'               # Open bracket
 CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE  = r'^\s*'                # Empty line
+#NAMELIST       = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        #  Original Namelist block
 
 import re
 from orderedDict import OrderedDict
@@ -236,27 +237,66 @@ blah
 """
 
 textProblem = """
- &control
-   calculation='scf'
-!    restart_mode='from_scratch',
-   wf_collect = .true.,
-   tstress = .true. ,
-   tprnfor = .true. ,
-   verbosity = 'high',
-   prefix='mgb2',
-   pseudo_dir = '/home/markovsk/projects/pslib/espresso/mgb2/',
-   lkpoint_dir = .false. ,
-   outdir='temp/'
+&control
+calculation='scf'
+! restart_mode='from_scratch',
+wf_collect = .true.,
+tstress = .true. ,
+tprnfor = .true. ,
+verbosity = 'high',
+prefix='mgb2',
+pseudo_dir = '/home/markovsk/projects/pslib/espresso/mgb2/',
+lkpoint_dir = .false. ,
+outdir='temp/'
 /
+&system
+ibrav=4,
+celldm(1) = 5.78739785,
+celldm(2) = 5.78739785,
+celldm(3) = 1.135794331,
+! celldm(1) = 5.8260,
+! celldm(2) = 5.8260,
+! celldm(3) = 1.1420,
+nat = 3,
+ntyp = 2,
+nspin = 1,
+nbnd = 12,
+occupations='smearing',
+! degauss=0.025
+degauss=0.025,
+smearing = 'methfessel-paxton' ,
+ecutwfc =32.0,
+ecutrho =256.0,
+la2f = .false.
+/
+&electrons
+conv_thr = 1.0d-12
+diago_full_acc=.TRUE.
+/
+ATOMIC_SPECIES
+Mg 24.305 mg_6.ncpp
+B 11.000 B.pbe-n-van_ak.UPF
+!b_rc_1.4_pcc.ncpp
+! B 10.811 B.pbe-tmnc.UPF
+
+
+ATOMIC_POSITIONS alat
+Mg 0.000000000 0.0000000000000000 0.000000000
+B 0.500000000 0.2886751345948129 0.5678971655
+B 0.000000000 0.5773502691896257 0.5678971655
+
+
+K_POINTS AUTOMATIC
+24 24 24 0 0 0
 """
 
 if __name__ == "__main__":
     qeparserText    = QEParser(configText = textProblem)
     qeparserText.parse()
     qeparserText.toString()
-    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
-    qeparserFile.parse()
-    qeparserFile.toString()
+#    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
+#    qeparserFile.parse()
+#    qeparserFile.toString()
 
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
