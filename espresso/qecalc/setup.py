@@ -12,7 +12,7 @@ setup(
         name = "qecalc",
         version = "1.0",
         #namespace_packages = ['matter'],
-        packages = find_packages(exclude=['branches','examples','jobbuilder','ovini','phonutils','qecalc','tags','utils','vini','vinil']),
+        packages = find_packages(exclude=['DOC','examples']),
         test_suite = 'tests',
 #        install_requires = [
 #            'PyCifRW',
