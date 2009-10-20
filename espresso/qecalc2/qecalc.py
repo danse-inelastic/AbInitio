@@ -10,7 +10,7 @@
 #
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
-#blahs
+#
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 from setting import Setting
 import numpy
