@@ -10,4 +10,4 @@ fi
 
 svn up
 make html
-scp -r _build/html/ jbrkeith@login.cacr.caltech.edu:qecalc
+scp -r _build/html jbrkeith@login.cacr.caltech.edu:qecalc
