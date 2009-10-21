@@ -372,17 +372,8 @@ def testRemote():
         path = path.split(':')[1]
         return open(path).read()
 
-    def createfile(host, path):
-        cmd = 'ssh %s touch %s' % (host, path)
-        print 'executing %s...' % cmd
-        code = os.system(cmd)
-        print 'returned %s' % code
-        if code: raise RuntimeError
-        return
-
-
     def writefile(host, path, content):
-        cmd = 'ssh %s %s > %s' % (host, content, path)
+        cmd = """ssh %s 'echo "%s" > %s'""" % (host, content, path)
         print 'executing %s...' % cmd
         code = os.system(cmd)
         print 'returned %s' % code
@@ -390,7 +381,7 @@ def testRemote():
         return
 
     def makedirs(host, path):
-        cmd = 'ssh %s mkdir %s' % (host, path)
+        cmd = """ssh %s 'dir="%s"; if [ ! -d $dir ]; then mkdir $dir; fi'""" % (host, path)
         print 'executing %s...' % cmd
         code = os.system(cmd)
         print 'returned %s' % code
@@ -459,8 +450,7 @@ def testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rena
         pass
     else: raise Exception, "should have raised RuntimeError"
 
-    #makedirs(masternode.address, masternode.rootpath)
-    #createfile(masternode.address, os.path.join(masternode.rootpath, fn1)
+    makedirs(masternode.address, masternode.rootpath)
     writefile(masternode.address, os.path.join(masternode.rootpath, fn1), 'blah')
 
 #    import time
