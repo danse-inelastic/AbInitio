@@ -20,7 +20,7 @@ class DDS:
                  ):
         '''create a "distributed data storage"
 
-        maternode: a "distributed data storage" must have a master node
+        masternode: a "distributed data storage" must have a master node
         transferfile: the facility to transfer a file from one node to another
         rename: the facility to rename a file in one node. rename(oldpath, newpath, "server.address")
         symlink: the facility to create a symbolic link to a file in one node. symlink(oldpath, newpath, "server.address")
@@ -257,8 +257,8 @@ def test(masternode, node1, transferfile, readfile, writefile, makedirs, rename,
     assert not dds.is_available('file2')
     assert dds.is_available('file3')
 
-    dds.symlink('file3', 'file4')
-    assert dds.is_available('file4')
+#    dds.symlink('file3', 'file4')
+#    assert dds.is_available('file4')
     return
 
 
@@ -352,9 +352,144 @@ def test2():
     return
 
 
+def testRemote():
+    import os
+    import shutil
+    from Node import Node
+
+    curdir = "/home/dexity/"
+    masternode = Node( 'dexity@foxtrot.danse.us', os.path.join(curdir, 'masternode'))
+    
+    def transferfile(path1, path2):
+        cmd = 'scp %s %s' % (path1,path2)
+        print 'executing %s...' % cmd
+        code = os.system(cmd)
+        print 'returned %s' % code
+        if code: raise RuntimeError
+        return
+
+    def readfile(path):
+        path = path.split(':')[1]
+        return open(path).read()
+
+    def createfile(host, path):
+        cmd = 'ssh %s touch %s' % (host, path)
+        print 'executing %s...' % cmd
+        code = os.system(cmd)
+        print 'returned %s' % code
+        if code: raise RuntimeError
+        return
+
+
+    def writefile(host, path, content):
+        cmd = 'ssh %s %s > %s' % (host, content, path)
+        print 'executing %s...' % cmd
+        code = os.system(cmd)
+        print 'returned %s' % code
+        if code: raise RuntimeError
+        return
+
+    def makedirs(host, path):
+        cmd = 'ssh %s mkdir %s' % (host, path)
+        print 'executing %s...' % cmd
+        code = os.system(cmd)
+        print 'returned %s' % code
+        if code: raise RuntimeError
+        return
+
+    def rename(path1, path2, host):
+        cmd = 'ssh %s mv %s %s' % (host, path1, path2)
+        print 'executing %s...' % cmd
+        code = os.system(cmd)
+        print 'returned %s' % code
+        if code: raise RuntimeError
+        return
+
+    def fileexists(path):
+        path = path.split(':')[1]
+        return os.path.exists(path)
+
+    testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rename, fileexists)
+    return
+
+
+def testLocal():
+    import os
+    from Node import Node
+    masternode = Node( '', os.path.abspath('masternode') )
+
+    def transferfile(path1, path2):
+        shutil.copyfile(path1, path2)
+        return
+
+    def readfile(path):
+        return open(path).read()
+
+    def writefile(path, content):
+        open(path, 'w').write(content)
+        return
+
+    def makedirs(path):
+        if os.path.exists(path): return
+        os.makedirs(path)
+        return
+
+    def rename(path1, path2, dummy):
+        os.rename(path1, path2)
+        return
+
+    testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rename, os.path.exists)
+    return
+
+
+def testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rename, fileexists):
+    fn1         = "file1"
+    fn2         = "file2"
+    fn3         = "file3"
+
+    import shutil
+    import os
+    dds = DDS(masternode, transferfile=transferfile,
+              readfile=readfile, writefile=writefile, makedirs=makedirs,
+              rename=rename, fileexists=fileexists)
+    if os.path.exists(masternode.rootpath): shutil.rmtree(masternode.rootpath)
+    try:
+        dds.remember(fn1)
+    except RuntimeError:
+        pass
+    else: raise Exception, "should have raised RuntimeError"
+
+    #makedirs(masternode.address, masternode.rootpath)
+    #createfile(masternode.address, os.path.join(masternode.rootpath, fn1)
+    writefile(masternode.address, os.path.join(masternode.rootpath, fn1), 'blah')
+
+#    import time
+#    time.sleep(0.1)
+#    dds.remember(fn1)
+#
+#    dds.make_available(fn1, masternode)
+#    assert os.path.exists(os.path.join(masternode.rootpath, fn1))
+#    assert dds.is_available(fn1, masternode)
+#
+#    open(os.path.join(masternode.rootpath, fn2), 'w').write('file2')
+#    dds.remember(fn2, masternode)
+#    dds.make_available(fn2)
+#    assert os.path.exists(os.path.join(masternode.rootpath,fn2))
+#    assert dds.is_available(fn2, masternode)
+#
+#    dds.rename(fn2, fn3, masternode)
+#    assert not dds.is_available(fn2)
+#    assert dds.is_available(fn3)
+
+    return
+
 def main():
-    test1()
-    test2()
+    #testLocal()
+    testRemote()
+
+    # Old tests
+    #test1()
+    #test2()
     return
 
 
