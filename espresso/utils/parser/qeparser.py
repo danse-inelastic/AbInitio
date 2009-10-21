@@ -25,8 +25,6 @@ OPEN_BRACKET    = '[({]?'               # Open bracket
 CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE  = r'^\s*'                # Empty line
-#NAMELIST       = """%s&%s%s([^/]*)/""" % (SPACES, SPACES, NAME)        #  Original Namelist block
-#"""%s&%s%s(([^/]*(['"][^'"]*['"])?)*)/"""
 
 import re
 from orderedDict import OrderedDict
