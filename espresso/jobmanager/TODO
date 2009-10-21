@@ -1,0 +1,5 @@
+TODO list:
+
+1. Implement jobmanager as pyre application
+2. Support two styles of config files: pyre style (.pml) and ConfigParser module
+3. Add support of curses (see beostatus)
