@@ -25,22 +25,28 @@ diago_full_acc=.TRUE.
 
 """
 
-line = "blah '/home/markovsk/projects/pslib/espresso/mgb2/'"
+# The namelist block is marked by
+
+line = "blah '/home/markovsk/projects/pslib/espresso/mgb2/' foo 'temp/'/"
 
 NAME            = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
 SPACES          = '[ \t]*'              # Spaces and tabs
-NAMELIST        = """%s&%s%s(([^/]*|(['"][^'"]*['"])?)*)/""" % (SPACES, SPACES, NAME)        # Namelist block # [^/]
-PATH            = """([^/]*(['"][^'"]*['"]))*"""    #  # ([^/]*(['"][^'"]*['"]))*
+NAMELIST        = """%s&%s%s(([^/]*(['"][^'"]*['"])?)*)/""" % (SPACES, SPACES, NAME)        # Namelist block # [^/]
+DIR             = """['"]([^/'"]*/[^/'"]*)*['"]"""
+PATH            = """%s&%s%s([^&]*)/""" % (SPACES, SPACES, NAME)   #
 
 def testSlash(text):
-    p   = re.compile(NAMELIST)  # PATH)  #
-    m   = p.match(text)
+    p   = re.compile(PATH)  # NAMELIST)  #
+    m   = p.findall(text)
     if m is not None:
-        print m.group(0)
+        for n in m:
+            print n[1]
 
 if __name__ == "__main__":
     testSlash(text)
 
 __date__ = "$Oct 20, 2009 11:04:00 AM$"
 
+# """%s&%s%s(([^/]*%s[^/]*)*)[^'"]*/"""
+# ([^/]*(['"][^'"]*['"]))*
 
