@@ -183,7 +183,7 @@ class QEParser:
         return text
 
 def _import(package):
-    return __import__(package, {}, {}, [''])
+    return __import__(package, globals(), locals(), [''], -1)
 
 
 
