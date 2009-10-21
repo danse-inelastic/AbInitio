@@ -54,7 +54,7 @@ def matdyn(fname):
     npPol = np.array(Pol)
 #    THz2meV = 4.1357 # meV * s
 #    output Omega in cm-1
-    return npPol, npOmega, qPoints
+    return [npPol, npOmega, qPoints]
     
     
 if __name__ == '__main__':
