@@ -2,32 +2,27 @@
 <!--
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
-!                                   Jiao Lin
+!
+!                             Michael A.G. Aivazis
 !                      California Institute of Technology
-!                      (C) 2006-2009  All Rights Reserved
+!                      (C) 1998-2005  All Rights Reserved
 !
 ! {LicenseText}
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<!-- Change it! -->
 
 <!DOCTYPE inventory>
 
 <inventory>
 
-  <component name='main'>
-<!--    <facility name='clerk'>clerk</facility>
-    <facility name="actor">greet</facility> -->
+  <component name='dds'>
+    <property name='dataroot'>../content/data</property>
   </component>
 
 </inventory>
 
 
 <!-- version-->
-<!-- $Id$-->
-
-<!-- Generated automatically by XMLMill on Sun May 24 06:50:52 2009-->
-
-<!-- End of file -->
+<!-- $Id: main.pml,v 1.1.1.1 2006-11-27 00:09:15 aivazis Exp $-->
