@@ -43,6 +43,7 @@ EXPORT_PYTHON_MODULES = \
         DistributedDataStorage.py \
         CSAccessor.py \
         SSHer.py \
+        spawn.py \
 	__init__.py \
 
 

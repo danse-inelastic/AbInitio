@@ -18,9 +18,9 @@ RECURSE_DIRS = \
     content \
     dds \
     bin \
-    config \
 
 INIT_DATADIRS = \
+    config \
     log \
 
 

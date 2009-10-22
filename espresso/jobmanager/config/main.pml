@@ -11,15 +11,16 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<!-- Change it! -->
+
+<!-- <property name='csaccessor'>csaccessor</property>
+<property name='dds'>jobmanager.components.dds</property>
+-->
 
 <!DOCTYPE inventory>
 
 <inventory>
 
   <component name='main'>
-<!--    <facility name='clerk'>clerk</facility>
-    <facility name="actor">greet</facility> -->
   </component>
 
 </inventory>

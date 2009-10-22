@@ -15,12 +15,12 @@
 # 1. Output the status of the simulation (as in ITaskApp.py)
 # 2. (?) Log the status
 
-from pyre.applications.Application import Application
+from pyre.applications.Script import Script
 
-class JobManager(Application):
-    
-    class Inventory(Application.Inventory):
-        import pyre.inventory
+class JobManager(Script):
+
+    class Inventory(Script.Inventory):
+        import pyre.inventory        
         import jobmanager.components
 
         # Set dds and csaccessor parameters
@@ -32,12 +32,14 @@ class JobManager(Application):
 
     def main(self):
         print "Hello world!"
+        return
 
-    def __init__(self, name):
-        super(JobManager, self).__init__(self, name)
+    def __init__(self, name="None"):
+        super(JobManager, self).__init__(name=name)
 
     def _configure(self):
         super(JobManager, self)._configure()
+        
         self.dds = self.inventory.dds
         self.dds.director = self
         self.csaccessor = self.inventory.csaccessor
@@ -45,7 +47,13 @@ class JobManager(Application):
     def _init(self):
         super(JobManager, self)._init()
 
+    def _getPrivateDepositoryLocations(self):
+        return ['../config'] #, '../content']
 
+
+if __name__ == "__main__":
+    app = JobManager()
+    app.run()
 
 
 __date__ = "$Oct 21, 2009 7:11:53 AM$"

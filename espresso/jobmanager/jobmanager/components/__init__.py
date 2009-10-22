@@ -31,6 +31,10 @@ def retrieveresults(*args, **kwds):
     retriever = ComputationResultsRetriever()
     return retriever(*args, **kwds)
 
+def spawn(command, dry_run = 0, env = None):
+    from spawn import spawn
+    return spawn(command, dry_run, env)
+
 # version
 __id__ = "$Id$"
 

@@ -14,7 +14,7 @@
 def main():
     from jobmanager.applications.JobManager import JobManager
 
-    app     = JobManager("main")
+    app     = JobManager(name='main')
     return app.run()
 
 if __name__ == "__main__":
