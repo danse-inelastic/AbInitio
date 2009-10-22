@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# DDS doesn't actually do much without implementation of functions such as:
+# masternode(), transferfile() etc...
 
 class DDS:
 
@@ -191,6 +193,10 @@ class DDS:
     pass # end of DDS
 
 
+
+
+# ***************** Auxiliary functions *****************
+
 def _url1(nodestr,path):
     return '%s/%s' % (nodestr, path)
 
@@ -218,6 +224,12 @@ def _node(s):
 
 import os
 
+
+
+
+
+
+# ***************** Tests *****************
 
 def test(masternode, node1, transferfile, readfile, writefile, makedirs, rename, symlink, fileexists):
     import os, shutil
@@ -351,6 +363,7 @@ def test2():
     test(masternode, node1, transferfile, readfile, writefile, makedirs, rename, symlink, fileexists)
     return
 
+# Tests file operations with remote server
 
 def testRemote():
     import os
@@ -403,6 +416,7 @@ def testRemote():
     testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rename, fileexists)
     return
 
+# Tests file operations with local file system
 
 def testLocal():
     import os
@@ -452,6 +466,8 @@ def testMasterNode(masternode, transferfile, readfile, writefile, makedirs, rena
 
     makedirs(masternode.address, masternode.rootpath)
     writefile(masternode.address, os.path.join(masternode.rootpath, fn1), 'blah')
+
+# Not sure is the underlying lines work, but the idea is clear :)
 
 #    import time
 #    time.sleep(0.1)

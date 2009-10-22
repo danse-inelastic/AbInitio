@@ -14,6 +14,9 @@
 
 from pyre.components.Component import Component as base
 
+# Implements functions for DDS class (see _createEngine() method)
+# Test if it runs on the cluster
+
 class DistributedDataStorage(base):
 
     class Inventory(base.Inventory):
