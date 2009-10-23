@@ -42,7 +42,7 @@ class QEParser:
         self.type           = type
 
     def parse(self):
-        self._setReferences()
+        self.getReferences()
 
         if self.configText is not None: # First try use configText
             text = self.configText
@@ -63,13 +63,14 @@ class QEParser:
             print self.cards[c].toString()
 
 
-    def _setReferences(self):
+    def getReferences(self):
         input   = "input%s" % self.type
         module  = _import("inputs.%s" % input)
         self.namelistRef   = getattr(module, "namelists")
         self.cardRef       = getattr(module, "cards")
-        
+        return (self.namelistRef, self.cardRef)
 
+        
     def _parseNamelists(self, text):
         namelists  = OrderedDict()
         p   = re.compile(COMMENT)
