@@ -1,4 +1,7 @@
 
 TODO list for utils directory. Feel free to add whatever you feel is appropriate :)
 
+   - Matdyn input parser: Should be able to import as a string anything which starts
+     right after end of the input namelist.  (Important!)
+   - input parser: If a file does not exist, report its filename
 - ???
