@@ -10,7 +10,7 @@
 #
 
 
-from vnf.components.Scheduler import schedule, check
+from Scheduler import schedule, check
 
 
 

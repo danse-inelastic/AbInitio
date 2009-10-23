@@ -30,7 +30,7 @@ distclean::
 
 
 EXPORT_DATAFILES = \
-	main.py \
+	jm.py \
 
 CP_F = rsync
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)

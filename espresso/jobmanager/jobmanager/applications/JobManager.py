@@ -24,11 +24,13 @@ class JobManager(Script):
         import jobmanager.components
 
         # Set dds and csaccessor parameters
-        dds = pyre.inventory.facility(name="dds", factory=jobmanager.components.dds)
+        dds         = pyre.inventory.facility(name="dds", factory=jobmanager.components.dds)
         dds.meta['tip'] = "the component manages data files"
 
-        csaccessor = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
+        csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
         csaccessor.meta['tip'] = 'computing server accessor'
+
+        server      = pyre.inventory.str(name="server", default="127.0.0.1")
 
     def main(self):
         print "Hello world!"
@@ -40,9 +42,10 @@ class JobManager(Script):
     def _configure(self):
         super(JobManager, self)._configure()
         
-        self.dds = self.inventory.dds
+        self.dds        = self.inventory.dds
         self.dds.director = self
         self.csaccessor = self.inventory.csaccessor
+        self.server     = self.inventory.server
 
     def _init(self):
         super(JobManager, self)._init()
