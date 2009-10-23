@@ -34,6 +34,8 @@ debug = journal.debug( 'torque' )
 
 from pyre.units.time import hour, minute, second
 
+class SchedulerDaemonNotStarted(Exception): pass
+
 
 class Scheduler:
 
@@ -57,7 +59,7 @@ class Scheduler:
         failed, output, error = self._launch( cmds )
         if failed:
             if error.find( 'check pbs_server daemon' ) != -1:
-                from exceptions import SchedulerDaemonNotStarted
+                #from exceptions import SchedulerDaemonNotStarted
                 raise SchedulerDaemonNotStarted, "pbs_server"
             msg = "error in executing cmds %s. output: %s, error: %s" % (
                 cmds, output, error )

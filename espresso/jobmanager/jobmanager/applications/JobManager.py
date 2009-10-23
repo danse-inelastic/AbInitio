@@ -30,7 +30,22 @@ class JobManager(Script):
         csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
         csaccessor.meta['tip'] = 'computing server accessor'
 
-        server      = pyre.inventory.str(name="server", default="127.0.0.1")
+        serverIP      = pyre.inventory.str(name="serverIP", default="127.0.0.1")
+        
+        servername    = pyre.inventory.str(name="servername", default="localhost")
+        server.meta['label'] = 'Computation server'
+        server.meta['tip'] = ('Please choose the server on which the job will be run')
+
+        numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
+        numprocessors.meta['label'] = 'Number of processors'
+        numprocessors.meta['tip'] = ('Please input the number of processors')
+        numprocessors.meta['tiponerror'] = ('Please enter a positive integer')
+
+        walltime = pyre.inventory.str( 'walltime', default = 10)
+        walltime.meta['label'] = 'Time limit (hours)'
+        walltime.meta['tip'] = ('Please input a limit on the time your job will run. (Unit: hours)')
+        walltime.meta['tiponerror'] = ('Please enter a positive integer')
+
 
     def main(self):
         print "Hello world!"
