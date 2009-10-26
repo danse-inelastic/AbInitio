@@ -12,22 +12,20 @@
 #
 
 
-from CSAccessor import CSAccessor as base, RemoteAccessError
 
-class SSHer(base):
+from pyre.components.Component import Component
 
-    class Inventory(base.Inventory):
+class SSHer(Component):
 
+    class Inventory(Component.Inventory):
         import pyre.inventory
-        #auth_sock = pyre.inventory.str( 'auth_sock')
         known_hosts = pyre.inventory.str( 'known_hosts' )
         private_key = pyre.inventory.str( 'private_key' )
-        user = pyre.inventory.str('user', default = 'www-data')
-        pass # end of Inventory
+        user        = pyre.inventory.str('user', default = '')
     
 
     def __init__(self, *args, **kwds):
-        base.__init__(self, *args, **kwds)
+        super(SSHer, self).__init__(*args, **kwds)
         return
 
 

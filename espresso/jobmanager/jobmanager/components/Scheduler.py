@@ -12,121 +12,121 @@
 #
 
 
+class Scheduler
 
-import journal
-info = journal.info( 'scheduler' )
+    def __init__(self):
+        pass
+
+    def schedule(self, job, director ):
+        # copy local job directory to server
+        server          = director.server
+        server_jobpath  = director.dds.abspath(job, server=server)
+
+        # the server
+        server = job.server.dereference(director.clerk.db)
+
+        # the scheduler
+        scheduler = schedulerfactory( server )
+        launch = lambda cmd: director.csaccessor.execute(
+            cmd, server, server_jobpath, suppressException=True)
+        scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
+
+        # submit job through scheduler
+        walltime = job.walltime
+        from pyre.units.time import hour
+        walltime = walltime*hour
+        id1 = scheduler.submit( 'cd %s && sh run.sh' % server_jobpath, walltime=walltime )
+
+        # write id to the remote directory
+        director.csaccessor.execute('echo "%s" > jobid' % id1, server, server_jobpath)
+
+        # update job db record
+        job.id_incomputingserver = id1
+        job.state = 'submitted'
+        import time
+        job.time_start = time.ctime()
+        director.clerk.updateRecordWithID(job)
+
+        return
 
 
-def schedule( job, director ):
-    # copy local job directory to server
-    server          = director.server
-    server_jobpath  = director.dds.abspath(job, server=server)
+    def check(self, job, director ):
+        "check status of a job"
 
-    # the server
-    server = job.server.dereference(director.clerk.db)
+        if job.state in ['finished', 'failed', 'terminated', 'cancelled']:
+            return job
 
-    # the scheduler 
-    scheduler = schedulerfactory( server )
-    launch = lambda cmd: director.csaccessor.execute(
-        cmd, server, server_jobpath, suppressException=True)
-    scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
+        oldstate = job.state
 
-    # submit job through scheduler
-    walltime = job.walltime
-    from pyre.units.time import hour
-    walltime = walltime*hour
-    id1 = scheduler.submit( 'cd %s && sh run.sh' % server_jobpath, walltime=walltime )
+        #scheduler
+        server = director.clerk.dereference(job.server)
+        scheduler = schedulerfactory( server )
 
-    # write id to the remote directory
-    director.csaccessor.execute('echo "%s" > jobid' % id1, server, server_jobpath)
+        #remote job path
+        server_jobpath = director.dds.abspath(job, server=server)
 
-    # update job db record
-    job.id_incomputingserver = id1
-    job.state = 'submitted'
-    import time
-    job.time_start = time.ctime()
-    director.clerk.updateRecordWithID(job)
-    
-    return
+        #
+        launch = lambda cmd: director.csaccessor.execute(
+            cmd, server, server_jobpath, suppressException=True)
 
+        scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
 
-def check( job, director ):
-    "check status of a job"
+        jobstatus = scheduler.status( job.id_incomputingserver )
 
-    if job.state in ['finished', 'failed', 'terminated', 'cancelled']:
+        for k,v in jobstatus.iteritems():
+            setattr(job, k, v)
+            continue
+
+        director.clerk.updateRecordWithID( job )
+
+        newstate = job.state
+
+        if oldstate != newstate:
+            # alert user
+            user = director.clerk.getUser(job.creator)
+
+            from vnf.components.misc import announce
+            announce(director, 'job-state-changed', job, user)
+
         return job
 
-    oldstate = job.state
-    
-    #scheduler
-    server = director.clerk.dereference(job.server)
-    scheduler = schedulerfactory( server )
 
-    #remote job path
-    server_jobpath = director.dds.abspath(job, server=server)
+    def cancel(self, job, director ):
+        "cancel a job"
 
-    #
-    launch = lambda cmd: director.csaccessor.execute(
-        cmd, server, server_jobpath, suppressException=True)
+        if job.state not in ['running']:
+            return job
 
-    scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
+        oldstate = job.state
 
-    jobstatus = scheduler.status( job.id_incomputingserver )
+        #scheduler
+        server = director.clerk.dereference(job.server)
+        scheduler = schedulerfactory( server )
 
-    for k,v in jobstatus.iteritems():
-        setattr(job, k, v)
-        continue
+        #remote job path
+        server_jobpath = director.dds.abspath(job, server=server)
 
-    director.clerk.updateRecordWithID( job )
+        #
+        launch = lambda cmd: director.csaccessor.execute(
+            cmd, server, server_jobpath, suppressException=True)
 
-    newstate = job.state
+        scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
 
-    if oldstate != newstate:
-        # alert user
-        user = director.clerk.getUser(job.creator)
-        
-        from vnf.components.misc import announce
-        announce(director, 'job-state-changed', job, user)
-        
-    return job
+        scheduler.delete( job.id_incomputingserver )
 
+        job.state = 'cancelled'
+        director.clerk.updateRecordWithID( job )
 
-def cancel( job, director ):
-    "cancel a job"
+        newstate = job.state
 
-    if job.state not in ['running']:
+        if oldstate != newstate:
+            # alert user
+            user = director.clerk.getUser(job.creator)
+
+            from vnf.components.misc import announce
+            announce(director, 'job-state-changed', job, user)
+
         return job
-
-    oldstate = job.state
-    
-    #scheduler
-    server = director.clerk.dereference(job.server)
-    scheduler = schedulerfactory( server )
-
-    #remote job path
-    server_jobpath = director.dds.abspath(job, server=server)
-
-    #
-    launch = lambda cmd: director.csaccessor.execute(
-        cmd, server, server_jobpath, suppressException=True)
-
-    scheduler = scheduler(launch, prefix = 'source ~/.vnf' )
-
-    scheduler.delete( job.id_incomputingserver )
-
-    job.state = 'cancelled'
-    director.clerk.updateRecordWithID( job )
-
-    newstate = job.state
-
-    if oldstate != newstate:
-        # alert user
-        user = director.clerk.getUser(job.creator)
-        
-        from vnf.components.misc import announce
-        announce(director, 'job-state-changed', job, user)
-        
-    return job
 
 
 # Creates scheduler (torque)

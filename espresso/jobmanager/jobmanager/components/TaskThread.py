@@ -11,18 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-class Driver:
-    def __init__(self):
-        pass
+class TaskThread:
+    pass
 
-    def perform(self):
-        # 1. Read configuration
-        # 2. Create thread (syncronous)
-        # 3. Execute command on remote cluster
-        # 4. Get status of the task
-
-        pass
-
-__date__ = "$Oct 25, 2009 3:53:41 PM$"
+__date__ = "$Oct 25, 2009 4:20:54 PM$"
 
 

@@ -42,8 +42,9 @@ distclean::
 EXPORT_PYTHON_MODULES = \
         DistributedDataStorage.py \
         Driver.py \
-        CSAccessor.py \
         SSHer.py \
+        Scheduler.py \
+        Torque.py \
         spawn.py \
 	__init__.py \
 
