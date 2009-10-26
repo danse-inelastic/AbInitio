@@ -17,48 +17,82 @@ DDS doesn't actually do much without implementation of functions such as:
 masternode(), transferfile() etc...
 """
 
-class DDS: pass
+## ***************** Auxiliary functions *****************
+#
+#def _url1(nodestr,path):
+#    return '%s/%s' % (nodestr, path)
+#
+#
+#def _url(node,path):
+#    if node.address:
+#        return '%s:%s/%s' % (node.address, node.rootpath, path)
+#    else:
+#        return '%s/%s' % (node.rootpath, path)
+#
+#
+#def _str(node):
+#    if node.address:
+#        return '%s:%s' % (node.address, node.rootpath)
+#    return node.rootpath
+#
+#
+#def _node(s):
+#    words = s.split(':')
+#    from Node import Node
+#    if len(words) == 1: return Node('', s)
+#    if len(words) == 2: return Node(words[0], words[1])
+#    raise ValueError, "not a node: %s" % (s,)
 
-#class DDS:
-#
-#    def __init__(self, masternode, transferfile=None,
-#                 readfile=None, writefile=None, makedirs=None,
-#                 rename=None, symlink=None, fileexists=None,
-#                 ):
-#        """
-#        masternode:     a "distributed data storage" must have a master node
-#        transferfile:   the facility to transfer a file from one node to another
-#        rename:         the facility to rename a file in one node. rename(oldpath, newpath, "server.address")
-#        symlink:        the facility to create a symbolic link to a file in one node. symlink(oldpath, newpath, "server.address")
-#        readfile:       the facility to read a text file. readfile("server.address:/a/b/c")
-#        writefile:      the facility to write a text file. writefile("server.address:/a/b/c", "contents")
-#        makedirs:       the facility to make a directory. it should be able to make the intermediate directories automatically
-#        fileexists:     the facility to check if a file exists on a node or not. fileexists("server.address:/a/b/c")
-#        """
-#
-#        self.masternode = masternode
-#        self.nodes = [masternode]
-#        self._transferfile = transferfile
-#        self._readfile = readfile
-#        self._writefile = writefile
-#        self._makedirs = makedirs
-#        self._fileexists = fileexists
-#        self._rename = rename
-#        self._symlink = symlink
-#        return
-#
+
+import os
+
+
+class DDS:
+    def __init__(self,
+                 masternode,
+                 transferfile   =None,
+                 readfile       =None,
+                 writefile      =None,
+                 makedirs       =None,
+                 rename         =None,
+                 symlink        =None,
+                 fileexists     =None):
+
+        """
+        masternode:     a "distributed data storage" must have a master node
+        transferfile:   the facility to transfer a file from one node to another
+        rename:         the facility to rename a file in one node. rename(oldpath, newpath, "server.address")
+        symlink:        the facility to create a symbolic link to a file in one node. symlink(oldpath, newpath, "server.address")
+        readfile:       the facility to read a text file. readfile("server.address:/a/b/c")
+        writefile:      the facility to write a text file. writefile("server.address:/a/b/c", "contents")
+        makedirs:       the facility to make a directory. it should be able to make the intermediate directories automatically
+        fileexists:     the facility to check if a file exists on a node or not. fileexists("server.address:/a/b/c")
+        """
+
+        self.masternode     = masternode
+        self.nodes          = [masternode]
+        self._transferfile  = transferfile
+        self._readfile      = readfile
+        self._writefile     = writefile
+        self._makedirs      = makedirs
+        self._fileexists    = fileexists
+        self._rename        = rename
+        self._symlink       = symlink
+        return
 #
 #    def add_node(self, node):
+#        """Adds node to the node list"""
 #        self.nodes.append(node)
 #        return
 #
-#
 #    def abspath(self, path, node=None):
-#        if node is None: node = self.masternode
+#        """Returns absolute path: rootpath/path """
+#        if node is None:
+#            node = self.masternode
 #        return os.path.join(node.rootpath, path)
 #
-#
 #    def rename(self, old, new, node=None):
+#        """ """
 #        if node is None: node = self.masternode
 #        oldpath = '%s/%s' % (node.rootpath, old)
 #        newpath = '%s/%s' % (node.rootpath, new)
@@ -71,6 +105,7 @@ class DDS: pass
 #
 #
 #    def copy(self, old, new, node=None):
+#        """ """
 #        if node is None: node = self.masternode
 #        oldpath = '%s/%s' % (node.rootpath, old)
 #        newpath = '%s/%s' % (node.rootpath, new)
@@ -96,11 +131,11 @@ class DDS: pass
 #
 #
 #    def remember(self, path, node=None):
-#        '''remember that a path of a node exists
+#        """Remembers that a path of a node exists
 #
 #        node: the node that the path exists. None means master node
 #        path: the path
-#        '''
+#        """
 #        if node is None: node = self.masternode
 #        url = _url(node,path)
 #        if not self._fileexists(url):
@@ -115,6 +150,7 @@ class DDS: pass
 #
 #
 #    def forget(self, path, node=None):
+#        """ """
 #        if node is None: node = self.masternode
 #        url = _url(node,path)
 #        if self._fileexists(url):
@@ -130,6 +166,7 @@ class DDS: pass
 #
 #
 #    def is_available(self, path, node=None):
+#        """ """
 #        if node is None: node = self.masternode
 #
 #        l = self._read_availability_list(path)
@@ -143,6 +180,7 @@ class DDS: pass
 #
 #
 #    def make_available(self, path, node=None):
+#        """ """
 #        '''make file at given path available at given node'''
 #        if self.is_available(path, node): return
 #        if node is None: node = self.masternode
@@ -169,18 +207,21 @@ class DDS: pass
 #
 #
 #    def _transfer(self, path, srcnode, destnode):
+#        """ """
 #        d = os.path.split(path)[0]
 #        self._makedirs(_url(destnode,d))
 #        return self._transferfile(_url(srcnode,path), _url(destnode,path))
 #
 #
 #    def _read_availability_list(self, path):
+#        """ """
 #        p = self._availability_list_path(path)
 #        if self._fileexists(p):
 #            return self._readfile(p).split('\n')
 #        return []
 #
 #    def _update_availability_list(self, path, list):
+#        """ """
 #        p = self._availability_list_path(path)
 #        d = os.path.split(p)[0]
 #        self._makedirs(d)
@@ -200,35 +241,6 @@ class DDS: pass
 #
 #
 #
-## ***************** Auxiliary functions *****************
-#
-#def _url1(nodestr,path):
-#    return '%s/%s' % (nodestr, path)
-#
-#
-#def _url(node,path):
-#    if node.address:
-#        return '%s:%s/%s' % (node.address, node.rootpath, path)
-#    else:
-#        return '%s/%s' % (node.rootpath, path)
-#
-#
-#def _str(node):
-#    if node.address:
-#        return '%s:%s' % (node.address, node.rootpath)
-#    return node.rootpath
-#
-#
-#def _node(s):
-#    words = s.split(':')
-#    from Node import Node
-#    if len(words) == 1: return Node('', s)
-#    if len(words) == 2: return Node(words[0], words[1])
-#    raise ValueError, "not a node: %s" % (s,)
-#
-#
-#import os
-#
 #
 #
 #
@@ -240,10 +252,9 @@ class DDS: pass
 #    import os, shutil
 #
 #    import os
-#    dds = DDS(
-#        masternode, transferfile=transferfile,
-#        readfile=readfile, writefile=writefile, makedirs=makedirs,
-#        rename=rename, symlink=symlink, fileexists=fileexists)
+#    dds = DDS(masternode, transferfile=transferfile,
+#              readfile=readfile, writefile=writefile, makedirs=makedirs,
+#              rename=rename, symlink=symlink, fileexists=fileexists)
 #    if os.path.exists(masternode.rootpath): shutil.rmtree(masternode.rootpath)
 #    try:
 #        dds.remember('file1')
@@ -504,7 +515,8 @@ class DDS: pass
 #    return
 #
 #
-#if __name__ == '__main__': main()
+#if __name__ == '__main__':
+#    main()
 
 
 # version

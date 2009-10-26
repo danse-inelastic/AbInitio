@@ -11,14 +11,28 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-class Scheduler: pass
+class Server:
+    def __init__(self, address, port, username):
+        self.address     = address
+        self.port        = port
+        self.username    = username
 
-#class Scheduler
-#
-#    def __init__(self):
-#        pass
-#
-#
+class Scheduler:
+
+    def __init__(self, director):
+        self._director   = director
+
+    def schedule(self):     #, job, director ):
+
+        from jobmanager.components.Torque import Torque
+        s       = Torque()
+        cmd     = s.submit()
+        server  = Server("foxtrot.danse.us", None, "dexity")
+
+        self._director.csaccessor.execute("bash run.sh", server, remotepath = "/home/dexity/espresso/Ni")
+        #self._director.csaccessor.execute(cmd, server, remotepath = "/home/dexity/espresso/Ni")
+        return cmd
+
 #    def schedule(self, job, director ):
 #        # copy local job directory to server
 #        server          = director.server
@@ -144,6 +158,9 @@ class Scheduler: pass
 #    except: raise NotImplementedError, 'scheduler %r' % scheduler
 #    return scheduler
 
+if __name__ == "__main__":
+    s   = Scheduler(None)
+    s.schedule()
 
 # version
 __id__ = "$Id$"

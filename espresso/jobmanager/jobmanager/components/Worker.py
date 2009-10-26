@@ -37,25 +37,27 @@ class Worker(Component):
 
         print "Hello Worker!"
         
-#        try:
-#            self.prepare(job)
-#            self.schedule(job)
-#        except Exception, e:
-#            import traceback
-#            #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
-#            raise
+        try:
+            self.prepare(job)
+            self.schedule(job)
+        except Exception, e:
+            import traceback
+            #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
+            raise
 
     def prepare(self, job):
-        dds = self._director.dds
+#        dds = self._director.dds
+#
+#        jobpath = dds.abspath(job)
 
-        jobpath = dds.abspath(job)
-
-#        from vnfb.components.job_utils import buildjob
+#        #At this point you should know about the simulation you want to run
+#        from jobmanager.simulations.QE import QE
 #        files, deps = buildjob(computation, db=clerk.db, dds=dds, path=jobpath, director=director)
-        for f in files: dds.remember(job, f)
-
-        # make job related files available on the server
-        dds.make_available(job, server=server, files=files)
+#        for f in files:
+#            dds.remember(job, f)
+#
+#        # make job related files available on the server
+#        dds.make_available(job, server=server, files=files)
 
         # make dependencies available on the server
 
@@ -63,35 +65,38 @@ class Worker(Component):
         #    self.prepare_dependency(dep, job)
         return
 
+    def makeAvailable(self):
+        pass
 
     def prepare_dependency(self, dep, job):
-        dds = self._director.dds
-
-        if dds.is_available(dep): dds.remember(dep)
-
-        server = None
-        dds.make_available(dep, server=server)
+#        dds = self._director.dds
+#
+#        if dds.is_available(dep):
+#            dds.remember(dep)
+#
+#        server = None
+#        dds.make_available(dep, server=server)
         return
 
 
     def schedule(self, job):
         from jobmanager.components.Scheduler import Scheduler
-        s   = Scheduler(job, self._director)
+        s   = Scheduler(self._director)     # job,
         return s.schedule()
 
 
 # Rename building job to running
 # Call jobmanager.simulation.QE
 
-def buildjob() #computation, db=None, dds=None, path=None, director=None):
-    name = computation.__class__.__name__.lower()
-    builder = director.retrieveComponent(
-        name,
-        factory="job_builder", args=[name, path],
-        vault=['job_builders'])
-    files = builder.build(computation, db=db, dds=dds)
-    deps = builder.getDependencies()
-    return files, deps
+#def buildjob() #computation, db=None, dds=None, path=None, director=None):
+#    name = computation.__class__.__name__.lower()
+#    builder = director.retrieveComponent(
+#        name,
+#        factory="job_builder", args=[name, path],
+#        vault=['job_builders'])
+#    files = builder.build(computation, db=db, dds=dds)
+#    deps = builder.getDependencies()
+#    return files, deps
 
 
 if __name__ == "__main__":

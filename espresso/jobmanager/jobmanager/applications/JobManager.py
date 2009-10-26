@@ -29,8 +29,8 @@ class JobManager(Script):
         import jobmanager.components
 
         # Set dds and csaccessor parameters
-        dds         = pyre.inventory.facility(name="dds", factory=jobmanager.components.dds)
-        dds.meta['tip'] = "the component manages data files"
+#        dds         = pyre.inventory.facility(name="dds", factory=jobmanager.components.dds)
+#        dds.meta['tip'] = "the component manages data files"
 
         csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
         csaccessor.meta['tip'] = 'computing server accessor'
@@ -69,8 +69,8 @@ class JobManager(Script):
     def _configure(self):
         super(JobManager, self)._configure()
         
-        self.dds        = self.inventory.dds
-        self.dds.director   = self
+#        self.dds        = self.inventory.dds
+#        self.dds.director   = self
         self.csaccessor = self.inventory.csaccessor
         self.servername = self.inventory.servername
 

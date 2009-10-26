@@ -26,27 +26,39 @@ https://subtrac.sara.nl/oss/pbs_python
 http://code.google.com/p/py-pbs/
 """
 
-class Torque: pass
+from pyre.units.time import hour, minute, second
 
-#from pyre.units.time import hour, minute, second
-#
-#class SchedulerDaemonNotStarted(Exception): pass
-#
-#
-#class Torque:
-#
-#
-#    outfilename = 'STDOUT.log'
-#    errfilename = 'STDERR.log'
-#
-#
-#    def __init__(self, launcher, prefix = None, outputstr_maxlen = 2048):
-#        self.prefix = prefix
-#        self.launcher = launcher
-#        self.outputstr_maxlen = outputstr_maxlen
-#        return
-#
-#
+class SchedulerDaemonNotStarted(Exception):
+    pass
+
+
+class Torque:
+
+    outfilename = 'STDOUT.log'
+    errfilename = 'STDERR.log'
+
+    def __init__(self, launcher = None, prefix = None, outputstr_maxlen = 2048):
+        self.prefix             = prefix
+        self.launcher           = launcher
+        self.outputstr_maxlen   = outputstr_maxlen
+        return
+
+    def submit(self):
+        cmd = """echo 'mpirun  --mca btl openib,sm,self pw.x -npool 8 -inp  ni.scf.in > ni.scf.out' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -"""
+        cmds = [ cmd ]
+        #failed, output, error = self._launch( cmds )
+        
+#        if failed:
+#            if error.find( 'check pbs_server daemon' ) != -1:
+#                raise SchedulerDaemonNotStarted, "pbs_server"
+#            msg = "error in executing cmds %s. output: %s, error: %s" % ( cmds, output, error )
+#            raise RuntimeError, msg
+
+        return cmd  #output.strip()
+
+
+
+
 #    def submit( self, cmd, walltime=1*hour ):
 #        walltime = _walltime_str(walltime)
 #
@@ -261,7 +273,8 @@ class Torque: pass
 #    return
 #
 #
-#if __name__ == '__main__': main()
+#if __name__ == '__main__':
+#    main()
 
 
 # version

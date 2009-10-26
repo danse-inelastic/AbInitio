@@ -15,11 +15,11 @@
 
 def spawn(command, dry_run = 0, env = None):
     """
-    command: command to run
-    env: environment variables to pass to the process in which the command will be executed
-    dry_run: if true, only print the command to be excuted
+    command:    command to run
+    env:        environment variables to pass to the process in which the command will be executed
+    dry_run:    if true, only print the command to be excuted
     
-    return: fail(bool), out(str), error(str)
+    return:     fail(bool), out(str), error(str)
     """
 
     if type(command) == list:
@@ -39,13 +39,12 @@ def spawn(command, dry_run = 0, env = None):
     log = OStrStream()
     errlog = OStrStream()
     
-    p = subprocess.Popen(
-        cmd, stdout = log, stderr = errlog, shell = True, env = env)
+    p = subprocess.Popen(cmd, stdout = log, stderr = errlog, shell = True, env = env)
     
     ret = p.wait()
     del p
 
-    info.log( "cmd \n%s\n finished" % cmd )
+    #info.log( "cmd \n%s\n finished" % cmd )
     return ret, log.str(), errlog.str()
 import types
 
