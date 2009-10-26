@@ -35,13 +35,15 @@ class Worker(Component):
     def run(self):
         job = None  # Populate job from task
 
-        try:
-            self.prepare(job)
-            self.schedule(job)
-        except Exception, e:
-            import traceback
-            #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
-            raise
+        print "Hello Worker!"
+        
+#        try:
+#            self.prepare(job)
+#            self.schedule(job)
+#        except Exception, e:
+#            import traceback
+#            #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
+#            raise
 
     def prepare(self, job):
         dds = self._director.dds
@@ -81,15 +83,20 @@ class Worker(Component):
 # Rename building job to running
 # Call jobmanager.simulation.QE
 
-#def buildjob() #computation, db=None, dds=None, path=None, director=None):
-#    name = computation.__class__.__name__.lower()
-#    builder = director.retrieveComponent(
-#        name,
-#        factory="job_builder", args=[name, path],
-#        vault=['job_builders'])
-#    files = builder.build(computation, db=db, dds=dds)
-#    deps = builder.getDependencies()
-#    return files, deps
+def buildjob() #computation, db=None, dds=None, path=None, director=None):
+    name = computation.__class__.__name__.lower()
+    builder = director.retrieveComponent(
+        name,
+        factory="job_builder", args=[name, path],
+        vault=['job_builders'])
+    files = builder.build(computation, db=db, dds=dds)
+    deps = builder.getDependencies()
+    return files, deps
+
+
+if __name__ == "__main__":
+    w   = Worker(None)
+    w.run()
 
 
 

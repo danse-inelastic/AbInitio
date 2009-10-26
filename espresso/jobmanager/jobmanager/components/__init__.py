@@ -21,16 +21,17 @@ def ssher(name='ssher', facility='csaccessor'):
     from SSHer import SSHer
     return SSHer(name=name, facility=facility)
 
+## Redo
 #def buildjob(*args, **kwds):
 #    from JobBuilder import JobBuilder
 #    builder = JobBuilder()
 #    return builder(*args, **kwds)
-
-# ?
-def retrieveresults(*args, **kwds):
-    from ComputationResultsRetriever import ComputationResultsRetriever
-    retriever = ComputationResultsRetriever()
-    return retriever(*args, **kwds)
+#
+## Redo
+#def retrieveresults(*args, **kwds):
+#    from ComputationResultsRetriever import ComputationResultsRetriever
+#    retriever = ComputationResultsRetriever()
+#    return retriever(*args, **kwds)
 
 #def spawn(command, dry_run = 0, env = None):
 #    from spawn import spawn

@@ -10,6 +10,18 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2005  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 PROJECT = jobmanager
 PACKAGE = components
 
@@ -46,11 +58,12 @@ EXPORT_PYTHON_MODULES = \
         TaskThread.py \
         Torque.py \
         Worker.py \
-	__init__.py \
+        __init__.py \
 
 
 export:: export-package-python-modules
 	BLD_ACTION="export" $(MM) recurse
+
 
 
 # version

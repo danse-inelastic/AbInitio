@@ -18,7 +18,7 @@
 # 2. (?) Log the status
 
 # TODO:
-# Where to put ComputationResultsRetriever.py?
+# What is the ComputationResultsRetriever.py for?
 
 from pyre.applications.Script import Script
 
@@ -35,22 +35,22 @@ class JobManager(Script):
         csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
         csaccessor.meta['tip'] = 'computing server accessor'
 
-        serverip      = pyre.inventory.str(name="serverip", default="127.0.0.1")
-        
         servername    = pyre.inventory.str(name="servername", default="localhost")
         servername.meta['label'] = 'Computation server'
         servername.meta['tip'] = ('Please choose the server on which the job will be run')
 
-        numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
-        numprocessors.meta['label'] = 'Number of processors'
-        numprocessors.meta['tip'] = ('Please input the number of processors')
-        numprocessors.meta['tiponerror'] = ('Please enter a positive integer')
-
-        #?
-        walltime = pyre.inventory.str( 'walltime', default = 10)
-        walltime.meta['label'] = 'Time limit (hours)'
-        walltime.meta['tip'] = ('Please input a limit on the time your job will run. (Unit: hours)')
-        walltime.meta['tiponerror'] = ('Please enter a positive integer')
+#        serverip      = pyre.inventory.str(name="serverip", default="127.0.0.1")
+#
+#        numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
+#        numprocessors.meta['label'] = 'Number of processors'
+#        numprocessors.meta['tip'] = ('Please input the number of processors')
+#        numprocessors.meta['tiponerror'] = ('Please enter a positive integer')
+#
+#        #?
+#        walltime = pyre.inventory.str( 'walltime', default = 10)
+#        walltime.meta['label'] = 'Time limit (hours)'
+#        walltime.meta['tip'] = ('Please input a limit on the time your job will run. (Unit: hours)')
+#        walltime.meta['tiponerror'] = ('Please enter a positive integer')
 
 
     # Here is where the essence of the script goes
@@ -70,9 +70,9 @@ class JobManager(Script):
         super(JobManager, self)._configure()
         
         self.dds        = self.inventory.dds
-        self.dds.director = self
+        self.dds.director   = self
         self.csaccessor = self.inventory.csaccessor
-        self.servername     = self.inventory.servername
+        self.servername = self.inventory.servername
 
     def _init(self):
         super(JobManager, self)._init()

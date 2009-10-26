@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = jobmanager
-PACKAGE = jobmanager/dds
+PACKAGE = dds
 
 BUILD_DIRS = \
 
@@ -42,7 +42,7 @@ EXPORT_PYTHON_MODULES = \
 	__init__.py
 
 
-export:: export-python-modules
+export:: export-package-python-modules
 	BLD_ACTION="export" $(MM) recurse
 
 # version
