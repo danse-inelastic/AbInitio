@@ -20,6 +20,7 @@
   <component name='ssher'>
     <property name='known_hosts'>/home/dexity/.ssh/known_hosts</property>
     <property name='private_key'>/home/dexity/.ssh/id_rsa</property>
+    <property name='user'>dexity</property>
   </component>
 
 </inventory>

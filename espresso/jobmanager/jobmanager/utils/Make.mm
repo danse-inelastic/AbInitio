@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = jobmanager
-PACKAGE = jobmanager/dds
+PACKAGE = jobmanager/utils
 
 BUILD_DIRS = \
 
@@ -37,9 +37,8 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-	DDS.py \
-	Node.py \
-	__init__.py
+        spawn.py \
+	__init__.py \
 
 
 export:: export-python-modules

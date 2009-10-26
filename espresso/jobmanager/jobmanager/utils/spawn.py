@@ -11,10 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
-import journal
-info = journal.info( 'spawn' )
-
+# Creates child process and execute shell command
 
 def spawn(command, dry_run = 0, env = None):
     """
@@ -33,10 +30,10 @@ def spawn(command, dry_run = 0, env = None):
         pass
 
     if dry_run:
-        info.log( "Command to execute: \n%s" % cmd )
+        print "Command to execute: \n%s" % cmd
         return 
 
-    info.log( "Executing: \n%s" % cmd )
+    #print "Executing: \n%s" % cmd
 
     import subprocess
     log = OStrStream()

@@ -11,9 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
+"""
+Performs ssh connection, commands execution or create ssh tunnel to remote server
+"""
 
 from pyre.components.Component import Component
+
+LOCALHOST   = {"address":   (None, 'localhost', '127.0.0.1'),
+               "port":      (None, 22, '22')}
+
+import os
+from jobmanager.utils.spawn import spawn
 
 class SSHer(Component):
 
@@ -29,36 +37,54 @@ class SSHer(Component):
         return
 
 
-    def copyfile(self, server1, path1, server2, path2):
-        'copy recursively from server1 to server2'
-        if not _localhost(server1) and not _localhost(server2):
-            return self._copyfile_rr(server1, path1, server2, path2)
-        if _localhost(server1) and _localhost(server2):
+    def copy(self, serverA, pathA, serverB, pathB):
+        """copy recursively from serverA to serverB"""
+
+        # Copy from remote server to remote server
+        if not self._isLocalhost(serverA) and not self._isLocalhost(serverB):
+            return self._copyR2R(serverA, pathA, serverB, pathB)
+
+        # Copy from one directory to other directory on local server
+        if self._isLocalhost(serverA) and self._isLocalhost(serverB):
             import shutil
-            shutil.copy(path1, path2)
-        if _localhost(server1): self._copyfile_lr(path1, server2, path2)
-        if _localhost(server2):
-            if os.path.isdir(path2):
-                dir = path2; newfilename = None
+            shutil.copy(pathA, pathB)
+
+        # Copy from local server to remote server
+        if self._isLocalhost(serverA):
+            self._copyL2R(pathA, serverB, pathB)
+
+        # Copy from remote server to local server
+        if self._isLocalhost(serverB):
+            if os.path.isdir(pathB):
+                dir = pathB
+                newfilename = None
             else:
-                dir = os.path.dirname(path2); newfilename = os.path.basename(path2)
-            self.getfile(server1, path1, localdir=dir, newfilename=newfilename)
+                dir = os.path.dirname(pathB)
+                newfilename = os.path.basename(pathB)
+                
+            self.getFile(serverA, pathA, localdir=dir, newfilename=newfilename)
+
         return
     
 
     def pushdir( self, path, server, remotepath ):
-        '''push a local directory to remote server
+        """
+        Pushes a local directory to remote server:
+            1. Archives the "path" directory to tar file
+            2. Copy the tar file to remote server
+            3. Untars the atchived file on remote server
 
-    Eg:
-        pushdir('/a/b/c', server1, '/a1/b1'): directory /a/b/c will be copied to server1 and become /a1/b1/c
-        '''
-        address = server.address
-        port = server.port
-        username = server.username
+        Eg: pushdir('/a/b/c', server1, '/a1/b1')
+            Directory /a/b/c will be copied to server1 and become /a1/b1/c
+        """
+        
+        address     = server.address
+        port        = server.port
+        username    = server.username
         known_hosts = self.inventory.known_hosts
         private_key = self.inventory.private_key
 
-        # tar -czf - <sourcepath> | ssh <remotehost> "(cd <remotepath>; tar -xzf -)"
+        """tar -czf - <sourcepath> | ssh <remotehost> "(cd <remotepath>; tar -xzf -)" """
         pieces = [
             'tar',
             '-czf',
@@ -85,21 +111,19 @@ class SSHer(Component):
 
         cmd = ' '.join(pieces)
         
-        self._info.log( 'execute: %s' % cmd )
-
         failed, output, error = spawn( cmd )
         if failed:
-            msg = '%r failed: %s' % (
-                cmd, error )
+            msg = '%r failed: %s' % ( cmd, error )
             raise RemoteAccessError, msg
         return
 
 
-    def getfile( self, server, remotepath, localdir, newfilename=None):
-        'retrieve file from remote server to local path'
-        address = server.address
-        port = server.port
-        username = server.username
+    def getFile( self, server, remotepath, localdir, newfilename=None):
+        """retrieve file from remote server to local path"""
+
+        address     = server.address
+        port        = server.port
+        username    = server.username
         known_hosts = self.inventory.known_hosts
         private_key = self.inventory.private_key
         
@@ -126,7 +150,8 @@ class SSHer(Component):
             ]
 
         cmd = ' '.join(pieces)
-        self._info.log( 'execute: %s' % cmd )
+
+        #print "execute: %s" % cmd
 
         failed, output, error = spawn( cmd )
         if failed:
@@ -135,14 +160,16 @@ class SSHer(Component):
             raise RemoteAccessError, msg
 
         remotedir, filename = os.path.split( remotepath )
+        
         return os.path.join( localdir, filename )
 
+    # REFACTOR!!! Same is getFile() except passing '-r' (recursive) key
+    def getDir( self, server, remotepath, localdir ):
+        """retrieve a directory from remote server to local path"""
 
-    def getdirectory( self, server, remotepath, localdir ):
-        'retrieve a directory from remote server to local path'
-        address = server.address
-        port = server.port
-        username = server.username
+        address     = server.address
+        port        = server.port
+        username    = server.username
         known_hosts = self.inventory.known_hosts
         private_key = self.inventory.private_key
         
@@ -176,15 +203,16 @@ class SSHer(Component):
             raise RemoteAccessError, msg
 
         remotedir, filename = os.path.split( remotepath )
+        
         return os.path.join( localdir, filename )
 
-
+    # Execute arbitrary command "cmd" on the remote server
     def execute( self, cmd, server, remotepath, suppressException = False ):
         'execute command in the given directory of the given server'
 
-        address = server.address
-        port = server.port
-        username = server.username
+        address     = server.address
+        port        = server.port
+        username    = server.username
         known_hosts = self.inventory.known_hosts
         private_key = self.inventory.private_key
 
@@ -211,50 +239,54 @@ class SSHer(Component):
 
         cmd = ' '.join(pieces)
 
-        self._info.log( 'execute: %s' % cmd )
+        #print "execute: %s" % cmd
         failed, output, error = spawn( cmd )
+
         if failed and not suppressException:
             msg = '%r failed: %s' % (
                 cmd, error )
             raise RemoteAccessError, msg
+
         return failed, output, error
 
-
-    def _copyfile_rr(self, server1, path1, server2, path2):
+    # Copy from remote server to remote server
+    def _copyR2R(self, serverA, pathA, serverB, pathB):
         'push a remote file to another remote server'
-        if server1 == server2:
+        
+        if serverA == serverB:
             pieces = [
                 'cp -r',
-                path1,
-                path2,
+                pathA,
+                pathB,
                 ]
-        elif _tunneled_remote_host(server1) or _tunneled_remote_host(server2):
-            raise NotImplementedError, 'server1: %s, server2: %s' % (server1, server2)
+        elif _TunneledRemoteServer(serverA) or _TunneledRemoteServer(serverB):
+            raise NotImplementedError, 'serverA: %s, serverBd: %s' % (serverA, serverB)
         else:
-            address2 = server2.address
-            port2 = server2.port
-            username2 = server2.username
+            address2 = serverB.address
+            port2 = serverB.port
+            username2 = serverB.username
 
             pieces = [
                 'scp',
                 ]
             if port2:
                 pieces.append('-P %s' % port2)
-            pieces.append('-r %s' % path1)
-            pieces.append('%s@%s:%s' % (username2, address2, path2))
+            pieces.append('-r %s' % pathA)
+            pieces.append('%s@%s:%s' % (username2, address2, pathB))
             
-
         cmd = ' '.join(pieces)
         
-        self.execute(cmd, server1, '')
+        self.execute(cmd, serverA, '')
+        
         return
     
-
-    def _copyfile_lr( self, path, server, remotepath ):
+    # Copy from local server to remote server
+    def _copyL2R( self, path, server, remotepath ):
         'push a local file to remote server'
-        address = server.address
-        port = server.port
-        username = server.username
+        
+        address     = server.address
+        port        = server.port
+        username    = server.username
         known_hosts = self.inventory.known_hosts
         private_key = self.inventory.private_key
 
@@ -279,38 +311,36 @@ class SSHer(Component):
 
         cmd = ' '.join(pieces)
         
-        self._info.log( 'execute: %s' % cmd )
-
+        #self._info.log( 'execute: %s' % cmd )
+        
         failed, output, error = spawn( cmd )
         if failed:
             msg = '%r failed: %s' % (
                 cmd, error )
             raise RemoteAccessError, msg
+
         return
+
+    # Checks if server is a localhost
+    def _isLocalhost(self, server):
+        address     = server.address
+        port        = server.port
+        return (port in LOCALHOST["port"]) and (address in LOCALHOST["address"])
+
+    # Don't know why we need this
+    def _isTunneledRemoteServer(self, server):
+        address     = server.address
+        port        = server.port
+        if address not in LOCALHOST["address"]:
+            return False
+
+        if port not in LOCALHOST["port"]:
+            return False
+
+        return True
 
 
     pass # end of SSHer
-
-
-_localhost_aliases = [
-    None, 'localhost', '127.0.0.1',
-    ]
-_localport_aliases = [
-    None, 22, '22',
-    ]
-def _localhost(server):
-    address = server.address
-    port = server.port
-    return (port in _localport_aliases) and (address in _localhost_aliases)
-def _tunneled_remote_host(server):
-    address = server.address
-    if address not in _localhost_aliases: return False
-    port = server.port
-    return port not in _localport_aliases
-
-
-import os
-from spawn import spawn
 
 
 # version
