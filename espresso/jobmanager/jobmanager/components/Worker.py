@@ -35,8 +35,6 @@ class Worker(Component):
     def run(self):
         job = None  # Populate job from task
 
-        print "Hello Worker!"
-        
         try:
             self.prepare(job)
             self.schedule(job)
