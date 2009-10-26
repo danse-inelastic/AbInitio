@@ -12,18 +12,19 @@
 #
 
 def dds():
-    from DistributedDataStorage import DistributedDataStorage
-    return DistributedDataStorage('dds', 'dds')
+    from DataStorage import DataStorage
+    return DataStorage('dds', 'dds')
 
-# Can't find SSHer.csaccessor()
+# ? Can't find SSHer.csaccessor()
+# Factory for SSHer, uses ssher.pml config file
 def ssher(name='ssher', facility='csaccessor'):
     from SSHer import SSHer
     return SSHer(name=name, facility=facility)
 
-def buildjob(*args, **kwds):
-    from JobBuilder import JobBuilder
-    builder = JobBuilder()
-    return builder(*args, **kwds)
+#def buildjob(*args, **kwds):
+#    from JobBuilder import JobBuilder
+#    builder = JobBuilder()
+#    return builder(*args, **kwds)
 
 # ?
 def retrieveresults(*args, **kwds):
@@ -31,9 +32,9 @@ def retrieveresults(*args, **kwds):
     retriever = ComputationResultsRetriever()
     return retriever(*args, **kwds)
 
-def spawn(command, dry_run = 0, env = None):
-    from spawn import spawn
-    return spawn(command, dry_run, env)
+#def spawn(command, dry_run = 0, env = None):
+#    from spawn import spawn
+#    return spawn(command, dry_run, env)
 
 # version
 __id__ = "$Id$"

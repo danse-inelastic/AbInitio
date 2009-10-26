@@ -19,7 +19,7 @@ Test if it runs on the cluster
 from pyre.components.Component import Component as base
 
 
-class DistributedDataStorage(base):
+class DataStorage(base):
 
     class Inventory(base.Inventory):
 

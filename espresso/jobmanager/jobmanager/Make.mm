@@ -19,7 +19,9 @@ PACKAGE = jobmanager
 BUILD_DIRS = \
     applications \
     components \
-    scheduler \
+    dds \
+    simulations \
+    utils \
 
 OTHER_DIRS = \
 
@@ -37,19 +39,6 @@ all: export-python-modules
 	BLD_ACTION="all" $(MM) recurse
 
 
-#--------------------------------------------------------------------------
-#
-# export
-
-
-
-
-#include doxygen/default.def
-
-#export:: export-python-modules
-
-
-#docs: export-doxygen-docs
 
 # version
 # $Id: Make.mm 1213 2006-11-18 16:17:08Z linjiao $

@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = jobmanager
-PACKAGE = jobmanager/utils
+PACKAGE = utils
 
 BUILD_DIRS = \
 

@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = jobmanager
-PACKAGE = jobmanager/simulations
+PACKAGE = simulations
 
 BUILD_DIRS = \
 
@@ -37,8 +37,8 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-	QE.py \
 	Simulator.py \
+	QE.py \
         VASP.py \
 	__init__.py
 

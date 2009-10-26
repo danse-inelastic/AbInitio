@@ -19,7 +19,7 @@ from jobmanager.utils.spawn import spawn
 from pyre.components.Component import Component
 
 """
-Performs ssh connection, executes commands remotely or creates ssh tunnel to remote server
+Performs ssh connection, executes commands remotely and creates ssh tunnel to remote server
 Parameters can be configured from ssher.pml
 """
 

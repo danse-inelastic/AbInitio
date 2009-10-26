@@ -17,6 +17,9 @@
 # 1. Output the status of the simulation (as in ITaskApp.py)
 # 2. (?) Log the status
 
+# TODO:
+# Where to put ComputationResultsRetriever.py?
+
 from pyre.applications.Script import Script
 
 class JobManager(Script):
@@ -32,7 +35,7 @@ class JobManager(Script):
         csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
         csaccessor.meta['tip'] = 'computing server accessor'
 
-        serverIP      = pyre.inventory.str(name="serverIP", default="127.0.0.1")
+        serverip      = pyre.inventory.str(name="serverip", default="127.0.0.1")
         
         servername    = pyre.inventory.str(name="servername", default="localhost")
         servername.meta['label'] = 'Computation server'
@@ -43,6 +46,7 @@ class JobManager(Script):
         numprocessors.meta['tip'] = ('Please input the number of processors')
         numprocessors.meta['tiponerror'] = ('Please enter a positive integer')
 
+        #?
         walltime = pyre.inventory.str( 'walltime', default = 10)
         walltime.meta['label'] = 'Time limit (hours)'
         walltime.meta['tip'] = ('Please input a limit on the time your job will run. (Unit: hours)')
@@ -51,16 +55,15 @@ class JobManager(Script):
 
     # Here is where the essence of the script goes
     def main(self):
-        # Start time
-        # Finish time
+        # Start time, Finish time
         from jobmanager.components.Worker import Worker
 
         # Need to pass parameters of the
-        d   = Worker()
+        d   = Worker(self)
         d.run()
         return
 
-    def __init__(self, name="None"):
+    def __init__(self, name=None):
         super(JobManager, self).__init__(name=name)
 
     def _configure(self):
@@ -75,11 +78,11 @@ class JobManager(Script):
         super(JobManager, self)._init()
 
     def _getPrivateDepositoryLocations(self):
-        return ['../config'] #, '../content']
+        return ['../config']
 
 
 if __name__ == "__main__":
-    app = JobManager()
+    app = JobManager(name="main")
     app.run()
 
 

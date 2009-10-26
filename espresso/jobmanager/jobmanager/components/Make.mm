@@ -40,12 +40,12 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
-        DistributedDataStorage.py \
-        Worker.py \
+        DataStorage.py \
         SSHer.py \
         Scheduler.py \
+        TaskThread.py \
         Torque.py \
-        spawn.py \
+        Worker.py \
 	__init__.py \
 
 
