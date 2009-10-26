@@ -11,18 +11,21 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-class Driver:
-    def __init__(self):
-        pass
+"""
+Runs simulation for VASP
+"""
 
-    def perform(self):
-        # 1. Read configuration
-        # 2. Create thread (syncronous)
-        # 3. Execute command on remote cluster
-        # 4. Get status of the task
+from Simulator import Simulator
 
-        pass
+class VASP(Simulator):
 
-__date__ = "$Oct 25, 2009 3:53:41 PM$"
+    def render(self, computation, db=None, dds=None):
+        self.dds = dds
+
+        self._files = []
+
+        return self._files
+
+__date__ = "$Oct 25, 2009 7:11:37 PM$"
 
 

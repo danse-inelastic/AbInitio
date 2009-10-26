@@ -9,6 +9,7 @@ TODO list:
 Usage:
 $ jm.py --config=ni.scf.in --action=submit
 
+	--scriptname	- Name of the script that will be executed on remote server (default: run.sh)
 	--config	- Configuration file (e.g. --config=ni.scf.in)
 	--config-type	- Type of config file (options: pyre, configparser (default)) (e.g. --config-type=configparser)
 	--action	- Action to be performed (option: submit (default), status )

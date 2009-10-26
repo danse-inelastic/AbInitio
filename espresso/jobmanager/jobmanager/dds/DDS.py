@@ -11,8 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# DDS doesn't actually do much without implementation of functions such as:
-# masternode(), transferfile() etc...
+"""
+Create a "distributed data storage"
+DDS doesn't actually do much without implementation of functions such as:
+masternode(), transferfile() etc...
+"""
 
 class DDS:
 
@@ -20,17 +23,17 @@ class DDS:
                  readfile=None, writefile=None, makedirs=None,
                  rename=None, symlink=None, fileexists=None,
                  ):
-        '''create a "distributed data storage"
+        """
+        masternode:     a "distributed data storage" must have a master node
+        transferfile:   the facility to transfer a file from one node to another
+        rename:         the facility to rename a file in one node. rename(oldpath, newpath, "server.address")
+        symlink:        the facility to create a symbolic link to a file in one node. symlink(oldpath, newpath, "server.address")
+        readfile:       the facility to read a text file. readfile("server.address:/a/b/c")
+        writefile:      the facility to write a text file. writefile("server.address:/a/b/c", "contents")
+        makedirs:       the facility to make a directory. it should be able to make the intermediate directories automatically
+        fileexists:     the facility to check if a file exists on a node or not. fileexists("server.address:/a/b/c")
+        """
 
-        masternode: a "distributed data storage" must have a master node
-        transferfile: the facility to transfer a file from one node to another
-        rename: the facility to rename a file in one node. rename(oldpath, newpath, "server.address")
-        symlink: the facility to create a symbolic link to a file in one node. symlink(oldpath, newpath, "server.address")
-        readfile: the facility to read a text file. readfile("server.address:/a/b/c")
-        writefile: the facility to write a text file. writefile("server.address:/a/b/c", "contents")
-        makedirs: the facility to make a directory. it should be able to make the intermediate directories automatically
-        fileexists: the facility to check if a file exists on a node or not. fileexists("server.address:/a/b/c")
-        '''
         self.masternode = masternode
         self.nodes = [masternode]
         self._transferfile = transferfile

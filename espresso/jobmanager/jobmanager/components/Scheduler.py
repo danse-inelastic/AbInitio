@@ -17,6 +17,7 @@ class Scheduler
     def __init__(self):
         pass
 
+
     def schedule(self, job, director ):
         # copy local job directory to server
         server          = director.server
@@ -141,9 +142,6 @@ def schedulerfactory( server ):
     try: scheduler = factory( scheduler )
     except: raise NotImplementedError, 'scheduler %r' % scheduler
     return scheduler
-
-
-from CSAccessor import RemoteAccessError
 
 
 # version

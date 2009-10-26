@@ -53,11 +53,11 @@ class JobManager(Script):
     def main(self):
         # Start time
         # Finish time
-        from jobmanager.componentes Driver import Driver
+        from jobmanager.components.Worker import Worker
 
         # Need to pass parameters of the
-        d   = Driver()
-        d.perform()
+        d   = Worker()
+        d.run()
         return
 
     def __init__(self, name="None"):

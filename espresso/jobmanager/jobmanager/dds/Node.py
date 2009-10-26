@@ -15,8 +15,8 @@
 class Node:
 
     def __init__(self, address, rootpath):
-        self.address = address
-        self.rootpath = rootpath
+        self.address    = address
+        self.rootpath   = rootpath
         return
 
     def __str__(self):

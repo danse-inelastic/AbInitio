@@ -11,17 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-"""
-Performs ssh connection, commands execution or create ssh tunnel to remote server
-"""
-
-from pyre.components.Component import Component
-
 LOCALHOST   = {"address":   (None, 'localhost', '127.0.0.1'),
                "port":      (None, 22, '22')}
 
 import os
 from jobmanager.utils.spawn import spawn
+from pyre.components.Component import Component
+
+"""
+Performs ssh connection, executes commands remotely or creates ssh tunnel to remote server
+Parameters can be configured from ssher.pml
+"""
 
 class SSHer(Component):
 
@@ -163,7 +163,7 @@ class SSHer(Component):
         
         return os.path.join( localdir, filename )
 
-    # REFACTOR!!! Same is getFile() except passing '-r' (recursive) key
+    # REFACTOR!!! Same as getFile() except passing '-r' (recursive) key
     def getDir( self, server, remotepath, localdir ):
         """retrieve a directory from remote server to local path"""
 
@@ -206,9 +206,9 @@ class SSHer(Component):
         
         return os.path.join( localdir, filename )
 
-    # Execute arbitrary command "cmd" on the remote server
+
     def execute( self, cmd, server, remotepath, suppressException = False ):
-        'execute command in the given directory of the given server'
+        """Execute command in the given directory of the given server"""
 
         address     = server.address
         port        = server.port
@@ -338,7 +338,6 @@ class SSHer(Component):
             return False
 
         return True
-
 
     pass # end of SSHer
 
