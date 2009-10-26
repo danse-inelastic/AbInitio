@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# No database involved - just config files!
+
 # Improvements:
 # 1. Output the status of the simulation (as in ITaskApp.py)
 # 2. (?) Log the status
@@ -33,8 +35,8 @@ class JobManager(Script):
         serverIP      = pyre.inventory.str(name="serverIP", default="127.0.0.1")
         
         servername    = pyre.inventory.str(name="servername", default="localhost")
-        server.meta['label'] = 'Computation server'
-        server.meta['tip'] = ('Please choose the server on which the job will be run')
+        servername.meta['label'] = 'Computation server'
+        servername.meta['tip'] = ('Please choose the server on which the job will be run')
 
         numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
         numprocessors.meta['label'] = 'Number of processors'
@@ -47,8 +49,15 @@ class JobManager(Script):
         walltime.meta['tiponerror'] = ('Please enter a positive integer')
 
 
+    # Here is where the essence of the script goes
     def main(self):
-        print "Hello world!"
+        # Start time
+        # Finish time
+        from jobmanager.componentes Driver import Driver
+
+        # Need to pass parameters of the
+        d   = Driver()
+        d.perform()
         return
 
     def __init__(self, name="None"):
@@ -60,7 +69,7 @@ class JobManager(Script):
         self.dds        = self.inventory.dds
         self.dds.director = self
         self.csaccessor = self.inventory.csaccessor
-        self.server     = self.inventory.server
+        self.servername     = self.inventory.servername
 
     def _init(self):
         super(JobManager, self)._init()

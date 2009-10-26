@@ -26,7 +26,7 @@ def pack(job, director, debug=False):
     launch_detached('%s -id=%s' % (exe, job.id), debug=debug)
     return
 
-
+# Database manipulation
 def new(director):
     from vnf.dom.Job import Job
     job = director.clerk.insertNewOwnedRecord(Job)

@@ -1,3 +1,12 @@
+
+ &control
+    calculation='scf'
+    restart_mode='from_scratch',
+    tprnfor = .true.
+    prefix='ni',
+    pseudo_dir = '',
+    outdir=''
+ /
  &system
     ibrav=2,
     celldm(1) =6.65,
@@ -12,14 +21,6 @@
     ecutrho =300.0
  /
 
- &control
-    calculation='scf'
-    restart_mode='from_scratch',
-    tprnfor = .true.
-    prefix='ni',
-    pseudo_dir = '',
-    outdir=''
- /
  &electrons
     conv_thr =  1.0d-8
     mixing_beta = 0.7

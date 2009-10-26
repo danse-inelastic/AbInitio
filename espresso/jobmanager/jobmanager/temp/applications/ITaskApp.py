@@ -9,6 +9,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# Same as my JobManager.py
 
 from pyre.applications.Script import Script as base
 
@@ -80,6 +81,7 @@ class ITaskApp(base):
         return
 
 
+    # Other methods just do database manipulations
     def declareRunning(self):
         task = self.getTask()
         task.state = 'running'

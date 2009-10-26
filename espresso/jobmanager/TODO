@@ -3,3 +3,17 @@ TODO list:
 1. Implement jobmanager as pyre application
 2. Support two styles of config files: pyre style (.pml) and ConfigParser module
 3. Add support of curses (see beostatus)
+4. Write 'man jm' for fun 
+	See: http://www.fnal.gov/docs/products/ups/ReferenceManual/html/manpages.html
+
+Usage:
+$ jm.py --config=ni.scf.in --action=submit
+
+	--config	- configuration file (e.g. --config=ni.scf.in)
+	--config-type	- type of config file (options: pyre, configparser (default)) (e.g. --config-type=configparser)
+	--action	- action to perform (option: submit (default), status )
+
+Detailed list:
+- Merge Scheduler.py and torque.py
+
+	

@@ -12,6 +12,7 @@
 #
 
 
+
 from luban.content import load, select
 
 
@@ -76,7 +77,7 @@ class Actor(base):
     def default(self, director):
         return
 
-
+    # (Not very useful) Basically displays the status of the job
     def view(self, director):
         id = self.inventory.id
         job = self._getJob(director)
@@ -218,7 +219,7 @@ class Actor(base):
 
         return select(id='main-display-area').replaceContent(document)
 
-
+    # (Not very useful) Database manipulation
     def create(self, director):
         computation = self._getComputation(director)
         # if there is already a job, we have a problem
@@ -238,7 +239,7 @@ class Actor(base):
         self.inventory.id = job.id
         return self.edit(director)
     
-    
+    # (Not very useful) Database manipulation
     def edit(self, director):
         form = self.createEditForm(director)
         
@@ -247,7 +248,7 @@ class Actor(base):
         
         return select(id='main-display-area').replaceContent(doc)
     
-    
+    # (Not very useful) Database manipulation
     def createEditForm(self, director):
         record = self._getJob(director)
         
@@ -320,7 +321,7 @@ class Actor(base):
 
         return form
 
-
+    # (Not very useful) Database manipulation
     def verify(self, director):
         errors = {}
         
@@ -348,12 +349,12 @@ class Actor(base):
         director.clerk.updateRecordWithID(record)
         return self.submit(director)
 
-
+    # (Not very useful) Database manipulation
     def submit(self, director):
         view = self.create_submitting_view(director)
         return select(id='main-display-area').replaceContent(view)
 
-
+    # (Not very useful) Database manipulation
     def debug_submit(self, director):
         from luban.content.Page import Page
         page = Page()
@@ -365,7 +366,7 @@ class Actor(base):
 
         return page
     
-
+    # (Not very useful) Database manipulation
     def create_submitting_view(self, director):
         job = self._getJob(director)
 
@@ -413,7 +414,7 @@ class Actor(base):
 
         return pbar
 
-
+        # (Not very useful) Database manipulation
     def showErrors(self, director, errors=None):
         from luban.content import select
         return [
@@ -442,7 +443,7 @@ class Actor(base):
             ]
         return page
 
-
+    # (Not very useful)
     def already_submitted(self, director):
         job = self._getJob(director)
 
@@ -462,7 +463,7 @@ class Actor(base):
         
         return document
 
-    
+    # (Not very useful)
     def in_submission(self, director):
         job = self._getJob(director)
         document = Document( title = 'Job is being submmitted: %s' % job.id )
@@ -480,11 +481,12 @@ class Actor(base):
         
         return document
 
-
+    # (Not very useful) Database manipulation
     def _getJob(self, director):
         id = self.inventory.id
         return director.clerk.getRecordByID(Job, id)
 
+    # (Not very useful) Database manipulation
     def _getComputation(self, director):
         type = self.inventory.computation_type
         id = self.inventory.computation_id

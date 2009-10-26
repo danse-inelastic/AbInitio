@@ -15,7 +15,6 @@ PACKAGE =
 
 RECURSE_DIRS = \
     jobmanager \
-    content \
     dds \
     bin \
 
