@@ -16,6 +16,7 @@ History: Adopted from Scheduler.py
 """
 
 import os
+import ConfigParser
 
 class Server:
     def __init__(self, address, port, username):
@@ -27,17 +28,34 @@ class Scheduler:
 
     def __init__(self, director):
         self._director   = director
+        self.settings           = ConfigParser.ConfigParser()
+        self.settings.read(self._director.settings)
 
-    def schedule(self):     #, job, director ):
-
+    def schedule(self):
         from jobmanager.components.Torque import Torque
-        s       = Torque(os.system, self._director) #launcher) launcher    = self._director.csaccessor.execute
-        cmd     = s.submit('ls')
-        server  = Server("foxtrot.danse.us", None, "dexity")
+        servername  = self.settings.get("server", "serverName")
+        username    = self.settings.get("user", "username")
+        simpath     = self.settings.get("simulation", "simPath")
+        simtype     = self.settings.get("simulation", "simType")
+        input       = self.settings.get("simulation", "inputFile")
+        output      = self.settings.get("simulation", "outputFile")
+        npool       = int(self.settings.get("server", "npool"))
+
+        server  = Server(servername, None, username)
+        launch = lambda cmd: self._director.csaccessor.execute(
+            cmd, server, simpath, suppressException=True)
+        s       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
+
+        """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
+        cmd     = "%s -npool %d -inp %s > %s" % (simtype, npool, input, output) # TODO: Consider case when parameters are empty!
+        print cmd
+        cmd     = "cd %s && sh run.sh" % simpath
+        print s.submit(cmd)
+
 
         #self._director.csaccessor.execute("bash run.sh", server, remotepath = "/home/dexity/espresso/Ni")
         #self._director.csaccessor.execute(cmd, server, remotepath = "/home/dexity/espresso/Ni")
-        return cmd
+
 
 #    def schedule(self, job, director ):
 #        # copy local job directory to server

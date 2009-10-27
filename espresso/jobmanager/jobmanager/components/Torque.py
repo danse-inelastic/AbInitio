@@ -57,17 +57,17 @@ class Torque:
         ppn         = int(self.settings.get("server", "procPerNode"))
 
         """E.g.: echo 'mpirun  --mca btl openib,sm,self %s' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -""" % cmd
-        s   = "%s %s %s | qsub -d %s -V -N %s -l nodes=%d:ppn=%d" % (executable, params, cmd, simpath, simname, nodes, ppn)
-        cmds = [ s ]
-        #failed, output, error = self._launch( cmds )
+        #s   = "echo '%s %s %s' | qsub -d %s -V -N %s -l nodes=%d:ppn=%d" % (executable, params, cmd, simpath, simname, nodes, ppn)
+        cmds = [ cmd ]
+        failed, output, error = self._launch( cmds )
         
 #        if failed:
 #            if error.find( 'check pbs_server daemon' ) != -1:
 #                raise SchedulerDaemonNotStarted, "pbs_server"
 #            msg = "error in executing cmds %s. output: %s, error: %s" % ( cmds, output, error )
 #            raise RuntimeError, msg
-        print s
-        return #output.strip()
+
+        return output.strip()
 
 
 

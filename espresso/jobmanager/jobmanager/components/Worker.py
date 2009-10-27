@@ -83,24 +83,9 @@ class Worker(Component):
         return s.schedule()
 
 
-# Rename building job to running
-# Call jobmanager.simulation.QE
-
-#def buildjob() #computation, db=None, dds=None, path=None, director=None):
-#    name = computation.__class__.__name__.lower()
-#    builder = director.retrieveComponent(
-#        name,
-#        factory="job_builder", args=[name, path],
-#        vault=['job_builders'])
-#    files = builder.build(computation, db=db, dds=dds)
-#    deps = builder.getDependencies()
-#    return files, deps
-
-
 if __name__ == "__main__":
     w   = Worker(None)
     w.run()
-
 
 
 
@@ -192,6 +177,18 @@ if __name__ == "__main__":
 #    def schedule(self, job):
 #        from vnf.components.Scheduler import schedule
 #        return schedule(job, self.director)
+# Rename building job to running
+# Call jobmanager.simulation.QE
+
+#def buildjob() #computation, db=None, dds=None, path=None, director=None):
+#    name = computation.__class__.__name__.lower()
+#    builder = director.retrieveComponent(
+#        name,
+#        factory="job_builder", args=[name, path],
+#        vault=['job_builders'])
+#    files = builder.build(computation, db=db, dds=dds)
+#    deps = builder.getDependencies()
+#    return files, deps
 
 
 

@@ -60,7 +60,6 @@ class JobManager(Script):
     def main(self):
         # Start time, Finish time
         from jobmanager.components.Worker import Worker
-        print self.settings
 
         # Need to pass parameters of the
         d   = Worker(self)
