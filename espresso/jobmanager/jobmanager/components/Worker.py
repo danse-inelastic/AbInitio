@@ -37,7 +37,7 @@ class Worker(Component):
 
         try:
             self.prepare(job)
-            self.schedule(job)
+            #self.schedule(job)
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
