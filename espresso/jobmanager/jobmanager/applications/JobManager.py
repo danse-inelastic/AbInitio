@@ -39,6 +39,9 @@ class JobManager(Script):
         servername.meta['label'] = 'Computation server'
         servername.meta['tip'] = ('Please choose the server on which the job will be run')
 
+        settings     = pyre.inventory.str(name="settings", default="../../config/default.conf")
+        settings.meta['label'] = 'Settings for simulation parameters'
+        
 #        serverip      = pyre.inventory.str(name="serverip", default="127.0.0.1")
 #
 #        numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
@@ -57,6 +60,7 @@ class JobManager(Script):
     def main(self):
         # Start time, Finish time
         from jobmanager.components.Worker import Worker
+        print self.settings
 
         # Need to pass parameters of the
         d   = Worker(self)
@@ -73,6 +77,7 @@ class JobManager(Script):
 #        self.dds.director   = self
         self.csaccessor = self.inventory.csaccessor
         self.servername = self.inventory.servername
+        self.settings   = self.inventory.settings
 
     def _init(self):
         super(JobManager, self)._init()

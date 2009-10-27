@@ -17,8 +17,10 @@ RECURSE_DIRS = \
     jobmanager \
     bin \
 
-INIT_DATADIRS = \
+EXPORT_DATADIRS = \
     config \
+
+INIT_DATADIRS = \
     log \
 
 

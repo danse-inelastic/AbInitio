@@ -13,6 +13,8 @@
 
 """
 Runs simulation for Quantum Espresso (QE)
+
+History: Adapted from abinitio.odb
 """
 
 from Simulator import Simulator

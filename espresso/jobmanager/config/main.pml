@@ -14,6 +14,7 @@
 
 <!-- <property name='csaccessor'>csaccessor</property>
 <property name='dds'>jobmanager.components.dds</property>
+      <property name='settings'>../../config/default.conf</property>
 -->
 
 <!DOCTYPE inventory>

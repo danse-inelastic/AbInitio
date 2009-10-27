@@ -26,6 +26,7 @@ https://subtrac.sara.nl/oss/pbs_python
 http://code.google.com/p/py-pbs/
 """
 
+import ConfigParser
 from pyre.units.time import hour, minute, second
 
 class SchedulerDaemonNotStarted(Exception):
@@ -37,15 +38,27 @@ class Torque:
     outfilename = 'STDOUT.log'
     errfilename = 'STDERR.log'
 
-    def __init__(self, launcher = None, prefix = None, outputstr_maxlen = 2048):
+    def __init__(self, launcher, director, prefix = None, outputstr_maxlen = 2048):
+        self._director          = director
         self.prefix             = prefix
-        self.launcher           = launcher
+        self.launcher           = launcher          # Usually it is just os.system
         self.outputstr_maxlen   = outputstr_maxlen
+        self.settings           = ConfigParser.ConfigParser()
+        self.settings.read(self._director.settings)
         return
 
-    def submit(self):
-        cmd = """echo 'mpirun  --mca btl openib,sm,self pw.x -npool 8 -inp  ni.scf.in > ni.scf.out' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -"""
-        cmds = [ cmd ]
+    def submit(self, cmd):
+        
+        executable  = self.settings.get("server", "executable")
+        params      = self.settings.get("server", "params")
+        simpath     = self.settings.get("simulation", "simPath")
+        simname     = self.settings.get("simulation", "simName")
+        nodes       = int(self.settings.get("server", "numNodes"))
+        ppn         = int(self.settings.get("server", "procPerNode"))
+
+        """E.g.: echo 'mpirun  --mca btl openib,sm,self %s' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -""" % cmd
+        s   = "%s %s %s | qsub -d %s -V -N %s -l nodes=%d:ppn=%d" % (executable, params, cmd, simpath, simname, nodes, ppn)
+        cmds = [ s ]
         #failed, output, error = self._launch( cmds )
         
 #        if failed:
@@ -53,8 +66,8 @@ class Torque:
 #                raise SchedulerDaemonNotStarted, "pbs_server"
 #            msg = "error in executing cmds %s. output: %s, error: %s" % ( cmds, output, error )
 #            raise RuntimeError, msg
-
-        return cmd  #output.strip()
+        print s
+        return #output.strip()
 
 
 
@@ -72,18 +85,18 @@ class Torque:
 #                cmds, output, error )
 #            raise RuntimeError, msg
 #        return output.strip()
-#
-#
-#    def delete(self, jobid):
-#        cmds = ['qdel %s' % jobid]
-#        failed, output, error  = self._launch( cmds )
-#        if failed:
-#            msg = "error in executing cmds %s. output: %s, error: %s" % (
-#                cmds, output, error )
-#            raise RuntimeError, msg
-#        return
-#
-#
+
+
+    def delete(self, jobid):
+        cmds = ['qdel %s' % jobid]
+        failed, output, error  = self._launch( cmds )
+        if failed:
+            msg = "error in executing cmds %s. output: %s, error: %s" % (
+                cmds, output, error )
+            raise RuntimeError, msg
+        return
+
+
 #    def status( self, jobid ):
 #        cmds = [ 'qstat -f %s' % (jobid,) ]
 #        failed, output, error  = self._launch( cmds )
@@ -221,12 +234,13 @@ class Torque:
 #        debug.log( 'words: %s' % words )
 #        return words
 #
-#    class TracejobFailed(Exception): pass
-#
-#
-#    def _launch(self, cmds):
-#        if self.prefix: cmds = [ self.prefix ] + cmds
-#        return self.launcher( ' && '.join( cmds ) )
+    class TracejobFailed(Exception): pass
+
+
+    def _launch(self, cmds):
+        if self.prefix:
+            cmds = [ self.prefix ] + cmds
+        return self.launcher( ' && '.join( cmds ) )
 
 #    pass # end of Scheduler
 #
@@ -259,22 +273,22 @@ class Torque:
 #    r = _states.get( state )
 #    if r: return r
 #    return 'unknown state: %s' % state
-#
-#
-#def test():
-#    import os
-#    s = Scheduler( os.system )
-#    print s.submit( 'ls' )
-#    return
-#
-#
-#def main():
-#    test()
-#    return
-#
-#
-#if __name__ == '__main__':
-#    main()
+
+
+def test():
+    import os
+    s = Torque( os.system, None )
+    print s.submit( 'ls' )
+    return
+
+
+def main():
+    test()
+    return
+
+
+if __name__ == '__main__':
+    main()
 
 
 # version

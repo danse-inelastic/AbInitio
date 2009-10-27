@@ -11,6 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+History: Adopted from Scheduler.py
+"""
+
+import os
+
 class Server:
     def __init__(self, address, port, username):
         self.address     = address
@@ -25,11 +31,11 @@ class Scheduler:
     def schedule(self):     #, job, director ):
 
         from jobmanager.components.Torque import Torque
-        s       = Torque()
-        cmd     = s.submit()
+        s       = Torque(os.system, self._director) #launcher) launcher    = self._director.csaccessor.execute
+        cmd     = s.submit('ls')
         server  = Server("foxtrot.danse.us", None, "dexity")
 
-        self._director.csaccessor.execute("bash run.sh", server, remotepath = "/home/dexity/espresso/Ni")
+        #self._director.csaccessor.execute("bash run.sh", server, remotepath = "/home/dexity/espresso/Ni")
         #self._director.csaccessor.execute(cmd, server, remotepath = "/home/dexity/espresso/Ni")
         return cmd
 
