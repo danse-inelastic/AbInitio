@@ -2,4 +2,36 @@
 This is the testing implementation of job manager for remote jobs submission.
 Instead of database configuration file will be used.
 
-Installation instructions will be provided later
+Installation instructions (draft)
+
+Before you are able to use remote server or cluster you need to set properly your
+environment. Make sure that you have account set up for the cluster and access the cluster
+from the machine that has your private key stored. Specific settings will depend on the cluster.
+Make sure to consult the cluster admin for the settings.
+
+Server: foxtrot.danse.us
+========================
+In the .bashrc in your home directory you will need add the following lines:
+
+[/home/<username>/.bashrc]
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+       	. /etc/bashrc
+fi
+export BASH_ENV=${HOME}/.bashrc
+
+
+In case if you don't have these lines added, to use util 'module' in your scripts you will
+need to add the following lines:
+
+[/home/<username>/path/to/your/script.sh]
+#!/bin/bash
+for i in /etc/profile.d/*.sh; do
+	if [ -r "$i" ]; then
+		. $i
+	fi
+done
+# rest of the script
+
+Server: octopod.danse.us
+========================

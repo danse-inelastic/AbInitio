@@ -40,9 +40,12 @@ class Torque:
 
     def __init__(self, launcher, director, prefix = None, outputstr_maxlen = 2048):
         self._director          = director
+        self._envs              = []
         self.prefix             = prefix
         self.launcher           = launcher          # Usually it is just os.system
         self.outputstr_maxlen   = outputstr_maxlen
+        self.server             = ConfigParser.ConfigParser()
+        self.server.read(self._director.server)
         self.settings           = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
         return
@@ -58,8 +61,8 @@ class Torque:
 
         """E.g.: echo 'mpirun  --mca btl openib,sm,self %s' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -""" % cmd
         #s   = "echo '%s %s %s' | qsub -d %s -V -N %s -l nodes=%d:ppn=%d" % (executable, params, cmd, simpath, simname, nodes, ppn)
-        cmds = [ cmd ]
-        failed, output, error = self._launch( cmds )
+        #cmds = [ cmd ]
+        failed, output, error = self._launch( cmd )
         
 #        if failed:
 #            if error.find( 'check pbs_server daemon' ) != -1:
@@ -69,8 +72,12 @@ class Torque:
 
         return output.strip()
 
+    def setEnv(self):
+        pass
 
 
+    def setHeader(self):
+        pass
 
 #    def submit( self, cmd, walltime=1*hour ):
 #        walltime = _walltime_str(walltime)
@@ -237,10 +244,14 @@ class Torque:
     class TracejobFailed(Exception): pass
 
 
-    def _launch(self, cmds):
-        if self.prefix:
-            cmds = [ self.prefix ] + cmds
-        return self.launcher( ' && '.join( cmds ) )
+#    def _launch(self, cmds):
+#        if self.prefix:
+#            cmds = [ self.prefix ] + cmds
+#        return self.launcher( ' && '.join( cmds ) )
+
+    def _launch(self, script):
+        return self.launcher( script )
+
 
 #    pass # end of Scheduler
 #

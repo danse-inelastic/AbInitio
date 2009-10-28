@@ -42,10 +42,13 @@ class JobManager(Script):
         servername.meta['label'] = 'Computation server'
         servername.meta['tip'] = ('Please choose the server on which the job will be run')
 
-
-        settings     = pyre.inventory.str(name="settings", default=thisfile+"/../../../config/default.conf")
+        settings     = pyre.inventory.str(name="settings", default=thisfile+"/../../config/default.conf")
         settings.meta['label'] = 'Settings for simulation parameters'
-        
+
+        server     = pyre.inventory.str(name="settings", default=thisfile+"/../../config/foxtrot.danse.us.conf")
+        server.meta['label'] = 'Settings related to server'
+
+
 #        serverip      = pyre.inventory.str(name="serverip", default="127.0.0.1")
 #
 #        numprocessors = pyre.inventory.str( 'numprocessors', default = 1 )
@@ -81,6 +84,7 @@ class JobManager(Script):
         self.csaccessor = self.inventory.csaccessor
         self.servername = self.inventory.servername
         self.settings   = self.inventory.settings
+        self.server     = self.inventory.server
 
         print self.settings
 

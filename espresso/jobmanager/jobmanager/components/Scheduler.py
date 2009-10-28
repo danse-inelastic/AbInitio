@@ -47,9 +47,22 @@ class Scheduler:
         s       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
-        cmd     = "%s -npool %d -inp %s > %s" % (simtype, npool, input, output) # TODO: Consider case when parameters are empty!
-        print cmd
-        cmd     = "cd %s && sh run.sh" % simpath
+        #cmd     = "%s -npool %d -inp %s > %s" % (simtype, npool, input, output) # TODO: Consider case when parameters are empty!
+        #print cmd
+        #cmd     = "cd %s && sh run.sh" % simpath
+        cmd     = """
+        for i in /etc/profile.d/*.sh; do
+       	if [ -r "$i" ]; then
+               	. $i
+       	fi
+done
+
+module add openmpi/gnu
+module add acml/4.3.0_gfortran64_int32
+module add espresso
+
+mpirun --mca btl openib,sm,self pw.x -npool 8 -inp  ni.scf.in > ni.scf.out
+        """
         print s.submit(cmd)
 
 
