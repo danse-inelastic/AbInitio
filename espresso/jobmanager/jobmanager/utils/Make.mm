@@ -37,6 +37,7 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
+        Server.py \
         spawn.py \
         __init__.py \
 

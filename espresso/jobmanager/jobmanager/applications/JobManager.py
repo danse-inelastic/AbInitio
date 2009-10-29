@@ -39,10 +39,35 @@ class JobManager(Script):
         import jobmanager.components
 
         csaccessor  = pyre.inventory.facility(name='csaccessor', factory = jobmanager.components.ssher)
-        csaccessor.meta['tip'] = 'computing server accessor'
+        csaccessor.meta['tip'] = 'Computing server accessor (ssh)'
 
-        settings     = pyre.inventory.str(name="settings", default=None)
-        settings.meta['label'] = 'Settings for simulation parameters'
+        # Required
+        settings    = pyre.inventory.str(name="settings")   # default=None
+        settings.meta['label'] = 'Settings file for job submission'
+
+        # Optional
+        input       = pyre.inventory.str(name="input")
+        input.meta['tip'] = 'Input configuration file'
+
+        jobname     = pyre.inventory.str(name="jobname")
+        jobname.meta['tip'] = 'Name of the job'
+
+        action      = pyre.inventory.str(name="action")
+        action.meta['tip'] = 'Name of the job'
+
+        jobid       = pyre.inventory.str(name="jobid")
+        jobid.meta['tip'] = 'Name of the job'
+
+        # Not used at this moment
+        servername  = pyre.inventory.str(name="servername")
+        servername.meta['tip'] = 'Name of the job'
+
+        serverport  = pyre.inventory.str(name="serverport")
+        serverport.meta['tip'] = 'Name of the job'
+
+        serverip     = pyre.inventory.str(name="serverip")
+        serverip.meta['tip'] = 'Name of the job'
+
 
     # Main method!
     def main(self):
@@ -57,15 +82,17 @@ class JobManager(Script):
 
     def _configure(self):
         super(JobManager, self)._configure()
-        
+
+        # Populate values from settings file!
         self.csaccessor = self.inventory.csaccessor
-        self.settings   = self.inventory.settings
-        if self.settings is None:
-            print """
-Settings configuration file should be provided!
-Usage: jm.py --settings=<filename>
-"""
-            raise
+        self.settings   = self._setSettings()
+        self.input      = self.inventory.input
+        self.jobname    = self.inventory.jobname
+        self.action     = self.inventory.action
+        self.jobid      = self.inventory.jobid
+        self.servername = self.inventory.servername
+        self.serverport = self.inventory.serverport
+        self.serverip   = self.inventory.serverip
 
     def _init(self):
         super(JobManager, self)._init()
@@ -73,6 +100,17 @@ Usage: jm.py --settings=<filename>
     def _getPrivateDepositoryLocations(self):
         return ['../config']
 
+
+    def _setSettings(self):
+        """Checks if settings is set"""
+        if self.inventory.settings is None:
+            print """
+Settings configuration file should be provided!
+Usage: jm.py --settings=<filename>
+"""
+            raise
+        
+        return self.inventory.settings
 
 if __name__ == "__main__":
     app = JobManager(name="main")

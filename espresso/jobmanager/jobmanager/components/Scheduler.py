@@ -17,12 +17,7 @@ History: Adopted from Scheduler.py
 
 import os
 import ConfigParser
-
-class Server:
-    def __init__(self, address, port, username):
-        self.address     = address
-        self.port        = port
-        self.username    = username
+from jobmanager.utils.Server import Server
 
 class Scheduler:
 
@@ -36,14 +31,15 @@ class Scheduler:
 
 
     #TODO: Consider case when parameters in cmd are empty!
+    # Rename parameters
     def schedule(self):
         from jobmanager.components.Torque import Torque
-        servername  = self.settings.get("server", "serverName")
+        servername  = self.settings.get("server", "server-name")
         username    = self.settings.get("user", "username")
-        simpath     = self.settings.get("simulation", "simPath")
-        simtype     = self.settings.get("simulation", "simType")
-        input       = self.settings.get("simulation", "inputFile")
-        output      = self.settings.get("simulation", "outputFile")
+        simpath     = self.settings.get("simulation", "remote-path")
+        simtype     = self.settings.get("simulation", "job-type")
+        input       = self.settings.get("simulation", "input-file")
+        output      = self.settings.get("simulation", "output-file")
         npool       = int(self.settings.get("server", "npool"))
 
         server  = Server(servername, None, username)
@@ -52,7 +48,7 @@ class Scheduler:
         self._scheduler       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
-        cmd     = "pw.x -npool %d -inp  %s > %s" % (npool, input, output)
+        cmd     = "%s -npool %d -inp  %s > %s" % (simtype, npool, input, output)
 
         jobid   = self._scheduler.submit(cmd)
         status  = self.check(jobid)

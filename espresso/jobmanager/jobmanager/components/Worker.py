@@ -20,7 +20,7 @@
 History: Adapter from submitjob.odb
 """
 
-
+from jobmanager.utils.Server import Server
 from pyre.components.Component import Component
 
 class Worker(Component):
@@ -30,20 +30,25 @@ class Worker(Component):
 
     def __init__(self, director):
         self._director  = director
+        self._jobid     = director.jobid
 
     # Add additional parameter to specify the task
     def run(self):
-        job = None  # Populate job from task
-
         try:
-            self.prepare(job)
-            self.schedule(job)
+            self.prepare(self._jobid)
+            #self.schedule()
+            #self.clean()
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
             raise
 
     def prepare(self, job):
+        serverA = Server("localhost", None, "dexity")
+        serverB = Server("foxtrot.danse.us", None, "dexity")    #
+        self._director.csaccessor.mkdir(serverB, "/home/dexity/Ni" )
+        self._director.csaccessor.copy(serverA, "/home/dexity/temp/title.jpg", serverB, "/home/dexity/espresso/Ni/")
+
 #        dds = self._director.dds
 #
 #        jobpath = dds.abspath(job)
@@ -61,7 +66,16 @@ class Worker(Component):
 
         #for dep in deps:
         #    self.prepare_dependency(dep, job)
+        
         return
+
+    def schedule(self, job):
+        from jobmanager.components.Scheduler import Scheduler
+        s   = Scheduler(self._director)     # job,
+        return s.schedule()
+
+    def clean(self, job):
+        pass
 
     def makeAvailable(self):
         pass
@@ -77,15 +91,14 @@ class Worker(Component):
         return
 
 
-    def schedule(self, job):
-        from jobmanager.components.Scheduler import Scheduler
-        s   = Scheduler(self._director)     # job,
-        return s.schedule()
 
 
 if __name__ == "__main__":
-    w   = Worker(None)
-    w.run()
+    """Cannot be called directly"""
+    #w   = Worker(None)
+    #w.run()
+
+
 
 
 
