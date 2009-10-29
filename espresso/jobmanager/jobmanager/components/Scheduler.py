@@ -27,9 +27,13 @@ class Server:
 class Scheduler:
 
     def __init__(self, director):
-        self._director   = director
+        self._director  = director
+        self._scheduler  = None
+        self._state      = None
+
         self.settings           = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
+
 
     #TODO: Consider case when parameters in cmd are empty!
     def schedule(self):
@@ -45,22 +49,58 @@ class Scheduler:
         server  = Server(servername, None, username)
         launch = lambda cmd: self._director.csaccessor.execute(
             cmd, server, simpath, suppressException=True)
-        s       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
+        self._scheduler       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
         cmd     = "pw.x -npool %d -inp  %s > %s" % (npool, input, output)
 
-        jobid   = s.submit(cmd)
-        status  = s.status(jobid)
-
-        while (status['state'] != 'finished'):
-            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-            import time
-            time.sleep(3)
-            status  = s.status(jobid)
-
+        jobid   = self._scheduler.submit(cmd)
+        status  = self.check(jobid)
+        self._state = status['state']
         print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
+        status  = self.cancel(jobid)
+        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+
+#        while (status['state'] != 'finished'):
+#            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+#            import time
+#            time.sleep(3)
+#            status  = self._scheduler.status(jobid)
+#            self._state = status['state']
+
+        #print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+
+
+    def check(self, jobid):
+        "check status of a job"
+        # See for more ideas the old version
+
+        if self._scheduler is not None:
+            return self._scheduler.status(jobid)
+
+        return "Not defined"
+    
+
+
+    def cancel(self, jobid ):
+        "cancel a job"
+        status  = self.check(jobid) # Bad!
+
+        if status['state'] != 'running':
+            return status
+
+        self._scheduler.delete( jobid )
+        
+        return self.check(jobid)
+
+if __name__ == "__main__":
+    s   = Scheduler(None)
+    s.schedule()
+
+
+
+# ****** DEAD CODE *****************
 
 #    def schedule(self, job, director ):
 #        # copy local job directory to server
@@ -172,14 +212,6 @@ class Scheduler:
 #            announce(director, 'job-state-changed', job, user)
 #
 #        return job
-
-if __name__ == "__main__":
-    s   = Scheduler(None)
-    s.schedule()
-
-
-
-# ****** DEAD CODE *****************
 
 #
 #
