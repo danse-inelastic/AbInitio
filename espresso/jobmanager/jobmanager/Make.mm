@@ -19,7 +19,6 @@ PACKAGE = jobmanager
 BUILD_DIRS = \
     applications \
     components \
-    dds \
     simulations \
     utils \
 
