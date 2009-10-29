@@ -237,7 +237,7 @@ class SSHer(Component):
 
         cmd = ' '.join(pieces)
 
-        print "execute: %s" % cmd
+        #print "execute: %s" % cmd
         failed, output, error = spawn( cmd )
 
         if failed and not suppressException:

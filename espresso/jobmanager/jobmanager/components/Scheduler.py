@@ -31,7 +31,7 @@ class Scheduler:
         self.settings           = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
 
-    #TODO: Consider case when parameters are empty!
+    #TODO: Consider case when parameters in cmd are empty!
     def schedule(self):
         from jobmanager.components.Torque import Torque
         servername  = self.settings.get("server", "serverName")
@@ -48,11 +48,18 @@ class Scheduler:
         s       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
-        cmd     = "pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"
+        cmd     = "pw.x -npool %d -inp  %s > %s" % (npool, input, output)
 
         jobid   = s.submit(cmd)
-        print s.status(jobid)
+        status  = s.status(jobid)
 
+        while (status['state'] != 'finished'):
+            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+            import time
+            time.sleep(3)
+            status  = s.status(jobid)
+
+        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
 
 #    def schedule(self, job, director ):
@@ -165,6 +172,15 @@ class Scheduler:
 #            announce(director, 'job-state-changed', job, user)
 #
 #        return job
+
+if __name__ == "__main__":
+    s   = Scheduler(None)
+    s.schedule()
+
+
+
+# ****** DEAD CODE *****************
+
 #
 #
 ## Creates scheduler (torque)
@@ -180,11 +196,3 @@ class Scheduler:
 #    except: raise NotImplementedError, 'scheduler %r' % scheduler
 #    return scheduler
 
-if __name__ == "__main__":
-    s   = Scheduler(None)
-    s.schedule()
-
-# version
-__id__ = "$Id$"
-
-# End of file 

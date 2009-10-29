@@ -146,8 +146,7 @@ done
             if error.find( 'Unknown Job Id' ) != -1:
                 return self.statusByTracejob( jobid )
             
-            msg = "error in executing cmds %s. output: %s, error: %s" % (
-                cmds, output, error )
+            msg = "error in executing cmds %s. output: %s, error: %s" % (cmd, output, error )
             raise RuntimeError, msg
 
         lines = output.split( '\n' )
@@ -173,16 +172,17 @@ done
             'time_start'            : start_time
             }
 
-        if ret['state'] == 'finished':
-            output, error = self._readoutputerror(self.outfilename, self.errfilename )
-
-            ret.update(
-                { 'exit_code'       : d['exit_status'],
-                  'time_completion' : d['mtime'],
-                  'output'          : output,
-                  'error'           : error
-                  } )
-            pass
+        # Redo in case if the job is finished!
+#        if ret['state'] == 'finished':
+#            output, error = self._readoutputerror(self.outfilename, self.errfilename )
+#
+#            ret.update(
+#                { 'exit_code'       : d['exit_status'],
+#                  'time_completion' : d['mtime'],
+#                  'output'          : output,
+#                  'error'           : error
+#                  } )
+#            pass
 
         return ret
 
@@ -242,7 +242,7 @@ done
         failed, output, error = self._launch( cmd )
         if failed:
             msg = "error in executing cmds %s. output: %s, error: %s" % (
-                cmds, output, error )
+                cmd, output, error )
             raise RuntimeError, msg
         
         maxlen = self.outputstr_maxlen
@@ -257,7 +257,7 @@ done
 
         if failed:
             msg = "error in executing cmds %s. output: %s, error: %s" % (
-                cmds, output, error )
+                cmd, output, error )
             raise self.TracejobFailed, msg
 
         # remove trailing \n to make parsing easier
