@@ -2,6 +2,7 @@ TODO list:
 
 - Implement jobmanager as pyre application
 - Support two styles of config files: pyre style (.pml) and ConfigParser module
+- I don't need data storage of remote files and directories manipulations
 - Add support of curses (see beostatus)
 - Write 'man jm' for fun
 	See: http://www.fnal.gov/docs/products/ups/ReferenceManual/html/manpages.html

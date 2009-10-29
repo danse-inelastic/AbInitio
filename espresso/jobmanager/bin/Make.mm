@@ -31,6 +31,8 @@ distclean::
 
 EXPORT_DATAFILES = \
 	jm.py \
+        jmdel.py \
+        jmstat.py \
 
 CP_F = rsync
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
