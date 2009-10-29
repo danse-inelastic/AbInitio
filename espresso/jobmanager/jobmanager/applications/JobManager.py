@@ -45,7 +45,7 @@ class JobManager(Script):
         settings     = pyre.inventory.str(name="settings", default=thisfile+"/../../config/default.conf")
         settings.meta['label'] = 'Settings for simulation parameters'
 
-        server     = pyre.inventory.str(name="settings", default=thisfile+"/../../config/foxtrot.danse.us.conf")
+        server     = pyre.inventory.str(name="server", default=thisfile+"/../../config/foxtrot.danse.us.conf")
         server.meta['label'] = 'Settings related to server'
 
 
@@ -86,7 +86,7 @@ class JobManager(Script):
         self.settings   = self.inventory.settings
         self.server     = self.inventory.server
 
-        print self.settings
+        #print self.settings
 
     def _init(self):
         super(JobManager, self)._init()
