@@ -12,13 +12,43 @@ TODO list:
 Usage:
 $ jm.py --config=ni.scf.in --action=submit
 
-	--scriptname	- Name of the script that will be executed on remote server (default: run.sh)
-	--config	- Configuration file (e.g. --config=ni.scf.in)
-	--config-type	- Type of config file (options: pyre, configparser (default)) (e.g. --config-type=configparser)
-	--action	- Action to be performed (option: submit (default), status )
-	--servername	- Server name
-	--serverport	- Server port
-	--serverip	- Server IP (In case if server is not available by name)
+        Keys:
+        --settings      -s  - Settings of the simulation
+	--config	-c  - Configuration file (e.g. --config=ni.scf.in)
+        --job-name      -n  - Name of the job to be submitted (e.g. --jobname=Ni) No spaces are allowed
+	--config-type	-t  - [Not Implemented Yet] Type of config file (options: pyre, configparser (default)) (e.g. --config-type=configparser)
+	--action	-a  - Action to be performed. Options: submit (default), status, delete. (e.g. --action=submit)
+        --job-id        -id - Specifies the job id
+	--server-name	-sn - Server name
+	--server-port	-sp - Server port
+	--server-ip	-sip    - Server IP (In case if server is not available by name)
+
+        #--scriptname	- Name of the script that will be executed on remote server (default: run.sh)
+
+$ jmstat.py --job-id=<jobId>
+    Returns status of all jobs (default) or the job specified by jobId of the user that submitted the job(s)
+
+    Same as:
+    $ jm.py --action=status
+
+Returns list of all the jobs if no --job-id key is specified
+
+Examples:
+$ jmstat.py                 # Returns list of all jobs
+$ jmstat.py --job-id=4239   # Returns job specified by job id 4239
+$ jmstat.py 4239            # Returns job specified by job id 4239
+
+$ jmdel.py  --job-id=<jobId>
+    Deletes job specified by --job-id or returns None if there is not job with this id
+
+    Same as:
+    $ jm.py --action=delete
+
+Examples:
+$ jmdel.py                  # Has not effect
+$ jmdel.py --job-id=4239    # Cancels (deletes) job specified by job id 4239
+$ jmdel.py 4239
+
 
 Detailed list:
 - Merge Scheduler.py and torque.py
