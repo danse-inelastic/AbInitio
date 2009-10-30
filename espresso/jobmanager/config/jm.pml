@@ -17,12 +17,11 @@
 <inventory>
 
   <component name='jm'>
-      <property name='action'>submit</property>
   </component>
   
 </inventory>
 
-
+<!-- <property name='action'>submit</property> -->
 <!-- version-->
 <!-- $Id$-->
 

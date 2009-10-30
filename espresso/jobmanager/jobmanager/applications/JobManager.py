@@ -144,6 +144,8 @@ Usage: jm.py --settings=<filename>
     def _setAction(self):
         if self.inventory.action:
             return self.inventory.action
+        
+        return self.action
 
     def _setJobId(self):
         return self.inventory.jobid

@@ -32,6 +32,7 @@ distclean::
 EXPORT_DATAFILES = \
 	jm.py \
         jmdel.py \
+        jmget.py \
         jmstat.py \
         jmtrace.py \
 
