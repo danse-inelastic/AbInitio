@@ -18,81 +18,86 @@ History: Adopted from Scheduler.py
 import os
 import ConfigParser
 from jobmanager.utils.Server import Server
+from jobmanager.components.Torque import Torque
 
 class Scheduler:
 
     def __init__(self, director):
         self._director  = director
-        self._scheduler  = None
         self._state      = None
 
         self.settings    = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
 
+        self._initScheduler()
 
     #TODO: Consider case when parameters in cmd are empty!
     # Rename parameters
     def schedule(self):
-        from jobmanager.components.Torque import Torque
-        servername  = self.settings.get("server", "server-name")
-        username    = self.settings.get("user", "username")
-        simpath     = self.settings.get("simulation", "remote-path")
         simtype     = self.settings.get("simulation", "job-type")
+        npool       = int(self.settings.get("server", "npool"))
         input       = self.settings.get("simulation", "input-file")
         output      = self.settings.get("simulation", "output-file")
-        npool       = int(self.settings.get("server", "npool"))
 
-        server  = Server(servername, None, username)
-        launch = lambda cmd: self._director.csaccessor.execute(cmd, server, simpath, suppressException=True)
-        self._scheduler       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
         cmd     = "%s -npool %d -inp  %s > %s" % (simtype, npool, input, output)
 
         jobid   = self._scheduler.submit(cmd)
-        status  = self.check(jobid)
-        
-        print "Simulation started: %s" % status['time_start']
-
-        self._state = status['state']
-        import time
-#        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+#        status  = self.status(jobid)
 #
-#        status  = self.cancel(jobid)
-#        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-
-        while (status['state'] != 'finished'):
-            print "State: %s, Time: %s" % (status['state'], time.ctime())
-            import time
-            time.sleep(3)
-            status  = self._scheduler.status(jobid)
-            self._state = status['state']
-
-        print "State: %s, Time: %s" % (status['state'], time.ctime())
+#        print "Simulation started: %s" % status['time_start']
+#
+#        self._state = status['state']
+#        import time
+##        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+##
+##        status  = self.cancel(jobid)
+##        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+#
+#        while (status['state'] != 'finished'):
+#            print "State: %s, Time: %s" % (status['state'], time.ctime())
+#            import time
+#            time.sleep(3)
+#            status  = self._scheduler.status(jobid)
+#            self._state = status['state']
+#
+#        print "State: %s, Time: %s" % (status['state'], time.ctime())
 
         return jobid
 
-    def check(self, jobid):
+    def _initScheduler(self):
+        servername  = self.settings.get("server", "server-name")
+        username    = self.settings.get("user", "username")
+        simpath     = self.settings.get("simulation", "remote-path")
+        server      = Server(servername, None, username)
+
+        launch = lambda cmd: self._director.csaccessor.execute(cmd, server, simpath, suppressException=True)
+        self._scheduler       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
+
+
+    def status(self, jobid):
         "check status of a job"
         # See for more ideas the old version
 
-        if self._scheduler is not None:
+        if self._scheduler:
             return self._scheduler.status(jobid)
 
-        return "Not defined"
+        return None
     
-
+    def trace(self, jobid):
+        pass
 
     def cancel(self, jobid ):
         "cancel a job"
-        status  = self.check(jobid) # Bad!
+        status  = self.status(jobid) # Bad!
 
         if status['state'] != 'running':
             return status
 
         self._scheduler.delete( jobid )
         
-        return self.check(jobid)
+        return self.status(jobid)
 
 if __name__ == "__main__":
     s   = Scheduler(None)

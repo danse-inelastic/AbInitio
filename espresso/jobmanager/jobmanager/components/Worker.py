@@ -23,6 +23,7 @@ History: Adapter from submitjob.odb
 import os
 from jobmanager.utils.Server import Server
 from pyre.components.Component import Component
+from jobmanager.components.Scheduler import Scheduler
 import ConfigParser
 
 class Worker(Component):
@@ -34,6 +35,8 @@ class Worker(Component):
         self._director  = director
         self._jobid     = director.jobid
         self._ssher     = director.csaccessor
+        self._scheduler = Scheduler(director)     
+
         self._settings  = ConfigParser.ConfigParser()
         self._settings.read(director.settings)
         self._localpath     = self._settings.get("simulation", "local-path")
@@ -50,8 +53,17 @@ class Worker(Component):
                 self.prepare()
                 self.schedule()
                 self.mklocdir()
-            #self.retrieveResults(self._jobid)   # specific for this example
-            #self.clean(self._jobid)
+            if self._director.action    == "status" and self._jobid:
+                self.status(self._jobid)
+
+            if self._director.action    == "trace" and self._jobid:
+                self.trace(self._jobid)
+
+            if self._director.action    == "get" and self._jobid:
+                #self.retrieveResults(self._jobid)   # specific for this example
+                #self.clean(self._jobid)
+                pass
+            
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
@@ -65,15 +77,22 @@ class Worker(Component):
         self._ssher.copy(serverA, self._localpath+"/Ni.pbe-nd-rrkjus.UPF", serverB, self._remotepath)
 
     def schedule(self):
-        from jobmanager.components.Scheduler import Scheduler
-        s   = Scheduler(self._director)     # job,
-
-        self._jobid = s.schedule()
+        self._jobid = self._scheduler.schedule()
 
     def mklocdir(self):
         """Create directory on the local machine"""
         dir         = self._localpath+"/%s.%s" % (self._jobname, self._jobid)
         os.mkdir(dir)
+
+    def status(self, jobid):
+        status  = self._scheduler.status(jobid)
+        if status:
+            print "Job status: %s " % status['state']
+        return status
+
+
+    def trace(self, jobid):
+        self._scheduler.trace(jobid)
 
     def retrieveResults(self, jobid):
         serverA = Server(None, None, self._username)

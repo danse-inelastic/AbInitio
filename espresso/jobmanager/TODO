@@ -18,7 +18,15 @@ $ jm.py --config=ni.scf.in --action=submit
 	--input         -i  - Input configuration file (e.g. --input=ni.scf.in)
         --jobname       -n  - Name of the job to be submitted (e.g. --jobname=Ni) No spaces are allowed
 	--configtype	-t  - [Not Implemented Yet] Type of config file (options: pyre, configparser (default)) (e.g. --config-type=configparser)
-	--action	-a  - Action to be performed. Options: submit (default), status, delete, trace. (e.g. --action=submit)
+	--action	-a  - Action to be performed. 
+                Options:
+                - submit (default)
+                - status
+                - delete
+                - trace
+                - get   # Retrieve result
+                Example:
+                --action=submit
         --jobid         -id - Specifies the job id
 	--servername	-sn - Server name
 	--serverport	-sp - Server port
