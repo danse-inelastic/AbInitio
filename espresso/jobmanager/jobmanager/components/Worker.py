@@ -46,28 +46,34 @@ class Worker(Component):
     # Add additional parameter to specify the task
     def run(self):
         try:
-            self.prepare(self._jobid)
-            self.schedule(self._jobid)
-            self.retrieveResults(self._jobid)   # specific for this example
-            self.clean(self._jobid)
+            if self._director.action    == "submit":
+                self.prepare()
+                self.schedule()
+                self.mklocdir()
+            #self.retrieveResults(self._jobid)   # specific for this example
+            #self.clean(self._jobid)
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
             raise
 
-    def prepare(self, jobid):
+    def prepare(self):
         serverA = Server(None, None, self._username)
         serverB = Server(self._director.servername, None, self._username)   #
         self._ssher.mkdir(serverB, self._remotepath+"/temp" ) # Take output directory from config file
         self._ssher.copy(serverA, self._localpath+"/"+self._input, serverB, self._remotepath)
         self._ssher.copy(serverA, self._localpath+"/Ni.pbe-nd-rrkjus.UPF", serverB, self._remotepath)
 
-    def schedule(self, jobid):
+    def schedule(self):
         from jobmanager.components.Scheduler import Scheduler
         s   = Scheduler(self._director)     # job,
 
         self._jobid = s.schedule()
 
+    def mklocdir(self):
+        """Create directory on the local machine"""
+        dir         = self._localpath+"/%s.%s" % (self._jobname, self._jobid)
+        os.mkdir(dir)
 
     def retrieveResults(self, jobid):
         serverA = Server(None, None, self._username)

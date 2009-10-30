@@ -77,9 +77,8 @@ class JobManager(Script):
     def main(self):
         from jobmanager.components.Worker import Worker
 
-        print self.action
-        #d   = Worker(self)      # Need to pass parameters?
-        #d.run()
+        d   = Worker(self)      # Need to pass parameters?
+        d.run()
         return
 
     def __init__(self, name=None):
@@ -97,7 +96,7 @@ class JobManager(Script):
         self.settings   = self._setSettings()
         self.input      = self._setInput()
         self.jobname    = self._setJobName()
-        self.action     = self.inventory.action #self._setAction()
+        self.action     = self._setAction()
         self.jobid      = self._setJobId()
         self.servername = self._setServerName()
         self.serverport = self._setServerPort()
@@ -118,6 +117,7 @@ class JobManager(Script):
 
     def _setSettings(self):
         """Checks if settings is set"""
+
         if self.inventory.settings is None:
             print """
 Settings configuration file should be provided!
@@ -142,6 +142,7 @@ Usage: jm.py --settings=<filename>
     def _setAction(self):
         if self.inventory.action:
             return self.inventory.action
+        
         return "submit"     # 'default' value
 
     def _setJobId(self):

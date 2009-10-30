@@ -18,7 +18,6 @@
 
   <component name='jm'>
       <property name='action'>submit</property>
-      <property name='settings'>default.conf</property>
   </component>
   
 </inventory>
