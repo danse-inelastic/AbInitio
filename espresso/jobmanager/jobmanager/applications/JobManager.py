@@ -77,16 +77,18 @@ class JobManager(Script):
     def main(self):
         from jobmanager.components.Worker import Worker
 
-        d   = Worker(self)      # Need to pass parameters?
-        d.run()
+        print self.action
+        #d   = Worker(self)      # Need to pass parameters?
+        #d.run()
         return
 
-    def __init__(self, name=None):
+    def __init__(self, name=None, action="submit"):
         super(JobManager, self).__init__(name=name)
-        import os
+
         # Make sure that EXPORT_ROOT points to job manager
-        self._exportRoot = os.environ['EXPORT_ROOT'] 
+        self._exportRoot    = os.environ['EXPORT_ROOT']
         self._settings  = ConfigParser.ConfigParser()
+        self.action     = action
 
     def _configure(self):
         super(JobManager, self)._configure()
@@ -142,8 +144,6 @@ Usage: jm.py --settings=<filename>
     def _setAction(self):
         if self.inventory.action:
             return self.inventory.action
-        
-        return "submit"     # 'default' value
 
     def _setJobId(self):
         return self.inventory.jobid
