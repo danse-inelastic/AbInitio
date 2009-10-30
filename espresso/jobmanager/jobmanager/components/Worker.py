@@ -48,7 +48,7 @@ class Worker(Component):
             self.prepare(self._jobid)
             self.schedule(self._jobid)
             self.retrieveResults(self._jobid)   # specific for this example
-            #self.clean(self._jobid)
+            self.clean(self._jobid)
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
@@ -69,10 +69,21 @@ class Worker(Component):
 
 
     def retrieveResults(self, jobid):
-        os.mkdir(self._localpath+"/%s.%s" % (self._jobname, self._jobid))
-        print 
+        serverA = Server(None, None, self._username)
+        serverB = Server(self._director.servername, None, self._username)   #
+
+        #dir     = self._localpath+"/Ni.4969"
+        dir     = self._localpath+"/%s.%s" % (self._jobname, self._jobid)
+        os.mkdir(dir)
+        import time
+        time.sleep(1)
+        self._director.csaccessor.copy(serverB, self._remotepath+"/"+self._input, serverA, dir)
+        self._director.csaccessor.copy(serverB, self._remotepath+"/"+self._output, serverA, dir)
+
 
     def clean(self, jobid):
+        """Cleans up after simulation (currently just removes the simulation directory) """
+        serverB = Server(self._director.servername, None, self._username)
         self._director.csaccessor.rmdir(serverB, self._remotepath )
 
     def makeAvailable(self):

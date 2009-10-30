@@ -48,24 +48,27 @@ class Scheduler:
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
         cmd     = "%s -npool %d -inp  %s > %s" % (simtype, npool, input, output)
-        #print cmd
 
         jobid   = self._scheduler.submit(cmd)
         status  = self.check(jobid)
+        
+        print "Simulation started: %s" % status['time_start']
+
         self._state = status['state']
+        import time
 #        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 #
 #        status  = self.cancel(jobid)
 #        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
-#        while (status['state'] != 'finished'):
-#            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-#            import time
-#            time.sleep(3)
-#            status  = self._scheduler.status(jobid)
-#            self._state = status['state']
+        while (status['state'] != 'finished'):
+            print "State: %s, Time: %s" % (status['state'], time.ctime())
+            import time
+            time.sleep(3)
+            status  = self._scheduler.status(jobid)
+            self._state = status['state']
 
-        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+        print "State: %s, Time: %s" % (status['state'], time.ctime())
 
         return jobid
 
