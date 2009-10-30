@@ -20,6 +20,7 @@
 History: Adapter from submitjob.odb
 """
 
+import os
 from jobmanager.utils.Server import Server
 from pyre.components.Component import Component
 import ConfigParser
@@ -39,13 +40,14 @@ class Worker(Component):
         self._input         = self._settings.get("simulation", "input-file")
         self._output        = self._settings.get("simulation", "output-file")
         self._username      = self._settings.get("user", "username")
+        self._jobname       = self._settings.get("simulation", "job-name")
 
     # Add additional parameter to specify the task
     def run(self):
         try:
             self.prepare(self._jobid)
             self.schedule(self._jobid)
-            self.retrieveResults(self._jobid)
+            self.retrieveResults(self._jobid)   # specific for this example
             #self.clean(self._jobid)
         except Exception, e:
             import traceback
@@ -62,10 +64,13 @@ class Worker(Component):
     def schedule(self, jobid):
         from jobmanager.components.Scheduler import Scheduler
         s   = Scheduler(self._director)     # job,
-        return s.schedule()
+
+        self._jobid = s.schedule()
+
 
     def retrieveResults(self, jobid):
-        pass
+        os.mkdir(self._localpath+"/%s.%s" % (self._jobname, self._jobid))
+        print 
 
     def clean(self, jobid):
         self._director.csaccessor.rmdir(serverB, self._remotepath )

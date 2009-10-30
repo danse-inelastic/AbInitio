@@ -58,15 +58,16 @@ class Scheduler:
 #        status  = self.cancel(jobid)
 #        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
-        while (status['state'] != 'finished'):
-            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-            import time
-            time.sleep(3)
-            status  = self._scheduler.status(jobid)
-            self._state = status['state']
+#        while (status['state'] != 'finished'):
+#            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+#            import time
+#            time.sleep(3)
+#            status  = self._scheduler.status(jobid)
+#            self._state = status['state']
 
         print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
+        return jobid
 
     def check(self, jobid):
         "check status of a job"
