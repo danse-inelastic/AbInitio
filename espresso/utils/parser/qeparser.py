@@ -32,6 +32,13 @@ from namelist import Namelist
 from card import Card
 
 class QEParser:
+    """
+    Flexible Parser for Quantum Espresso (QE) configuration files. It parses the file specified
+    by filename or configuration string and stores parameters in namelists, cards and
+    attachment (specific for matdyn) data structures that later on can be used in
+    parameters' manipulations
+    """
+    
     def __init__(self, filename=None, configText=None, type='pw'):
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
@@ -277,9 +284,9 @@ if __name__ == "__main__":
     qeparserText    = QEParser(configText = textProblem) # textMatdyn, type="matdyn")#
     qeparserText.parse()
     qeparserText.toString()
-    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
-    qeparserFile.parse()
-    qeparserFile.toString()
+#    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
+#    qeparserFile.parse()
+#    qeparserFile.toString()
 
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
