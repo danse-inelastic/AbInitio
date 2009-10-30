@@ -82,8 +82,11 @@ class JobManager(Script):
         #d.run()
         return
 
-    def __init__(self, name="main"):
+    def __init__(self, name=None):
         super(JobManager, self).__init__(name=name)
+        import os
+        # Make sure that EXPORT_ROOT points to job manager
+        self._exportRoot = os.environ['EXPORT_ROOT'] 
         self._settings  = ConfigParser.ConfigParser()
 
     def _configure(self):
@@ -104,8 +107,13 @@ class JobManager(Script):
     def _init(self):
         super(JobManager, self)._init()
 
+
     def _getPrivateDepositoryLocations(self):
-        return ['../../config']
+        """Important method that returns location to depositories, e.g. 'config', 'content' """
+        if self._exportRoot:
+            return [self._exportRoot+"/config"]
+
+        return ["../config"]    # Need to run stript from bin/ directory
 
 
     def _setSettings(self):

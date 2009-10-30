@@ -9,6 +9,11 @@ environment. Make sure that you have account set up for the cluster and access t
 from the machine that has your private key stored. Specific settings will depend on the cluster.
 Make sure to consult the cluster admin for the settings.
 
+You need also set the EXPORT_ROOT to where the jobmanager is exported:
+
+E.g.:
+export EXPORT_ROOT=/home/dexity/exports/jobmanager
+
 Server: foxtrot.danse.us
 ========================
 In the .bashrc in your home directory you will need add the following lines:
