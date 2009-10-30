@@ -35,6 +35,7 @@ class QEParser:
     def __init__(self, filename=None, configText=None, type='pw'):
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
+        self.attach     = None
         self.filename   = filename
         self.configText = configText
         self.namelistRef    = None
@@ -53,7 +54,7 @@ class QEParser:
         
         self._parseNamelists(text)
         self._parseCards(text)
-        return (self.namelists, self.cards)
+        return (self.namelists, self.cards, self.attach)
 
     def toString(self):
         for n in self.namelists.keys():
@@ -61,6 +62,9 @@ class QEParser:
 
         for c in self.cards.keys():
             print self.cards[c].toString()
+
+        if self.attach:
+            print self.attach
 
 
     def getReferences(self):
@@ -123,6 +127,12 @@ class QEParser:
         s1  = re.sub(p, '', text)       # Remove comments
         p2  = re.compile(NAMELIST)
         s2  = re.sub(p2, '', s1)        # Remove namelists
+
+        # Special case for 'matdyn'
+        if self.type == 'matdyn': 
+            self.attach = s2.strip()
+            return
+        
         rawlist = []
 
         p   = re.compile(EMPTY_LINE)
@@ -251,8 +261,20 @@ blah
 
 """
 
+textMatdyn = """
+&input
+   asr='simple',
+   amass(1)=26.982538, amass(2)=11.000,
+   flfrc='alb2666.fc'
+/
+701
+0.000000    0.000000    0.000000    0.000000
+0.003333    0.005774    0.000000    0.003333
+0.006667    0.011547    0.000000    0.006667
+"""
+
 if __name__ == "__main__":
-    qeparserText    = QEParser(configText = textProblem)
+    qeparserText    = QEParser(configText = textProblem) # textMatdyn, type="matdyn")#
     qeparserText.parse()
     qeparserText.toString()
     qeparserFile    = QEParser(filename = "../tests/ni.scf.in")

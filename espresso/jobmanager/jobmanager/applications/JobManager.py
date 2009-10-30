@@ -76,12 +76,13 @@ class JobManager(Script):
     # Main method!
     def main(self):
         from jobmanager.components.Worker import Worker
-        
-        d   = Worker(self)      # Need to pass parameters?
-        d.run()
+
+        print self.action
+        #d   = Worker(self)      # Need to pass parameters?
+        #d.run()
         return
 
-    def __init__(self, name=None):
+    def __init__(self, name="main"):
         super(JobManager, self).__init__(name=name)
         self._settings  = ConfigParser.ConfigParser()
 
@@ -93,7 +94,7 @@ class JobManager(Script):
         self.settings   = self._setSettings()
         self.input      = self._setInput()
         self.jobname    = self._setJobName()
-        self.action     = self._setAction()
+        self.action     = self.inventory.action #self._setAction()
         self.jobid      = self._setJobId()
         self.servername = self._setServerName()
         self.serverport = self._setServerPort()
@@ -104,7 +105,7 @@ class JobManager(Script):
         super(JobManager, self)._init()
 
     def _getPrivateDepositoryLocations(self):
-        return ['../config']
+        return ['../../config']
 
 
     def _setSettings(self):

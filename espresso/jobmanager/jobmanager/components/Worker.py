@@ -33,6 +33,7 @@ class Worker(Component):
     def __init__(self, director):
         self._director  = director
         self._jobid     = director.jobid
+        self._ssher     = director.csaccessor
         self._settings  = ConfigParser.ConfigParser()
         self._settings.read(director.settings)
         self._localpath     = self._settings.get("simulation", "local-path")
@@ -57,9 +58,9 @@ class Worker(Component):
     def prepare(self, jobid):
         serverA = Server(None, None, self._username)
         serverB = Server(self._director.servername, None, self._username)   #
-        self._director.csaccessor.mkdir(serverB, self._remotepath+"/temp" ) # Take output directory from config file
-        self._director.csaccessor.copy(serverA, self._localpath+"/"+self._input, serverB, self._remotepath)
-        self._director.csaccessor.copy(serverA, self._localpath+"/Ni.pbe-nd-rrkjus.UPF", serverB, self._remotepath)
+        self._ssher.mkdir(serverB, self._remotepath+"/temp" ) # Take output directory from config file
+        self._ssher.copy(serverA, self._localpath+"/"+self._input, serverB, self._remotepath)
+        self._ssher.copy(serverA, self._localpath+"/Ni.pbe-nd-rrkjus.UPF", serverB, self._remotepath)
 
     def schedule(self, jobid):
         from jobmanager.components.Scheduler import Scheduler
@@ -77,29 +78,14 @@ class Worker(Component):
         os.mkdir(dir)
         import time
         time.sleep(1)
-        self._director.csaccessor.copy(serverB, self._remotepath+"/"+self._input, serverA, dir)
-        self._director.csaccessor.copy(serverB, self._remotepath+"/"+self._output, serverA, dir)
+        self._ssher.copy(serverB, self._remotepath+"/"+self._input, serverA, dir)
+        self._ssher.copy(serverB, self._remotepath+"/"+self._output, serverA, dir)
 
 
     def clean(self, jobid):
         """Cleans up after simulation (currently just removes the simulation directory) """
         serverB = Server(self._director.servername, None, self._username)
-        self._director.csaccessor.rmdir(serverB, self._remotepath )
-
-    def makeAvailable(self):
-        pass
-
-    def prepare_dependency(self, dep, job):
-#        dds = self._director.dds
-#
-#        if dds.is_available(dep):
-#            dds.remember(dep)
-#
-#        server = None
-#        dds.make_available(dep, server=server)
-        return
-
-
+        self._ssher.rmdir(serverB, self._remotepath )
 
 
 if __name__ == "__main__":
@@ -109,7 +95,7 @@ if __name__ == "__main__":
 
 
 
-
+# **************** DEAD CODE *************************
 
 #    def run(self, task):
 #

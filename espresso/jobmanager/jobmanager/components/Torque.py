@@ -235,6 +235,7 @@ done
     def _readoutputerror(self, outputfilename, errorfilename ):
         return self._read( outputfilename ), self._read( errorfilename )
 
+
     # REDO!!!   - Looks UGLY
     def _read(self, filename):
         'read file in the remote job directory'

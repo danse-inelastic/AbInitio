@@ -51,13 +51,14 @@ class QEInput(object):
         self.type       = type
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
+        self.attach     = None          # Specific for 'matdyn'
         self.namelistRef    = None
         self.cardRef        = None
-        self.qe         = [self.namelists, self.cards]
+        self.qe         = [self.namelists, self.cards, self.attach]
 
     def parse(self):
         """ Parses the configuration file and stores the values in qe dictionary """
-        (self.namelists, self.cards) = self.parser.parse()
+        (self.namelists, self.cards, self.attach) = self.parser.parse()
 
     def createNamelist(self, name):
         """Creates namelist and adds to QEInput. """
@@ -114,6 +115,9 @@ class QEInput(object):
             c  = self.getObject(name, self.cards)
             if c is not None:
                 s   += c.toString()
+
+        if self.attach:     # Special attribute for matdyn
+            s   += self.attach
 
         return s
 
