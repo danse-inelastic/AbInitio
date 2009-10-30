@@ -59,6 +59,9 @@ class Worker(Component):
             if self._director.action    == "trace" and self._jobid:
                 self.trace(self._jobid)
 
+            if self._director.action    == "delete" and self._jobid:
+                self.delete(self._jobid)
+
             if self._director.action    == "get" and self._jobid:
                 #self.retrieveResults(self._jobid)   # specific for this example
                 #self.clean(self._jobid)
@@ -87,12 +90,15 @@ class Worker(Component):
     def status(self, jobid):
         status  = self._scheduler.status(jobid)
         if status:
-            print "Job status: %s " % status['state']
+            print "Job ID: %s, Status: %s " % (jobid, status['state'])
         return status
 
 
     def trace(self, jobid):
         self._scheduler.trace(jobid)
+
+    def delete(self, jobid):
+        self._scheduler.delete(jobid)
 
     def retrieveResults(self, jobid):
         serverA = Server(None, None, self._username)

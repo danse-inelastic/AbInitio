@@ -16,6 +16,7 @@ History: Adopted from Scheduler.py
 """
 
 import os
+import time
 import ConfigParser
 from jobmanager.utils.Server import Server
 from jobmanager.components.Torque import Torque
@@ -44,25 +45,7 @@ class Scheduler:
         cmd     = "%s -npool %d -inp  %s > %s" % (simtype, npool, input, output)
 
         jobid   = self._scheduler.submit(cmd)
-#        status  = self.status(jobid)
-#
-#        print "Simulation started: %s" % status['time_start']
-#
-#        self._state = status['state']
-#        import time
-##        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-##
-##        status  = self.cancel(jobid)
-##        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-#
-#        while (status['state'] != 'finished'):
-#            print "State: %s, Time: %s" % (status['state'], time.ctime())
-#            import time
-#            time.sleep(3)
-#            status  = self._scheduler.status(jobid)
-#            self._state = status['state']
-#
-#        print "State: %s, Time: %s" % (status['state'], time.ctime())
+        print "Job ID: %s, Status: submitted" % jobid
 
         return jobid
 
@@ -86,18 +69,33 @@ class Scheduler:
         return None
     
     def trace(self, jobid):
-        pass
+        """Traces status of the remote job"""
+        status      = self.status(jobid)
+        interval    = 3 # in sec
 
-    def cancel(self, jobid ):
+        self._state = status['state']
+
+        while (status['state'] != 'finished'):
+            print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
+            time.sleep(interval)
+            status  = self._scheduler.status(jobid)
+            self._state = status['state']
+
+        print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
+
+
+    def delete(self, jobid ):
         "cancel a job"
         status  = self.status(jobid) # Bad!
 
         if status['state'] != 'running':
+            print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
             return status
 
         self._scheduler.delete( jobid )
-        
-        return self.status(jobid)
+        print "Job ID %s is TERMINATED, Time: %s" % (jobid, time.ctime())
+
+        #return self.status(jobid)
 
 if __name__ == "__main__":
     s   = Scheduler(None)

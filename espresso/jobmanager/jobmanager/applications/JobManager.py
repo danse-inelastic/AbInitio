@@ -77,9 +77,8 @@ class JobManager(Script):
     def main(self):
         from jobmanager.components.Worker import Worker
 
-        print self.action
-        #d   = Worker(self)      # Need to pass parameters?
-        #d.run()
+        d   = Worker(self)      # Need to pass parameters?
+        d.run()
         return
 
     def __init__(self, name=None, action="submit"):
@@ -95,7 +94,7 @@ class JobManager(Script):
 
         # Populate values from settings file!
         self.csaccessor = self.inventory.csaccessor
-        self.settings   = self._setSettings()
+        self.settings   = self._setSettings()       # Settings are needed to submit jobs?
         self.input      = self._setInput()
         self.jobname    = self._setJobName()
         self.action     = self._setAction()
