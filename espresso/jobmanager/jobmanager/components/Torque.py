@@ -78,8 +78,8 @@ class Torque:
         self.errfilename        = 'STDERR.log'
 
 
-        self.server             = ConfigParser.ConfigParser()
-        self.server.read(self._director.server)
+#        self.server             = ConfigParser.ConfigParser()
+#        self.server.read(self._director.server)
         self.settings           = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
         return
@@ -87,10 +87,10 @@ class Torque:
     def submit(self, cmd):  # Unlimited time (walltime=1*hour)
         executable  = self.settings.get("server", "executable")
         params      = self.settings.get("server", "params")
-        simpath     = self.settings.get("simulation", "simPath")
-        simname     = self.settings.get("simulation", "simName")
-        nodes       = int(self.settings.get("server", "numNodes"))
-        ppn         = int(self.settings.get("server", "procPerNode"))
+        simpath     = self.settings.get("simulation", "remote-path")
+        simname     = self.settings.get("simulation", "job-name")
+        nodes       = int(self.settings.get("server", "num-nodes"))
+        ppn         = int(self.settings.get("server", "proc-per-node"))
 
         """E.g.: echo 'mpirun  --mca btl openib,sm,self pw.x -npool 8 -inp  ni.scf.in > ni.scf.out' | qsub -d /home/dexity/espresso/Ni  -V -N Ni -l nodes=8:ppn=12 -"""
 
@@ -123,7 +123,7 @@ done
     
     # foxtrot specific
     def addModules(self):
-        modules    = self.server.get("modules", "modules-espresso")
+        modules    = self.settings.get("modules", "modules-espresso")
         s   = 'module add %s\n' % modules
         return s
         

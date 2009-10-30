@@ -16,6 +16,7 @@ JobManager manages jobs on the remote cluster
 
 Specification:
 1. No database involved - just config files!
+- Inline parameters from command line have previledge over that of config file
 
 Improvements:
 1. Output the status of the simulation (as in ITaskApp.py)
@@ -27,10 +28,13 @@ What is the ComputationResultsRetriever.py for?
 
 TODO:
 [?] Set limitation for the simulation time (start, finish time)
+We suppose that all the parameters in the settings are present. Handle case if it is not present.
+
 """
 
 import os
 from pyre.applications.Script import Script
+import ConfigParser
 
 class JobManager(Script):
 
@@ -79,6 +83,7 @@ class JobManager(Script):
 
     def __init__(self, name=None):
         super(JobManager, self).__init__(name=name)
+        self._settings  = ConfigParser.ConfigParser()
 
     def _configure(self):
         super(JobManager, self)._configure()
@@ -86,13 +91,14 @@ class JobManager(Script):
         # Populate values from settings file!
         self.csaccessor = self.inventory.csaccessor
         self.settings   = self._setSettings()
-        self.input      = self.inventory.input
-        self.jobname    = self.inventory.jobname
-        self.action     = self.inventory.action
-        self.jobid      = self.inventory.jobid
-        self.servername = self.inventory.servername
-        self.serverport = self.inventory.serverport
-        self.serverip   = self.inventory.serverip
+        self.input      = self._setInput()
+        self.jobname    = self._setJobName()
+        self.action     = self._setAction()
+        self.jobid      = self._setJobId()
+        self.servername = self._setServerName()
+        self.serverport = self._setServerPort()
+        self.serverip   = self._setServerIP()
+
 
     def _init(self):
         super(JobManager, self)._init()
@@ -109,8 +115,44 @@ Settings configuration file should be provided!
 Usage: jm.py --settings=<filename>
 """
             raise
-        
+
+        self._settings.read(self.inventory.settings)
+
         return self.inventory.settings
+
+    def _setInput(self):
+        if self.inventory.input:
+            return self.inventory.input
+        return self._settings.get("simulation", "input-file")
+
+    def _setJobName(self):
+        if self.inventory.jobname:
+            return self.inventory.jobname
+        return self._settings.get("simulation", "job-name")
+
+    def _setAction(self):
+        if self.inventory.action:
+            return self.inventory.action
+        return "submit"     # 'default' value
+
+    def _setJobId(self):
+        return self.inventory.jobid
+
+    def _setServerName(self):
+        if self.inventory.servername:
+            return self.inventory.servername
+        return self._settings.get("server", "server-name")
+
+    def _setServerPort(self):
+        if self.inventory.serverport:
+            return self.inventory.serverport
+        return self._settings.get("server", "server-port")
+
+    def _setServerIP(self):
+        if self.inventory.serverip:
+            return self.inventory.serverip
+        return self._settings.get("server", "server-ip")
+
 
 if __name__ == "__main__":
     app = JobManager(name="main")

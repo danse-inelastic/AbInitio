@@ -26,7 +26,7 @@ class Scheduler:
         self._scheduler  = None
         self._state      = None
 
-        self.settings           = ConfigParser.ConfigParser()
+        self.settings    = ConfigParser.ConfigParser()
         self.settings.read(self._director.settings)
 
 
@@ -43,29 +43,29 @@ class Scheduler:
         npool       = int(self.settings.get("server", "npool"))
 
         server  = Server(servername, None, username)
-        launch = lambda cmd: self._director.csaccessor.execute(
-            cmd, server, simpath, suppressException=True)
+        launch = lambda cmd: self._director.csaccessor.execute(cmd, server, simpath, suppressException=True)
         self._scheduler       = Torque(launch, self._director) #launcher) launcher    = self._director.csaccessor.execute
 
         """ E.g.: pw.x -npool 8 -inp  ni.scf.in > ni.scf.out"""
         cmd     = "%s -npool %d -inp  %s > %s" % (simtype, npool, input, output)
+        #print cmd
 
         jobid   = self._scheduler.submit(cmd)
         status  = self.check(jobid)
         self._state = status['state']
+#        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+#
+#        status  = self.cancel(jobid)
+#        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+
+        while (status['state'] != 'finished'):
+            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
+            import time
+            time.sleep(3)
+            status  = self._scheduler.status(jobid)
+            self._state = status['state']
+
         print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-
-        status  = self.cancel(jobid)
-        print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-
-#        while (status['state'] != 'finished'):
-#            print "State: %s, Time started: %s" % (status['state'], status['time_start'])
-#            import time
-#            time.sleep(3)
-#            status  = self._scheduler.status(jobid)
-#            self._state = status['state']
-
-        #print "State: %s, Time started: %s" % (status['state'], status['time_start'])
 
 
     def check(self, jobid):

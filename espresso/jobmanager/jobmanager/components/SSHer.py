@@ -34,6 +34,49 @@ class SSHer(Component):
         super(SSHer, self).__init__(*args, **kwds)
         return
 
+    def execute( self, cmd, server, remotepath, suppressException = False ):
+        """Executes command in the given directory of the given server"""
+
+        address     = server.address
+        port        = server.port
+        username    = server.username
+        known_hosts = self.inventory.known_hosts
+        private_key = self.inventory.private_key
+
+        # Change to remote directory 'remotepath' and execute command 'cmd'
+        rmtcmd = 'cd %s && %s' % (remotepath, cmd)
+
+        pieces = [
+            'ssh',
+            "-o 'StrictHostKeyChecking=no'",
+            ]
+
+        if port:
+            pieces.append( '-p %s' % port )
+
+        if known_hosts:
+            pieces.append( "-o 'UserKnownHostsFile=%s'" % known_hosts )
+
+        if private_key:
+            pieces.append( "-i %s" % private_key )
+
+        pieces += [
+            '%s@%s' % (username, address),
+            '"%s"' % rmtcmd,
+            ]
+
+        cmd = ' '.join(pieces)
+
+        #print "execute: %s" % cmd
+        failed, output, error = spawn( cmd )
+
+        if failed and not suppressException:
+            msg = '%r failed: %s' % (
+                cmd, error )
+            raise RemoteAccessError, msg
+
+        return failed, output, error
+
 
     def copy(self, serverA, pathA, serverB, pathB):
         """copy recursively from serverA to serverB"""
@@ -213,7 +256,9 @@ class SSHer(Component):
 
     def mkdir(self, server, remotepath):
         """Creates directory 'remotepath' on the remote server """
-        # TODO: Handle is user doesn't have previliges to create the directory
+        # TODO:
+        # Handle is user doesn't have previliges to create the directory
+        # Consider case if the directory already exists
 
         address     = server.address
         port        = server.port
@@ -224,6 +269,32 @@ class SSHer(Component):
             "-o 'StrictHostKeyChecking=no'",
             '%s@%s' % (username, address),
             '"mkdir -p %s"' % remotepath    # Create directory (including deeper level)
+            ]
+
+        cmd = ' '.join(pieces)
+
+        failed, output, error = spawn( cmd )
+        if failed:
+            msg = '%r failed: %s' % ( cmd, error )
+            raise RemoteAccessError, msg
+        return
+
+
+    def rmdir(self, server, remotepath):
+        """Creates directory 'remotepath' on the remote server """
+        # TODO:
+        # Handle is user doesn't have previliges to create the directory
+        # Consider case if the directory does not exist
+
+        address     = server.address
+        port        = server.port
+        username    = server.username
+
+        pieces = [
+            'ssh',
+            "-o 'StrictHostKeyChecking=no'",
+            '%s@%s' % (username, address),
+            '"rm -rf %s"' % remotepath    # Create directory (including deeper level)
             ]
 
         cmd = ' '.join(pieces)
@@ -322,50 +393,6 @@ class SSHer(Component):
         remotedir, filename = os.path.split( remotepath )
 
         return os.path.join( localdir, filename )
-
-
-    def execute( self, cmd, server, remotepath, suppressException = False ):
-        """Execute command in the given directory of the given server"""
-
-        address     = server.address
-        port        = server.port
-        username    = server.username
-        known_hosts = self.inventory.known_hosts
-        private_key = self.inventory.private_key
-
-        rmtcmd = 'cd %s && %s' % (remotepath, cmd)
-
-        pieces = [
-            'ssh',
-            "-o 'StrictHostKeyChecking=no'",
-            ]
-
-        if port:
-            pieces.append( '-p %s' % port )
-
-        if known_hosts:
-            pieces.append( "-o 'UserKnownHostsFile=%s'" % known_hosts )
-
-        if private_key:
-            pieces.append( "-i %s" % private_key )
-
-        pieces += [
-            '%s@%s' % (username, address),
-            '"%s"' % rmtcmd,
-            ]
-
-        cmd = ' '.join(pieces)
-
-        #print "execute: %s" % cmd
-        failed, output, error = spawn( cmd )
-
-        if failed and not suppressException:
-            msg = '%r failed: %s' % (
-                cmd, error )
-            raise RemoteAccessError, msg
-
-        return failed, output, error
-
 
 
 # version

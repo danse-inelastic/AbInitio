@@ -22,6 +22,7 @@ History: Adapter from submitjob.odb
 
 from jobmanager.utils.Server import Server
 from pyre.components.Component import Component
+import ConfigParser
 
 class Worker(Component):
 
@@ -31,51 +32,43 @@ class Worker(Component):
     def __init__(self, director):
         self._director  = director
         self._jobid     = director.jobid
+        self._settings  = ConfigParser.ConfigParser()
+        self._settings.read(director.settings)
+        self._localpath     = self._settings.get("simulation", "local-path")
+        self._remotepath    = self._settings.get("simulation", "remote-path")
+        self._input         = self._settings.get("simulation", "input-file")
+        self._output        = self._settings.get("simulation", "output-file")
+        self._username      = self._settings.get("user", "username")
 
     # Add additional parameter to specify the task
     def run(self):
         try:
             self.prepare(self._jobid)
-            #self.schedule()
-            #self.clean()
+            self.schedule(self._jobid)
+            self.retrieveResults(self._jobid)
+            #self.clean(self._jobid)
         except Exception, e:
             import traceback
             #self._debug.log('submission of Job failed. %s' % traceback.format_exc())
             raise
 
-    def prepare(self, job):
-        serverA = Server("localhost", None, "dexity")
-        serverB = Server("foxtrot.danse.us", None, "dexity")    #
-        self._director.csaccessor.mkdir(serverB, "/home/dexity/Ni" )
-        self._director.csaccessor.copy(serverA, "/home/dexity/temp/title.jpg", serverB, "/home/dexity/espresso/Ni/")
+    def prepare(self, jobid):
+        serverA = Server(None, None, self._username)
+        serverB = Server(self._director.servername, None, self._username)   #
+        self._director.csaccessor.mkdir(serverB, self._remotepath+"/temp" ) # Take output directory from config file
+        self._director.csaccessor.copy(serverA, self._localpath+"/"+self._input, serverB, self._remotepath)
+        self._director.csaccessor.copy(serverA, self._localpath+"/Ni.pbe-nd-rrkjus.UPF", serverB, self._remotepath)
 
-#        dds = self._director.dds
-#
-#        jobpath = dds.abspath(job)
-
-#        #At this point you should know about the simulation you want to run
-#        from jobmanager.simulations.QE import QE
-#        files, deps = buildjob(computation, db=clerk.db, dds=dds, path=jobpath, director=director)
-#        for f in files:
-#            dds.remember(job, f)
-#
-#        # make job related files available on the server
-#        dds.make_available(job, server=server, files=files)
-
-        # make dependencies available on the server
-
-        #for dep in deps:
-        #    self.prepare_dependency(dep, job)
-        
-        return
-
-    def schedule(self, job):
+    def schedule(self, jobid):
         from jobmanager.components.Scheduler import Scheduler
         s   = Scheduler(self._director)     # job,
         return s.schedule()
 
-    def clean(self, job):
+    def retrieveResults(self, jobid):
         pass
+
+    def clean(self, jobid):
+        self._director.csaccessor.rmdir(serverB, self._remotepath )
 
     def makeAvailable(self):
         pass
