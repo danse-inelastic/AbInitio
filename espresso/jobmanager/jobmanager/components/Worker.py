@@ -63,8 +63,8 @@ class Worker(Component):
                 self.delete(self._jobid)
 
             if self._director.action    == "get" and self._jobid:
-                #self.retrieveResults(self._jobid)   # specific for this example
-                #self.clean(self._jobid)
+                self.retrieveResults(self._jobid)   # specific for this example
+                self.clean(self._jobid)
                 pass
             
         except Exception, e:
@@ -104,11 +104,15 @@ class Worker(Component):
         serverA = Server(None, None, self._username)
         serverB = Server(self._director.servername, None, self._username)   #
 
-        #dir     = self._localpath+"/Ni.4969"
+        #dir     = self._localpath+"/Ni.5101"
         dir     = self._localpath+"/%s.%s" % (self._jobname, self._jobid)
-        os.mkdir(dir)
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+
         import time
         time.sleep(1)
+
+        # Complains if data do not exist on server - Bad!
         self._ssher.copy(serverB, self._remotepath+"/"+self._input, serverA, dir)
         self._ssher.copy(serverB, self._remotepath+"/"+self._output, serverA, dir)
 
