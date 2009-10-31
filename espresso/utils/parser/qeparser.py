@@ -63,6 +63,7 @@ class QEParser:
         self._parseCards(text)
         return (self.namelists, self.cards, self.attach)
 
+
     def toString(self):
         for n in self.namelists.keys():
             print self.namelists[n].toString()
@@ -96,6 +97,7 @@ class QEParser:
 
         self._convertNamelists(namelists)
 
+
     # Converts from dictionary to Namelist
     def _convertNamelists(self, namelists):
         for name in namelists.keys():
@@ -104,6 +106,7 @@ class QEParser:
                 nl.add(p[0], p[1])
                 
             self.namelists[name] = nl
+
 
     # Parses parameters
     def _parseParams(self, text):

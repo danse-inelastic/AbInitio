@@ -63,7 +63,7 @@ class Worker(Component):
                 self.delete(self._jobid)
 
             if self._director.action    == "get" and self._jobid:
-                self.retrieveResults(self._jobid)   # specific for this example
+                self.getResults(self._jobid)   # specific for this example
                 self.clean(self._jobid)
                 pass
             
@@ -100,7 +100,7 @@ class Worker(Component):
     def delete(self, jobid):
         self._scheduler.delete(jobid)
 
-    def retrieveResults(self, jobid):
+    def getResults(self, jobid):
         serverA = Server(None, None, self._username)
         serverB = Server(self._director.servername, None, self._username)   #
 
@@ -121,6 +121,8 @@ class Worker(Component):
         """Cleans up after simulation (currently just removes the simulation directory) """
         serverB = Server(self._director.servername, None, self._username)
         self._ssher.rmdir(serverB, self._remotepath )
+
+        print "Results retrieval completed!"
 
 
 if __name__ == "__main__":

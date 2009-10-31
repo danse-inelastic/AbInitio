@@ -33,6 +33,8 @@ We suppose that all the parameters in the settings are present. Handle case if i
 """
 
 import os
+import re
+import sys
 from pyre.applications.Script import Script
 import ConfigParser
 
@@ -81,7 +83,7 @@ class JobManager(Script):
         d.run()
         return
 
-    def __init__(self, name=None, action="submit"):
+    def __init__(self, name=None, action="submit", ):
         super(JobManager, self).__init__(name=name)
 
         # Make sure that EXPORT_ROOT points to job manager
@@ -117,18 +119,30 @@ class JobManager(Script):
 
 
     def _setSettings(self):
-        """Checks if settings is set"""
+        """
+        Order of lookup for settings:
+        1. First look if settings parameter is set in the command line
+        2. Then it is set in .pml file
+        3. Finally look if settings.conf file exists in the local directory
+        """
+        settings    = None
+        localdir    = os.path.abspath(".")+"/settings.conf"
 
-        if self.inventory.settings is None:
-            print """
-Settings configuration file should be provided!
-Usage: jm.py --settings=<filename>
-"""
+        if self.inventory.settings:     # through command line or .pml file
+            settings    = self.inventory.settings
+
+        elif os.path.exists(localdir):
+            settings    = localdir
+
+        else:
+            print "Settings configuration file should be provided! \
+            Usage: jm.py --settings=<filename> \
+            "
             raise
 
-        self._settings.read(self.inventory.settings)
+        self._settings.read(settings)
 
-        return self.inventory.settings
+        return settings
 
     def _setInput(self):
         if self.inventory.input:
@@ -143,11 +157,27 @@ Usage: jm.py --settings=<filename>
     def _setAction(self):
         if self.inventory.action:
             return self.inventory.action
-        
+
         return self.action
 
     def _setJobId(self):
-        return self.inventory.jobid
+        """
+        Order of lookup for jobid:
+        1. First look if 'jobid' parameter is set in the command line
+        2. Then look for digit number in the command line
+        """
+
+        if self.inventory.jobid:
+            return self.inventory.jobid
+
+        DIGITS  = "[\d]+"
+        p       = re.compile(DIGITS)
+        for arg in sys.argv:
+            m   = p.match(arg)
+            if m:
+                return arg
+            
+        return None
 
     def _setServerName(self):
         if self.inventory.servername:
