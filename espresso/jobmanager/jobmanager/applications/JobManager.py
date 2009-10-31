@@ -57,20 +57,20 @@ class JobManager(Script):
         jobname.meta['tip'] = 'Name of the job'
 
         action      = pyre.inventory.str(name="action")
-        action.meta['tip'] = 'Name of the job'
+        action.meta['tip'] = 'Action to be performed. E.g. submit, status ...'
 
         jobid       = pyre.inventory.str(name="jobid")
-        jobid.meta['tip'] = 'Name of the job'
+        jobid.meta['tip'] = 'Id of the job'
 
         # Not used at this moment
         servername  = pyre.inventory.str(name="servername")
-        servername.meta['tip'] = 'Name of the job'
+        servername.meta['tip'] = 'Server name'
 
         serverport  = pyre.inventory.str(name="serverport")
-        serverport.meta['tip'] = 'Name of the job'
+        serverport.meta['tip'] = 'Server port'
 
         serverip     = pyre.inventory.str(name="serverip")
-        serverip.meta['tip'] = 'Name of the job'
+        serverip.meta['tip'] = 'Server IP'
 
 
     # Main method!
