@@ -53,6 +53,7 @@ class Worker(Component):
                 self.prepare()
                 self.schedule()
                 self.mklocdir()
+                
             if self._director.action    == "status" and self._jobid:
                 self.status(self._jobid)
 

@@ -75,13 +75,17 @@ class Scheduler:
 
         self._state = status['state']
 
-        while (status['state'] != 'finished'):
-            print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
-            time.sleep(interval)
-            status  = self._scheduler.status(jobid)
-            self._state = status['state']
+        # Trace job unless it is finished or key interrupt (Ctrl+C) occurs
+        try:
+            while (status['state'] != 'finished'):
+                print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
+                time.sleep(interval)
+                status  = self._scheduler.status(jobid)
+                self._state = status['state']
 
-        print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
+            print "Job ID: %s, State: %s, Time: %s" % (jobid, status['state'], time.ctime())
+        except KeyboardInterrupt:
+            pass
 
 
     def delete(self, jobid ):
