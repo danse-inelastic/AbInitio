@@ -52,6 +52,7 @@ def visual(director):
 
     jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))
     jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
+    jobsqueued      = jobsmenu.item(label='Queued',     onclick=load('jobs', routine='linkQueued'))
     jobsrunning     = jobsmenu.item(label='Running',    onclick=load('jobs', routine='linkRunning'))
     jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs', routine='linkFinished'))
     jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs', routine='linkFailed'))
