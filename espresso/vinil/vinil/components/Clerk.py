@@ -290,10 +290,7 @@ class DbAddressResolver:
         return os.path.join( self.dbroot, tablename )
     """
 
-    def _configure(self):
-        base._configure(self)
-        self.db = self.inventory.db
-        return
+
 
 # version
 __id__ = "$Id$"

@@ -27,8 +27,11 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id', default='')
+        id      = pyre.inventory.str('id', default='')      # Don't know why I need this id
+        simid   = pyre.inventory.str('simid', default='')
 
+    # Actor.link() calls content() and self.pathlist
+    # Default call
     def content(self, director):
         document = Document(title='Quantum Espresso')
 
@@ -59,24 +62,28 @@ class Actor(base):
         # Sample data for Favorites
         sim     = director.clerk.getSimulations()
 
+        ids     = []
         names   = []
         columns = []
 
         for i in range(len(sim)):
             if sim[i].isFavorite:
+                ids.append(sim[i].id)
                 names.append(sim[i].sname)
-                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
+                row     = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
                 columns.append(row)
             
         document.add(Paragraph(text="Favorites", Class="header-h2"))
         document.add(tableController(headers))
-        document.add(tableSimulations(names, columns))
+        document.add(tableSimulations(names, columns, ids))
 
+        ids     = []
         names   = []
         columns = []
 
         for i in range(len(sim)):
             if sim[i].isExample:
+                ids.append(sim[i].id)
                 names.append(sim[i].sname)
                 row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
                 columns.append(row)
@@ -84,29 +91,73 @@ class Actor(base):
 
         document.add(Paragraph(text="Examples", Class="header-h2"))
         document.add(tableController(headers))
-        document.add(tableSimulations(names, columns))
+        document.add(tableSimulations(names, columns, ids))
 
         return document
     
 
-    def linkRun(self, director):
-        pathlist = [("Home","greet","link"),
-                     ("Simulations", "simulations", "link"),
-                     ("Quantum Espresso", "espresso", "link"),
-                     ("Run Simulation", None, None)
-                     ]
+    # Simulation page
+    def linkSim(self, director, document=None):
+        actions = []
+        actions.append(select(id='maindoc').replaceContent(self.contentSim(director)))
+        actions.append(select(id='path-content').replaceContent(self.pathSim(director)))
 
-        def content(director):
-            document = Document(title='Run Simulation')
-
-            text = """Run Simulation"""
-            p = Paragraph(text=text)
-            document.add(p)
+        return actions
 
 
-            return document
+    def pathSim(self, director):
+        sim     = director.clerk.getSimulations(id=self.simid)
 
-        return self.getActions(content(director), pathlist)
+        list = [("Home","greet","link"),
+                ("Simulations", "simulations", "link"),
+                ("Quantum Espresso", "espresso", "link"),
+                (sim.sname, None, None)]
+
+        from vinil.utils.pathbuilder import PathBuilder
+        pb = PathBuilder(list)
+        return pb.buildPath()
+
+
+    def contentSim(self, director):
+        sim     = director.clerk.getSimulations(id=self.simid)
+        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.simid)
+        if config:
+            filename    = config[0].filename
+        else:
+            filename    = "None"
+            
+        document = Document(title='Simulation Name: %s' % sim.sname)
+        document.add(Link(label="Edit", Class="", onclick = load(actor='espresso', routine='linkEdit', simid=self.simid)))
+        document.add(Link(label="Delete", Class="", onclick = load(actor='espresso', routine='linkDelete', simid=self.simid)))
+        document.add(Link(label="Use", Class="", onclick = load(actor='espresso', routine='linkUse', simid=self.simid)))
+        document.add(Paragraph(text="Description: %s" % sim.description))
+        document.add(Paragraph(text="Type: %s" % sim.type))
+        document.add(Paragraph(text="Package: %s" % sim.package))
+        document.add(Paragraph(text="Formula: %s" % sim.formula))
+        document.add(Paragraph(text="Created: %s" % sim.timeCreated))
+        document.add(Paragraph(text="Files: %s" % filename))
+
+        return document
+
+
+#    def linkRun(self, director):
+#        pathlist = [("Home","greet","link"),
+#                     ("Simulations", "simulations", "link"),
+#                     ("Quantum Espresso", "espresso", "link"),
+#                     ("Run Simulation", None, None)
+#                     ]
+#
+#        def content(director):
+#            document = Document(title='Run Simulation')
+#
+#            text = """Run Simulation"""
+#            p = Paragraph(text=text)
+#            document.add(p)
+#
+#
+#            return document
+#
+#        return self.getActions(content(director), pathlist)
     
 
     def __init__(self, *args, **kwds):
@@ -121,6 +172,7 @@ class Actor(base):
     def _configure(self):
         super(Actor, self)._configure()
         self.id = self.inventory.id
+        self.simid = self.inventory.simid
         return
 
 
@@ -130,6 +182,8 @@ class Actor(base):
 
 def actor():
     return Actor('espresso')
+
+
 
 
 def tableController(headers):
@@ -150,7 +204,7 @@ def tableController(headers):
 
     return s
 
-def tableSimulations(names, columns):
+def tableSimulations(names, columns, ids):
     from luban.content.table import Table, Model, View
 
     # create a model class
@@ -176,19 +230,19 @@ def tableSimulations(names, columns):
                               )
     # Populate the data list
     def name(i):
-        link = Link(label=names[i], onclick = load(actor='greet', routine='link'))
+        link = Link(label=names[i], onclick = load(actor='espresso', routine='linkSim', simid=ids[i]))
         return link
 
-    def edit():
-        link = Link(label="Edit", onclick = load(actor='greet', routine='link'))
+    def edit(i):
+        link = Link(label="Edit", onclick = load(actor='espresso', routine='linkEdit', simid=ids[i]))
         return link
 
-    def remove():
-        link = Link(label="Remove", onclick = load(actor='greet', routine='link'))
+    def delete(i):
+        link = Link(label="Delete", onclick = load(actor='espresso', routine='link', simid=ids[i]))
         return link
 
-    def use():
-        link = Link(label="Use", onclick = load(actor='greet', routine='link'))
+    def use(i):
+        link = Link(label="Use", onclick = load(actor='espresso', routine='link', simid=ids[i]))
         return link
 
     data    = []
@@ -196,9 +250,9 @@ def tableSimulations(names, columns):
         n           = [name(i)]
         data.append(n)
         data[i]     += columns[i]
-        data[i]     += [edit()]
-        data[i]     += [remove()]
-        data[i]     += [use()]
+        data[i]     += [edit(i)]
+        data[i]     += [delete(i)]
+        data[i]     += [use(i)]
 
     # create the table
     table = Table(model=model, data=data, view=view)

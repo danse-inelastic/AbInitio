@@ -84,6 +84,10 @@ class Configuration(Table):
     cname = pyre.db.varchar(name="cname", length=1024, default='')
     cname.meta['tip'] = "cname"
 
+    # Later on can be tranformed to a separate File table
+    filename    = pyre.db.varchar(name="filename", length=1024, default='')
+    filename.meta['tip'] = "filename"
+
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
@@ -106,20 +110,21 @@ def inittable(db):
         r.id        = params['id']
         r.simulationId  = params['simulationId']
         r.cname     = params['cname']
+        r.filename  = params['filename']
         r.description   = params['description']
         r.date      = params['date']
         r.text      = params['text']
         return r
 
     records = [
-        configuration( {"id": 1, "simulationId": 1, "cname": "Electron Simulation",
-                        "description": "", "date": timestamp(),
+        configuration( {"id": 1, "simulationId": 4, "cname": "Electron Simulation",
+                        "filename": "ni.scf.in", "description": "", "date": timestamp(),
                         "text": configElectons} ),
-        configuration( {"id": 2, "simulationId": 2, "cname": "Phonon Simulation",
-                        "description": "", "date": timestamp(),
+        configuration( {"id": 2, "simulationId": 5, "cname": "Phonon Simulation",
+                        "filename": "ni.ph.in", "description": "", "date": timestamp(),
                         "text": configPhonons} ),
-        configuration( {"id": 3, "simulationId": 3, "cname": "Post Processing",
-                        "description": "", "date": timestamp(),
+        configuration( {"id": 3, "simulationId": 6, "cname": "Post Processing",
+                        "filename": "ni.pp.in", "description": "", "date": timestamp(),
                         "text": configPP} )        
         ]
     for r in records: db.insertRow( r )
