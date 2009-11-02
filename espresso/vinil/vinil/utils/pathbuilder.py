@@ -11,19 +11,23 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Builds path (navigation line) for vinil
+# Builds path (navigation path) for vinil
 
 # Example of Input:
 # list = [["Home","greet","link"], [label, actor, routine]]
 # Example of Output
 # <a href="###">Home</a> > Settings
 
+# TODO: You can pass only 'actor', 'routine' and 'id' parameters
+#   How to pass arbitrary parameters?
+
 
 class PathItem:
-    def __init__(self, label, actor=None, routine=None):
+    def __init__(self, label, actor=None, routine=None, id=None):
         self.label      = label
         self.actor      = actor
         self.routine    = routine
+        self.id         = id
 
     def isLink(self):
         if self.actor is not None:

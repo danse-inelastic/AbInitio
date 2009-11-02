@@ -272,19 +272,38 @@ blah
 """
 
 textMatdyn = """
-&input
-   asr='simple',
-   amass(1)=26.982538, amass(2)=11.000,
-   flfrc='alb2666.fc'
-/
-701
-0.000000    0.000000    0.000000    0.000000
-0.003333    0.005774    0.000000    0.003333
-0.006667    0.011547    0.000000    0.006667
+ &input
+    asr='crystal',
+    amass(1)=24.305, amass(2)=11.000,
+    flfrc='mgb2666.fc'
+ /
+176
+0.000000    0.000000    0.456392    0.000000
+0.000000    0.000000    0.447264    0.009128
+0.000000    0.000000    0.438137    0.018256
+0.000000    0.000000    0.429009    0.027384
+0.000000    0.000000    0.419881    0.036511
+"""
+
+textDynmat = """
+&input  fildyn='mgb2.dynG', asr='simple',
+        q(1)=0.0, q(2)=0.0, q(3)=0.0 /
+"""
+
+textPh  = """
+ &inputph
+  tr2_ph=1.0d-10,
+  amass(1)=24.305,
+  amass(2)=11.000,
+  prefix='mgb2',
+  outdir='/scratch/markovsk/mgb2'
+  fildyn='mgb2.dynG',
+ /
+
 """
 
 if __name__ == "__main__":
-    qeparserText    = QEParser(configText = textProblem) # textMatdyn, type="matdyn")#
+    qeparserText    = QEParser(configText = textMatdyn, type="matdyn") #textProblem) #
     qeparserText.parse()
     qeparserText.toString()
 #    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")

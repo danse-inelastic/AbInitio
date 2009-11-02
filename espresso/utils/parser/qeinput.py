@@ -122,6 +122,7 @@ class QEInput(object):
         return s
 
     def getObject(self, name, dict):
+        """Returns object that corresponds to 'name'"""
         for n in dict.values():
             if n.name() == name:
                 return dict[name]

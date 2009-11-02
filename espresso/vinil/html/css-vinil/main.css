@@ -143,12 +143,18 @@ p {
 
 #page-main {
     font-size: 15px;
+    width: 740px;
+    
 /*
     text-align: left;
     vertical-align: top;
 */
 }
 
+
+.action-link {
+    padding: 0px 2px;
+}
 
 #page-main-content {
     clear: both;
