@@ -19,11 +19,11 @@
 # <a href="###">Home</a> > Settings
 
 # TODO: You can pass only 'actor', 'routine' and 'id' parameters
-#   How to pass arbitrary parameters?
+# Problem:  How to pass arbitrary parameters?
 
 
 class PathItem:
-    def __init__(self, label, actor=None, routine=None, id=None):
+    def __init__(self, label, actor=None, routine=None, id=None): 
         self.label      = label
         self.actor      = actor
         self.routine    = routine
@@ -62,7 +62,11 @@ class Path:
         self.path       = [] # Empty path
         for i in range(len(list)):
             l   = list[i]
-            self.path.append(PathItem(l[0], l[1], l[2]))
+            # Silly way of handling indeces id
+            if len(l) == 3:
+                self.path.append(PathItem(label=l[0], actor=l[1], routine=l[2]))
+            elif len(l) == 4:
+                self.path.append(PathItem(label=l[0], actor=l[1], routine=l[2], id=l[3]))
 
 class PathBuilder:
     def __init__(self, list, separator=">"):
@@ -82,7 +86,11 @@ class PathBuilder:
         for i in range(self.path.size()):
             item    = self.path.item(i)
             if item.isLink():
-                pi = Link(label=item.label, onclick=load(actor=item.actor, routine=item.routine))
+                if item.id:     # Handling id
+                    pi = Link(label=item.label, onclick=load(actor=item.actor, routine=item.routine, id=item.id))
+                else:
+                    pi = Link(label=item.label, onclick=load(actor=item.actor, routine=item.routine))
+                    
                 sep = Paragraph(text=self.separator)
                 doc.add(pi)
                 doc.add(sep)

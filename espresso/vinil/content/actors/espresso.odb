@@ -28,8 +28,8 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id', default='')      # Don't know why I need this id
-        simid   = pyre.inventory.str('simid', default='')
+        id      = pyre.inventory.str('id', default='')      # Simulation id
+        #simid   = pyre.inventory.str('simid', default='')
 
     # Actor.link() calls content() and self.pathlist
     # Default call
@@ -108,7 +108,7 @@ class Actor(base):
 
 
     def pathSim(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         list = [("Home","greet","link"),
                 ("Simulations", "simulations", "link"),
@@ -121,17 +121,17 @@ class Actor(base):
 
 
     def contentSim(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
-        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
+        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
         if config:
             filename    = config[0].filename
         else:
             filename    = "None"
             
         document = Document(title='Simulation Name: %s' % sim.sname)
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso', routine='linkEdit', simid=self.simid)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso', routine='linkDelete', simid=self.simid)))
-        document.add(Link(label="Use", Class="action-link", onclick = load(actor='espresso', routine='linkUse', simid=self.simid)))
+        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso', routine='linkEdit', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso', routine='linkDelete', id=self.id)))
+        document.add(Link(label="Use", Class="action-link", onclick = load(actor='espresso', routine='linkUse', id=self.id)))
         document.add(Paragraph(text="Description: %s" % sim.description))
         document.add(Paragraph(text="Type: %s" % sim.type))
         document.add(Paragraph(text="Package: %s" % sim.package))
@@ -152,12 +152,12 @@ class Actor(base):
 
 
     def pathEdit(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         list = [("Home","greet","link"),
                 ("Simulations", "simulations", "link"),
                 ("Quantum Espresso", "espresso", "link"),
-                (sim.sname, "espresso", "linkSim"),        # !!! Need to pass Id
+                (sim.sname, "espresso", "linkSim", self.id),        # !!! Need to pass Id
                 ("Edit", None, None)]
 
         from vinil.utils.pathbuilder import PathBuilder
@@ -166,8 +166,8 @@ class Actor(base):
 
 
     def contentEdit(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
-        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
+        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
         if config:
             filename    = config[0].filename
             configtext  = config[0].text
@@ -188,7 +188,7 @@ class Actor(base):
         form.text(label='File Name', value=filename)
         form.textarea(label='Config Text', value=configtext)
         submit      = form.submitbutton(label="Save changes")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso', routine = 'linkSim', simid=self.simid)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso', routine = 'linkSim', id=self.id)
         document.add(form)
         
         return document
@@ -203,12 +203,12 @@ class Actor(base):
 
 
     def pathDelete(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         list = [("Home","greet","link"),
                 ("Simulations", "simulations", "link"),
                 ("Quantum Espresso", "espresso", "link"),
-                (sim.sname, "espresso", "linkSim"),        # !!! Need to pass Id
+                (sim.sname, "espresso", "linkSim", self.id),        # !!! Need to pass Id
                 ("Delete", None, None)]
 
         from vinil.utils.pathbuilder import PathBuilder
@@ -217,7 +217,7 @@ class Actor(base):
 
 
     def contentDelete(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         document = Document(title='Deleting simulation %s ...' % sim.sname)
         document.add(Paragraph(text="Are you sure to delete the simulation?"))
@@ -235,12 +235,12 @@ class Actor(base):
 
 
     def pathUse(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         list = [("Home","greet","link"),
                 ("Simulations", "simulations", "link"),
                 ("Quantum Espresso", "espresso", "link"),
-                (sim.sname, "espresso", "linkSim"),        # !!! Need to pass Id
+                (sim.sname, "espresso", "linkSim", self.id),        # !!! Need to pass Id
                 ("Use Template", None, None)]
 
         from vinil.utils.pathbuilder import PathBuilder
@@ -249,7 +249,7 @@ class Actor(base):
 
 
     def contentUse(self, director):
-        sim     = director.clerk.getSimulations(id=self.simid)
+        sim     = director.clerk.getSimulations(id=self.id)
 
         document = Document(title='Use Template %s' % sim.sname)
         document.add(Paragraph(text="Form"))
@@ -269,7 +269,7 @@ class Actor(base):
     def _configure(self):
         super(Actor, self)._configure()
         self.id = self.inventory.id
-        self.simid = self.inventory.simid
+        #self.simid = self.inventory.simid
         return
 
 
@@ -327,19 +327,19 @@ def tableSimulations(names, columns, ids):
                               )
     # Populate the data list
     def name(i):
-        link = Link(label=names[i], onclick = load(actor='espresso', routine='linkSim', simid=ids[i]))
+        link = Link(label=names[i], onclick = load(actor='espresso', routine='linkSim', id=ids[i]))
         return link
 
     def edit(i):
-        link = Link(label="Edit", onclick = load(actor='espresso', routine='linkEdit', simid=ids[i]))
+        link = Link(label="Edit", onclick = load(actor='espresso', routine='linkEdit', id=ids[i]))
         return link
 
     def delete(i):
-        link = Link(label="Delete", onclick = load(actor='espresso', routine='linkDelete', simid=ids[i]))
+        link = Link(label="Delete", onclick = load(actor='espresso', routine='linkDelete', id=ids[i]))
         return link
 
     def use(i):
-        link = Link(label="Use", onclick = load(actor='espresso', routine='linkUse', simid=ids[i]))
+        link = Link(label="Use", onclick = load(actor='espresso', routine='linkUse', id=ids[i]))
         return link
 
     data    = []
