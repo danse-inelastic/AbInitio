@@ -121,18 +121,37 @@ class Configuration(Table):
     text.meta['tip'] = "text"
 
 
-#    def createConfigRecord(director, params):
-#        """Inserts configuration row """
-#        self.id            = director.idd.token().locator
-#        self.simulationId  = params['simulationId'] #self.id
-#        self.type          = params[''] self.configtype
-#        self.filename      = params[''] self.fname
-#        self.description   = ""
-#        self.timeCreated   = timestamp()
-#        self.timeModified  = timestamp()
-#        self.text          = self.text
-#        director.clerk.insertNewRecord(c)
+    def updateRecord(self, director, params):
+        """
+        Updates configuration row (even if key in params is not present).
+        'id' ans 'timeCreated' cannot be updated!
+        """
+        self.simulationId  = ifelse(params.has_key('simulationId'), params.get('simulationId'), self.simulationId)
+        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
+        self.filename      = ifelse(params.has_key('filename'), params.get('filename'), self.filename)
+        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.timeModified  = timestamp()
+        self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
+        
+        director.clerk.updateRecord(self)   # Update record
 
+
+    def createRecord(director, params):
+        """Inserts configuration row """
+        self.id            = director.idd.token().locator
+        self.simulationId  = ifelse(params.has_key('simulationId'), params.get('simulationId'), self.simulationId)
+        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
+        self.filename      = ifelse(params.has_key('filename'), params.get('filename'), self.filename)
+        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.timeCreated   = timestamp()
+        self.timeModified  = timestamp()
+        self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
+        director.clerk.insertNewRecord(self)
+
+
+    def deleteRecord(self, director):
+        """Deletes record"""
+        director.clerk.deleteRecord(self)
 
 # For debugging
 def inittable(db):

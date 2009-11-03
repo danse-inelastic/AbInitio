@@ -13,6 +13,7 @@
 
 from pyre.db.Table import Table
 from vinil.utils.utils import ifelse
+from vinil.utils.utils import timestamp
 
 examples = (
             (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', True, False),
@@ -60,14 +61,18 @@ class Simulation(Table):
     isExample.meta['tip'] = ""
 
     def updateRecord(self, director, params):
-        """Updates simulation row """
-        self.sname       = ifelse(params.has_key('sname'), params.get('sname'), self.sname)
-        self.package     = ifelse(params.has_key('package'), params.get('package'), self.package)
-        self.type        = ifelse(params.has_key('type'), params.get('type'), self.type)
-        self.description = ifelse(params.has_key('description'), params.get('description'), self.description)
-        self.formula     = ifelse(params.has_key('formula'), params.get('formula'), self.formula)
-        self.timeModified    = ifelse(params.has_key('timeModified'), params.get('timeModified'), self.timeModified)
-        # self.isFavorite, self.isExample?
+        """
+        Updates simulation row (even if key in params is not present).
+        'id' ans 'timeCreated' cannot be updated!
+        """
+        self.sname          = ifelse(params.has_key('sname'), params.get('sname'), self.sname)
+        self.package        = ifelse(params.has_key('package'), params.get('package'), self.package)
+        self.type           = ifelse(params.has_key('type'), params.get('type'), self.type)
+        self.description    = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.formula        = ifelse(params.has_key('formula'), params.get('formula'), self.formula)
+        self.timeModified   = timestamp()   # You cannot set 'timeModified' manually
+        self.isFavorite     = ifelse(params.has_key('isFavorite'), params.get('isFavorite'), self.isFavorite)
+        self.isExample      = ifelse(params.has_key('isExample'), params.get('isExample'), self.isExample)
         
         director.clerk.updateRecord(self)   # Update record
 
