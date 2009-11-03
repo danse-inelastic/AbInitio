@@ -11,11 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-PACKAGES    = ["Quantum Espresso"]  #, "VASP", "GULP"]  # Packages
-TYPES       = ["PW", "PH", "PP"]  # "BANDS", "CPPP", "D3", "DOS", "DYNMAT", "INITIAL_STATE", "GIPAW", "D1", "MATDYN", "PROJWFC", "PWCOND", "Q2R" # Configuration types
 
 from vinil.utils.utils import timestamp
 from vinil.utils.utils import ifelse
+from vinil.utils.const import PACKAGES, TYPES
 from vinil.dom.Configuration import Configuration
 
 from luban.content import select
@@ -34,12 +33,15 @@ class Actor(base):
         import pyre.inventory
         # Add tips for each parameter?
 
+        # Simulation part
         id          = pyre.inventory.str('id', default='')      # Simulation Id
         sname       = pyre.inventory.str('sname', default='')
         package     = pyre.inventory.str('package', default='')
         simtype     = pyre.inventory.str('simtype', default='')
         description = pyre.inventory.str('description', default='')
         formula     = pyre.inventory.str('formula', default='')
+
+        # Config part
         fname       = pyre.inventory.str('fname', default='')
         text        = pyre.inventory.str('text', default='')
         configtype  = pyre.inventory.str('configtype', default='')
