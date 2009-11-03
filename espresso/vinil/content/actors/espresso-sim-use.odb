@@ -11,6 +11,61 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from luban.content.HtmlDocument import HtmlDocument
+from luban.content import load
+from luban.content.Link import Link
+from luban.content.Form import Form
+
+from vinil.components.Actor import Actor as base
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id', default='')      # Simulation Id
+
+
+    def content(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
+
+        document = Document(title='Use Template %s' % sim.sname)
+        document.add(Paragraph(text="Form"))
+
+        return document
+
+
+    # Reimplemented from class Actor (to use director)
+    def link(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
+        self.pathlist = [("Home","greet","link"),
+                         ("Simulations", "simulations", "link"),
+                         ("Quantum Espresso", "espresso", "link"),
+                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Use Template", None, None)]
+
+        return self.getActions(self.content(director), self.pathlist)
+
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id = self.inventory.id
+        return
+
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('espresso-sim-use')
 
 __date__ = "$Nov 2, 2009 3:19:32 PM$"
 
