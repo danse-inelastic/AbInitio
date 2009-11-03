@@ -60,6 +60,7 @@ class Simulation(Table):
     isExample = pyre.db.boolean(name="isExample", default=False)
     isExample.meta['tip'] = ""
 
+
     def updateRecord(self, director, params):
         """
         Updates simulation row (even if key in params is not present).
@@ -76,6 +77,10 @@ class Simulation(Table):
         
         director.clerk.updateRecord(self)   # Update record
 
+
+    def deleteRecord(self, director):
+        """Deletes record"""
+        director.clerk.deleteRecord(self, id=self.id)
 
 
 def inittable(db):

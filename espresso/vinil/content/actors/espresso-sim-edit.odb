@@ -64,7 +64,9 @@ class Actor(base):
         fname       = form.text(name="fname", label='File Name', value=filename)
         configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
         text        = form.textarea(name="text", label='Config Text', value=configtext)
+        #text.value     # You can set value directly
         submit      = form.submitbutton(label="Save changes")
+        # TODO: Add button "Cancel"
         form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
         document.add(form)
 
@@ -107,9 +109,9 @@ class Actor(base):
 
         return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
 
-
-    # Verifies data first
+    # stub
     def verify(self):
+        """Verify data first """
         pass
 
 

@@ -53,6 +53,7 @@ class Clerk( base ):
         import pyre.db
         dbkwds = DbAddressResolver().resolve(self.inventory.db)
         self.db = pyre.db.connect(wrapper=self.inventory.dbwrapper, **dbkwds)
+        self.db.autocommit(True)
 
     def _configure(self):
         base._configure(self)
@@ -119,13 +120,13 @@ class Clerk( base ):
         return record
 
 
-    def insertNewRecord(self, record):
+    def insertRecord(self, record):
         """insert a new record into db"""
         try:
             self.db.insertRow( record )
         except:
-            columns = record.getColumnNames()
-            values = [ record.getColumnValue( column ) for column in columns ]
+#            columns = record.getColumnNames()
+#            values = [ record.getColumnValue( column ) for column in columns ]
 #            s = ','.join(
 #                [ '%s=%s' % (column, value)
 #                  for column, value in zip(columns, values)
@@ -133,6 +134,17 @@ class Clerk( base ):
 #            self._debug.log( 'failed to insert record: %s' % s)
             raise
         return record
+
+
+    def deleteRecord(self, record, id=None):
+        "Deletes a record"
+        
+        if id:
+            self.db.deleteRow(record.__class__, where="id='%s'" % record.id)
+
+        # else no effect?
+        return
+
 
     # General methods working on database tables
     def getTable(self, tablename):

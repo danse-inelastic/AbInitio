@@ -31,10 +31,30 @@ class Actor(base):
     def content(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
 
-        document = Document(title='Deleting simulation %s ...' % sim.sname)
-        document.add(Paragraph(text="Are you sure to delete the simulation?"))
+        document = Document(title='Delete simulation: %s' % sim.sname)
+        document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
+
+        form        = Form(id="form-vinil")
+
+        submit      = form.submitbutton(label="Delete")
+        # Add button "Cancel"
+        form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-delete', routine = 'deleteRecord', id=sim.id)
+        document.add(form)
 
         return document
+
+    def deleteRecord(self, director):
+        sim             = director.clerk.getSimulations(id=self.id)
+        config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+
+        if sim:
+            sim.deleteRecord(director)
+
+        if config:
+            config[0].deleteRecord(director)
+
+        return load(actor='espresso', routine='link')  # Redirection to the page
+
 
     # Reimplemented from class Actor (to use director)
     def link(self, director):

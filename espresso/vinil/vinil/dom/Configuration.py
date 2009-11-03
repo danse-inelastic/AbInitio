@@ -146,12 +146,12 @@ class Configuration(Table):
         self.timeCreated   = timestamp()
         self.timeModified  = timestamp()
         self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
-        director.clerk.insertNewRecord(self)
+        director.clerk.insertRecord(self)
 
 
     def deleteRecord(self, director):
         """Deletes record"""
-        director.clerk.deleteRecord(self)
+        director.clerk.deleteRecord(self, id=self.id)
 
 # For debugging
 def inittable(db):
