@@ -52,10 +52,10 @@ class Simulation(Table):
     timeModified = pyre.db.varchar(name="timeModified", length=16, default='')
     timeModified.meta['tip'] = "timeModified"
 
-    isFavorite = pyre.db.boolean(name="isFavorite", default=False)
+    isFavorite = pyre.db.boolean(name="isFavorite", default=True)   #?
     isFavorite.meta['tip'] = ""
 
-    isExample = pyre.db.boolean(name="isExample", default=True)
+    isExample = pyre.db.boolean(name="isExample", default=False)
     isExample.meta['tip'] = ""
 
 

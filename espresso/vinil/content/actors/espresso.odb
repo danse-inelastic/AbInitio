@@ -199,27 +199,14 @@ def tableSimulations(names, columns, ids):
 __date__ = "$Sep 26, 2009 1:59:59 PM$"
 
 
-# *************** DEAD CODE ******************
 
-
-#    def linkRun(self, director):
-#        pathlist = [("Home","greet","link"),
-#                     ("Simulations", "simulations", "link"),
-#                     ("Quantum Espresso", "espresso", "link"),
-#                     ("Run Simulation", None, None)
-#                     ]
+# Example of how to redirect to page
+#    def linkSim(self, director, document=None):
+#        actions = []
+#        actions.append(select(id='maindoc').replaceContent(self.contentSim(director)))
+#        actions.append(select(id='path-content').replaceContent(self.pathSim(director)))
 #
-#        def content(director):
-#            document = Document(title='Run Simulation')
-#
-#            text = """Run Simulation"""
-#            p = Paragraph(text=text)
-#            document.add(p)
-#
-#
-#            return document
-#
-#        return self.getActions(content(director), pathlist)
+#        return actions
 
 
 
