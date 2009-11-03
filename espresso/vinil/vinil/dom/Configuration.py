@@ -65,9 +65,10 @@ configPP = """&inputpp
    DeltaE=0.1
 /"""
 
-def timestamp():
-    import time
-    return int(time.time())
+from vinil.utils.utils import timestamp
+#def timestamp():
+#    import time
+#    return int(time.time())
 
 
 examples    = (
@@ -111,8 +112,8 @@ class Configuration(Table):
     timeCreated = pyre.db.varchar(name="timeCreated", length=16, default='')
     timeCreated.meta['tip'] = "timeCreated"
 
-    timeModified = pyre.db.varchar(name="date", length=16, default='')
-    timeModified.meta['tip'] = "date"
+    timeModified = pyre.db.varchar(name="timeModified", length=16, default='')
+    timeModified.meta['tip'] = "timeModified"
 
     text = pyre.db.varchar(name="text", length=8192, default='')
     text.meta['tip'] = "text"

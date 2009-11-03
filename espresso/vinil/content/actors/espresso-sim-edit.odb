@@ -11,7 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import time
+PACKAGES    = ["Quantum Espresso"]  #, "VASP", "GULP"]  # Packages
+TYPES       = ["PW", "PH", "PP"]  # "BANDS", "CPPP", "D3", "DOS", "DYNMAT", "INITIAL_STATE", "GIPAW", "D1", "MATDYN", "PROJWFC", "PWCOND", "Q2R" # Configuration types
+
+from vinil.utils.utils import timestamp
+from vinil.dom.Configuration import Configuration
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -31,11 +35,12 @@ class Actor(base):
         id          = pyre.inventory.str('id', default='')      # Simulation Id
         sname       = pyre.inventory.str('sname', default='')
         package     = pyre.inventory.str('package', default='')
-        type        = pyre.inventory.str('type', default='')
+        simtype     = pyre.inventory.str('simtype', default='')
         description = pyre.inventory.str('description', default='')
         formula     = pyre.inventory.str('formula', default='')
         fname       = pyre.inventory.str('fname', default='')
         text        = pyre.inventory.str('text', default='')
+        configtype  = pyre.inventory.str('configtype', default='')
 
 
     def content(self, director):
@@ -49,15 +54,15 @@ class Actor(base):
             configtext  = ""
 
         document = Document(title='Edit Simulation: %s' % sim.sname, Class="step-content")  # Class="step-content-form")
-        packages    = ["Quantum Espresso"]  #, "VASP", "GULP"]
 
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
-        package     = form.selector(name="package", label='Package', entries=enumerate(packages))
-        type        = form.text(name="type", label='Type', value=sim.type)
+        package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
+        simtype     = form.text(name="simtype", label='Type', value=sim.type)
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         fname       = form.text(name="fname", label='File Name', value=filename)
+        configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
         text        = form.textarea(name="text", label='Config Text', value=configtext)
         submit      = form.submitbutton(label="Save changes")
         form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
@@ -80,29 +85,50 @@ class Actor(base):
     def updateRecord(self, director):
         """Updates record in the database """
         self.verify()
-
         sim             = director.clerk.getSimulations(id=self.id)
         config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
 
         if sim:
-            sim.sname       = self.sname
-            sim.package     = self.package
-            sim.type        = self.type
-            sim.description = self.description
-            sim.formula     = self.formula
-            sim.timeModified    = int(time.time())
-            sim.text        = self.text
-            director.clerk.updateRecord(sim)
+            self.updateSimRecord(director, sim)
 
         if config:
-            config[0].filename = self.fname
-            config[0].text     = self.text
-
-            director.clerk.updateRecord(config[0])
+            self.updateConfigRecord(director, config[0])
         else:
-            pass # Create new config file
+            self.createConfigRecord(director)
 
         return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
+
+    def updateSimRecord(self, director, sim):
+        """Updates simulation row """
+        sim.sname       = self.sname
+        sim.package     = PACKAGES[int(self.package)]
+        sim.type        = self.simtype
+        sim.description = self.description
+        sim.formula     = self.formula
+        sim.timeModified    = timestamp()
+        sim.text        = self.text
+        director.clerk.updateRecord(sim)
+
+
+    def updateConfigRecord(self, director, config):
+        """Updates configuration row """
+        config.filename = self.fname
+        config.text     = self.text
+        director.clerk.updateRecord(config)
+
+
+    def createConfigRecord(self, director):
+        """Inserts configuration row """
+        c               = Configuration()
+        c.id            = director.idd.token().locator
+        c.simulationId  = self.id
+        c.type          = self.configtype
+        c.filename      = self.fname
+        c.description   = ""
+        c.timeCreated   = timestamp()
+        c.timeModified  = timestamp()
+        c.text          = self.text
+        director.clerk.insertNewRecord(c)
 
     # Verifies data first
     def verify(self):
@@ -120,11 +146,12 @@ class Actor(base):
         self.id          = self.inventory.id
         self.sname       = self.inventory.sname
         self.package     = self.inventory.package
-        self.type        = self.inventory.type
+        self.simtype     = self.inventory.simtype
         self.description = self.inventory.description
         self.formula     = self.inventory.formula
         self.fname       = self.inventory.fname
         self.text        = self.inventory.text
+        self.configtype  = self.inventory.configtype
 
         return
 

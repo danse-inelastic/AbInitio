@@ -11,6 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+Contains little but useful itils!
+"""
+
 def parseFile(filename):
     e = []
     x = []
@@ -48,6 +52,11 @@ def parsePHFile(filename):
 def newId(director):
     token = director.idd.token()
     return '%s' % (token.locator,)
+
+def timestamp():
+    """Returns time stamp"""
+    import time
+    return int(time.time())
 
 
 def test():

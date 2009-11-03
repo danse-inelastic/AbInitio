@@ -103,6 +103,7 @@ class Clerk( base ):
 
 
     def updateRecord(self, record):
+        """Updates row in the database specified by record.id"""
         id          = record.id
         where       = "id='%s'" % id
         assignments = []
@@ -118,6 +119,20 @@ class Clerk( base ):
         return record
 
 
+    def insertNewRecord(self, record):
+        """insert a new record into db"""
+        try:
+            self.db.insertRow( record )
+        except:
+            columns = record.getColumnNames()
+            values = [ record.getColumnValue( column ) for column in columns ]
+#            s = ','.join(
+#                [ '%s=%s' % (column, value)
+#                  for column, value in zip(columns, values)
+#                  ] )
+#            self._debug.log( 'failed to insert record: %s' % s)
+            raise
+        return record
 
     # General methods working on database tables
     def getTable(self, tablename):
