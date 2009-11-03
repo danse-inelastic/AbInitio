@@ -97,50 +97,6 @@ class Actor(base):
 
         return document
     
-
-    # Simulation page
-    def linkSim(self, director, document=None):
-        actions = []
-        actions.append(select(id='maindoc').replaceContent(self.contentSim(director)))
-        actions.append(select(id='path-content').replaceContent(self.pathSim(director)))
-
-        return actions
-
-
-    def pathSim(self, director):
-        sim     = director.clerk.getSimulations(id=self.id)
-
-        list = [("Home","greet","link"),
-                ("Simulations", "simulations", "link"),
-                ("Quantum Espresso", "espresso", "link"),
-                (sim.sname, None, None)]
-
-        from vinil.utils.pathbuilder import PathBuilder
-        pb = PathBuilder(list)
-        return pb.buildPath()
-
-
-    def contentSim(self, director):
-        sim     = director.clerk.getSimulations(id=self.id)
-        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-        if config:
-            filename    = config[0].filename
-        else:
-            filename    = "None"
-            
-        document = Document(title='Simulation Name: %s' % sim.sname)
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso', routine='linkEdit', id=self.id)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso', routine='linkDelete', id=self.id)))
-        document.add(Link(label="Use", Class="action-link", onclick = load(actor='espresso', routine='linkUse', id=self.id)))
-        document.add(Paragraph(text="Description: %s" % sim.description))
-        document.add(Paragraph(text="Type: %s" % sim.type))
-        document.add(Paragraph(text="Package: %s" % sim.package))
-        document.add(Paragraph(text="Formula: %s" % sim.formula))
-        document.add(Paragraph(text="Created: %s" % sim.timeCreated))
-        document.add(Paragraph(text="Files: %s" % filename))
-
-        return document
-
     
     # Edit Simulation page
     def linkEdit(self, director, document=None):
@@ -157,7 +113,7 @@ class Actor(base):
         list = [("Home","greet","link"),
                 ("Simulations", "simulations", "link"),
                 ("Quantum Espresso", "espresso", "link"),
-                (sim.sname, "espresso", "linkSim", self.id),        # !!! Need to pass Id
+                (sim.sname, "espresso", "linkSim", self.id),
                 ("Edit", None, None)]
 
         from vinil.utils.pathbuilder import PathBuilder
@@ -183,15 +139,23 @@ class Actor(base):
         form.text(label='Simulation Name', value=sim.sname)
         form.selector(label='Package', entries=enumerate(packages))
         form.text(label='Type', value=sim.type)
-        form.text(label='Description', value=sim.description)
+        form.text(label='Description', value=sim.description)   # Make as textarea
         form.text(label='Formula', value=sim.formula)
         form.text(label='File Name', value=filename)
         form.textarea(label='Config Text', value=configtext)
         submit      = form.submitbutton(label="Save changes")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso', routine = 'linkSim', id=self.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso', routine = 'linkSim', id=sim.id)
         document.add(form)
         
         return document
+
+
+    def linkEditHandler(self, director):
+        print "Hello"
+
+        return select(id='path-content').replaceContent(self.pathSim(director))
+
+
 
     # Delete Simulation page
     def linkDelete(self, director, document=None):
@@ -327,19 +291,19 @@ def tableSimulations(names, columns, ids):
                               )
     # Populate the data list
     def name(i):
-        link = Link(label=names[i], onclick = load(actor='espresso', routine='linkSim', id=ids[i]))
+        link = Link(label=names[i], onclick = load(actor='espresso-sim-view', routine='link', id=ids[i]))
         return link
 
     def edit(i):
-        link = Link(label="Edit", onclick = load(actor='espresso', routine='linkEdit', id=ids[i]))
+        link = Link(label="Edit", onclick = load(actor='espresso-sim-edit', routine='linkEdit', id=ids[i]))
         return link
 
     def delete(i):
-        link = Link(label="Delete", onclick = load(actor='espresso', routine='linkDelete', id=ids[i]))
+        link = Link(label="Delete", onclick = load(actor='espresso-sim-delete', routine='linkDelete', id=ids[i]))
         return link
 
     def use(i):
-        link = Link(label="Use", onclick = load(actor='espresso', routine='linkUse', id=ids[i]))
+        link = Link(label="Use", onclick = load(actor='espresso-sim-use', routine='linkUse', id=ids[i]))
         return link
 
     data    = []

@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from luban.content.HtmlDocument import HtmlDocument
+from luban.content import load
+from luban.content.Link import Link
+
+from vinil.components.Actor import Actor as base
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id', default='')      # Simulation Id
+
+
+    def content(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
+        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+        if config:
+            filename    = config[0].filename
+        else:
+            filename    = "None"
+
+        document = Document(title='Simulation Name: %s' % sim.sname)
+        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-sim-edit', routine='linkEdit', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-sim-delete', routine='linkDelete', id=self.id)))
+        document.add(Link(label="Use", Class="action-link", onclick = load(actor='espresso-sim-use', routine='linkUse', id=self.id)))
+        document.add(Paragraph(text="Description: %s" % sim.description))
+        document.add(Paragraph(text="Type: %s" % sim.type))
+        document.add(Paragraph(text="Package: %s" % sim.package))
+        document.add(Paragraph(text="Formula: %s" % sim.formula))
+        document.add(Paragraph(text="Created: %s" % sim.timeCreated))
+        document.add(Paragraph(text="Files: %s" % filename))
+
+        return document
+
+    # Reimplemented from class Actor (to use director)
+    def link(self, director, document=None):
+        sim     = director.clerk.getSimulations(id=self.id)
+
+        self.pathlist = [("Home","greet","link"),
+                         ("Simulations", "simulations", "link"),
+                         ("Quantum Espresso", "espresso", "link"),
+                         (sim.sname, None, None)]
+                         
+        return self.getActions(self.content(director), self.pathlist)
+
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id = self.inventory.id
+        return
+
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('espresso-sim-view')
+
+
+__date__ = "$Nov 2, 2009 3:15:35 PM$"
+
+

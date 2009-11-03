@@ -110,6 +110,24 @@ class Clerk( base ):
         return self._getEntry('User', id=id, where=where)
 
 
+#    def updateRecord(self, record):
+#        id = record.id
+#        where = "id='%s'" % id
+#
+#        assignments = []
+#
+#        # get the column names and couple them with the new values
+#        for column in record.getColumnNames():
+#            value = getattr( record, column )
+#            #value = _tostr( value )
+#            assignments.append( (column, value) )
+#            continue
+#        # update the row, or in other words, record
+#        self.db.updateRow(record.__class__, assignments, where)
+#        return record
+
+
+
     # General methods working on database tables
     def getTable(self, tablename):
         for t in tablenames:
