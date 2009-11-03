@@ -49,18 +49,21 @@ def parsePHFile(filename):
     f.close()
     return (e,  x)
 
+
 def newId(director):
     token = director.idd.token()
     return '%s' % (token.locator,)
+
 
 def timestamp():
     """Returns time stamp"""
     import time
     return int(time.time())
 
+"""Replaces ternary operator in C: '?:' (e.g. a ? a: 4) """
+ifelse =lambda a,b,c: (b,c)[not a]
 
-def test():
-    print "Testing utils.utils.test()"
+
 
 __date__ = "$Jul 30, 2009 12:08:31 PM$"
 

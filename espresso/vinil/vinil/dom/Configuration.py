@@ -66,6 +66,8 @@ configPP = """&inputpp
 /"""
 
 from vinil.utils.utils import timestamp
+from vinil.utils.utils import ifelse
+
 #def timestamp():
 #    import time
 #    return int(time.time())
@@ -119,6 +121,17 @@ class Configuration(Table):
     text.meta['tip'] = "text"
 
 
+#    def createConfigRecord(director, params):
+#        """Inserts configuration row """
+#        self.id            = director.idd.token().locator
+#        self.simulationId  = params['simulationId'] #self.id
+#        self.type          = params[''] self.configtype
+#        self.filename      = params[''] self.fname
+#        self.description   = ""
+#        self.timeCreated   = timestamp()
+#        self.timeModified  = timestamp()
+#        self.text          = self.text
+#        director.clerk.insertNewRecord(c)
 
 
 # For debugging

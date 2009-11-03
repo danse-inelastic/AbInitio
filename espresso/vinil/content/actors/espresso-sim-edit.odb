@@ -89,7 +89,10 @@ class Actor(base):
         config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
 
         if sim:
-            self.updateSimRecord(director, sim)
+            params  = {"sname": self.sname, #"package": PACKAGES[int(self.package)],
+                       "type": self.simtype, "description": self.description,
+                       "formula": self.formula, "timeModified": timestamp()}
+            sim.updateRecord(director, params)
 
         if config:
             self.updateConfigRecord(director, config[0])
@@ -98,16 +101,16 @@ class Actor(base):
 
         return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
 
-    def updateSimRecord(self, director, sim):
-        """Updates simulation row """
-        sim.sname       = self.sname
-        sim.package     = PACKAGES[int(self.package)]
-        sim.type        = self.simtype
-        sim.description = self.description
-        sim.formula     = self.formula
-        sim.timeModified    = timestamp()
-        sim.text        = self.text
-        director.clerk.updateRecord(sim)
+#    def updateSimRecord(self, director, sim):
+#        """Updates simulation row """
+#        sim.sname       = self.sname
+#        sim.package     = PACKAGES[int(self.package)]
+#        sim.type        = self.simtype
+#        sim.description = self.description
+#        sim.formula     = self.formula
+#        sim.timeModified    = timestamp()
+#        sim.text        = self.text
+#        director.clerk.updateRecord(sim)
 
 
     def updateConfigRecord(self, director, config):
