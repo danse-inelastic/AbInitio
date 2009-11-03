@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import time
+
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
@@ -78,9 +80,27 @@ class Actor(base):
     def updateRecord(self, director):
         """Updates record in the database """
         self.verify()
-        sim     = director.clerk.getSimulations(id=self.id)
-        sim.sname   = self.sname
-        director.clerk.updateRecord(sim)
+
+        sim             = director.clerk.getSimulations(id=self.id)
+        config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+
+        if sim:
+            sim.sname       = self.sname
+            sim.package     = self.package
+            sim.type        = self.type
+            sim.description = self.description
+            sim.formula     = self.formula
+            sim.timeModified    = int(time.time())
+            sim.text        = self.text
+            director.clerk.updateRecord(sim)
+
+        if config:
+            config[0].filename = self.fname
+            config[0].text     = self.text
+
+            director.clerk.updateRecord(config[0])
+        else:
+            pass # Create new config file
 
         return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
 

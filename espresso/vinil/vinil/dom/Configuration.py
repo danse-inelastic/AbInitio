@@ -65,6 +65,23 @@ configPP = """&inputpp
    DeltaE=0.1
 /"""
 
+def timestamp():
+    import time
+    return int(time.time())
+
+
+examples    = (
+               {"id": 1, "simulationId": 4, "type": "PW",
+               "filename": "ni.scf.in", "description": "", "timeCreated": timestamp(),
+               "timeModified": timestamp(), "text": configElectons},
+               {"id": 2, "simulationId": 5, "type": "PH",
+                "filename": "ni.ph.in", "description": "", "timeCreated": timestamp(),
+                "timeModified": timestamp(), "text": configPhonons},
+               {"id": 3, "simulationId": 6, "type": "PP",
+                "filename": "ni.pp.in", "description": "", "timeCreated": timestamp(),
+                "timeModified": timestamp(), "text": configPP}
+              )
+
 
 from pyre.db.Table import Table
 
@@ -78,57 +95,62 @@ class Configuration(Table):
     id.meta['tip'] = "the unique id"
 
     simulationId    = pyre.db.varchar(name="simulationId", length=8)
-    #simulationId.constraints = 'REFERENCES simulation (id)'
+    #simulationId.constraints = 'REFERENCES simulation (id)'    # Important
     simulationId.meta['tip'] = "simulationId"
 
-    cname = pyre.db.varchar(name="cname", length=1024, default='')
-    cname.meta['tip'] = "cname"
+    type        = pyre.db.varchar(name="type", length=1024, default='')
+    type.meta['tip'] = "Type of configuration. Example: PW, PP"
 
     # Later on can be tranformed to a separate File table
     filename    = pyre.db.varchar(name="filename", length=1024, default='')
-    filename.meta['tip'] = "filename"
+    filename.meta['tip'] = "Filename assiciated with this configuration"
 
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
-    date = pyre.db.varchar(name="date", length=16, default='')
-    date.meta['tip'] = "date"
+    timeCreated = pyre.db.varchar(name="timeCreated", length=16, default='')
+    timeCreated.meta['tip'] = "timeCreated"
+
+    timeModified = pyre.db.varchar(name="date", length=16, default='')
+    timeModified.meta['tip'] = "date"
 
     text = pyre.db.varchar(name="text", length=8192, default='')
     text.meta['tip'] = "text"
 
 
-def timestamp():
-    import time
-    return int(time.time())
+
 
 # For debugging
 def inittable(db):
     
     def configuration(params):
-        r           = Configuration()
-        r.id        = params['id']
+        r               = Configuration()
+        r.id            = params['id']
         r.simulationId  = params['simulationId']
-        r.cname     = params['cname']
-        r.filename  = params['filename']
+        r.type          = params['type']
+        r.filename      = params['filename']
         r.description   = params['description']
-        r.date      = params['date']
-        r.text      = params['text']
+        r.timeCreated   = params['timeCreated']
+        r.timeModified  = params['timeModified']
+        r.text          = params['text']
         return r
 
-    records = [
-        configuration( {"id": 1, "simulationId": 4, "cname": "Electron Simulation",
-                        "filename": "ni.scf.in", "description": "", "date": timestamp(),
-                        "text": configElectons} ),
-        configuration( {"id": 2, "simulationId": 5, "cname": "Phonon Simulation",
-                        "filename": "ni.ph.in", "description": "", "date": timestamp(),
-                        "text": configPhonons} ),
-        configuration( {"id": 3, "simulationId": 6, "cname": "Post Processing",
-                        "filename": "ni.pp.in", "description": "", "date": timestamp(),
-                        "text": configPP} )        
-        ]
+    records = []
+    for e in examples:
+        records.append(configuration(e))
+
     for r in records: db.insertRow( r )
     return
+
+def test():
+    for e in examples:
+        s = ""
+        for v in e.keys():
+            s += "%s: %s " % (v, e[v])
+        print s
+
+if __name__ == "__main__":
+    test()
 
 __date__ = "$Oct 5, 2009 8:58:32 AM$"
 
