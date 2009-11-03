@@ -77,6 +77,21 @@ class Simulation(Table):
         
         director.clerk.updateRecord(self)   # Update record
 
+    def createRecord(self, director, params):
+        """Inserts simulation row """
+        self.id            = director.idd.token().locator
+        self.sname         = ifelse(params.has_key('sname'), params.get('sname'), self.sname)
+        self.package       = ifelse(params.has_key('package'), params.get('package'), self.package)
+        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
+        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.formula       = ifelse(params.has_key('formula'), params.get('formula'), self.formula)
+        self.timeCreated   = timestamp()
+        self.timeModified  = timestamp()
+        self.isFavorite    = ifelse(params.has_key('isFavorite'), params.get('isFavorite'), self.isFavorite)
+        self.isExample     = ifelse(params.has_key('isExample'), params.get('isExample'), self.isExample)
+        
+        director.clerk.insertRecord(self)
+
 
     def deleteRecord(self, director):
         """Deletes record"""

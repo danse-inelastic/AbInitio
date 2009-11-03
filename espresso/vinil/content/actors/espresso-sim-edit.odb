@@ -15,6 +15,7 @@ PACKAGES    = ["Quantum Espresso"]  #, "VASP", "GULP"]  # Packages
 TYPES       = ["PW", "PH", "PP"]  # "BANDS", "CPPP", "D3", "DOS", "DYNMAT", "INITIAL_STATE", "GIPAW", "D1", "MATDYN", "PROJWFC", "PWCOND", "Q2R" # Configuration types
 
 from vinil.utils.utils import timestamp
+from vinil.utils.utils import ifelse
 from vinil.dom.Configuration import Configuration
 
 from luban.content import select
@@ -24,6 +25,7 @@ from luban.content.HtmlDocument import HtmlDocument
 from luban.content import load
 from luban.content.Link import Link
 from luban.content.Form import Form
+from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -66,8 +68,12 @@ class Actor(base):
         text        = form.textarea(name="text", label='Config Text', value=configtext)
         #text.value     # You can set value directly
         submit      = form.submitbutton(label="Save changes")
-        # TODO: Add button "Cancel"
         form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
+
+        # TODO: "Cancel" button looks UGLY
+        cancel      = Button(label="Cancel")
+        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=sim.id)
+        form.add(cancel)
         document.add(form)
 
         return document
@@ -103,7 +109,7 @@ class Actor(base):
             params  = {"type": configtype, "filename": self.fname, "text": self.text}
             config[0].updateRecord(director, params)
         else:
-            params  = {"type": configtype, "filename": self.fname, "text": self.text}
+            params  = {"simulationId": self.id, "type": configtype, "filename": self.fname, "text": self.text}
             config  = Configuration()
             config.createRecord(director, params)
 

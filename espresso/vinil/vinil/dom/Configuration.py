@@ -136,7 +136,7 @@ class Configuration(Table):
         director.clerk.updateRecord(self)   # Update record
 
 
-    def createRecord(director, params):
+    def createRecord(self, director, params):
         """Inserts configuration row """
         self.id            = director.idd.token().locator
         self.simulationId  = ifelse(params.has_key('simulationId'), params.get('simulationId'), self.simulationId)
@@ -146,6 +146,7 @@ class Configuration(Table):
         self.timeCreated   = timestamp()
         self.timeModified  = timestamp()
         self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
+        
         director.clerk.insertRecord(self)
 
 

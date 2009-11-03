@@ -18,6 +18,7 @@ from luban.content.HtmlDocument import HtmlDocument
 from luban.content import load
 from luban.content.Link import Link
 from luban.content.Form import Form
+from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -35,10 +36,14 @@ class Actor(base):
         document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
 
         form        = Form(id="form-vinil")
-
         submit      = form.submitbutton(label="Delete")
-        # Add button "Cancel"
         form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-delete', routine = 'deleteRecord', id=sim.id)
+
+        # TODO: "Cancel" button looks UGLY
+        cancel      = Button(label="Cancel")
+        cancel.onclick = load(actor = 'espresso', routine = 'link')
+        form.add(cancel)
+
         document.add(form)
 
         return document
