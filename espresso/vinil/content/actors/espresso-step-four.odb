@@ -40,15 +40,14 @@ class Actor(base):
         s_content   = splitter.section()
 
         d           = Document(Class="step-content")
-        text = """You can review your configuration. If you agree with these 
-        parameters, then click "Next" and you simulation will be added to jobs queue """
+        text = """Here you can review simulation before to submit to Jobs Queue. If you agree with these
+        settings, then click "Next" and you simulation will be added to jobs queue """
         d.add(Paragraph(text=text))
 
-        config      = director.clerk.getConfigurations(id=1)
-        d.add(HtmlDocument(text="""<pre style="margin-left: 100px;">%s</pre>""" % config.text))#Paragraph(text=config))
-
+        #d.add(Paragraph(text=text))
         s_content.add(d)
 
+        # Change label on the "Next" button to "Submit to Jobs Queue"
         linklist    = (("espresso-step-three", "link"), ("jobs", "link"))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()

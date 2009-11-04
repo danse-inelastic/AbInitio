@@ -26,7 +26,7 @@ from luban.content.FormSelectorField import FormSelectorField
 from luban.content.FormRadioBox import FormRadioBox
 from luban.content.Form import Form
 from luban.content.Tabs import Tabs
-
+from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
 class Actor(base):
@@ -63,6 +63,10 @@ class Actor(base):
         tabs.tab('Other').paragraph(text=['Some form'])
         d.add(tabs)
 
+        cancel      = Button(label="Return")
+        cancel.onclick = load(actor = 'espresso-step-two', routine = 'link', id=sim.id)
+        d.add(cancel)
+
         s_content.add(d)
 
 #        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
@@ -79,7 +83,9 @@ class Actor(base):
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
                          (sim.sname, "espresso-sim-view", "link", self.id),
-                         (STEPS[1], None, None)]
+                         (STEPS[1], "espresso-step-two", "link", self.id),
+                         ("PW", "espresso-set-config", "link", self.id),
+                         ("Configuration Builder", None, None)]
 
         return self.pathlist
 

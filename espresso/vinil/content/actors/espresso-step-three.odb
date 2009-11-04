@@ -27,7 +27,18 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id')
+        id              = pyre.inventory.str('id', default='')
+        # 'server' section
+        servername      = pyre.inventory.str('servername', default='')
+        numproc         = pyre.inventory.int('numproc', default=8)
+        numnodes        = pyre.inventory.int('numnodes', default=8)
+        procpernode     = pyre.inventory.int('procpernode', default=12)
+        npool           = pyre.inventory.int('npool', default=8)
+        executable      = pyre.inventory.str('executable', default='mpirun')
+        params          = pyre.inventory.str('params', default='--mca btl openib,sm,self')
+        # 'modules' section
+        modulesespresso    = pyre.inventory.str('modulesespresso', default='openmpi/gnu acml/4.3.0_gfortran64_int32 espresso')
+
 
     def content(self, director):
         from vinil.utils.simulationsteps import SimulationSteps
@@ -40,38 +51,28 @@ class Actor(base):
 
         s_content   = splitter.section()
         d           = Document(Class="step-content")
-        text ="""Here you can edit configuration files that will be used in
-        simulations directly."""
+        text ="""Here you can set parameters specific to computational server"""
         d.add(Paragraph(text=text))
 
         #d_form      = Document(Class="step-content-form")
-        config      = director.clerk.getConfigurations(id=1)
+#        config      = director.clerk.getConfigurations(id=1)
 
-#        form        = Form(id="form-vinil")
-#        form.textarea(label='Configuration file', value=config.text, Class="config-textarea")
-#        d.add(form)
+        form        = Form(id="form-vinil")
+        servername      = form.selector(name="servername", label='Server Name', entries=enumerate(SERVERS)) # value?
+        numproc         = form.text(name="numproc", label='Number of Processes', value=self.numproc)
+        numnodes        = form.text(name="numnodes", label='Number of Nodes', value=self.numnodes)
+        procpernode     = form.text(name="procpernode", label='Processors Per Node', value=self.procpernode)
+        npool           = form.text(name="npool", label='Npool', value=self.npool)
+        executable      = form.text(name="executable", label='Executable', value=self.executable)
+        params          = form.text(name="params", label='Additional Parameters', value=self.params)
+        modulesespresso    = form.text(name="", label='Modules', value=self.modulesespresso)
 
-#        form        = Form(id="form-vinil")
-#        server-name     = foxtrot.danse.us
-#        num-proc        = 8
-#        num-nodes    	= 8                 ; Number of nodes (nodes)
-#        proc-per-node 	= 12                ; Processors per node to be used for simulation (ppn)
-#        npool       	= 8                 ; Number of pools (npool)
-#        executable      = mpirun
-#        params          = --mca btl openib,sm,self  ; Additional parameters for simulation
+        submit          = form.submitbutton(label="Create Simulation Parameters")
+        form.onsubmit   = select(element=form).submit(actor = 'espresso-step-three', routine = 'createRecord', id=self.id)
 
-        form.text(label='Simulation Name')
-        form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
-        form.text(label='Occupations (occupations)', value="smearing")
-        form.text(label='Smearing (smearing)', value="gauss")
-        form.text(label='Gaussian Spreading (degauss)', value="0.02")
-        form.text(label='K-Points', value="4 4 4 1 1 1")
         d.add(form)
 
-        #d.add(d_form)
-
         s_content.add(d)
-
         linklist    = (("espresso-step-two", "link"), ("espresso-step-four", "link"))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
@@ -79,6 +80,10 @@ class Actor(base):
 
         return splitter
 
+
+    def createRecord(self, director):
+        # Create record
+        return load(actor='espresso-step-four', routine='link', id=self.id)  # Redirection to the page
 
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
@@ -97,7 +102,16 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id = self.inventory.id
+        self.id              = self.inventory.id
+        self.servername      = self.inventory.servername
+        self.numproc         = self.inventory.numproc
+        self.numnodes        = self.inventory.numnodes
+        self.procpernode     = self.inventory.procpernode
+        self.npool           = self.inventory.npool
+        self.executable      = self.inventory.executable
+        self.params          = self.inventory.params
+        self.modulesespresso    = self.inventory.modulesespresso
+
         return
 
 
@@ -107,6 +121,12 @@ class Actor(base):
 
 def actor():
     return Actor('espresso-step-three')
+
+
+
+# ************ DEAD CODE **********************
+
+#        form.textarea(label='Configuration file', value=config.text, Class="config-textarea")
 
 
 __date__ = "$Sep 29, 2009 7:49:10 PM$"

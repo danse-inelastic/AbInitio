@@ -21,7 +21,7 @@ TYPES       = ("PW", "PH", "PP")  # "BANDS", "CPPP", "D3", "DOS", "DYNMAT", "INI
 STEPS       = ("Create Simulation",
                "Create Configuration",
                "Set Simulation Parameters",
-               "Add to Queue")
+               "Review Simulation")
 
 # Types of simulations
 SIMULATIONS = ( "Total Energy",
@@ -32,11 +32,11 @@ SIMULATIONS = ( "Total Energy",
                 "Multi-Phonon DOS",
                 "Multi-Phonon Dispersion" )
 
-SERVERS     = ("foxtrot.danse.us",
+SERVERS     = ("foxtrot.danse.us",)
                #"octopod.danse.us",
                #"upgrayedd.danse.us",
                #"teragrid"
-              )
+              
 
 __date__ = "$Nov 3, 2009 3:12:34 PM$"
 

@@ -29,6 +29,7 @@ from luban.content.Tabs import Tabs
 from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
+
 # Requires simulation id
 class Actor(base):
 
@@ -57,7 +58,8 @@ class Actor(base):
         d           = Document(title="Simulation Name: %s" % name, Class="step-content")
 
         d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso-config-builder", routine="link", id=self.id)))
-        d.add(Paragraph(text="OR, Create configuration using the form:"))
+        d.add(Paragraph(text="OR"))
+        d.add(Paragraph(text="Create configuration using the form:"))
         
         form        = Form(id="form-vinil")
         fname       = form.text(name="fname", label='File Name', value=self.fname)
@@ -92,7 +94,8 @@ class Actor(base):
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
                          (sim.sname, "espresso-sim-view", "link", self.id),
-                         (STEPS[1], None, None)]
+                         (STEPS[1], "espresso-step-two", "link", self.id),
+                         ("PW", None, None)]
 
         return self.pathlist
 
