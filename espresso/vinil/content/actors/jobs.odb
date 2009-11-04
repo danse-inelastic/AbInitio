@@ -35,7 +35,7 @@ class Actor(base):
 
     def content(self, director):
         document = Document(title='Jobs')
-        document.add(Paragraph(text="Table of All Jobs", Class="header-h2"))
+        document.add(Paragraph(text="Table of All Jobs"))
 
         #self.runSimulation(director)
         #document.add(self.getPWPlot(director))
@@ -56,30 +56,6 @@ class Actor(base):
         return document
 
 
-        # Running jobs
-    def linkRunning(self, director, document=None):
-        actions = []
-        actions.append(select(id='maindoc').replaceContent(self.contentRunning(director)))
-        actions.append(select(id='path-content').replaceContent(self.pathRunning()))
-
-        return actions
-
-    def contentRunning(self, director):
-        document = Document(title='Running Jobs')
-        p = Paragraph()
-        p.text = ["""Table of running jobs """]
-        document.add(p)
-
-        return document
-
-    def pathRunning(self):
-        list = [["Home","greet","link"],
-                ["Jobs", "jobs", "link"],
-                ["Running", None, None]]
-
-        from vinil.utils.pathbuilder import PathBuilder
-        pb = PathBuilder(list)
-        return pb.buildPath()
 
     # Queued jobs
     def linkQueued(self, director, document=None):
