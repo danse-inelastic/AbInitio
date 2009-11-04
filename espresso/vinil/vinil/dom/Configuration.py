@@ -65,13 +65,7 @@ configPP = """&inputpp
    DeltaE=0.1
 /"""
 
-from vinil.utils.utils import timestamp
-from vinil.utils.utils import ifelse
-
-#def timestamp():
-#    import time
-#    return int(time.time())
-
+from vinil.utils.utils import timestamp, newid, setname
 
 examples    = (
                {"id": 1, "simulationId": 4, "type": "PW",
@@ -126,26 +120,26 @@ class Configuration(Table):
         Updates configuration row (even if key in params is not present).
         'id' ans 'timeCreated' cannot be updated!
         """
-        self.simulationId  = ifelse(params.has_key('simulationId'), params.get('simulationId'), self.simulationId)
-        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
-        self.filename      = ifelse(params.has_key('filename'), params.get('filename'), self.filename)
-        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.simulationId  = setname(params, self, 'simulationId')
+        self.type          = setname(params, self, 'type')
+        self.filename      = setname(params, self, 'filename')
+        self.description   = setname(params, self, 'description')
         self.timeModified  = timestamp()
-        self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
+        self.text          = setname(params, self, 'text')
         
         director.clerk.updateRecord(self)   # Update record
 
 
     def createRecord(self, director, params):
         """Inserts configuration row """
-        self.id            = director.idd.token().locator
-        self.simulationId  = ifelse(params.has_key('simulationId'), params.get('simulationId'), self.simulationId)
-        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
-        self.filename      = ifelse(params.has_key('filename'), params.get('filename'), self.filename)
-        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
+        self.id            = newid(director)
+        self.simulationId  = setname(params, self, 'simulationId')
+        self.type          = setname(params, self, 'type')
+        self.filename      = setname(params, self, 'filename')
+        self.description   = setname(params, self, 'description')
         self.timeCreated   = timestamp()
         self.timeModified  = timestamp()
-        self.text          = ifelse(params.has_key('text'), params.get('text'), self.text)
+        self.text          = setname(params, self, 'text')
         
         director.clerk.insertRecord(self)
 

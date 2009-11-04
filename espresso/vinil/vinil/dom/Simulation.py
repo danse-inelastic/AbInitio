@@ -12,7 +12,7 @@
 #
 
 from pyre.db.Table import Table
-from vinil.utils.utils import ifelse, timestamp, newid, setname
+from vinil.utils.utils import timestamp, newid, setname
 
 examples = (
             (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', True, False),
