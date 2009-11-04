@@ -13,11 +13,18 @@
 
 PACKAGES    = ("Quantum Espresso",)  #, "VASP", "GULP"]  # Packages
 TYPES       = ("PW", "PH", "PP")  # "BANDS", "CPPP", "D3", "DOS", "DYNMAT", "INITIAL_STATE", "GIPAW", "D1", "MATDYN", "PROJWFC", "PWCOND", "Q2R" # Configuration types
-STEPS       = ("Choose Simulation",
+STEPS       = ("Create Simulation",
                "Create Configuration",
                "Set Simulation Parameters",
                "Add to Queue")
 
+SIMULATIONS = ( "Total Energy",
+                "Electron DOS",
+                "Electron Dispersion",
+                "Geometry Optimization",
+                "Single-Phonon",
+                "Multi-Phonon DOS",
+                "Multi-Phonon Dispersion" )
 
 
 __date__ = "$Nov 3, 2009 3:12:34 PM$"
