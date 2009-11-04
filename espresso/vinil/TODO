@@ -9,7 +9,8 @@
     - What parameters are parsed from to be implemented calculations?
 - Implement web gui for config generation
 - Fix issues with initdb.py regarding reference
-- Switch to dsaw
+- Switch to dsaw?
+- Make nice layout for forms (especially button "Cancel")
 
 - Create generic web page table
 - Create Materials section

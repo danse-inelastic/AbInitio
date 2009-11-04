@@ -12,6 +12,8 @@
 #
 
 from vinil.utils.const import PACKAGES, TYPES
+from vinil.dom.Configuration import Configuration
+from vinil.dom.Simulation import Simulation
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -22,28 +24,9 @@ from luban.content.Link import Link
 from luban.content.Form import Form
 from luban.content.Button import Button
 
+
 from vinil.components.Actor import Actor as base
 class Actor(base):
-
-    class Inventory(base.Inventory):
-        import pyre.inventory
-        id      = pyre.inventory.str('id', default='')      # Simulation Id
-
-
-
-
-
-    # Reimplemented from class Actor (to use director)
-    def link(self, director):
-        sim     = director.clerk.getSimulations(id=self.id)
-        self.pathlist = [("Home","greet","link"),
-                         ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
-                         ("Use Template", None, None)]
-
-        return self.getActions(self.content(director), self.pathlist)
-
 
     class Inventory(base.Inventory):
         import pyre.inventory
@@ -85,12 +68,12 @@ class Actor(base):
         configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
         text        = form.textarea(name="text", label='Config Text', value=configtext)
         #text.value     # You can set value directly
-        submit      = form.submitbutton(label="Save changes")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
+        submit      = form.submitbutton(label="Create New Simulation")
+        form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-use', routine = 'createRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=sim.id)
+        cancel.onclick = load(actor = 'espresso', routine = 'link')
         form.add(cancel)
         document.add(form)
 
@@ -108,30 +91,35 @@ class Actor(base):
         return self.getActions(self.content(director), self.pathlist)
 
 
-    def updateRecord(self, director):
-        """Updates record in the database """
+    def createRecord(self, director):
+        """Creates record in the database """
         self.verify()
         sim             = director.clerk.getSimulations(id=self.id)
         config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
 
-        package         = PACKAGES[int(self.package)]
+        s   = self._createSimRecord(director)
+        c   = self._createConfigRecord(director, s.id)
+        return load(actor='espresso', routine='link')  # Redirection to the page
+
+
+    def _createSimRecord(self, director):
+        """Create simulation record"""
+        package = PACKAGES[int(self.package)]
+        params  = {"sname": self.sname, "package": package,
+                   "type": self.simtype, "description": self.description,
+                   "formula": self.formula, "isFavorite": True}
+        s       = Simulation()
+        s.createRecord(director, params)
+        return s
+
+
+    def _createConfigRecord(self, director, sid):
+        """Create configuration record"""
         configtype      = TYPES[int(self.configtype)]
+        params  = {"simulationId": sid, "type": configtype, "filename": self.fname, "text": self.text} # no description?
+        config  = Configuration()
+        config.createRecord(director, params)
 
-        if sim:
-            params  = {"sname": self.sname, "package": package,
-                       "type": self.simtype, "description": self.description,
-                       "formula": self.formula}
-            sim.updateRecord(director, params)
-
-        if config:
-            params  = {"type": configtype, "filename": self.fname, "text": self.text}
-            config[0].updateRecord(director, params)
-        else:
-            params  = {"simulationId": self.id, "type": configtype, "filename": self.fname, "text": self.text}
-            config  = Configuration()
-            config.createRecord(director, params)
-
-        return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
 
     # stub
     def verify(self):
@@ -147,7 +135,16 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id = self.inventory.id
+        self.id          = self.inventory.id
+        self.sname       = self.inventory.sname
+        self.package     = self.inventory.package
+        self.simtype     = self.inventory.simtype
+        self.description = self.inventory.description
+        self.formula     = self.inventory.formula
+        self.fname       = self.inventory.fname
+        self.text        = self.inventory.text
+        self.configtype  = self.inventory.configtype
+
         return
 
 

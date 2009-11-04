@@ -69,12 +69,12 @@ class Actor(base):
         configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
         text        = form.textarea(name="text", label='Config Text', value=configtext)
         #text.value     # You can set value directly
-        submit      = form.submitbutton(label="Save changes")
+        submit      = form.submitbutton(label="Save Changes")
         form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=sim.id)
+        cancel.onclick = load(actor = 'espresso', routine = 'link')
         form.add(cancel)
         document.add(form)
 
