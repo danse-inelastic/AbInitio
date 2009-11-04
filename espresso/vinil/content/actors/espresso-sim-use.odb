@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vinil.utils.const import PACKAGES, TYPES
+from vinil.utils.const import PACKAGES, SIMULATIONS, TYPES
 from vinil.dom.Configuration import Configuration
 from vinil.dom.Simulation import Simulation
 
@@ -61,7 +61,7 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.text(name="simtype", label='Type', value=sim.type)
+        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         fname       = form.text(name="fname", label='File Name', value=filename)
@@ -105,8 +105,9 @@ class Actor(base):
     def _createSimRecord(self, director):
         """Create simulation record"""
         package = PACKAGES[int(self.package)]
+        simtype = SIMULATIONS[int(self.simtype)]
         params  = {"sname": self.sname, "package": package,
-                   "type": self.simtype, "description": self.description,
+                   "type": simtype, "description": self.description,
                    "formula": self.formula, "isFavorite": True}
         s       = Simulation()
         s.createRecord(director, params)

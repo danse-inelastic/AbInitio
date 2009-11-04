@@ -5,6 +5,7 @@
 - [Done] Run a very simple simulation
 - [Done] Hook up flot (how to add labels to axis?)
 - Implement database based jobmanager
+- Fix "Created" date display
 - Hook up the torque and jobmanager
 - Hook up qecalc and diffpy.Structure
     - What parameters are parsed from to be implemented calculations?

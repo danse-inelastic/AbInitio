@@ -14,7 +14,7 @@
 
 from vinil.utils.utils import timestamp
 from vinil.utils.utils import ifelse
-from vinil.utils.const import PACKAGES, TYPES
+from vinil.utils.const import PACKAGES, SIMULATIONS, TYPES
 from vinil.dom.Configuration import Configuration
 
 from luban.content import select
@@ -62,7 +62,7 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.text(name="simtype", label='Type', value=sim.type)
+        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         fname       = form.text(name="fname", label='File Name', value=filename)
@@ -100,10 +100,11 @@ class Actor(base):
 
         package         = PACKAGES[int(self.package)]
         configtype      = TYPES[int(self.configtype)]
+        simtype         = SIMULATIONS[int(self.simtype)]
 
         if sim:
             params  = {"sname": self.sname, "package": package,
-                       "type": self.simtype, "description": self.description,
+                       "type": simtype, "description": self.description,
                        "formula": self.formula}
             sim.updateRecord(director, params)
 

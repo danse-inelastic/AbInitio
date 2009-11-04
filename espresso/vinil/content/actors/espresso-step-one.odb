@@ -56,7 +56,7 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=self.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Type', entries=enumerate(SIMULATIONS))
+        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
         description = form.text(name="description", label='Description', value=self.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=self.formula)
         #isFavorite - All simulations are favorite at this moment!
