@@ -4,14 +4,16 @@
     [Done] Learn how to store constrains
 - [Done] Run a very simple simulation
 - [Done] Hook up flot (how to add labels to axis?)
-- Hook up the torque
-- Learn how to use qecalc, diffpy.Structure
+- Implement database based jobmanager
+- Hook up the torque and jobmanager
+- Hook up qecalc and diffpy.Structure
     - What parameters are parsed from to be implemented calculations?
 - Implement web gui for config generation
 - Fix issues with initdb.py regarding reference
 - Switch to dsaw?
 - Make nice layout for forms (especially button "Cancel")
-
+- Implement Create Configuration
+- Implement Set Simulation Parameters
 - Create generic web page table
 - Create Materials section
 - Create/Delete database entries
@@ -25,15 +27,16 @@ General Plan
 1. Create web GUI for creation and editing of configurations (similar to PWgui)
 2. Implement the following types of calculations:
     (Possible types of calculations: http://www.quantum-espresso.org/whatcanqedo.php)
-    - PWscf (including "Total energy") (pw.x ['scf'])   See: Example 1
+    - PWscf (including "Total energy") (pw.x ['scf'])   
+        + Total Energy          (pw.x)                  See: Example 1
         + Electron DOS          (pw.x -> dos.x)         See: Example 8
         + Electron Dispersion   ()                      See: Example ???
         ? Electron Bands
     - Geometry Optimization (pw.x calculation=vc-relax)
     - Single-Phonon         (pw.x -> ph.x -> dynmat.x)  See: Example 2
     - Multi-Phonon          (pw.x -> ph.x)
-        + Phonon DOS        (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example 6
-        + Phonon Dispersion (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example ???
+        + Multi-Phonon DOS        (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example 6
+        + Multi-Phonon Dispersion (pw.x -> ph.x -> q2r.x -> matdyn.x) See: Example ???
 3. Port these simulations to Octopod (Foxtrot)
 4. Borrow Materials implementation from group (create and edit Material, import Material )
 5. Add user authentication

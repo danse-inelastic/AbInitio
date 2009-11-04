@@ -12,7 +12,7 @@
 #
 
 
-
+from vinil.utils.const import STEPS
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -44,29 +44,27 @@ class Actor(base):
         s_content   = splitter.section()
 
         d           = Document(Class="step-content")
-        text ="""Here you can set parameters related to your simulation. This can
-        general parameters related to your simularion such as convergence and
-        iterations as well as architecture related such as the name of cluster the
-        simulation will run on or number of processes"""
+#        text ="""Here you can set parameters related to your simulation. This can
+#        general parameters related to your simularion such as convergence and
+#        iterations as well as architecture related such as the name of cluster the
+#        simulation will run on or number of processes"""
+#        d_form.add(Paragraph(text="First choose the type of the simulation from available options:"))
+
+        text    = """Please choose the type of simulation from available options:"""
         d.add(Paragraph(text=text))
 
         d_form      = Document(Class="step-content-form")
 
-        d_form.add(Paragraph(text="First choose the type of the simulation from available options:"))
-        options = [ "Total Energy (Single Self-Consistent Run) (pw.x)",
-                    "Geometry Optimization (pw.x calculation=vc-relax)",
-                    "Single-Phonon (pw.x -> ph.x -> dynmat.x)",
-                    "Multi-Phonon (pw.x -> ph.x -> q2r.x -> matdyn.x)"]
+        options = [ "Total Energy",
+                    "Electron DOS",
+                    "Electron Dispersion (Not Implemented Yet)",
+                    "Geometry Optimization (Not Implemented Yet)",
+                    "Single-Phonon (Not Implemented Yet)",
+                    "Multi-Phonon DOS (Not Implemented Yet)",
+                    "Multi-Phonon Dispersion (Not Implemented Yet)"]
+
         d_form.add(FormRadioBox(entries=enumerate(options)) )
 
-        form        = Form(id="form-vinil")
-        form.text(label='Simulation Name')
-        form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
-        form.text(label='Occupations (occupations)', value="smearing")
-        form.text(label='Smearing (smearing)', value="gauss")
-        form.text(label='Gaussian Spreading (degauss)', value="0.02")
-        form.text(label='K-Points', value="4 4 4 1 1 1")
-        d_form.add(form)
         d.add(d_form)
 
         s_content.add(d)
@@ -83,7 +81,7 @@ class Actor(base):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
-                         ("Simulation Parameters", None, None)
+                         (STEPS[0], None, None)
                          ]
 
         return

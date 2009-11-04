@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from vinil.utils.const import STEPS
+
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
@@ -108,7 +110,7 @@ class Actor(base):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
-                         ("Set Material", None, None)
+                         (STEPS[1], None, None)
                          ]
 
         return

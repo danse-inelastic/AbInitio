@@ -15,10 +15,7 @@ from luban.content.Splitter import SplitSection
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 
-defaultSteps = ["Choose Simulation",
-                "Create Configuration",
-                "Set Simulation Parameters",
-                "Add to Queue"]
+from vinil.utils.const import STEPS
 
 # SimulationSteps display the steps user should follow to run simulation
 # in Quantum Espresso (make general?)
@@ -32,7 +29,7 @@ class SimulationSteps:
 
     def setStepsList(self, stepslist):        
         if stepslist is None:
-            self.stepslist = defaultSteps
+            self.stepslist = STEPS
         else:
             self.stepslist  = stepslist
 
