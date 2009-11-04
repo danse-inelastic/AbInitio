@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vinil.utils.utils import newid
+from vinil.utils.utils import newid, stamp2date
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -72,7 +72,7 @@ class Actor(base):
             if sim[i].isFavorite:
                 ids.append(sim[i].id)
                 names.append(sim[i].sname)
-                row     = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
+                row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
                 columns.append(row)
 
         if len(ids) != 0:
@@ -88,7 +88,7 @@ class Actor(base):
             if sim[i].isExample:
                 ids.append(sim[i].id)
                 names.append(sim[i].sname)
-                row  = [sim[i].type, sim[i].description, sim[i].formula, sim[i].timeCreated]
+                row  = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated)]
                 columns.append(row)
 
         if len(ids) != 0:

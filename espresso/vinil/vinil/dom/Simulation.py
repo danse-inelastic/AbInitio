@@ -15,12 +15,12 @@ from pyre.db.Table import Table
 from vinil.utils.utils import timestamp, newid, setname
 
 examples = (
-            (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', True, False),
-            (2, 'MgB2_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'MgB2', '26-09-2009', '', True, False),
-            (3, 'MgB2_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', '27-09-2009', '', True, False),
-            (4, 'Ni_Energy', 'Quantum Espresso', 'Total Energy', 'Total Energy simualtion', 'Ni', '25-09-2009', '', False, True),
-            (5, 'Ni_E_DOS', 'Quantum Espresso', 'Electron DOS', 'Electron DOS simualtion', 'Ni', '26-09-2009', '', False, True),
-            (6, 'Ni_Ph_DOS', 'Quantum Espresso', 'Multi-Phonon DOS', 'Multy-Phonon DOS simualtion', 'Ni', '27-09-2009', '', False, True)
+            (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', timestamp(), timestamp(), True, False),
+            (2, 'MgB2_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'MgB2', timestamp(), timestamp(), True, False),
+            (3, 'MgB2_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', timestamp(), timestamp(), True, False),
+            (4, 'Ni_Energy', 'Quantum Espresso', 'Total Energy', 'Total Energy simualtion', 'Ni', timestamp(), timestamp(), False, True),
+            (5, 'Ni_E_DOS', 'Quantum Espresso', 'Electron DOS', 'Electron DOS simualtion', 'Ni', timestamp(), timestamp(), False, True),
+            (6, 'Ni_Ph_DOS', 'Quantum Espresso', 'Multi-Phonon DOS', 'Multy-Phonon DOS simualtion', 'Ni', timestamp(), timestamp(), False, True)
             )
 
 class Simulation(Table):
