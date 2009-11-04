@@ -69,20 +69,17 @@ Used mostly on database classes (vini.dom)
 """
 setname = lambda params, obj, name: ifelse(params.has_key(name), params.get(name), getattr(obj, name))
 
-# Converts stamp to date
+
 def stamp2date(stamp):
+    """Converts stamp to date"""
+    # TODO: Change to: Month Day, Hours:Minutes:Seconds
     import time
     from datetime import date
     s = time.strptime(date.fromtimestamp(float(stamp)).ctime())
     # Format: Month-Day-Year
-    # Change to: Month Day, Hours:Minutes:Seconds
     return str(time.strftime("%b-%d-%Y", s))
     # datetime.date.fromtimestamp(1257299543).ctime()
     # time.strftime("%b %d", time.strptime(datetime.date.fromtimestamp(1257299543).ctime()))
-
-
-#import time
-#print stamp2date(time.time())
 
 __date__ = "$Jul 30, 2009 12:08:31 PM$"
 

@@ -12,6 +12,7 @@
 #
 
 from vinil.utils.const import STEPS
+from vinil.utils.utils import stamp2date
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -44,7 +45,7 @@ class Actor(base):
         document.add(Paragraph(text="Type: %s" % sim.type))
         document.add(Paragraph(text="Package: %s" % sim.package))
         document.add(Paragraph(text="Formula: %s" % sim.formula))
-        document.add(Paragraph(text="Created: %s" % sim.timeCreated))
+        document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
         document.add(Paragraph(text="Input Files: %s" % filename))
         document.add(Paragraph(text="Simulation Parameters(?): settings.conf [STUB]"))
         document.add(Paragraph(text="Jobs: [Links to jobs] [STUB]"))

@@ -48,6 +48,10 @@ class Actor(base):
         return self.pathlist
 
 
+    # Create Job
+    def createRecord(self, director):
+        pass
+
     def submit(self, director):
         # Call 
         pass
