@@ -44,10 +44,41 @@ class Actor(base):
         settings, then click "Next" and you simulation will be added to jobs queue """
         d.add(Paragraph(text=text))
 
-        #d.add(Paragraph(text=text))
+        # Simulation
+        d.add(Paragraph(text="Simulation:"))
+        simtext = """
+        Simulation Name: Ni_Energy,
+        Description: Multy-Phonon DOS simualtion,
+        Type: Total Energy,
+        Package: Quantum Espresso,
+        Formula: Ni,
+        Created: 1257354471
+        [Edit]
+        """
+        d.add(Paragraph(text=simtext))
+
+        # Configuration
+        d.add(Paragraph(text="Configuration:"))
+        d.add(Paragraph(text="PW  --------> DOS"))
+        d.add(Paragraph(text=" (ni.scf.in)  (ni.dos.in) [Edit] "))
+
+        # Simulation Parameters
+        d.add(Paragraph(text="Simulation Parameters:"))
+        paramstext  = """
+        Server Name: foxtrot.danse.us,
+        Number of Processes: 8,
+        Number of Nodes: 8,
+        Processors Per Node: 12,
+        Npool: 8,
+        Executable: mpirun,
+        Additional Parameters: --mca btl openib,sm,self,
+        Modules: openmpi/gnu acml/4.3.0_gfortran64_int32 espresso, 
+        [Edit] 
+        """
+        d.add(Paragraph(text=paramstext))
         s_content.add(d)
 
-        # Change label on the "Next" button to "Submit to Jobs Queue"
+        # Change label on the "Next" button to "Submit to Queue"
         linklist    = (("espresso-step-three", "link"), ("jobs", "link"))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
