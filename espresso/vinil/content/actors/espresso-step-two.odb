@@ -12,6 +12,8 @@
 #
 
 from vinil.utils.const import STEPS
+from vinil.utils.simulationsteps import SimulationSteps
+from vinil.utils.stepper import Stepper
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -31,42 +33,47 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id      = pyre.inventory.str('id')
+        id      = pyre.inventory.str('id', default='')
+
 
     def content(self, director):
-        from vinil.utils.simulationsteps import SimulationSteps
-        from vinil.utils.stepper import Stepper
-
         splitter    = Splitter(orientation='vertical', id="step-splitter")
-
         simsteps    = SimulationSteps(current=2)
         s_steps     = simsteps.getSteps()
         splitter.add(s_steps)
-
         s_content   = splitter.section()
-        d           = Document(Class="step-content")
 
-#        text ="""Before you run any simulation in Quantum Espresso you need to specify
-#        the material. Here you can import existing material or create a new material
-#        that will be saved in "Materials" section later on."""
-
+#        sim         = director.clerk.getSimulations(id=self.id)
+#        if sim:
+#            name = sim.sname
+#        else:
+#            name = ""
+#
+#        d           = Document(title="Simulation Name: %s" % name, Class="step-content")
+        d           = Document(title="Simulation Name:", Class="step-content")
         text ="""Before you run any simulation in Quantum Espresso you need to specify
-        the configuration. Here you will be able to create or edit configuration
-        with the web interface."""
+        the configuration. Here you can create or edit configuration for you simulation
+        """
 
         d.add(Paragraph(text=text))
 
-        tabs = Tabs()
-        tabs.tab('Control').paragraph(text=['Namelist: CONTROL '])
-        tabs.tab('System').document(title='Namelist: SYSTEM')
-        tabs.tab('Electrons').paragraph(text=['Namelist: ELECTRONS'])
-        tabs.tab('Ions').paragraph(text=['Namelist: IONS'])
-        tabs.tab('Cell').paragraph(text=['Namelist: CELL'])
-        tabs.tab('Phonon').paragraph(text=['Namelist: PHONON'])
-        tabs.tab('Lattice').paragraph(text=['Some form'])
-        tabs.tab('K-Points').paragraph(text=['Card: K_POINTS'])
-        tabs.tab('Other').paragraph(text=['Some form'])
-        d.add(tabs)
+        d.add(Paragraph(text="PW"))
+        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link")))
+        d.add(Paragraph(text="\/"))
+        d.add(Paragraph(text="DOS"))
+        d.add(Link(label="Add", onclick=load(actor="espresso", routine="link")))
+
+#        tabs = Tabs()
+#        tabs.tab('Control').paragraph(text=['Namelist: CONTROL '])
+#        tabs.tab('System').document(title='Namelist: SYSTEM')
+#        tabs.tab('Electrons').paragraph(text=['Namelist: ELECTRONS'])
+#        tabs.tab('Ions').paragraph(text=['Namelist: IONS'])
+#        tabs.tab('Cell').paragraph(text=['Namelist: CELL'])
+#        tabs.tab('Phonon').paragraph(text=['Namelist: PHONON'])
+#        tabs.tab('Lattice').paragraph(text=['Some form'])
+#        tabs.tab('K-Points').paragraph(text=['Card: K_POINTS'])
+#        tabs.tab('Other').paragraph(text=['Some form'])
+#        d.add(tabs)
 
         s_content.add(d)
 
@@ -104,14 +111,20 @@ class Actor(base):
 #        d_form.add(form)
 #        d.add(d_form)
 
+    
 
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
+    def getPathList(self, director):
+        #sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
-                         (STEPS[1], None, None)
-                         ]
+                         #(sim.sname, "espresso-sim-view", "link", self.id),
+                         (STEPS[1], None, None)]
+
+        return self.pathlist
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
 
         return
 
@@ -128,6 +141,15 @@ class Actor(base):
 
 def actor():
     return Actor('espresso-step-two')
+
+
+# **************** DEAD CODE *******************
+
+#        text ="""Before you run any simulation in Quantum Espresso you need to specify
+#        the material. Here you can import existing material or create a new material
+#        that will be saved in "Materials" section later on."""
+
+
 
 __date__ = "$Sep 29, 2009 7:48:28 PM$"
 

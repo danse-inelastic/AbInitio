@@ -11,23 +11,26 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# Get rid of self.pathlist at all?
+
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 
 from opal.components.Actor import Actor as base
 class Actor(base):
+    """Base class for all actors """
     
     def default(self, director):
         page = director.retrieveVisual('template')
 
-        page.skeleton.path.add(self.path(self.pathlist))
+        page.skeleton.path.add(self.path(self.getPathList(director)))
         page.maindoc.add(self.content(director))
 
         return page
 
     def link(self, director, document=None):
-        return self.getActions(self.content(director), self.pathlist)
+        return self.getActions(self.content(director), self.getPathList(director))
 
     def content(self, director):
         document = Document(title='Not Implemented')
@@ -44,8 +47,17 @@ class Actor(base):
         pb = PathBuilder(pathlist)
         return pb.buildPath()
 
+    # Manipulation with pathlist
     def setPathList(self, pathlist):
         self.pathlist = pathlist
+
+    def getPathList(self, director):
+        """Default implementation. Should be overwritten """
+        self.pathlist = [("Home","greet","link"),
+                         ("Not Implemented", None, None)]
+
+        return self.pathlist
+
 
     def getActions(self, document, pathlist):
         actions = []
@@ -56,8 +68,6 @@ class Actor(base):
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
-        self.list = [("Home","greet","link"),
-                     ("Not Implemented", None, None)]
         return
 
 __date__ = "$Sep 28, 2009 4:20:04 PM$"

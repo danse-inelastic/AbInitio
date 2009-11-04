@@ -10,7 +10,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-from vinil.utils.const import STEPS
+from vinil.utils.const import STEPS, SERVERS
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -52,6 +52,14 @@ class Actor(base):
 #        d.add(form)
 
         form        = Form(id="form-vinil")
+        server-name     = foxtrot.danse.us
+        num-proc        = 8
+        num-nodes    	= 8                 ; Number of nodes (nodes)
+        proc-per-node 	= 12                ; Processors per node to be used for simulation (ppn)
+        npool       	= 8                 ; Number of pools (npool)
+        executable      = mpirun
+        params          = --mca btl openib,sm,self  ; Additional parameters for simulation
+
         form.text(label='Simulation Name')
         form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
         form.text(label='Occupations (occupations)', value="smearing")
