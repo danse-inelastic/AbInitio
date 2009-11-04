@@ -45,6 +45,8 @@ class Actor(base):
         document.add(Paragraph(text="Created: %s" % sim.timeCreated))
         document.add(Paragraph(text="Files: %s" % filename))
 
+        document.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link")))
+        
         return document
 
 
