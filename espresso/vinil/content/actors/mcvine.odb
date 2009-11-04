@@ -35,11 +35,16 @@ class Actor(base):
 
         return document
 
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
+
+    def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("MCViNE", None, None)]
+
+        return self.pathlist
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
 
         return
 

@@ -80,8 +80,7 @@ class Actor(base):
 
         return document
 
-    # Reimplemented from class Actor (to use director)
-    def link(self, director):
+    def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
@@ -89,8 +88,8 @@ class Actor(base):
                          (sim.sname, "espresso-sim-view", "link", self.id),
                          ("Edit", None, None)]
 
-        return self.getActions(self.content(director), self.pathlist)
-
+        return self.pathlist
+    
 
     def updateRecord(self, director):
         """Updates record in the database """

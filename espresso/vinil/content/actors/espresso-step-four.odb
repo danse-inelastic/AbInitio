@@ -56,13 +56,17 @@ class Actor(base):
 
         return splitter
 
+    def pathlist(self, director):
+        self.pathlist = [("Home","greet","link"),
+                     ("Simulations", "simulations", "link"),
+                     ("Quantum Espresso", "espresso", "link"),
+                     (STEPS[3], None, None)
+                     ]
+
+        return self.pathlist
+
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
-        self.pathlist = [("Home","greet","link"),
-                         ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (STEPS[3], None, None)
-                         ]
 
         return
 

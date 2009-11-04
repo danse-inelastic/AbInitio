@@ -99,7 +99,7 @@ class Actor(base):
         return document
 
 
-    def getPathList(self, director):
+    def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", None, None)]

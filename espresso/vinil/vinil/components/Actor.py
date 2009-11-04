@@ -24,13 +24,13 @@ class Actor(base):
     def default(self, director):
         page = director.retrieveVisual('template')
 
-        page.skeleton.path.add(self.path(self.getPathList(director)))
+        page.skeleton.path.add(self.path(self.pathlist(director)))
         page.maindoc.add(self.content(director))
 
         return page
 
     def link(self, director, document=None):
-        return self.getActions(self.content(director), self.getPathList(director))
+        return self.getActions(self.content(director), self.pathlist(director))
 
     def content(self, director):
         document = Document(title='Not Implemented')
@@ -51,7 +51,8 @@ class Actor(base):
     def setPathList(self, pathlist):
         self.pathlist = pathlist
 
-    def getPathList(self, director):
+
+    def pathlist(self, director):
         """Default implementation. Should be overwritten """
         self.pathlist = [("Home","greet","link"),
                          ("Not Implemented", None, None)]

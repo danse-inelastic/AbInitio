@@ -95,14 +95,17 @@ class Actor(base):
         """Verify data first """
         pass
 
-
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
+    def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
                          (STEPS[0], None, None)
                          ]
+        return self.pathlist
+
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
 
         return
 

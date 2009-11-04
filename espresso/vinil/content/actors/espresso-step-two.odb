@@ -113,7 +113,7 @@ class Actor(base):
 
     
 
-    def getPathList(self, director):
+    def pathlist(self, director):
         #sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),

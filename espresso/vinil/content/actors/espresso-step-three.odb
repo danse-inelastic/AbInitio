@@ -51,14 +51,14 @@ class Actor(base):
 #        form.textarea(label='Configuration file', value=config.text, Class="config-textarea")
 #        d.add(form)
 
-        form        = Form(id="form-vinil")
-        server-name     = foxtrot.danse.us
-        num-proc        = 8
-        num-nodes    	= 8                 ; Number of nodes (nodes)
-        proc-per-node 	= 12                ; Processors per node to be used for simulation (ppn)
-        npool       	= 8                 ; Number of pools (npool)
-        executable      = mpirun
-        params          = --mca btl openib,sm,self  ; Additional parameters for simulation
+#        form        = Form(id="form-vinil")
+#        server-name     = foxtrot.danse.us
+#        num-proc        = 8
+#        num-nodes    	= 8                 ; Number of nodes (nodes)
+#        proc-per-node 	= 12                ; Processors per node to be used for simulation (ppn)
+#        npool       	= 8                 ; Number of pools (npool)
+#        executable      = mpirun
+#        params          = --mca btl openib,sm,self  ; Additional parameters for simulation
 
         form.text(label='Simulation Name')
         form.text(label='Cutoff Energy (ecutwfc)', value="27.0")
@@ -79,13 +79,18 @@ class Actor(base):
 
         return splitter
 
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
+
+    def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
                          (STEPS[2], None, None)
                          ]
+
+        return self.pathlist
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
 
         return
 
