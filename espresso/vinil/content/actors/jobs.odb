@@ -57,30 +57,6 @@ class Actor(base):
 
 
 
-    # Queued jobs
-    def linkQueued(self, director, document=None):
-        actions = []
-        actions.append(select(id='maindoc').replaceContent(self.contentQueued(director)))
-        actions.append(select(id='path-content').replaceContent(self.pathQueued()))
-
-        return actions
-
-    def contentQueued(self, director):
-        document = Document(title='Queued Jobs')
-        p = Paragraph()
-        p.text = ["""Table of queued jobs """]
-        document.add(p)
-
-        return document
-
-    def pathQueued(self):
-        list = [["Home","greet","link"],
-                ["Jobs", "jobs", "link"],
-                ["Queued", None, None]]
-
-        from vinil.utils.pathbuilder import PathBuilder
-        pb = PathBuilder(list)
-        return pb.buildPath()
 
 
     # Finished jobs

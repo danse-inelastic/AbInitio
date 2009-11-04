@@ -51,17 +51,17 @@ def visual(director):
     experimentsmenu = navmenus.menu(label='Experiments', onclick=load('experiments', routine='link'))
 
     jobsmenu        = navmenus.menu(label='Jobs',       onclick=load('jobs', routine='link'))
-    jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
-    jobsqueued      = jobsmenu.item(label='Queued',     onclick=load('jobs', routine='linkQueued'))
-    jobsrunning     = jobsmenu.item(label='Running',    onclick=load('jobs', routine='linkRunning'))
-    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs', routine='linkFinished'))
-    jobsstopped     = jobsmenu.item(label='Stopped',    onclick=load('jobs', routine='link'))
-    jobscancelled   = jobsmenu.item(label='Cancelled',  onclick=load('jobs', routine='link'))
-    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs', routine='linkFailed'))
+    jobsqueued      = jobsmenu.item(label='Queued',     onclick=load('jobs-queued', routine='link'))
+    jobsrunning     = jobsmenu.item(label='Running',    onclick=load('jobs-running', routine='link'))
+    jobsfinished    = jobsmenu.item(label='Finished',   onclick=load('jobs-finished', routine='link'))
+    jobsstopped     = jobsmenu.item(label='Stopped',    onclick=load('jobs-stopped', routine='link'))
+    jobscancelled   = jobsmenu.item(label='Cancelled',  onclick=load('jobs-cancelled', routine='link'))
+    jobsfailed      = jobsmenu.item(label='Failed',     onclick=load('jobs-failed', routine='link'))
 
     return navmenus
 
 
+#    jobsall         = jobsmenu.item(label='All',        onclick=load('jobs', routine='link'))
 __date__ = "$Sep 24, 2009 10:37:48 AM$"
 
 

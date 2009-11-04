@@ -79,7 +79,7 @@ class Actor(base):
         s_content.add(d)
 
         # Change label on the "Next" button to "Submit to Queue"
-        linklist    = (("espresso-step-three", "link"), ("jobs", "link"))
+        linklist    = (("espresso-step-three", "link"), ("jobs-submitted", "link"))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
