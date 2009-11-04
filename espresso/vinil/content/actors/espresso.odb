@@ -55,7 +55,7 @@ class Actor(base):
         document.add(p)
 
         text = '<img src="images/icons/newsimulation.png" id="create-new-simulation"/>'
-        d = HtmlDocument(text=text, onclick=load(actor='espresso-material', routine='link'))
+        d = HtmlDocument(text=text, onclick=load(actor='espresso-step-one', routine='link'))
         document.add(d)
 
         headers = ["Name", "Type", "Description", "Formula", "Created"]

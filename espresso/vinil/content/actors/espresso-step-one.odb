@@ -68,7 +68,7 @@ class Actor(base):
 
         s_content.add(d)
 
-        linklist    = (("espresso", "link"), ("espresso-parameters", "link"))
+        linklist    = (("espresso", "link"), ("espresso-step-two", "link"))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -125,7 +125,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-material')
+    return Actor('espresso-step-one')
 
 
 __date__ = "$Sep 29, 2009 7:47:51 PM$"
