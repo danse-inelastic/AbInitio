@@ -15,11 +15,10 @@ from luban.content.Splitter import SplitSection
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
 
-defaultSteps = [#"Set Material",
+defaultSteps = ["Choose Simulation",
                 "Create Configuration",
                 "Set Simulation Parameters",
-                "Review Configuration",
-                "Add to Jobs Queue"]
+                "Add to Queue"]
 
 # SimulationSteps display the steps user should follow to run simulation
 # in Quantum Espresso (make general?)

@@ -50,9 +50,9 @@ def parsePHFile(filename):
     return (e,  x)
 
 
-def newId(director):
+def newid(director):
     token = director.idd.token()
-    return '%s' % (token.locator,)
+    return '%s' % token.locator
 
 
 def timestamp():
@@ -61,7 +61,13 @@ def timestamp():
     return int(time.time())
 
 """Replaces ternary operator in C: '?:' (e.g. a ? a: 4) """
-ifelse =lambda a,b,c: (b,c)[not a]
+ifelse  = lambda a,b,c: (b,c)[not a]
+
+"""
+Sets attribute 'name' of object 'obj' from params dictionary
+Used mostly on database classes (vini.dom)
+"""
+setname = lambda params, obj, name: ifelse(params.has_key(name), params.get(name), getattr(obj, name))
 
 
 

@@ -12,8 +12,7 @@
 #
 
 from pyre.db.Table import Table
-from vinil.utils.utils import ifelse
-from vinil.utils.utils import timestamp
+from vinil.utils.utils import ifelse, timestamp, newid, setname
 
 examples = (
             (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', '25-09-2009', '', True, False),
@@ -66,29 +65,29 @@ class Simulation(Table):
         Updates simulation row (even if key in params is not present).
         'id' ans 'timeCreated' cannot be updated!
         """
-        self.sname          = ifelse(params.has_key('sname'), params.get('sname'), self.sname)
-        self.package        = ifelse(params.has_key('package'), params.get('package'), self.package)
-        self.type           = ifelse(params.has_key('type'), params.get('type'), self.type)
-        self.description    = ifelse(params.has_key('description'), params.get('description'), self.description)
-        self.formula        = ifelse(params.has_key('formula'), params.get('formula'), self.formula)
+        self.sname          = setname(params, self, 'sname')
+        self.package        = setname(params, self, 'package')
+        self.type           = setname(params, self, 'type')
+        self.description    = setname(params, self, 'description')
+        self.formula        = setname(params, self, 'formula')
         self.timeModified   = timestamp()   # You cannot set 'timeModified' manually
-        self.isFavorite     = ifelse(params.has_key('isFavorite'), params.get('isFavorite'), self.isFavorite)
-        self.isExample      = ifelse(params.has_key('isExample'), params.get('isExample'), self.isExample)
+        self.isFavorite     = setname(params, self, 'isFavorite')
+        self.isExample      = setname(params, self, 'isExample')
         
         director.clerk.updateRecord(self)   # Update record
 
     def createRecord(self, director, params):
         """Inserts simulation row """
-        self.id            = director.idd.token().locator
-        self.sname         = ifelse(params.has_key('sname'), params.get('sname'), self.sname)
-        self.package       = ifelse(params.has_key('package'), params.get('package'), self.package)
-        self.type          = ifelse(params.has_key('type'), params.get('type'), self.type)
-        self.description   = ifelse(params.has_key('description'), params.get('description'), self.description)
-        self.formula       = ifelse(params.has_key('formula'), params.get('formula'), self.formula)
+        self.id            = newid(director)
+        self.sname         = setname(params, self, 'sname')
+        self.package       = setname(params, self, 'package')
+        self.type          = setname(params, self, 'type')
+        self.description   = setname(params, self, 'description')
+        self.formula       = setname(params, self, 'formula')
         self.timeCreated   = timestamp()
         self.timeModified  = timestamp()
-        self.isFavorite    = ifelse(params.has_key('isFavorite'), params.get('isFavorite'), self.isFavorite)
-        self.isExample     = ifelse(params.has_key('isExample'), params.get('isExample'), self.isExample)
+        self.isFavorite    = setname(params, self, 'isFavorite')
+        self.isExample     = setname(params, self, 'isExample')
         
         director.clerk.insertRecord(self)
 
