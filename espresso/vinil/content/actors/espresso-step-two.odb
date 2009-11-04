@@ -43,14 +43,13 @@ class Actor(base):
         splitter.add(s_steps)
         s_content   = splitter.section()
 
-#        sim         = director.clerk.getSimulations(id=self.id)
-#        if sim:
-#            name = sim.sname
-#        else:
-#            name = ""
-#
-#        d           = Document(title="Simulation Name: %s" % name, Class="step-content")
-        d           = Document(title="Simulation Name:", Class="step-content")
+        sim         = director.clerk.getSimulations(id=self.id)
+        if sim:
+            name = sim.sname
+        else:
+            name = ""
+
+        d           = Document(title="Simulation Name: %s" % name, Class="step-content")
         text ="""Before you run any simulation in Quantum Espresso you need to specify
         the configuration. Here you can create or edit configuration for you simulation
         """
@@ -58,22 +57,10 @@ class Actor(base):
         d.add(Paragraph(text=text))
 
         d.add(Paragraph(text="PW"))
-        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link")))
+        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
         d.add(Paragraph(text="\/"))
         d.add(Paragraph(text="DOS"))
-        d.add(Link(label="Add", onclick=load(actor="espresso", routine="link")))
-
-#        tabs = Tabs()
-#        tabs.tab('Control').paragraph(text=['Namelist: CONTROL '])
-#        tabs.tab('System').document(title='Namelist: SYSTEM')
-#        tabs.tab('Electrons').paragraph(text=['Namelist: ELECTRONS'])
-#        tabs.tab('Ions').paragraph(text=['Namelist: IONS'])
-#        tabs.tab('Cell').paragraph(text=['Namelist: CELL'])
-#        tabs.tab('Phonon').paragraph(text=['Namelist: PHONON'])
-#        tabs.tab('Lattice').paragraph(text=['Some form'])
-#        tabs.tab('K-Points').paragraph(text=['Card: K_POINTS'])
-#        tabs.tab('Other').paragraph(text=['Some form'])
-#        d.add(tabs)
+        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
 
         s_content.add(d)
 
@@ -84,41 +71,14 @@ class Actor(base):
 
         return splitter
 
-#        d_form      = Document(Class="step-content-form")
-#
-#        # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
-#        d_form.add(FormRadioBox(entries=enumerate(["Create Configuration",
-#                                                   "Manually Add Configuration",
-#                                                   "Import Material",
-#                                                   "Create New Material",
-#                                                   "Go To ['Set Simulation Parameters', 'Review Configuration', 'Add to Jobs Queue']"])) )
-#
-#        form        = Form(id="form-vinil") # id="stylized"
-#        form.text(label='Material Name') # help='Help'
-#        form.text(label='Bravais-Lattice Index (ibrav)', value="2")
-#        form.text(label='Element Name', value="Ni")
-#        form.text(label='Element Mass (a.e.)', value="26.98")
-#        form.selector(label="Pseudo Potential", entries=enumerate(["Ni.pde-nd-rrkjus.UPF", "NirelPBE.RRKJ3.UPF"]))
-#
-#        form.text(label='Atomic position', value="0 0 0")
-#
-#        # Need to set parameters:
-#        #    'nspin',
-#        #    'starting_magnetization',
-#        #    'multiplicity',
-#        #    'tot_magnetization'
-#
-#        d_form.add(form)
-#        d.add(d_form)
-
     
 
     def pathlist(self, director):
-        #sim     = director.clerk.getSimulations(id=self.id)
+        sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
-                         #(sim.sname, "espresso-sim-view", "link", self.id),
+                         (sim.sname, "espresso-sim-view", "link", self.id),
                          (STEPS[1], None, None)]
 
         return self.pathlist
@@ -148,6 +108,46 @@ def actor():
 #        text ="""Before you run any simulation in Quantum Espresso you need to specify
 #        the material. Here you can import existing material or create a new material
 #        that will be saved in "Materials" section later on."""
+
+#        d_form      = Document(Class="step-content-form")
+#
+#        # entries=enumerate(["Ni", "Al", "Si", "Fe", "Cu", "AlAs", "SiO2"])) )
+#        d_form.add(FormRadioBox(entries=enumerate(["Create Configuration",
+#                                                   "Manually Add Configuration",
+#                                                   "Import Material",
+#                                                   "Create New Material",
+#                                                   "Go To ['Set Simulation Parameters', 'Review Configuration', 'Add to Jobs Queue']"])) )
+#
+#        form        = Form(id="form-vinil") # id="stylized"
+#        form.text(label='Material Name') # help='Help'
+#        form.text(label='Bravais-Lattice Index (ibrav)', value="2")
+#        form.text(label='Element Name', value="Ni")
+#        form.text(label='Element Mass (a.e.)', value="26.98")
+#        form.selector(label="Pseudo Potential", entries=enumerate(["Ni.pde-nd-rrkjus.UPF", "NirelPBE.RRKJ3.UPF"]))
+#
+#        form.text(label='Atomic position', value="0 0 0")
+#
+#        # Need to set parameters:
+#        #    'nspin',
+#        #    'starting_magnetization',
+#        #    'multiplicity',
+#        #    'tot_magnetization'
+#
+#        d_form.add(form)
+#        d.add(d_form)
+#        tabs = Tabs()
+#        tabs.tab('Control').paragraph(text=['Namelist: CONTROL '])
+#        tabs.tab('System').document(title='Namelist: SYSTEM')
+#        tabs.tab('Electrons').paragraph(text=['Namelist: ELECTRONS'])
+#        tabs.tab('Ions').paragraph(text=['Namelist: IONS'])
+#        tabs.tab('Cell').paragraph(text=['Namelist: CELL'])
+#        tabs.tab('Phonon').paragraph(text=['Namelist: PHONON'])
+#        tabs.tab('Lattice').paragraph(text=['Some form'])
+#        tabs.tab('K-Points').paragraph(text=['Card: K_POINTS'])
+#        tabs.tab('Other').paragraph(text=['Some form'])
+#        d.add(tabs)
+
+
 
 
 

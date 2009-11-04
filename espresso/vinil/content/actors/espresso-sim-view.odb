@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from vinil.utils.const import STEPS
+
 from luban.content import select
 from luban.content.Paragraph import Paragraph
 from luban.content.Document import Document
@@ -45,8 +47,11 @@ class Actor(base):
         document.add(Paragraph(text="Created: %s" % sim.timeCreated))
         document.add(Paragraph(text="Files: %s" % filename))
 
-        document.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link")))
-        
+        # Should be on separate line
+        document.add(Link(label=STEPS[1], Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        document.add(Link(label=STEPS[2], Class="action-link", onclick=load(actor="espresso-step-three", routine="link", id=self.id)))
+        document.add(Link(label=STEPS[3], Class="action-link", onclick=load(actor="espresso-step-four", routine="link", id=self.id)))
+
         return document
 
 
