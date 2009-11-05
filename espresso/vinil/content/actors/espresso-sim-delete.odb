@@ -32,7 +32,7 @@ class Actor(base):
     def content(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
 
-        document = Document(title='Delete simulation: %s' % sim.sname)
+        document = Document(title='Delete Simulation: %s' % sim.sname)
         document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
 
         form        = Form(id="form-vinil")

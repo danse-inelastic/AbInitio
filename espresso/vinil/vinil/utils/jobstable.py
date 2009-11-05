@@ -62,7 +62,7 @@ def tableJobs(headers, jobids, simids, simnames, columns):
         return link
 
     data    = []
-    for i in range(len(jobids)):
+    for i in range(len(jobids)):    # just need size of list (e.g. from jobids)
         n           = [jobid(i)]
         data.append(n)
         data[i]     += [sim(i)]

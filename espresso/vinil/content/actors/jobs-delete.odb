@@ -11,6 +11,83 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from luban.content.HtmlDocument import HtmlDocument
+from luban.content import load
+from luban.content.Link import Link
+from luban.content.Form import Form
+from luban.content.Button import Button
+
+from vinil.components.Actor import Actor as base
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id      = pyre.inventory.str('id', default='')      # Job Id
+
+
+    def content(self, director):
+        job     = director.clerk.getJobs(id=self.id)
+
+        document = Document(title='Delete Job: %s' % job.id)
+        document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
+
+        form        = Form(id="form-vinil")
+        submit      = form.submitbutton(label="Delete")
+        form.onsubmit   = select(element=form).submit(actor = 'jobs-delete', routine = 'deleteRecord', id=job.id)
+
+        # TODO: "Cancel" button looks UGLY
+        cancel      = Button(label="Cancel")
+        cancel.onclick = load(actor = 'jobs', routine = 'link')
+        form.add(cancel)
+
+        document.add(form)
+
+        return document
+
+    def deleteRecord(self, director):
+        job             = director.clerk.getJobs(id=self.id)
+
+        if job:
+            job.deleteRecord(director)
+
+        return load(actor='jobs', routine='link')  # Redirection to the page
+
+
+    def pathlist(self, director):
+        job     = director.clerk.getJobs(id=self.id)
+        #print job.id
+        self.pathlist = [("Home","greet","link"),
+                         ("Simulations", "simulations", "link"),
+                         ("Quantum Espresso", "espresso", "link"),
+                         ("Jobs", "jobs", "link"),
+                         (job.id, "jobs-view", "link", self.id),
+                         ("Delete", None, None)]
+
+        return self.pathlist
+
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id = self.inventory.id
+        return
+
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('jobs-delete')
+
 
 __date__ = "$Nov 4, 2009 7:21:22 PM$"
 
