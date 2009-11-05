@@ -139,7 +139,7 @@ class Job(Table):
 def inittable(db):
 
     # Sets only some of the values
-    def configuration(params):
+    def job(params):
         r               = Job()
         r.id            = params['id']
         r.userId        = params['']
@@ -154,7 +154,7 @@ def inittable(db):
 
     records = []
     for e in defaults:
-        records.append(configuration(e))
+        records.append(job(e))
 
     for r in records: db.insertRow( r )
     return
