@@ -54,7 +54,7 @@ class Actor(base):
         document.add(Link(label=STEPS[1], Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
         document.add(Link(label=STEPS[2], Class="action-link", onclick=load(actor="espresso-step-three", routine="link", id=self.id)))
         document.add(Link(label=STEPS[3], Class="action-link", onclick=load(actor="espresso-step-four", routine="link", id=self.id)))
-        document.add(Link(label="Submit to Queue", Class="action-link", onclick=load(actor="jobs-submitted", routine="link", id=self.id)))
+        document.add(Link(label="Submit to Queue", Class="action-link", onclick=load(actor="jobs-submitted", routine="submit", id=self.id)))
         
         return document
 
