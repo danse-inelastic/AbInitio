@@ -65,13 +65,6 @@ class Actor(base):
         for i in range(len(jobs)):
             # Get simulation based on jobid
             (simid, simname)    = self.simdata(director, jobs[i])
-#            sim     = director.clerk.getSimulations(id=jobs[i].simulationId)
-#            if sim:
-#                simname = sim.sname
-#                simid   = sim.id
-#            else:
-#                simname = ""
-#                simid   = None
 
             jobids.append(jobs[i].id)
             simids.append(simid)

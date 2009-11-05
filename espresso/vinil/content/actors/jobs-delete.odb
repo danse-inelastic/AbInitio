@@ -32,7 +32,7 @@ class Actor(base):
         job     = director.clerk.getJobs(id=self.id)
 
         document = Document(title='Delete Job: %s' % job.id)
-        document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
+        document.add(Paragraph(text="Are you sure you want to delete the job?"))
 
         form        = Form(id="form-vinil")
         submit      = form.submitbutton(label="Delete")
@@ -58,7 +58,6 @@ class Actor(base):
 
     def pathlist(self, director):
         job     = director.clerk.getJobs(id=self.id)
-        #print job.id
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
