@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# TODO: When you go to step one and then back to step two it doesn't create the simulation again
+
 from vinil.utils.const import STEPS
 from vinil.utils.simulationsteps import SimulationSteps
 from vinil.utils.stepper import Stepper
@@ -64,7 +66,7 @@ class Actor(base):
 
         s_content.add(d)
 
-        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
+        linklist    = (("espresso-step-one", "link", None), ("espresso-step-three", "link", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)

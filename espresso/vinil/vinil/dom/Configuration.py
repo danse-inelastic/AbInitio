@@ -67,7 +67,7 @@ configPP = """&inputpp
 
 from vinil.utils.utils import timestamp, newid, setname
 
-examples    = (
+defaults    = (
                {"id": 1, "simulationId": 4, "type": "PW",
                "filename": "ni.scf.in", "description": "", "timeCreated": timestamp(),
                "timeModified": timestamp(), "text": configElectons},
@@ -164,14 +164,14 @@ def inittable(db):
         return r
 
     records = []
-    for e in examples:
+    for e in defaults:
         records.append(configuration(e))
 
     for r in records: db.insertRow( r )
     return
 
 def test():
-    for e in examples:
+    for e in defaults:
         s = ""
         for v in e.keys():
             s += "%s: %s " % (v, e[v])

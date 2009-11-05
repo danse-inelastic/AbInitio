@@ -47,8 +47,8 @@ class Actor(base):
         document.add(Paragraph(text="Formula: %s" % sim.formula))
         document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
         document.add(Paragraph(text="Input Files: %s" % filename))
-        document.add(Paragraph(text="Simulation Parameters(?): settings.conf [STUB]"))
-        document.add(Paragraph(text="Jobs: [Links to jobs] [STUB]"))
+        document.add(Paragraph(text="Simulation Parameters(?): settings.conf [STUB] "))
+        document.add(Paragraph(text="Jobs: [Links to jobs] [STUB] "))
 
         # Should be on separate line
         document.add(Link(label=STEPS[1], Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))

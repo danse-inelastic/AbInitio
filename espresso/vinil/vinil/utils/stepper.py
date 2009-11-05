@@ -36,7 +36,7 @@ class Stepper:
 
             return HtmlDocument(text='<img src="images/icons/next.png"/>',
                             Class = "stepper-item",
-                            onclick=load(actor=link[0], routine=self.routine(link[1])))
+                            onclick=load(actor=link[0], routine=self.routine(link[1]), id=link[2]))
 
         return Paragraph(Class="stepper-space-next")
 
@@ -45,7 +45,7 @@ class Stepper:
 
             return HtmlDocument(text='<img src="images/icons/back.png"/>',
                             Class = "stepper-item",
-                            onclick=load(actor=link[0], routine=self.routine(link[1])))
+                            onclick=load(actor=link[0], routine=self.routine(link[1]), id=link[2]))
 
         return Paragraph(Class="stepper-space-back")
 
@@ -70,15 +70,15 @@ class Stepper:
     def toString(self):
         s = ""
         if len(self.linklist[0]) != 0:
-            s += "(%s, %s) <== " % (self.linklist[0][0], self.linklist[0][1])
+            s += "(%s, %s, %s) <== " % (self.linklist[0][0], self.linklist[0][1], self.linklist[0][2])
 
         if len(self.linklist[1]) != 0:
-            s += " ==> (%s, %s)" % (self.linklist[1][0], self.linklist[1][1])
+            s += " ==> (%s, %s, %s)" % (self.linklist[1][0], self.linklist[1][1], self.linklist[1][2])
 
         print s
 
 def testStepper():
-    linklist = (("espresso", "link"), ("espresso-material", "link"))
+    linklist = (("espresso", "link", "5"), ("espresso-material", "link", "6"))
     stepper     = Stepper(linklist)
     stepper.toString()
 

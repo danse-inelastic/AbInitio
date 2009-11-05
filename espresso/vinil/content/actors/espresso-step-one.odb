@@ -67,8 +67,9 @@ class Actor(base):
         d.add(form)
         s_content.add(d)
 
-        # Redo stepper (should not conflict with submit button!)
-        linklist    = (("espresso", "link"), ("espresso-step-two", "link"))
+        # TODO: Redo stepper. Should not conflict with submit button!
+
+        linklist    = (("espresso", "link", None), ())    # ("espresso-step-one", "link", self.id)
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)

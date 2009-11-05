@@ -79,7 +79,7 @@ class Actor(base):
         s_content.add(d)
 
         # Change label on the "Next" button to "Submit to Queue"
-        linklist    = (("espresso-step-three", "link"), ("jobs-submitted", "link"))
+        linklist    = (("espresso-step-three", "link", self.id), ("jobs-submitted", "link", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -87,9 +87,11 @@ class Actor(base):
         return splitter
 
     def pathlist(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                      ("Simulations", "simulations", "link"),
                      ("Quantum Espresso", "espresso", "link"),
+                     (sim.sname, "espresso-sim-view", "link", self.id),
                      (STEPS[3], None, None)
                      ]
 

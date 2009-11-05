@@ -11,7 +11,21 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+#defaults    = (
+#               {"id": 1, "simulationId": 4, "type": "PW",
+#               "filename": "ni.scf.in", "description": "", "timeCreated": timestamp(),
+#               "timeModified": timestamp(), "text": configElectons},
+#               {"id": 2, "simulationId": 5, "type": "PH",
+#                "filename": "ni.ph.in", "description": "", "timeCreated": timestamp(),
+#                "timeModified": timestamp(), "text": configPhonons},
+#               {"id": 3, "simulationId": 6, "type": "PP",
+#                "filename": "ni.pp.in", "description": "", "timeCreated": timestamp(),
+#                "timeModified": timestamp(), "text": configPP}
+#              )
+
+
 from pyre.db.Table import Table
+from vinil.utils.utils import timestamp, newid, setname
 
 class Job(Table):
     # 'name' attribute should be present in every class table.
@@ -66,6 +80,54 @@ class Job(Table):
 
     statusMessage = pyre.db.varchar(name="statusMessage", length=256, default='')
     statusMessage.meta['tip'] = "statusMessage"
+
+
+    def updateRecord(self, director, params):
+        """
+        Updates job row (even if key in params is not present).
+        'id' and 'timeSubmitted' are not updated!
+        """
+        self.userId         = setname(params, self, 'userId')
+        self.simulationId   = setname(params, self, 'simulationId')
+        self.serverId       = setname(params, self, 'serverId')
+        self.description    = setname(params, self, 'description')
+        self.status         = setname(params, self, 'status')
+        self.timeStarted    = setname(params, self, 'timeStarted')
+        self.timeRestarted  = setname(params, self, 'timeRestarted')
+        self.timeCompleted  = setname(params, self, 'timeCompleted')
+        self.exitCode       = setname(params, self, 'exitCode')
+        self.numberProcessors   = setname(params, self, 'numberProcessors')
+        self.errorFilename  = setname(params, self, 'errorFilename')
+        self.outputFilename = setname(params, self, 'outputFilename')
+        self.statusMessage  = setname(params, self, 'statusMessage')
+
+        director.clerk.updateRecord(self)   # Update record
+
+
+    def createRecord(self, director, params):
+        """Inserts job row """
+        self.id             = newid(director)
+        self.userId         = setname(params, self, 'userId')
+        self.simulationId   = setname(params, self, 'simulationId')
+        self.serverId       = setname(params, self, 'serverId')
+        self.description    = setname(params, self, 'description')
+        self.status         = setname(params, self, 'status')
+        self.timeSubmitted  = timestamp()
+        self.timeStarted    = setname(params, self, 'timeStarted')
+        self.timeRestarted  = setname(params, self, 'timeRestarted')
+        self.timeCompleted  = setname(params, self, 'timeCompleted')
+        self.exitCode       = setname(params, self, 'exitCode')
+        self.numberProcessors   = setname(params, self, 'numberProcessors')
+        self.errorFilename  = setname(params, self, 'errorFilename')
+        self.outputFilename = setname(params, self, 'outputFilename')
+        self.statusMessage  = setname(params, self, 'statusMessage')
+
+        director.clerk.insertRecord(self)
+
+
+    def deleteRecord(self, director):
+        """Deletes record"""
+        director.clerk.deleteRecord(self, id=self.id)
 
 
 # Generates only id's.

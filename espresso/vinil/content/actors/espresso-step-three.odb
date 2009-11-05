@@ -73,7 +73,7 @@ class Actor(base):
         d.add(form)
 
         s_content.add(d)
-        linklist    = (("espresso-step-two", "link"), ("espresso-step-four", "link"))
+        linklist    = (("espresso-step-two", "link", self.id), ("espresso-step-four", "link", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -86,9 +86,11 @@ class Actor(base):
         return load(actor='espresso-step-four', routine='link', id=self.id)  # Redirection to the page
 
     def pathlist(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
+                         (sim.sname, "espresso-sim-view", "link", self.id),
                          (STEPS[2], None, None)
                          ]
 
