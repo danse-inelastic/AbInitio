@@ -20,6 +20,8 @@ PACKAGE = utils
 EXPORT_PYTHON_MODULES = \
         const.py \
         dos.py \
+        espressotable.py \
+        jobstable.py \
         orderedDict.py \
         pathbuilder.py \
         plot.py \
