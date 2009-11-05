@@ -20,7 +20,7 @@ from luban.content.Link import Link
 # [<Job ID> | <Simulation> | Server | User | Submitted | Status | <Delete> | <Check>]
 # 8 columns
 
-def tableJobs(headers, jobids, simnames, columns): #, ids):
+def tableJobs(headers, jobids, simids, simnames, columns):
     from luban.content.table import Table, Model, View
 
     # create a model class
@@ -46,19 +46,19 @@ def tableJobs(headers, jobids, simnames, columns): #, ids):
                               )
     # Populate the data list
     def jobid(i):
-        link = Link(label=jobids[i], onclick = load(actor='jobs-view', routine='link', id=""))    #ids[i]
+        link = Link(label=jobids[i], onclick = load(actor='jobs-view', routine='link', id=jobids[i]))
         return link
 
     def sim(i):
-        link = Link(label=simnames[i], onclick = load(actor='espresso-sim-view', routine='link', id=""))    #ids[i]
+        link = Link(label=simnames[i], onclick = load(actor='espresso-sim-view', routine='link', id=simids[i]))    #ids[i]
         return link
 
     def delete(i):
-        link = Link(label="Delete", onclick = load(actor='jobs-delete', routine='link', id=""))       #ids[i]
+        link = Link(label="Delete", onclick = load(actor='jobs-delete', routine='link', id=jobids[i]))
         return link
 
     def check(i):
-        link = Link(label="Check", onclick = load(actor='espresso-sim-use', routine='link', id=""))       #ids[i]
+        link = Link(label="Check", onclick = load(actor='jobs', routine='link', id=jobids[i]))       #ids[i]
         return link
 
     data    = []

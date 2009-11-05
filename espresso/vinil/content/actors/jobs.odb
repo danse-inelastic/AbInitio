@@ -57,17 +57,29 @@ class Actor(base):
         jobs     = director.clerk.getJobs(where=where)
         # Take data from User, Simulations
         jobids      = []
+        simids      = []
         simnames    = []
         columns     = []
 
+        # Traversing jobs
         for i in range(len(jobs)):
+            # Get simulation based on jobid
+            (simid, simname)    = self.simdata(director, jobs[i])
+#            sim     = director.clerk.getSimulations(id=jobs[i].simulationId)
+#            if sim:
+#                simname = sim.sname
+#                simid   = sim.id
+#            else:
+#                simname = ""
+#                simid   = None
+
             jobids.append(jobs[i].id)
-            simnames.append("Ni")
-            # Second row: "Simulation"
+            simids.append(simid)
+            simnames.append(simname)
             row     = ["foxtrot.danse.us", "dexity", stamp2date(jobs[i].timeSubmitted), jobs[i].status ]
             columns.append(row)
 
-        return (jobids, simnames, columns)
+        return (jobids, simids, simnames, columns)
 
 
     # TODO: Refactor
@@ -79,8 +91,21 @@ class Actor(base):
         if len(data[0]) != 0:
             document.add(Paragraph(text=title, Class="header-h2"))
             document.add(tableController(headers, 'jobs'))
-            document.add(tableJobs(headers, data[0], data[1], data[2]))
+            document.add(tableJobs(headers, data[0], data[1], data[2], data[3]))
 
+
+    def simdata(self, director, job):
+        """Returns simulation data based on job"""
+        simid   = None
+        simname = ""
+
+        if job:
+            sim     = director.clerk.getSimulations(id=job.simulationId)
+            if sim:
+                simid   = sim.id
+                simname = sim.sname
+
+        return (simid, simname)
 
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
