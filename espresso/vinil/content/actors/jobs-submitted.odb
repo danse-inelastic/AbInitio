@@ -32,6 +32,11 @@ class Actor(base):
         import pyre.inventory
         id      = pyre.inventory.str('id')
 
+    def submit(self, director):
+        self.createRecord(director)
+        self.runSimulation(director)
+        return load(actor='jobs-submitted', routine='link')
+
 
     def content(self, director):
         document = Document(title='Job Submitted')
@@ -39,6 +44,7 @@ class Actor(base):
         document.add(Link(label="All jobs", Class="action-link", onclick=load(actor="jobs", routine="link")))
 
         # Keep!!!
+
         #document.add(self.getPWPlot(director))
 
         return document
@@ -56,9 +62,6 @@ class Actor(base):
     def createRecord(self, director):
         pass
 
-    def submit(self, director):
-        #self.runSimulation(director)
-        return load(actor='jobs-submitted', routine='link')
 
     # Temp methods for running simulation
     def runSimulation(self, director):
@@ -66,9 +69,6 @@ class Actor(base):
         self.runPWSimulation(director)
         self.runPW_DOS(director)
         self.createPWPlot(director)
-
-        # Redirection
-        #return load(actor='electronsjobs', routine='link', id=self.inventory.id)
 
 
     # Run PW simulation
@@ -85,8 +85,8 @@ class Actor(base):
 
     # Sets pseudo_dir and outdir (hardcoded) and saves to the same file.
     def setPWConfig(self, filename=None, config=None):
-        from vinil.utils.parser.qeconfig import QEConfig
-        qe = QEConfig(filename, config)
+        from vinil.utils.parser.qeinput import QEInput
+        qe = QEInput(filename, config)
         qe.parse()
         pd = qe.namelist('control')
 
@@ -95,11 +95,11 @@ class Actor(base):
         pd.editParam('pseudo_dir', "'%s'" % pseudo_dir)
         pd.editParam('outdir',     "'%s'" % outdir)
 
-        if filename is not None:
+        if filename:
             qe.save()
             return
 
-        if config is not None:
+        if config:
             return qe.toString()
 
 
@@ -115,9 +115,10 @@ class Actor(base):
         from vinil.utils import dos
         dos.runPW_DOS(config=configmod)
 
+
     def setPW_DOSConfig(self, filename=None, config=None):
-        from vinil.utils.parser.qeconfig import QEConfig
-        qe = QEConfig(filename, config)
+        from vinil.utils.parser.qeinput import QEInput
+        qe = QEInput(filename, config)
         qe.parse()
         pd = qe.namelist('inputpp')
 
@@ -127,11 +128,11 @@ class Actor(base):
         pd.editParam('outdir', "'%s'" % outdir)
         pd.editParam('fildos', "'%s'" % fildos)
 
-        if filename is not None:
+        if filename:
             qe.save()
             return
 
-        if config is not None:
+        if config:
             return qe.toString()
 
 
@@ -143,6 +144,7 @@ class Actor(base):
 
         from vinil.utils import plot
         plot.createPWPlot(infile, imagefile)
+
 
     def getPWPlot(self, director):
         from vinil.utils import utils

@@ -80,7 +80,7 @@ defaults    = (
                {"id": 3, "simulationId": 4, "type": "PP",
                 "filename": "ni.pp.in", "text": configDOS},
                 {"id": 4, "simulationId": 5, "type": "DOS",
-                "filename": "ni.dos.in", "text": configDOS},
+                "filename": "ni.scf.dos.in", "text": configDOS},
               )
 
 

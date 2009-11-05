@@ -23,13 +23,17 @@ EXPORT_PYTHON_MODULES = \
         inputcppp.py \
         inputd3.py \
         inputdos.py \
+        inputdynmat.py \
         inputgipaw.py \
+        inputinitial_state.py \
         inputld1.py \
+        inputmatdyn.py \
         inputph.py \
         inputpp.py \
         inputprojwfc.py \
         inputpwcond.py \
         inputpw.py \
+        inputq2r.py \
 
 BUILD_DIRS = \
 

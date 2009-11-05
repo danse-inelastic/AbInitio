@@ -20,7 +20,9 @@ PACKAGE = utils/parser
 EXPORT_PYTHON_MODULES = \
         card.py \
         namelist.py \
-        qeconfig.py \
+        orderedDict.py \
+        qeinput.py \
+        qeparser.py \
         __init__.py \
 
 BUILD_DIRS = \
