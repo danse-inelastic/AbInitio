@@ -36,7 +36,7 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Jobs')
         document.add(Paragraph(text="Table of All Jobs"))
-        document.add(Paragraph(text="[<Job ID> | Server | User | <Simulation> | Created | Status | <Delete> | <Check>]"))
+        document.add(Paragraph(text="[<Job ID> | Server | User | <Simulation> | Submitted | Status | <Delete> | <Check>]"))
         
         #self.runSimulation(director)
         #document.add(self.getPWPlot(director))

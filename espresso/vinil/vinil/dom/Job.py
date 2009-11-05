@@ -11,17 +11,22 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-#defaults    = (
-#               {"id": 1, "simulationId": 4, "type": "PW",
-#               "filename": "ni.scf.in", "description": "", "timeCreated": timestamp(),
-#               "timeModified": timestamp(), "text": configElectons},
-#               {"id": 2, "simulationId": 5, "type": "PH",
-#                "filename": "ni.ph.in", "description": "", "timeCreated": timestamp(),
-#                "timeModified": timestamp(), "text": configPhonons},
-#               {"id": 3, "simulationId": 6, "type": "PP",
-#                "filename": "ni.pp.in", "description": "", "timeCreated": timestamp(),
-#                "timeModified": timestamp(), "text": configPP}
-#              )
+# "userId": 1 -> dexity
+
+from vinil.utils.const import STATES
+from vinil.utils.utils import timestamp
+
+defaults    = (
+               {"id": 1, "userId": 1, "simulationId": 4, "description": "",
+               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8},
+               {"id": 2, "userId": 1, "simulationId": 5, "description": "",
+               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8},
+               {"id": 3, "userId": 1, "simulationId": 6, "description": "",
+               "status": STATES["R"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8},
+              )
 
 
 from pyre.db.Table import Table
@@ -72,10 +77,10 @@ class Job(Table):
     numberProcessors = pyre.db.integer(name="numberProcessors", default=0)
     numberProcessors.meta['tip'] = "numberProcessors"
 
-    errorFilename = pyre.db.varchar(name="errorFilename", length=256, default='')
+    errorFilename = pyre.db.varchar(name="errorFilename", length=256, default='stderr.log')
     errorFilename.meta['tip'] = "errorFilename"
 
-    outputFilename = pyre.db.varchar(name="outputFilename", length=256, default='')
+    outputFilename = pyre.db.varchar(name="outputFilename", length=256, default='stdout.log')
     outputFilename.meta['tip'] = "outputFilename"
 
     statusMessage = pyre.db.varchar(name="statusMessage", length=256, default='')
@@ -130,27 +135,47 @@ class Job(Table):
         director.clerk.deleteRecord(self, id=self.id)
 
 
-# Generates only id's.
-# Do I need generate default jobs? For debugging, yes!
-"""
+# For debugging
 def inittable(db):
-    def job(params):
-        r           = Job()
-        r.id        = params['id']
-        r.userId        = params['userId']
+
+    # Sets only some of the values
+    def configuration(params):
+        r               = Job()
+        r.id            = params['id']
+        r.userId        = params['']
         r.simulationId  = params['simulationId']
-        r.serverId      = params['serverId']
+        r.description   = params['description']
+        r.status        = params['status']
+        r.timeCompleted = params['timeCompleted']
+        r.exitCode      = params['exitCode']
+        r.numberProcessors  = params['numberProcessors']
 
         return r
 
-    records = [
-        job( {"id": 1, "userId": 1, "simulationId": 1, "serverId": 1}),
-        job( {"id": 2, "userId": 1, "simulationId": 1, "serverId": 1}),
-        job( {"id": 3, "userId": 1, "simulationId": 1, "serverId": 1} )
-        ]
+    records = []
+    for e in defaults:
+        records.append(configuration(e))
+
     for r in records: db.insertRow( r )
     return
-"""
+
+def test():
+    for e in defaults:
+        s = ""
+        for v in e.keys():
+            s += "%s: %s " % (v, e[v])
+        print s
+
+if __name__ == "__main__":
+    test()
+
+
+# ******************* DEAD CODE ******************
+#   {"id": 1, "userId": 1, "simulationId": 4, "description": "",
+#   "status": STATES["C"], "timeSubmitted":, timeStarted: ,
+#    timeRestarted: , timeCompleted: , exitCode: ,
+#    numberProcessors: , errorFilename: , outputFilename: ,
+#    statusMessage
 
 
 __date__ = "$Jul 29, 2009 8:31:54 PM$"

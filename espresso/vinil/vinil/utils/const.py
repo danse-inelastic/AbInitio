@@ -32,11 +32,24 @@ SIMULATIONS = ( "Total Energy",
                 "Multi-Phonon DOS",
                 "Multi-Phonon Dispersion" )
 
+# Available servers
 SERVERS     = ("foxtrot.danse.us",)
                #"octopod.danse.us",
                #"upgrayedd.danse.us",
                #"teragrid"
-              
+
+# States of a job
+STATES = {
+        'C': 'finished',
+        'R': 'running',
+        'Q': 'queued',
+        'E': 'exiting', #after having run
+        'H': 'onhold',
+        'W': 'waiting',
+        'S': 'suspend',
+        }
+
+
 
 __date__ = "$Nov 3, 2009 3:12:34 PM$"
 
