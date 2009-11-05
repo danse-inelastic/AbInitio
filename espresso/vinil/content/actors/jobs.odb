@@ -13,7 +13,7 @@
 
 from vinil.utils.jobstable import tableJobs
 from vinil.utils.table import tableController
-from vinil.utils.utils import newid, stamp2date
+from vinil.utils.utils import stamp2date
 
 import os
 from luban.content import select
@@ -38,14 +38,14 @@ class Actor(base):
 
 
     def content(self, director):
-        document = Document(title='Jobs')
-        document.add(Paragraph(text="Table of All Jobs"))
-        #document.add(Paragraph(text="[<Job ID> | Server | User | <Simulation> | Submitted | Status | <Delete> | <Check>]"))
+        document = Document()
+        #document.add(Paragraph(text="Table of All Jobs"))
+        #document.add(Paragraph(text="[<Job ID> | <Simulation> | Server | User | Submitted | Status | <Delete> | <Check>]"))
         
 
-        headers = ("Job ID", "Server", "User", "Simulation", "Submitted", "Status", " ", " ")
+        headers = ("Job ID", "Simulation", "Server", "User", "Submitted", "Status", " ", " ")
         
-        data    = self.getTableData(director, where="status='finished'")
+        data    = self.getTableData(director)
         self.addTable(document, "All Jobs", headers, data)
 
         return document
@@ -56,27 +56,30 @@ class Actor(base):
         """Gets table data from Simulations database table to display in table"""
         jobs     = director.clerk.getJobs(where=where)
         # Take data from User, Simulations
-        jobids  = []
-        columns = []
+        jobids      = []
+        simnames    = []
+        columns     = []
 
         for i in range(len(jobs)):
             jobids.append(jobs[i].id)
-            row     = ["foxtrot.danse.us", "dexity", "Ni", stamp2date(jobs[i].timeSubmitted), jobs[i].status, " ", " ", " " ]
+            simnames.append("Ni")
+            # Second row: "Simulation"
+            row     = ["foxtrot.danse.us", "dexity", stamp2date(jobs[i].timeSubmitted), jobs[i].status ]
             columns.append(row)
 
-        return (jobids, columns)
+        return (jobids, simnames, columns)
 
 
     # TODO: Refactor
     def addTable(self, document, title, headers, data):
         """
         Adds table to the document
-        data = (jobids, columns)
+        data = (jobids, simnames, columns)
         """
         if len(data[0]) != 0:
             document.add(Paragraph(text=title, Class="header-h2"))
             document.add(tableController(headers, 'jobs'))
-            document.add(tableJobs(headers, data[0], data[1]))
+            document.add(tableJobs(headers, data[0], data[1], data[2]))
 
 
     def pathlist(self, director):

@@ -146,6 +146,7 @@ def inittable(db):
         r.simulationId  = params['simulationId']
         r.description   = params['description']
         r.status        = params['status']
+        r.timeSubmitted = timestamp()
         r.timeCompleted = params['timeCompleted']
         r.exitCode      = params['exitCode']
         r.numberProcessors  = params['numberProcessors']
