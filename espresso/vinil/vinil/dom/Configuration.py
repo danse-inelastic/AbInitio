@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-configElectons = """ &control
+configPW = """ &control
     calculation='scf'
     restart_mode='from_scratch',
     tprnfor = .true.
@@ -43,7 +43,7 @@ ATOMIC_POSITIONS
 K_POINTS AUTOMATIC
 4 4 4 1 1 1"""
 
-configPhonons = """phonons of Ni at gamma
+configPH = """phonons of Ni at gamma
 &inputph
   tr2_ph=1.0d-16,
   prefix='ni',
@@ -56,7 +56,7 @@ configPhonons = """phonons of Ni at gamma
   fildyn='ni.dyn',
 /"""
 
-configPP = """&inputpp
+configDOS = """&inputpp
    prefix='ni',
    outdir='',
    fildos='',
@@ -65,18 +65,22 @@ configPP = """&inputpp
    DeltaE=0.1
 /"""
 
+#outdir='/home/dexity/exports/vinil/content/temp/',
+#fildos='/home/dexity/exports/vinil/output/ni.scf.dos.out',
+
+
 from vinil.utils.utils import timestamp, newid, setname
+# Electron DOS (Ni_E_DOS): simulationId = 5
 
 defaults    = (
-               {"id": 1, "simulationId": 4, "type": "PW",
-               "filename": "ni.scf.in", "description": "", "timeCreated": timestamp(),
-               "timeModified": timestamp(), "text": configElectons},
-               {"id": 2, "simulationId": 5, "type": "PH",
-                "filename": "ni.ph.in", "description": "", "timeCreated": timestamp(),
-                "timeModified": timestamp(), "text": configPhonons},
-               {"id": 3, "simulationId": 6, "type": "PP",
-                "filename": "ni.pp.in", "description": "", "timeCreated": timestamp(),
-                "timeModified": timestamp(), "text": configPP}
+               {"id": 1, "simulationId": 5, "type": "PW",
+               "filename": "ni.scf.in", "text": configPW},
+               {"id": 2, "simulationId": 6, "type": "PH",
+                "filename": "ni.ph.in", "text": configPH},
+               {"id": 3, "simulationId": 4, "type": "PP",
+                "filename": "ni.pp.in", "text": configDOS},
+                {"id": 4, "simulationId": 5, "type": "DOS",
+                "filename": "ni.dos.in", "text": configDOS},
               )
 
 
@@ -157,9 +161,8 @@ def inittable(db):
         r.simulationId  = params['simulationId']
         r.type          = params['type']
         r.filename      = params['filename']
-        r.description   = params['description']
-        r.timeCreated   = params['timeCreated']
-        r.timeModified  = params['timeModified']
+        r.timeCreated   = timestamp()
+        r.timeModified  = timestamp()
         r.text          = params['text']
         return r
 
