@@ -142,7 +142,7 @@ def inittable(db):
     def job(params):
         r               = Job()
         r.id            = params['id']
-        r.userId        = params['']
+        r.userId        = params['userId']
         r.simulationId  = params['simulationId']
         r.description   = params['description']
         r.status        = params['status']

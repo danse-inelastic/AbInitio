@@ -11,17 +11,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-defaults    = (
-               {"id": 1, "username": "dexity", "firstName": "Alex",
+defaults    = ({"id": 1, "username": "dexity", "firstName": "Alex",
                "lastName": "Dementsov", "email": "somemail@gmail.com",
                "affiliation": "CalTech", "password": "5f4dcc3b5aa765d61d8327deb882cf99"}, # 'passowrd' -> md5
               )
 
+# For some reason when I try to use "user" name for database table, it returns error
+# Probably conflict with internal code?
 from pyre.db.Table import Table
 
 class User(Table):
 
-    name = "user"
+    name = "users"  # Table name
     import pyre.db
 
     id = pyre.db.varchar(name="id", length=8)
@@ -94,7 +95,7 @@ class User(Table):
 def inittable(db):
 
     def user(params):
-        r               = User()
+        r                = User()
         r.id             = params['id']
         r.username       = params['username']
         r.firstName      = params['firstName']

@@ -21,8 +21,8 @@ tablenames = ('Simulation',
               'Atom',
               'Configuration',
               'VTable',
-              'Session')
-              #'User',
+              'Session',
+              'User')
               #'Authorization')
 
 from pyre.components.Component import Component as base
