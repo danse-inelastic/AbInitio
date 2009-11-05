@@ -12,7 +12,7 @@
 #
 
 from vinil.utils.utils import newid, stamp2date
-from vinil.utils.espressotable import *
+from vinil.utils.espressotable import tableSimulations
 from vinil.utils.table import tableController
 
 from luban.content import select
@@ -63,42 +63,39 @@ class Actor(base):
 
         headers = ["Name", "Type", "Description", "Formula", "Created"]
 
-        # Sample data for Favorites
-        sim     = director.clerk.getSimulations(where="isFavorite")
-        ids     = []
-        names   = []
-        columns = []
+        data    = self.getTableData(director, where="isFavorite")
+        self.addTable(document, "Favorites", headers, data)
 
-        for i in range(len(sim)):
-            ids.append(sim[i].id)
-            names.append(sim[i].sname)
-            row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
-            columns.append(row)
-
-        if len(ids) != 0:
-            document.add(Paragraph(text="Favorites", Class="header-h2"))
-            document.add(tableController(headers))
-            document.add(tableSimulations(names, columns, ids))
-
-
-        sim     = director.clerk.getSimulations(where="isExample")
-        ids     = []
-        names   = []
-        columns = []
-
-        for i in range(len(sim)):
-            ids.append(sim[i].id)
-            names.append(sim[i].sname)
-            row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
-            columns.append(row)
-
-        if len(ids) != 0:
-            document.add(Paragraph(text="Examples", Class="header-h2"))
-            document.add(tableController(headers))
-            document.add(tableSimulations(names, columns, ids))
-
+        data    = self.getTableData(director, where="isExample")
+        self.addTable(document, "Examples", headers, data)
 
         return document
+
+    def getTableData(self, director, where=None):
+        """Gets table data from Simulations database table to display in table"""
+        sim     = director.clerk.getSimulations(where=where)
+        ids     = []
+        names   = []
+        columns = []
+
+        for i in range(len(sim)):
+            ids.append(sim[i].id)
+            names.append(sim[i].sname)
+            row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
+            columns.append(row)
+
+        return (names, columns, ids)
+
+
+    def addTable(self, document, title, headers, data):
+        """
+        Adds table to the document
+        data = (names, columns, ids)
+        """
+        if len(data[2]) != 0:
+            document.add(Paragraph(text=title, Class="header-h2"))
+            document.add(tableController(headers, 'espresso'))
+            document.add(tableSimulations(data[0], data[1], data[2]))
 
 
     def pathlist(self, director):
