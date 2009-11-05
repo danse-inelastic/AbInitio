@@ -14,23 +14,15 @@
 # Temporary solution to create jobs tables for all jobs actors
 # TODO: Refactor so that the table creation was more general (useful for actors other than jobs)
 
+from luban.content.Document import Document
+from luban.content import load
+from luban.content.Link import Link
+from luban.content.Splitter import Splitter
+from luban.content.FormSelectorField import FormSelectorField
+from luban.content.FormTextField import FormTextField
 
+# FINISH!!!
 
-def tableController(headers):
-    s               = Splitter(Class="table-controller", orientation='horizontal')
-    s_filter        = s.section()
-    s_filter.add(FormTextField(label='Filter', Class="table-filter"))
-    s_formselect    = s.section()
-    s_formselect.add(FormSelectorField(entries=enumerate(headers)) )
-
-    s_pagination    = s.section()
-    p               = Document(Class="table-pagination")
-    p.add(Link(label="Prev", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
-    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
-
-    s_pagination.add(p)
-
-    return s
 
 def tableSimulations(names, columns, ids):
     from luban.content.table import Table, Model, View
