@@ -73,13 +73,25 @@ setname = lambda params, obj, name: ifelse(params.has_key(name), params.get(name
 def stamp2date(stamp):
     """Converts stamp to date"""
     # TODO: Change to: Month Day, Hours:Minutes:Seconds
+    # Check is stamp is
     import time
+    import re
+    p   = re.compile("[\d.]+")
+    m   = p.match(str(stamp))
     from datetime import date
-    s = time.strptime(date.fromtimestamp(float(stamp)).ctime())
-    # Format: Month-Day-Year
-    return str(time.strftime("%b-%d-%Y", s))
-    # datetime.date.fromtimestamp(1257299543).ctime()
-    # time.strftime("%b %d", time.strptime(datetime.date.fromtimestamp(1257299543).ctime()))
+    if m:
+        s   = time.strptime(date.fromtimestamp(float(stamp)).ctime())
+        return str(time.strftime("%b-%d-%Y", s))     # Format: Month-Day-Year
+
+    return ""
+
+
+def testStamp():
+    import time
+    print stamp2date(time.time())
+
+if __name__ == "__main__":
+    testStamp()
 
 __date__ = "$Jul 30, 2009 12:08:31 PM$"
 

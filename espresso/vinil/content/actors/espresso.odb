@@ -61,7 +61,7 @@ class Actor(base):
         d = HtmlDocument(text=text, onclick=load(actor='espresso-step-one', routine='link'))
         document.add(d)
 
-        headers = ["Name", "Type", "Description", "Formula", "Created"]
+        headers = ("Name", "Type", "Description", "Formula", "Created", " ", " ", " ")
 
         data    = self.getTableData(director, where="isFavorite")
         self.addTable(document, "Favorites", headers, data)
@@ -71,6 +71,7 @@ class Actor(base):
 
         return document
 
+    # TODO: Refactor
     def getTableData(self, director, where=None):
         """Gets table data from Simulations database table to display in table"""
         sim     = director.clerk.getSimulations(where=where)
@@ -86,7 +87,7 @@ class Actor(base):
 
         return (names, columns, ids)
 
-
+    # TODO: Refactor
     def addTable(self, document, title, headers, data):
         """
         Adds table to the document
@@ -95,7 +96,7 @@ class Actor(base):
         if len(data[2]) != 0:
             document.add(Paragraph(text=title, Class="header-h2"))
             document.add(tableController(headers, 'espresso'))
-            document.add(tableSimulations(data[0], data[1], data[2]))
+            document.add(tableSimulations(headers, data[0], data[1], data[2]))
 
 
     def pathlist(self, director):

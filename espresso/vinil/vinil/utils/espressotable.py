@@ -14,30 +14,12 @@
 # Temporary solution to create espresso tables 
 # TODO: Refactor so that the table creation was more general
 
-#from luban.content.Document import Document
 from luban.content import load
 from luban.content.Link import Link
-#from luban.content.Splitter import Splitter
-#from luban.content.FormSelectorField import FormSelectorField
-#from luban.content.FormTextField import FormTextField
 
-#def tableController(headers):
-#    s               = Splitter(Class="table-controller", orientation='horizontal')
-#    s_filter        = s.section()
-#    s_filter.add(FormTextField(label='Filter', Class="table-filter"))
-#    s_formselect    = s.section()
-#    s_formselect.add(FormSelectorField(entries=enumerate(headers)) )
-#
-#    s_pagination    = s.section()
-#    p               = Document(Class="table-pagination")
-#    p.add(Link(label="Prev", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
-#    p.add(Link(label="Next", Class="pagination-link", onclick = load(actor='espresso', routine='link')) )
-#
-#    s_pagination.add(p)
-#
-#    return s
+# 8 columns
 
-def tableSimulations(names, columns, ids):
+def tableSimulations(headers, names, columns, ids):
     from luban.content.table import Table, Model, View
 
     # create a model class
@@ -52,14 +34,14 @@ def tableSimulations(names, columns, ids):
         use         = Model.descriptors.link(name='use')
 
     # create a view
-    view = View( columns =  [ View.Column(label='Name', measure='name'),
-                              View.Column(label='Type', measure='type'),
-                              View.Column(label='Description', measure='description'),
-                              View.Column(label='Formula', measure='configs'),
-                              View.Column(label='Created', measure='created'),
-                              View.Column(label=' ', measure='edit'),
-                              View.Column(label=' ', measure='remove'),
-                              View.Column(label=' ', measure='use'),]
+    view = View( columns =  [ View.Column(label=headers[0], measure='name'),
+                              View.Column(label=headers[1], measure='type'),
+                              View.Column(label=headers[2], measure='description'),
+                              View.Column(label=headers[3], measure='configs'),
+                              View.Column(label=headers[4], measure='created'),
+                              View.Column(label=headers[5], measure='edit'),
+                              View.Column(label=headers[6], measure='remove'),
+                              View.Column(label=headers[7], measure='use'),]
                               )
     # Populate the data list
     def name(i):

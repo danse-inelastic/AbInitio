@@ -36,6 +36,10 @@ class Actor(base):
     def content(self, director):
         document = Document(title='Job Submitted')
         document.add(Paragraph(text="Your jobs was successfully submitted!"))
+        document.add(Link(label="All jobs", Class="action-link", onclick=load(actor="jobs", routine="link")))
+
+        # Keep!!!
+        #document.add(self.getPWPlot(director))
 
         return document
 
@@ -53,8 +57,8 @@ class Actor(base):
         pass
 
     def submit(self, director):
-        # Call 
-        pass
+        #self.runSimulation(director)
+        return load(actor='jobs-submitted', routine='link')
 
     # Temp methods for running simulation
     def runSimulation(self, director):
