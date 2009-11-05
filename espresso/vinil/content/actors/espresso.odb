@@ -62,39 +62,39 @@ class Actor(base):
         headers = ["Name", "Type", "Description", "Formula", "Created"]
 
         # Sample data for Favorites
-        sim     = director.clerk.getSimulations()
-
+        sim     = director.clerk.getSimulations(where="isFavorite")
         ids     = []
         names   = []
         columns = []
 
         for i in range(len(sim)):
-            if sim[i].isFavorite:
-                ids.append(sim[i].id)
-                names.append(sim[i].sname)
-                row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
-                columns.append(row)
+            ids.append(sim[i].id)
+            names.append(sim[i].sname)
+            row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
+            columns.append(row)
 
         if len(ids) != 0:
             document.add(Paragraph(text="Favorites", Class="header-h2"))
             document.add(tableController(headers))
             document.add(tableSimulations(names, columns, ids))
 
+
+        sim     = director.clerk.getSimulations(where="isExample")
         ids     = []
         names   = []
         columns = []
 
         for i in range(len(sim)):
-            if sim[i].isExample:
-                ids.append(sim[i].id)
-                names.append(sim[i].sname)
-                row  = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated)]
-                columns.append(row)
+            ids.append(sim[i].id)
+            names.append(sim[i].sname)
+            row     = [sim[i].type, sim[i].description, sim[i].formula, stamp2date(sim[i].timeCreated) ]
+            columns.append(row)
 
         if len(ids) != 0:
             document.add(Paragraph(text="Examples", Class="header-h2"))
             document.add(tableController(headers))
             document.add(tableSimulations(names, columns, ids))
+
 
         return document
 
@@ -130,8 +130,6 @@ def actor():
 
 def tableController(headers):
     s               = Splitter(Class="table-controller", orientation='horizontal')
-    #s_sort          = s.section()
-    #s_sort.add(Paragraph(text="Sort by", Class="sort-by") )
     s_filter        = s.section()
     s_filter.add(FormTextField(label='Filter', Class="table-filter"))
     s_formselect    = s.section()
@@ -200,6 +198,13 @@ def tableSimulations(names, columns, ids):
     table = Table(model=model, data=data, view=view)
 
     return table
+
+
+# ***************** DEAD CODE ******************
+
+#    #s_sort          = s.section()
+#    #s_sort.add(Paragraph(text="Sort by", Class="sort-by") )
+
 
 __date__ = "$Sep 26, 2009 1:59:59 PM$"
 

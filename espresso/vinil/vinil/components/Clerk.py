@@ -243,6 +243,8 @@ class DbAddressResolver:
             return host, port, database
         raise ValueError, 'Invalid db svr: %r' % (svr,)
 
+
+
     """
     def indexActiveUsers(self):
         from jazzclub.dom.User import User
