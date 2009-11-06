@@ -11,8 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-# Director is not passed for each update and create record because it's so easy
-# pass the wrong director (and e.g. update non existing record)
+"""
+Notes on database classes implementation:
+1. There are two alternative ways to perform action (update, create, delete) on database class:
+    - Directly use clerk's methods (e.g. Clerk.updateRecord(record)) by passing the class object
+        Pros: Saves extra call
+        Cons: Not very convenient to write
+    - Use DBTable methods (e.g. DBTable.updateRecord(params) by passing dictionary of parameters
+      (e.g. params = {"id": 5, "name": "Hi", ...})
+      Pros: Convenient for handling table forms?
+2. Using DBTable methods does not require passing director every time you use it.
+"""
 
 from vinil.utils.utils import timestamp, newid, setname, ifelse
 from pyre.db.Table import Table
@@ -47,20 +56,41 @@ class DBTable(Table):
 
 
     def updateRecord(self, params):
-        """Updates record if clerk is set, otherwise does nothing"""
+        """Tries to update record, otherwise complains"""
         for column in self.getColumnNames():
-            if self._noUpdate(column):     # Do not updated values
+            if self._noUpdate(column):  # Do not updated values
                 continue
 
-            if self._stamp(column): # Time is updated either to user specified value or to timestamp
+            if self._stamp(column):     # Time is updated either to user specified value or to timestamp
                 setattr(self, column, ifelse(params.get(column), params.get(column), timestamp()))
                 continue
 
             setattr(self, column, setname(params, self, column))
 
-        if self._clerk:
-            self._clerk.updateRecord(self)   # commit to database
+        try:
+            self._clerk.updateRecord(self)   # Commit to database
+        except:
+            raise   # Complain
 
+
+    def createRecord(self, params):
+        """Tries to create record, otherwise complains"""
+        for column in self.getColumnNames():
+            if _id(column):
+                setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director)))
+                continue
+
+            if self._stamp(column):
+                setattr(self, column, ifelse(params.get(column), params.get(column), timestamp()))
+                continue
+
+            setattr(self, column, setname(params, self, column))
+
+        try:
+            self._clerk.insertRecord(self)   # Commit to database
+        except:
+            raise   # Complain
+            
 
     def _noUpdate(self, value):
         """Value that should not be updated"""
@@ -76,6 +106,11 @@ class DBTable(Table):
 
         return False
 
+    def _id(self, value):
+        if value == 'id':
+            return True
+
+        return False
 
 
 #    def updateRecord(self, params):
