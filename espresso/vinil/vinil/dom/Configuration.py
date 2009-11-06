@@ -69,7 +69,7 @@ configDOS = """&inputpp
 #fildos='/home/dexity/exports/vinil/output/ni.scf.dos.out',
 
 
-from vinil.utils.utils import timestamp, newid, setname
+from vinil.utils.utils import timestamp, newid, setname, ifelse
 # Electron DOS (Ni_E_DOS): simulationId = 5
 
 defaults    = (
@@ -106,6 +106,10 @@ class Configuration(Table):
     filename    = pyre.db.varchar(name="filename", length=1024, default='')
     filename.meta['tip'] = "Filename assiciated with this configuration"
 
+    # To separate table?
+    parser    = pyre.db.varchar(name="parser", length=1024, default='')
+    parser.meta['tip'] = "Parser for configuration"
+
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
@@ -118,6 +122,7 @@ class Configuration(Table):
     text = pyre.db.varchar(name="text", length=8192, default='')
     text.meta['tip'] = "text"
 
+    def setClerk(self, clerk):
 
     def updateRecord(self, director, params):
         """
@@ -133,10 +138,9 @@ class Configuration(Table):
         
         director.clerk.updateRecord(self)   # Update record
 
-
     def createRecord(self, director, params):
         """Inserts configuration row """
-        self.id            = newid(director)
+        self.id            = ifelse(params.get('id'), params.get('id'), newid(director))
         self.simulationId  = setname(params, self, 'simulationId')
         self.type          = setname(params, self, 'type')
         self.filename      = setname(params, self, 'filename')
@@ -154,23 +158,27 @@ class Configuration(Table):
 
 # For debugging
 def inittable(db):
-    
-    def configuration(params):
-        r               = Configuration()
-        r.id            = params['id']
-        r.simulationId  = params['simulationId']
-        r.type          = params['type']
-        r.filename      = params['filename']
-        r.timeCreated   = timestamp()
-        r.timeModified  = timestamp()
-        r.text          = params['text']
-        return r
 
-    records = []
-    for e in defaults:
-        records.append(configuration(e))
+    for params in defaults:
+        c   = Configuration()
+        c.createRecord(db, params)
 
-    for r in records: db.insertRow( r )
+#    def configuration(params):
+#        r               = Configuration()
+#        r.id            = params['id']
+#        r.simulationId  = params['simulationId']
+#        r.type          = params['type']
+#        r.filename      = params['filename']
+#        r.timeCreated   = timestamp()
+#        r.timeModified  = timestamp()
+#        r.text          = params['text']
+#        return r
+#
+#    records = []
+#    for e in defaults:
+#        records.append(configuration(e))
+#
+#    for r in records: db.insertRow( r )
     return
 
 def test():

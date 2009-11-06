@@ -51,8 +51,11 @@ def parsePHFile(filename):
 
 
 def newid(director):
-    token = director.idd.token()
-    return '%s' % token.locator
+    id  = ''
+    if director:
+        id = director.idd.token().locator
+
+    return id
 
 
 def timestamp():

@@ -42,6 +42,7 @@ distclean::
 EXPORT_PYTHON_MODULES = \
         Actor.py \
 	Clerk.py \
+        DBTable.py \
 	__init__.py \
 
 

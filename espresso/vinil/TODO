@@ -5,12 +5,12 @@
 - [Done] Run a very simple simulation
 - [Done] Hook up flot (how to add labels to axis?)
 - Implement database based jobmanager
-- Fix "Created" date display
+- Fix "Created" date display (should display Month:Day:Year, Hours:Minutes<(a|p)m>, E.g. Nov-05-09, 05:23pm)
 - Hook up the torque and jobmanager
 - Hook up qecalc and diffpy.Structure
     - What parameters are parsed from to be implemented calculations?
 - Implement web gui for config generation
-- Fix issues with initdb.py regarding reference
+- [In Progress]Fix issues with initdb.py regarding reference and database constrains
 - Switch to dsaw?
 - Make nice layout for forms (especially button "Cancel")
 - Implement Create Configuration
