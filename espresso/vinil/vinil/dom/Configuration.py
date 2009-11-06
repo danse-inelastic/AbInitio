@@ -84,9 +84,10 @@ defaults    = (
               )
 
 
-from pyre.db.Table import Table
+#from pyre.db.Table import Table
+from vinil.components.DBTable import DBTable
 
-class Configuration(Table):
+class Configuration(DBTable):
 
     name = "configuration"
     import pyre.db
@@ -122,9 +123,8 @@ class Configuration(Table):
     text = pyre.db.varchar(name="text", length=8192, default='')
     text.meta['tip'] = "text"
 
-    def setClerk(self, clerk):
 
-    def updateRecord(self, director, params):
+    def updateRecord(self, params):
         """
         Updates configuration row (even if key in params is not present).
         'id' ans 'timeCreated' cannot be updated!
@@ -136,11 +136,11 @@ class Configuration(Table):
         self.timeModified  = timestamp()
         self.text          = setname(params, self, 'text')
         
-        director.clerk.updateRecord(self)   # Update record
+        self._clerk.updateRecord(self)   # Update record
 
-    def createRecord(self, director, params):
+    def createRecord(self, params):
         """Inserts configuration row """
-        self.id            = ifelse(params.get('id'), params.get('id'), newid(director))
+        self.id            = ifelse(params.get('id'), params.get('id'), newid(self._director))
         self.simulationId  = setname(params, self, 'simulationId')
         self.type          = setname(params, self, 'type')
         self.filename      = setname(params, self, 'filename')
@@ -149,12 +149,12 @@ class Configuration(Table):
         self.timeModified  = timestamp()
         self.text          = setname(params, self, 'text')
         
-        director.clerk.insertRecord(self)
+        self._clerk.insertRecord(self)
 
 
-    def deleteRecord(self, director):
+    def deleteRecord(self):
         """Deletes record"""
-        director.clerk.deleteRecord(self, id=self.id)
+        self._clerk.deleteRecord(self, id=self.id)
 
 # For debugging
 def inittable(db):
@@ -181,14 +181,20 @@ def inittable(db):
 #    for r in records: db.insertRow( r )
     return
 
-def test():
+def testDefaults():
     for e in defaults:
         s = ""
         for v in e.keys():
             s += "%s: %s " % (v, e[v])
         print s
 
+
+def test():
+    c   = Configuration()
+    print c.getColumnNames()
+
 if __name__ == "__main__":
+    #testDefaults()
     test()
 
 __date__ = "$Oct 5, 2009 8:58:32 AM$"
