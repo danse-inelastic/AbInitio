@@ -12,7 +12,7 @@
 #
 
 
-## Initialize vnf db to have necessary tables. This will remove all
+## Initialize vinil db to have necessary tables. This will remove all
 ## existing tables, so be careful!
 
 
@@ -92,7 +92,7 @@ class DbApp(Script):
         if inittable is None: return
         print " -- Inialize table %r" % table.name
         try:
-            inittable( self.db )
+            inittable(self.clerk)    #self.db )
         except self.db.IntegrityError:
             print "    failed; records already exist?"
         else:

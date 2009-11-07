@@ -14,16 +14,18 @@
 maindom = 'vinil.dom'
 
 # Contains list of classes
-tablenames = ('Simulation',
-              'Server',
-              'Matter',
-              'Job',
-              'Atom',
-              'Configuration',
-              'VTable',
-              'Session',
+tablenames = ('Configuration',
               'User')
-              #'Authorization')
+#tablenames = ('Simulation',
+#              'Server',
+#              'Matter',
+#              'Job',
+#              'Atom',
+#              'Configuration',
+#              'VTable',
+#              'Session',
+#              'User')
+#              #'Authorization')
 
 from pyre.components.Component import Component as base
 
@@ -53,7 +55,7 @@ class Clerk( base ):
         import pyre.db
         dbkwds = DbAddressResolver().resolve(self.inventory.db)
         self.db = pyre.db.connect(wrapper=self.inventory.dbwrapper, **dbkwds)
-        self.db.autocommit(True)
+        self.db.autocommit(True)    # ?
 
     def _configure(self):
         base._configure(self)

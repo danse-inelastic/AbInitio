@@ -32,19 +32,20 @@ STAMPED = ["timeCreated", "timeModified"]
 class DBTable(Table):
     """ Abstract class for all the database tables"""
     
-    def __init__(self, clerk, director):
+    def __init__(self, director, clerk):
         """
-        'clerk'     - set for actual managing database record
-        'director'  - set mostly for id generation
+        clerk     - is set for actual managing database record
+        director  - is set mostly for id generation
         """
-
-        self.__init__()
+        super(DBTable, self).__init__()
         self._clerk     = clerk
         self._director  = director
 
 
     def __init__(self):
-        self.id = None
+        super(DBTable, self).__init__()
+        self._clerk     = None
+        self._director  = None
 
 
     def setClerk(self, clerk):
@@ -76,7 +77,7 @@ class DBTable(Table):
     def createRecord(self, params):
         """Tries to create record, otherwise complains"""
         for column in self.getColumnNames():
-            if _id(column):
+            if self._id(column):
                 setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director)))
                 continue
 
@@ -113,38 +114,10 @@ class DBTable(Table):
         return False
 
 
-#    def updateRecord(self, params):
-#        """
-#        Updates configuration row (even if key in params is not present).
-#        'id' ans 'timeCreated' cannot be updated!
-#        """
-#        self.simulationId  = setname(params, self, 'simulationId')
-#        self.type          = setname(params, self, 'type')
-#        self.filename      = setname(params, self, 'filename')
-#        self.description   = setname(params, self, 'description')
-#        self.timeModified  = timestamp()
-#        self.text          = setname(params, self, 'text')
-#
-#        self._clerk.updateRecord(self)   # Update record
-#
-#    def createRecord(self, params):
-#        """Inserts configuration row """
-#        self.id            = ifelse(params.get('id'), params.get('id'), newid(self._director))
-#        self.simulationId  = setname(params, self, 'simulationId')
-#        self.type          = setname(params, self, 'type')
-#        self.filename      = setname(params, self, 'filename')
-#        self.description   = setname(params, self, 'description')
-#        self.timeCreated   = timestamp()
-#        self.timeModified  = timestamp()
-#        self.text          = setname(params, self, 'text')
-#
-#        self._clerk.insertRecord(self)
-
-
     def deleteRecord(self):
         """Deletes record"""
         if self._clerk:
-            self._clerk.deleteRecord(self, id=self.id)
+            self._clerk.deleteRecord(self, id=getattr(self, 'id'))
 
 
 __date__ = "$Nov 6, 2009 11:25:22 AM$"

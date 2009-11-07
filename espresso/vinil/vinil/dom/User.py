@@ -11,16 +11,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-defaults    = ({"id": 1, "username": "dexity", "firstName": "Alex",
-               "lastName": "Dementsov", "email": "somemail@gmail.com",
-               "affiliation": "CalTech", "password": "5f4dcc3b5aa765d61d8327deb882cf99"}, # 'passowrd' -> md5
-              )
-
+"""
+Configuration
+"""
 # For some reason when I try to use "user" name for database table, it returns error
 # Probably conflict with internal code?
-from pyre.db.Table import Table
 
-class User(Table):
+from vinil.components.DBTable import DBTable
+
+class User(DBTable):
 
     name = "users"  # Table name
     import pyre.db
@@ -38,8 +37,8 @@ class User(Table):
     lastName = pyre.db.varchar(name="lastName", length=256, default='')
     lastName.meta['tip'] = "lastName"
 
-    email  = pyre.db.varchar(name="email ", length=256, default='')
-    email .meta['tip'] = "email "
+    email  = pyre.db.varchar(name="email", length=256, default='')
+    email.meta['tip'] = "email"
 
     affiliation = pyre.db.varchar(name="affiliation", length=512, default='')
     affiliation.meta['tip'] = "affiliation"
@@ -54,64 +53,20 @@ class User(Table):
     password.meta['tip'] = "password"
 
 
-    def updateRecord(self, director, params):
-        """
-        Updates configuration row (even if key in params is not present).
-        'id' ans 'timeCreated' are not updated!
-        """
-        self.username       = setname(params, self, 'username')
-        self.firstName      = setname(params, self, 'firstName')
-        self.lastName       = setname(params, self, 'lastName')
-        self.email          = setname(params, self, 'email')
-        self.affiliation    = setname(params, self, 'affiliation')
-        self.timeModified   = timestamp()
-        self.password       = setname(params, self, 'password')
-
-        director.clerk.updateRecord(self)   # Update record
+# Default values
+defaults    = ({"id": 1, "username": "dexity", "firstName": "Alex",
+               "lastName": "Dementsov", "email": "somemail@gmail.com",
+               "affiliation": "CalTech", "password": "5f4dcc3b5aa765d61d8327deb882cf99"}, # 'passowrd' -> md5
+              )
 
 
-    def createRecord(self, director, params):
-        """Inserts user row """
+# Init table
+def inittable(clerk):
+    for params in defaults:
+        r   = User()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
-        self.id             = newid(director)
-        self.username       = setname(params, self, 'username')
-        self.firstName      = setname(params, self, 'firstName')
-        self.lastName       = setname(params, self, 'lastName')
-        self.email          = setname(params, self, 'email')
-        self.affiliation    = setname(params, self, 'affiliation')
-        self.timeCreated    = timestamp()
-        self.timeModified   = timestamp()
-        self.password       = setname(params, self, 'password')
-
-        director.clerk.insertRecord(self)
-
-
-    def deleteRecord(self, director):
-        """Deletes record"""
-        director.clerk.deleteRecord(self, id=self.id)
-
-
-# For debugging
-def inittable(db):
-
-    def user(params):
-        r                = User()
-        r.id             = params['id']
-        r.username       = params['username']
-        r.firstName      = params['firstName']
-        r.lastName       = params['lastName']
-        r.email          = params['email']
-        r.affiliation    = params['affiliation']
-        r.password       = params['password']
-
-        return r
-
-    records = []
-    for e in defaults:
-        records.append(user(e))
-
-    for r in records: db.insertRow( r )
-    return
 
 def test():
     for e in defaults:

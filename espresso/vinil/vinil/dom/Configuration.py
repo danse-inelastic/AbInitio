@@ -11,6 +11,49 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+Configuration - table for storing simulation configuration files
+"""
+
+from vinil.components.DBTable import DBTable
+
+class Configuration(DBTable):
+
+    name = "configuration"
+    import pyre.db
+
+    id = pyre.db.varchar(name="id", length=8)
+    id.constraints = 'PRIMARY KEY'
+    id.meta['tip'] = "the unique id"
+
+    simulationId    = pyre.db.varchar(name="simulationId", length=8)
+    #simulationId.constraints = 'REFERENCES simulation (id)'    # Important
+    simulationId.meta['tip'] = "simulationId"
+
+    type        = pyre.db.varchar(name="type", length=1024, default='')
+    type.meta['tip'] = "Type of configuration. Example: PW, PP"
+
+    # Later on can be tranformed to a separate File table
+    filename    = pyre.db.varchar(name="filename", length=1024, default='')
+    filename.meta['tip'] = "Filename assiciated with this configuration"
+
+    # To separate table?
+    parser    = pyre.db.varchar(name="parser", length=1024, default='')
+    parser.meta['tip'] = "Parser for configuration"
+
+    description = pyre.db.varchar(name="description", length=1024, default='')
+    description.meta['tip'] = "description"
+
+    timeCreated = pyre.db.varchar(name="timeCreated", length=16, default='')
+    timeCreated.meta['tip'] = "timeCreated"
+
+    timeModified = pyre.db.varchar(name="timeModified", length=16, default='')
+    timeModified.meta['tip'] = "timeModified"
+
+    text = pyre.db.varchar(name="text", length=8192, default='')
+    text.meta['tip'] = "text"
+
+
 configPW = """ &control
     calculation='scf'
     restart_mode='from_scratch',
@@ -65,13 +108,10 @@ configDOS = """&inputpp
    DeltaE=0.1
 /"""
 
-#outdir='/home/dexity/exports/vinil/content/temp/',
-#fildos='/home/dexity/exports/vinil/output/ni.scf.dos.out',
 
-
-from vinil.utils.utils import timestamp, newid, setname, ifelse
 # Electron DOS (Ni_E_DOS): simulationId = 5
 
+# Default records
 defaults    = (
                {"id": 1, "simulationId": 5, "type": "PW",
                "filename": "ni.scf.in", "text": configPW},
@@ -83,104 +123,15 @@ defaults    = (
                 "filename": "ni.scf.dos.in", "text": configDOS},
               )
 
-
-#from pyre.db.Table import Table
-from vinil.components.DBTable import DBTable
-
-class Configuration(DBTable):
-
-    name = "configuration"
-    import pyre.db
-
-    id = pyre.db.varchar(name="id", length=8)
-    id.constraints = 'PRIMARY KEY'
-    id.meta['tip'] = "the unique id"
-
-    simulationId    = pyre.db.varchar(name="simulationId", length=8)
-    #simulationId.constraints = 'REFERENCES simulation (id)'    # Important
-    simulationId.meta['tip'] = "simulationId"
-
-    type        = pyre.db.varchar(name="type", length=1024, default='')
-    type.meta['tip'] = "Type of configuration. Example: PW, PP"
-
-    # Later on can be tranformed to a separate File table
-    filename    = pyre.db.varchar(name="filename", length=1024, default='')
-    filename.meta['tip'] = "Filename assiciated with this configuration"
-
-    # To separate table?
-    parser    = pyre.db.varchar(name="parser", length=1024, default='')
-    parser.meta['tip'] = "Parser for configuration"
-
-    description = pyre.db.varchar(name="description", length=1024, default='')
-    description.meta['tip'] = "description"
-
-    timeCreated = pyre.db.varchar(name="timeCreated", length=16, default='')
-    timeCreated.meta['tip'] = "timeCreated"
-
-    timeModified = pyre.db.varchar(name="timeModified", length=16, default='')
-    timeModified.meta['tip'] = "timeModified"
-
-    text = pyre.db.varchar(name="text", length=8192, default='')
-    text.meta['tip'] = "text"
-
-
-    def updateRecord(self, params):
-        """
-        Updates configuration row (even if key in params is not present).
-        'id' ans 'timeCreated' cannot be updated!
-        """
-        self.simulationId  = setname(params, self, 'simulationId')
-        self.type          = setname(params, self, 'type')
-        self.filename      = setname(params, self, 'filename')
-        self.description   = setname(params, self, 'description')
-        self.timeModified  = timestamp()
-        self.text          = setname(params, self, 'text')
-        
-        self._clerk.updateRecord(self)   # Update record
-
-    def createRecord(self, params):
-        """Inserts configuration row """
-        self.id            = ifelse(params.get('id'), params.get('id'), newid(self._director))
-        self.simulationId  = setname(params, self, 'simulationId')
-        self.type          = setname(params, self, 'type')
-        self.filename      = setname(params, self, 'filename')
-        self.description   = setname(params, self, 'description')
-        self.timeCreated   = timestamp()
-        self.timeModified  = timestamp()
-        self.text          = setname(params, self, 'text')
-        
-        self._clerk.insertRecord(self)
-
-
-    def deleteRecord(self):
-        """Deletes record"""
-        self._clerk.deleteRecord(self, id=self.id)
-
-# For debugging
-def inittable(db):
-
+# Init tables
+def inittable(clerk):
     for params in defaults:
-        c   = Configuration()
-        c.createRecord(db, params)
+        r   = Configuration()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
-#    def configuration(params):
-#        r               = Configuration()
-#        r.id            = params['id']
-#        r.simulationId  = params['simulationId']
-#        r.type          = params['type']
-#        r.filename      = params['filename']
-#        r.timeCreated   = timestamp()
-#        r.timeModified  = timestamp()
-#        r.text          = params['text']
-#        return r
-#
-#    records = []
-#    for e in defaults:
-#        records.append(configuration(e))
-#
-#    for r in records: db.insertRow( r )
-    return
 
+# Tests
 def testDefaults():
     for e in defaults:
         s = ""
@@ -188,15 +139,23 @@ def testDefaults():
             s += "%s: %s " % (v, e[v])
         print s
 
-
 def test():
     c   = Configuration()
     print c.getColumnNames()
 
 if __name__ == "__main__":
-    #testDefaults()
+    testDefaults()
     test()
 
 __date__ = "$Oct 5, 2009 8:58:32 AM$"
+
+
+#   Do I need them?
+#    # Constructors
+#    def __init__(self, director, clerk):
+#        super(Configuration, self).__init__(director, clerk)
+#
+#    def __init__(self):
+#        super(Configuration, self).__init__()
 
 
