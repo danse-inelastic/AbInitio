@@ -12,10 +12,13 @@
 #
 
 """
-Configuration
+User - table for storing user data
+
+Notes:
+    - For some reason when I try to use "user" name for database table, it returns error
+      Probably conflict with internal code?
+
 """
-# For some reason when I try to use "user" name for database table, it returns error
-# Probably conflict with internal code?
 
 from vinil.components.DBTable import DBTable
 

@@ -145,15 +145,13 @@ class DbApp(Script):
         return ['../config']
     
 
-
 def main():
-    app = DbApp()
+    from vinil.applications.InitDB import InitDB
+
+    app     = InitDB(name="initdb")
     return app.run()
 
-
-# main
-if __name__ == '__main__':
-    # invoke the application shell
+if __name__ == "__main__":
     main()
 
 

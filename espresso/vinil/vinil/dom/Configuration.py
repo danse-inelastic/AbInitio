@@ -149,13 +149,3 @@ if __name__ == "__main__":
 
 __date__ = "$Oct 5, 2009 8:58:32 AM$"
 
-
-#   Do I need them?
-#    # Constructors
-#    def __init__(self, director, clerk):
-#        super(Configuration, self).__init__(director, clerk)
-#
-#    def __init__(self):
-#        super(Configuration, self).__init__()
-
-
