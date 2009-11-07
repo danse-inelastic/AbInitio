@@ -11,19 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.db.Table import Table
-from vinil.utils.utils import timestamp, newid, setname
+"""
+Simulation  - table that contains simulation data
+"""
 
-examples = (
-            (1, 'MgB2_SP', 'Quantum Espresso', 'Single-Phonon', 'Single-Phonon simualtion', 'MgB2', timestamp(), timestamp(), True, False),
-            (2, 'MgB2_E', 'Quantum Espresso', 'Total Energy', 'Electron simualtion', 'MgB2', timestamp(), timestamp(), True, False),
-            (3, 'MgB2_MP', 'Quantum Espresso', 'Multi-Phonon', 'Multy-Phonon simualtion', 'MgB2', timestamp(), timestamp(), True, False),
-            (4, 'Ni_Energy', 'Quantum Espresso', 'Total Energy', 'Total Energy simualtion', 'Ni', timestamp(), timestamp(), False, True),
-            (5, 'Ni_E_DOS', 'Quantum Espresso', 'Electron DOS', 'Electron DOS simualtion', 'Ni', timestamp(), timestamp(), False, True),
-            (6, 'Ni_Ph_DOS', 'Quantum Espresso', 'Multi-Phonon DOS', 'Multy-Phonon DOS simualtion', 'Ni', timestamp(), timestamp(), False, True)
-            )
+from vinil.components.DBTable import DBTable
 
-class Simulation(Table):
+class Simulation(DBTable):
 
     name = "simulation"
     import pyre.db
@@ -60,74 +54,32 @@ class Simulation(Table):
     isExample.meta['tip'] = ""
 
 
-    def updateRecord(self, director, params):
-        """
-        Updates simulation row (even if key in params is not present).
-        'id' ans 'timeCreated' cannot be updated!
-        """
-        self.sname          = setname(params, self, 'sname')
-        self.package        = setname(params, self, 'package')
-        self.type           = setname(params, self, 'type')
-        self.description    = setname(params, self, 'description')
-        self.formula        = setname(params, self, 'formula')
-        self.timeModified   = timestamp()   # You cannot set 'timeModified' manually
-        self.isFavorite     = setname(params, self, 'isFavorite')
-        self.isExample      = setname(params, self, 'isExample')
-        
-        director.clerk.updateRecord(self)   # Update record
+# Default records
+defaults    = ({"id": 1, "sname": 'MgB2_SP', "package": 'Quantum Espresso',
+                "type": 'Single-Phonon', "description": 'Single-Phonon simualtion',
+                "formula": 'MgB2'},
+                {"id": 2, "sname": 'MgB2_E', "package": 'Quantum Espresso',
+                "type": 'Total Energy', "description": 'Electron simualtion',
+                "formula": 'MgB2'},
+                {"id": 3, "sname": 'MgB2_MP', "package": 'Quantum Espresso',
+                "type": 'Multi-Phonon', "description": 'Multy-Phonon simualtion',
+                "formula": 'MgB2'},
+                {"id": 4, "sname": 'Ni_Energy', "package": 'Quantum Espresso',
+                "type": 'Total Energy', "description": 'Total Energy simualtion',
+                "formula": 'Ni', "isFavorite": False, "isExample": True},
+                {"id": 5, "sname": 'Ni_E_DOS', "package": 'Quantum Espresso',
+                "type": 'Electron DOS', "description": 'Electron DOS simualtion',
+                "formula": 'Ni', "isFavorite": False, "isExample": True},
+                {"id": 6, "sname": 'Ni_Ph_DOS', "package": 'Quantum Espresso',
+                "type": 'Multi-Phonon DOS', "description": 'Multy-Phonon DOS simualtion',
+                "formula": 'Ni', "isFavorite": False, "isExample": True})
 
-    def createRecord(self, director, params):
-        """Inserts simulation row """
-        self.id            = newid(director)
-        self.sname         = setname(params, self, 'sname')
-        self.package       = setname(params, self, 'package')
-        self.type          = setname(params, self, 'type')
-        self.description   = setname(params, self, 'description')
-        self.formula       = setname(params, self, 'formula')
-        self.timeCreated   = timestamp()
-        self.timeModified  = timestamp()
-        self.isFavorite    = setname(params, self, 'isFavorite')
-        self.isExample     = setname(params, self, 'isExample')
-        
-        director.clerk.insertRecord(self)
-
-
-    def deleteRecord(self, director):
-        """Deletes record"""
-        director.clerk.deleteRecord(self, id=self.id)
-
-
-def inittable(db):
-    def simulation(id, sname, package, type, description, formula, timeCreated, timeModified, isFavorite, isExample):
-        r               = Simulation()
-        r.id            = id
-        r.sname         = sname
-        r.package       = package
-        r.type          = type
-        r.description   = description
-        r.formula       = formula
-        r.timeCreated   = timeCreated
-        r.timeModified  = timeModified
-        r.isFavorite    = isFavorite
-        r.isExample     = isExample
-        return r
-
-
-    records = []
-    for e in examples:
-        records.append(simulation(id        = e[0],
-                                  sname     = e[1],
-                                  package   = e[2],
-                                  type      = e[3],
-                                  description = e[4],
-                                  formula   = e[5],
-                                  timeCreated   = e[6],
-                                  timeModified  = e[7],
-                                  isFavorite = e[8],
-                                  isExample = e[9]))
-
-    for r in records: db.insertRow( r )
-    return
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   = Simulation()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 
 def test():

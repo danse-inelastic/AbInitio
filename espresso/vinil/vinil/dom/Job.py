@@ -72,6 +72,7 @@ class Job(DBTable):
     statusMessage.meta['tip'] = "statusMessage"
 
 
+# Default records
 defaults    = ({"id": 1, "userId": 1, "simulationId": 4, "description": "",
                "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
                 "numberProcessors": 8},
