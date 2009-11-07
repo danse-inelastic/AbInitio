@@ -15,7 +15,7 @@ webapp = 'webmain.py'
 
 import os
 
-# I don't know what this is hack is
+# I don't know what this is hack is for
 #query_string = '&'.join( '%s=%s' % (k, ','.join(v)) for k,v in request.iteritems() )
 #os.environ['QUERY_STRING'] = query_string
 
@@ -25,7 +25,7 @@ out = os.path.join(d, 'out.html')
 err = os.path.join(d, 'err.html')
 
 cmd = "%s >%s  2>%s" % (webapp, out, err)
-if os.system( cmd ):
+if os.system( cmd ):    # Program execution: python webmain.py
     print open( err ).read()
 else:
     lines = open( out ).readlines()

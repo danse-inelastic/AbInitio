@@ -27,15 +27,15 @@ from vinil.utils.utils import timestamp, newid, setname, ifelse
 from pyre.db.Table import Table
 
 NO_UPDATE   = ["timeCreated", "id"]
-STAMPED = ["timeCreated", "timeModified"]
+STAMPED     = ["timeCreated", "timeModified"]
 
 class DBTable(Table):
     """ Abstract class for all the database tables"""
     
     def __init__(self, director, clerk):
         """
-        clerk     - is set for actual managing database record
-        director  - is set mostly for id generation
+        clerk     - is set for actual managing database records
+        idd       - is id generator
         """
         super(DBTable, self).__init__()
         self._clerk     = clerk
@@ -52,8 +52,13 @@ class DBTable(Table):
         self._clerk = clerk
 
 
+    def setIDD(self, idd):
+        self._idd  = idd
+
+
     def setDirector(self, director):
         self._director  = director
+        self._clerk     = director.clerk
 
 
     def updateRecord(self, params):
@@ -78,7 +83,7 @@ class DBTable(Table):
         """Tries to create record, otherwise complains"""
         for column in self.getColumnNames():
             if self._id(column):
-                setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director)))
+                setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director.idd)))
                 continue
 
             if self._stamp(column):
