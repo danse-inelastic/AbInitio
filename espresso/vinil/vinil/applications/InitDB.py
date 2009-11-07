@@ -27,10 +27,6 @@ class InitDB(Script):
         clerk = pyre.inventory.facility(name="clerk", factory=vinil.components.clerk)
         clerk.meta['tip'] = "the component that retrieves data from the various database tables"
 
-#        import pyre.idd
-#        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
-#        idd.meta['tip'] = "access to the token server"
-
         wwwuser     = pyre.inventory.str(name='www-data', default='')
         tables      = pyre.inventory.list(name='tables', default=[])
 
@@ -41,18 +37,17 @@ class InitDB(Script):
         tables = self.tables
         if not tables:
             from vinil.dom import tables as alltables
-            tables = alltables()
-#        else:
-#            tables = [self.clerk._getTable(t) for t in tables]
+            tables = alltables()    # list of database table objects
 
-        for table in tables:
-            self.dropTable( table )
-            self.createTable( table )
-            if self.wwwuser: self.enableWWWUser( table )
-            continue
+        for t in tables[::-1]:
+            self.dropTable( t )     # Reversed order (needed to handle references)
 
-        for table in tables:
-            self.initTable( table )
+        for t in tables:
+            self.createTable( t )
+            if self.wwwuser: self.enableWWWUser( t )
+
+        for t in tables:
+            self.initTable( t )
 
         return
 
@@ -137,6 +132,14 @@ __date__ = "$Nov 6, 2009 4:06:51 PM$"
 
 # **************** DEAD CODE *****************
 #        self.idd = self.inventory.idd
+
+
+#        import pyre.idd
+#        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
+#        idd.meta['tip'] = "access to the token server"
+
+#        else:
+#            tables = [self.clerk._getTable(t) for t in tables]
 
         # initialize table registry
 #        import vnf.dom

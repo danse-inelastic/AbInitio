@@ -13,18 +13,22 @@
 
 maindom = 'vinil.dom'
 
-# Contains list of classes
+# List of database table classes (ordered to handle references)
 
-tablenames = ('Simulation',
-              'Server',
-              'Matter',
-              'Job',
-              'Atom',
-              'Configuration',
-              'VTable',
-              'Session',
-              'User')
-              #'Authorization')
+
+#TABLES = ('Simulation',
+#          'Job')
+
+TABLES = ('Simulation',
+          'Server',
+          'User',
+          'VTable',
+          'Session',
+          'Job',
+          'Matter',
+          'Atom',
+          'Configuration')
+          #'Authorization')
 
 from pyre.components.Component import Component as base
 
@@ -149,7 +153,7 @@ class Clerk( base ):
 
     # General methods working on database tables
     def getTable(self, tablename):
-        for t in tablenames:
+        for t in TABLES:
             table   = self._getClass(t)
             if table.name == tablename:
                 return self._getAll(table)

@@ -1,5 +1,33 @@
 # Database schema for VNF
 
+*** References in schema:
+
+job
+    userId
+    simulationId
+    serverId
+user
+vtable
+simulation
+session
+server
+authorization
+    serverId
+    userId
+configuration
+    simulationId
+atom
+    matterId
+matter
+    simulationId    # ?
+
+*** Order for database tables creation:
+
+simulation
+
+
+*** Order for database tables deletion:
+
 
 # Status of the job:
     "Submitted",
@@ -111,24 +139,7 @@ CREATE TABLE user (
     password        varchar(256)
 )
 
-job
-    userId
-    simulationId
-    serverId
-user
-vtable
-simulation
-session
-server
-authorization
-    serverId
-    userId
-configuration
-    simulationId
-atom
-    matterId
-matter
-    simulationId
+
 
 ================================================
 

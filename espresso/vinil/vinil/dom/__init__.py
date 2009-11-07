@@ -17,10 +17,9 @@ def tables():
     # tables in this package
     tables = []
 
-    from vinil.components.Clerk import tablenames
-    #tablenames = vinil.dom.Clerk.tablenames
+    from vinil.components.Clerk import TABLES
     
-    for t in tablenames:
+    for t in TABLES:
         m = '%s.%s' % (maindom, t)
         module = _import(m)
         tables.append( getattr(module, t) )

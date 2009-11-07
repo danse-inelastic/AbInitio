@@ -27,7 +27,7 @@ class Configuration(DBTable):
     id.meta['tip'] = "the unique id"
 
     simulationId    = pyre.db.varchar(name="simulationId", length=8)
-    #simulationId.constraints = 'REFERENCES simulation (id)'    # Important
+    simulationId.constraints = 'REFERENCES simulation (id)'    # Important
     simulationId.meta['tip'] = "simulationId"
 
     type        = pyre.db.varchar(name="type", length=1024, default='')
