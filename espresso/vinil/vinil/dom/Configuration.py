@@ -108,7 +108,6 @@ configDOS = """&inputpp
    DeltaE=0.1
 /"""
 
-
 # Electron DOS (Ni_E_DOS): simulationId = 5
 
 # Default records

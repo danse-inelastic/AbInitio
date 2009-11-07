@@ -83,7 +83,7 @@ class DBTable(Table):
         """Tries to create record, otherwise complains"""
         for column in self.getColumnNames():
             if self._id(column):
-                setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director.idd)))
+                setattr(self, column, ifelse(params.get(column), params.get(column), newid(self._director)))
                 continue
 
             if self._stamp(column):

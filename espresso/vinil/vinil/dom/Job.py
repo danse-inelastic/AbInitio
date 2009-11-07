@@ -15,24 +15,9 @@
 
 from vinil.utils.const import STATES
 from vinil.utils.utils import timestamp
+from vinil.components.DBTable import DBTable
 
-defaults    = (
-               {"id": 1, "userId": 1, "simulationId": 4, "description": "",
-               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
-                "numberProcessors": 8},
-               {"id": 2, "userId": 1, "simulationId": 5, "description": "",
-               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
-                "numberProcessors": 8},
-               {"id": 3, "userId": 1, "simulationId": 6, "description": "",
-               "status": STATES["R"], "timeCompleted": timestamp() + 60, "exitCode": 0,
-                "numberProcessors": 8},
-              )
-
-
-from pyre.db.Table import Table
-from vinil.utils.utils import timestamp, newid, setname
-
-class Job(Table):
+class Job(DBTable):
     # 'name' attribute should be present in every class table.
     name = "job"
     import pyre.db
@@ -87,78 +72,23 @@ class Job(Table):
     statusMessage.meta['tip'] = "statusMessage"
 
 
-    def updateRecord(self, director, params):
-        """
-        Updates job row (even if key in params is not present).
-        'id' and 'timeSubmitted' are not updated!
-        """
-        self.userId         = setname(params, self, 'userId')
-        self.simulationId   = setname(params, self, 'simulationId')
-        self.serverId       = setname(params, self, 'serverId')
-        self.description    = setname(params, self, 'description')
-        self.status         = setname(params, self, 'status')
-        self.timeStarted    = setname(params, self, 'timeStarted')
-        self.timeRestarted  = setname(params, self, 'timeRestarted')
-        self.timeCompleted  = setname(params, self, 'timeCompleted')
-        self.exitCode       = setname(params, self, 'exitCode')
-        self.numberProcessors   = setname(params, self, 'numberProcessors')
-        self.errorFilename  = setname(params, self, 'errorFilename')
-        self.outputFilename = setname(params, self, 'outputFilename')
-        self.statusMessage  = setname(params, self, 'statusMessage')
+defaults    = ({"id": 1, "userId": 1, "simulationId": 4, "description": "",
+               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8},
+               {"id": 2, "userId": 1, "simulationId": 5, "description": "",
+               "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8},
+               {"id": 3, "userId": 1, "simulationId": 6, "description": "",
+               "status": STATES["R"], "timeCompleted": timestamp() + 60, "exitCode": 0,
+                "numberProcessors": 8})
 
-        director.clerk.updateRecord(self)   # Update record
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   = Job()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
-
-    def createRecord(self, director, params):
-        """Inserts job row """
-        self.id             = newid(director)
-        self.userId         = setname(params, self, 'userId')
-        self.simulationId   = setname(params, self, 'simulationId')
-        self.serverId       = setname(params, self, 'serverId')
-        self.description    = setname(params, self, 'description')
-        self.status         = setname(params, self, 'status')
-        self.timeSubmitted  = timestamp()
-        self.timeStarted    = setname(params, self, 'timeStarted')
-        self.timeRestarted  = setname(params, self, 'timeRestarted')
-        self.timeCompleted  = setname(params, self, 'timeCompleted')
-        self.exitCode       = setname(params, self, 'exitCode')
-        self.numberProcessors   = setname(params, self, 'numberProcessors')
-        self.errorFilename  = setname(params, self, 'errorFilename')
-        self.outputFilename = setname(params, self, 'outputFilename')
-        self.statusMessage  = setname(params, self, 'statusMessage')
-
-        director.clerk.insertRecord(self)
-
-
-    def deleteRecord(self, director):
-        """Deletes record"""
-        director.clerk.deleteRecord(self, id=self.id)
-
-
-# For debugging
-def inittable(db):
-
-    # Sets only some of the values
-    def job(params):
-        r               = Job()
-        r.id            = params['id']
-        r.userId        = params['userId']
-        r.simulationId  = params['simulationId']
-        r.description   = params['description']
-        r.status        = params['status']
-        r.timeSubmitted = timestamp()
-        r.timeCompleted = params['timeCompleted']
-        r.exitCode      = params['exitCode']
-        r.numberProcessors  = params['numberProcessors']
-
-        return r
-
-    records = []
-    for e in defaults:
-        records.append(job(e))
-
-    for r in records: db.insertRow( r )
-    return
 
 def test():
     for e in defaults:

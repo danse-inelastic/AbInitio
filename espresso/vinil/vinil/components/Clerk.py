@@ -15,7 +15,8 @@ maindom = 'vinil.dom'
 
 # Contains list of classes
 tablenames = ('Configuration',
-              'User')
+              'User',
+              'Job')
 #tablenames = ('Simulation',
 #              'Server',
 #              'Matter',
