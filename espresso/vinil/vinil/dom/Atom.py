@@ -10,10 +10,13 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+"""
+Atom  - table that contains atom data (not sure if I need it)
+"""
 
-from pyre.db.Table import Table
+from vinil.components.DBTable import DBTable
 
-class Atom(Table):
+class Atom(DBTable):
 
     name = "atom"
     import pyre.db
@@ -45,21 +48,15 @@ class Atom(Table):
     position.meta['tip'] = "position"
 
 
-# Do I need generate default jobs? For debugging, yes!
-"""
-def inittable(db):
-    def atom(params):
-        r           = Atom()
-        r.id        = params['id']
-        r.matterId  = params['matterId']
-        return r
+# Default records
+defaults    = ()
 
-    records = [
-        atom( {"id": 1, "matterId": 1})
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   =Atom()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 __date__ = "$Oct 5, 2009 8:46:22 AM$"
 

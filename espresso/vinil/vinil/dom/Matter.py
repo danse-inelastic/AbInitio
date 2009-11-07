@@ -11,9 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.db.Table import Table
+"""
+Matter  - table that contains data related to matter
+"""
 
-class Matter(Table):
+from vinil.components.DBTable import DBTable
+
+class Matter(DBTable):
 
     name = "matter"
     import pyre.db
@@ -33,22 +37,16 @@ class Matter(Table):
     description.meta['tip'] = "description"
 
 
-"""
-# For debugging
-def inittable(db):
-    def matter(params):
-        r               = Matter()
-        r.id            = params['id']
-        r.simulationId  = params['simulationId']
-        return r
+# Default records
+defaults    = ()
 
-    records = [
-        matter( {"id": 1, "simulationId": 1} )
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
-
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   = Matter()
+        r.setClerk(clerk)
+        r.createRecord(params)
+        
 __date__ = "$Oct 5, 2009 8:50:39 AM$"
 
 

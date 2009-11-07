@@ -14,20 +14,17 @@
 maindom = 'vinil.dom'
 
 # Contains list of classes
-tablenames = ('Configuration',
-              'User',
+
+tablenames = ('Simulation',
+              'Server',
+              'Matter',
               'Job',
-              'Simulation')
-#tablenames = ('Simulation',
-#              'Server',
-#              'Matter',
-#              'Job',
-#              'Atom',
-#              'Configuration',
-#              'VTable',
-#              'Session',
-#              'User')
-#              #'Authorization')
+              'Atom',
+              'Configuration',
+              'VTable',
+              'Session',
+              'User')
+              #'Authorization')
 
 from pyre.components.Component import Component as base
 

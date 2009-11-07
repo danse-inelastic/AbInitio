@@ -11,9 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.db.Table import Table
+"""
+Server  - table that contains server data
+"""
 
-class Server(Table):
+from vinil.components.DBTable import DBTable
+
+class Server(DBTable):
 
     name = "server"
     import pyre.db
@@ -32,20 +36,15 @@ class Server(Table):
     ipAddress.meta['tip'] = "ipAddress"
 
 
-"""
-# For debugging
-def inittable(db):
-    def server(params):
-        r           = Server()
-        r.id        = params['id']
-        return r
+# Default records
+defaults    = ()
 
-    records = [
-        server( {"id": 1})
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   = Server()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 __date__ = "$Oct 5, 2009 8:10:57 PM$"
 

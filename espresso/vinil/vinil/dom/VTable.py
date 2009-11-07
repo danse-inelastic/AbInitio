@@ -11,9 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.db.Table import Table as base
+"""
+VTable  - not sure why I need this table
+"""
 
-class VTable(base):
+from vinil.components.DBTable import DBTable
+
+class VTable(DBTable):
 
     name = "vtable"
     import pyre.db
@@ -28,20 +32,16 @@ class VTable(base):
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
-"""
-# For debugging
-def inittable(db):
-    def vtable(params):
-        r           = VTable()
-        r.id        = params['id']
-        return r
 
-    records = [
-        vtable( {"id": 1} )
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
+# Default records
+defaults    = ()
+
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   = VTable()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 __date__ = "$Oct 5, 2009 9:22:07 AM$"
 

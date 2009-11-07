@@ -10,10 +10,13 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+"""
+Authorization  - table that contains authorization data
+"""
 
-from pyre.db.Table import Table
+from vinil.components.DBTable import DBTable
 
-class Authorization(Table):
+class Authorization(DBTable):
 
     name = "authorization"
     import pyre.db
@@ -37,22 +40,15 @@ class Authorization(Table):
     description.meta['tip'] = "description"
 
 
-"""
-# For debugging
-def inittable(db):
-    def authorization(params):
-        r           = Authorization()
-        r.id        = params['id']
-        r.serverId  = params['serverId']
-        r.userId    = params['userId']
-        return r
+# Default records
+defaults    = ()
 
-    records = [
-        authorization( {"id": 1, "serverId": 1, "userId": 1})
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   =Authorization()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 __date__ = "$Oct 6, 2009 12:18:36 PM$"
 

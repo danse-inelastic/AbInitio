@@ -10,10 +10,13 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+"""
+Session  - table that contains session data
+"""
 
-from pyre.db.Table import Table
+from vinil.components.DBTable import DBTable
 
-class Session(Table):
+class Session(DBTable):
 
     name = "session"
     import pyre.db
@@ -28,21 +31,15 @@ class Session(Table):
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
+# Default records
+defaults    = ()
 
-"""
-# For debugging
-def inittable(db):
-    def session(params):
-        r           = Session()
-        r.id        = params['id']
-        return r
-
-    records = [
-        session( {"id": 1} )
-        ]
-    for r in records: db.insertRow( r )
-    return
-"""
+# Init tables
+def inittable(clerk):
+    for params in defaults:
+        r   =Session()
+        r.setClerk(clerk)
+        r.createRecord(params)
 
 __date__ = "$Oct 5, 2009 8:11:18 PM$"
 
