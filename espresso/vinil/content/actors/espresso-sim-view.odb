@@ -61,8 +61,10 @@ class Actor(base):
 
         splitter    = Splitter(orientation='horizontal')
         one     = splitter.section()
-        one.add(Paragraph(text="PW ----> "))
+        one.add(Paragraph(text="PW "))
         one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        sep     = splitter.section()
+        sep.add(Paragraph(text=" ----> "))
         two     = splitter.section()
         two.add(Paragraph(text="DOS"))
         two.add(Link(label="Add"))

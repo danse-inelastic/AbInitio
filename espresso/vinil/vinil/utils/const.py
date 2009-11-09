@@ -11,6 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from vinil.utils.orderedDict import OrderedDict
+
 # Available packages
 PACKAGES    = ("Quantum Espresso",)  #, "VASP", "GULP"]  # Packages
 
@@ -24,13 +26,15 @@ STEPS       = ("Create Simulation",
                "Review Simulation")
 
 # Types of simulations
-SIMULATIONS = ( "Total Energy",
-                "Electron DOS",
-                "Electron Dispersion",
-                "Geometry Optimization",
-                "Single-Phonon",
-                "Multi-Phonon DOS",
-                "Multi-Phonon Dispersion" )
+SIMULATIONS = OrderedDict()
+SIMULATIONS["Total Energy"]             = ("PW",)
+SIMULATIONS["Electron DOS"]             = ("PW", "DOS")
+SIMULATIONS["Electron Dispersion"]      = ("PW", "DOS")
+SIMULATIONS["Geometry Optimization"]    = ("PW")
+SIMULATIONS["Single-Phonon"]            = ("PW", "PH", "DYNMAT")
+SIMULATIONS["Multi-Phonon DOS"]         = ("PW", "PH", "Q2R", "MATDYN")
+SIMULATIONS["Multi-Phonon Dispersion"]  = ("PW", "PH", "Q2R", "MATDYN")
+
 
 # Available servers
 SERVERS     = ("foxtrot.danse.us",)
