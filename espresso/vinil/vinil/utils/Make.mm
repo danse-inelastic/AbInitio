@@ -26,6 +26,7 @@ EXPORT_PYTHON_MODULES = \
         pathbuilder.py \
         plot.py \
         pw.py \
+        simchain.py \
         simulationsteps.py \
         stepper.py \
         table.py \

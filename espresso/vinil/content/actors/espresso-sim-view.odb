@@ -13,6 +13,8 @@
 
 from vinil.utils.const import STEPS
 from vinil.utils.utils import stamp2date
+from vinil.utils.simchain import SimChain
+
 from luban.content.Splitter import Splitter
 
 from luban.content import select
@@ -52,23 +54,20 @@ class Actor(base):
         return document
 
     def addInputFiles(self, director, document):
-        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-        if config:
-            filename    = config[0].filename
-        else:
-            filename    = "Add"
         document.add(Document(Class="clear-both"))
 
-        splitter    = Splitter(orientation='horizontal')
-        one     = splitter.section()
-        one.add(Paragraph(text="PW "))
-        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-        sep     = splitter.section()
-        sep.add(Paragraph(text=" ----> "))
-        two     = splitter.section()
-        two.add(Paragraph(text="DOS"))
-        two.add(Link(label="Add"))
-        document.add(splitter)
+        splitter        = SimChain(director)
+#        splitter    = Splitter(orientation='horizontal')
+#        one     = splitter.section()
+#        one.add(Paragraph(text="PW "))
+#        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+#        sep     = splitter.section()
+#        sep.add(Paragraph(text=" ----> "))
+#        two     = splitter.section()
+#        two.add(Paragraph(text="DOS"))
+#        two.add(Link(label="Add"))
+        
+        document.add(splitter.chain(self.id))
 
 #        document.add(Document(Class="clear-both"))   # Empty document
 #        inpdoc  = Document(Class="display-inline")
