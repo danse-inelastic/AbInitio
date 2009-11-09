@@ -13,6 +13,7 @@
 
 from vinil.utils.const import STEPS
 from vinil.utils.utils import stamp2date
+from luban.content.Splitter import Splitter
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -35,7 +36,7 @@ class Actor(base):
         document = Document(title='Simulation Name: %s' % sim.sname)
         document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-sim-edit', routine='link', id=self.id)))
         document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-sim-delete', routine='link', id=self.id)))
-        document.add(Link(label="Use", Class="action-link", onclick = load(actor='espresso-sim-use', routine='link', id=self.id)))
+        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso-sim-use', routine='link', id=self.id)))
         document.add(Paragraph(text="Description: %s" % sim.description))
         document.add(Paragraph(text="Type: %s" % sim.type))
         document.add(Paragraph(text="Package: %s" % sim.package))
@@ -56,12 +57,22 @@ class Actor(base):
             filename    = config[0].filename
         else:
             filename    = "Add"
+        document.add(Document(Class="clear-both"))
 
-        document.add(Document(Class="clear-both"))   # Empty document
-        inpdoc  = Document(Class="display-inline")
-        inpdoc.add(Paragraph(text="Input Files: "))
-        inpdoc.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-        document.add(inpdoc)
+        splitter    = Splitter(orientation='horizontal')
+        one     = splitter.section()
+        one.add(Paragraph(text="PW ----> "))
+        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        two     = splitter.section()
+        two.add(Paragraph(text="DOS"))
+        two.add(Link(label="Add"))
+        document.add(splitter)
+
+#        document.add(Document(Class="clear-both"))   # Empty document
+#        inpdoc  = Document(Class="display-inline")
+#        inpdoc.add(Paragraph(text="Input Files: "))
+#        inpdoc.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+#        document.add(inpdoc)
 
 
     def addSettings(self, director, document):
