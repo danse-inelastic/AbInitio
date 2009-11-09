@@ -45,7 +45,7 @@ class Actor(base):
         document.add(Paragraph(text="Formula: %s" % sim.formula))
         document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
 
-        self.addInputFiles(director, document)
+        self.addInputFiles(director, document, sim.type)
         self.addSettings(director, document)
         self.addServer(director, document)
         self.addJobs(director, document)
@@ -53,10 +53,10 @@ class Actor(base):
         
         return document
 
-    def addInputFiles(self, director, document):
+    def addInputFiles(self, director, document, type):
         document.add(Document(Class="clear-both"))
 
-        splitter        = SimChain(director)
+        splitter        = SimChain(director, type)
 #        splitter    = Splitter(orientation='horizontal')
 #        one     = splitter.section()
 #        one.add(Paragraph(text="PW "))
