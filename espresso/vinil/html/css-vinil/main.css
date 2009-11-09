@@ -339,6 +339,29 @@ Colors:
     float: right;
 }
 
+
+/* Miscellaneous */
+
+.display-inline {
+    display:inline;
+}
+
+.display-inline a,
+.display-inline p{
+    margin: 0px;
+    float: left;
+}
+
+.display-block,
+.display-block a,
+.display-block p{
+    display: block;
+}
+
+.clear-both {
+    clear: both;
+}
+
 /*
 .config-textarea {
     height: 500px;

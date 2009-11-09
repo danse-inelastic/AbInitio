@@ -48,15 +48,49 @@ class Actor(base):
         document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
         document.add(Paragraph(text="Input Files: %s" % filename))
         document.add(Paragraph(text="Simulation Parameters: settings.conf ")) # [STUB]
-        document.add(Paragraph(text="Jobs: [Links to jobs] "))  # [STUB] 
 
-        # Should be on separate line
-        document.add(Link(label=STEPS[1], Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-        document.add(Link(label=STEPS[2], Class="action-link", onclick=load(actor="espresso-step-three", routine="link", id=self.id)))
-        document.add(Link(label=STEPS[3], Class="action-link", onclick=load(actor="espresso-step-four", routine="link", id=self.id)))
-        document.add(Link(label="Submit to Queue", Class="action-link", onclick=load(actor="jobs-submitted", routine="submit", id=self.id)))
+        self.addJobs(director, document)
+        self.addRefs(document)
         
         return document
+
+    def addJobs(self, director, document):
+        """Adds list of job ids to the document"""
+        jobsdoc = Document(Class="display-inline")
+        jobsdoc.add(Paragraph(text="Jobs: "))
+        jobids  = self.jobs(director)
+        if len(jobids) != 0:
+            for id in jobids:
+                jobsdoc.add(Link(label=id, Class="action-link", onclick=load(actor="jobs-view", routine="link", id=id)))
+        else:
+            jobsdoc.add(Paragraph(text="None", Class="action-link"))
+        document.add(jobsdoc)  # [STUB]
+
+
+    def addRefs(self, document):
+        document.add(Document(Class="clear-both"))   # Empty document
+        refsdoc = Document(Class="display-block")
+        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso-step-three", routine="link", id=self.id)))
+        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso-step-four", routine="link", id=self.id)))
+        refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs-submitted", routine="submit", id=self.id)))
+        document.add(refsdoc)
+
+    def inputFiles(self):
+        pass
+
+    def jobs(self, director):
+        jobids = []
+        jobs  = director.clerk.getJobs(where="simulationId='%s'" % self.id)
+        for j in jobs:
+            if j:
+                jobids.append(j)
+
+
+        return jobids
+
+    def settings(self):
+        pass
 
 
     def pathlist(self, director):
@@ -69,6 +103,7 @@ class Actor(base):
 
         return self.pathlist
     
+
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
