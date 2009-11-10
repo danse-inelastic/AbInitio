@@ -11,9 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vinil.utils.const import STEPS, TYPES
-from vinil.utils.simulationsteps import SimulationSteps
-from vinil.utils.stepper import Stepper
 from vinil.dom.Configuration import Configuration
 
 from luban.content import select
@@ -31,15 +28,17 @@ from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
 
-# Requires simulation id
+# Requires simulation id, 
 class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id          = pyre.inventory.str('id', default='')      # Simulation Id
-        type        = pyre.inventory.str('type', default='')    # Type of the configuration file
+        id          = pyre.inventory.str('id', default='')          # Simulation Id
+        configid    = pyre.inventory.str('configid', default='')    # Configuration Id
+        type        = pyre.inventory.str('type', default='')        # Type of the configuration file
         fname       = pyre.inventory.str('fname', default='')
         description = pyre.inventory.str('description', default='')
+        parser      = pyre.inventory.str('parser', default='')
         text        = pyre.inventory.str('text', default='')
 
 
@@ -54,11 +53,14 @@ class Actor(base):
 
         form        = Form(id="form-vinil")
         fname       = form.text(name="fname", label='File Name', value=self.fname)
-        description = form.text(name="description", label='Description', value=self.description)
         type        = form.text(name="type", label='Config Type', value=self.type)      # Should be text
+        description = form.text(name="description", label='Description', value=self.description)
+        parser      = form.selector(name="parser", label='Parser', entries=enumerate(["qeinput"]))  # Doesn't do anything
         text        = form.textarea(name="text", label='Config Text', value=self.text)
         submit      = form.submitbutton(label="Create Configuration")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-add', routine = 'createRecord', id=self._sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-add',
+                                                      routine = 'createRecord',
+                                                      id=self.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
@@ -71,7 +73,12 @@ class Actor(base):
 
     def createRecord(self, director):
         """Create configuration record"""
-        params  = {"simulationId": self.id, "description": self.description, "type": self.type, "filename": self.fname, "text": self.text} 
+        params  = {"simulationId":  self.id,
+                   "filename":      self.fname,
+                   "type":          self.type,
+                   "description":   self.description,
+                   "parser":        self.parser,
+                   "text":          self.text}
         config  = Configuration()
         config.setDirector(director)
         config.createRecord(params)
@@ -97,9 +104,11 @@ class Actor(base):
     def _configure(self):
         super(Actor, self)._configure()
         self.id             = self.inventory.id
+        self.configid       = self.inventory.configid
         self.type           = self.inventory.type
         self.fname          = self.inventory.fname
         self.description    = self.inventory.description
+        self.parser         = self.inventory.parser
         self.text           = self.inventory.text
 
     def _init(self):

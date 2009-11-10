@@ -36,7 +36,7 @@ class SimChain:
 
         for i in range(listsize):
             section     = splitter.section()
-            section.add(Paragraph(text=self._simlist[i]))
+            section.add(Paragraph(text=self._simlist[i]))   # Simulation type
             section.add(Link(label=self._inputText(orderedInputs[i]), Class="action-link",
                              onclick=load(actor=self._getActor(orderedInputs[i]),
                                           routine="link", id=id, type=self._simlist[i],
@@ -67,7 +67,7 @@ class SimChain:
 
 
     def _orderInput(self, simlist, inputs):
-        """E.g. simlist = ("PW", "PH")"""
+        """Orders input according to simlist (E.g. simlist = ("PW", "PH") )"""
         newinputs   = []
 
         for name in simlist:

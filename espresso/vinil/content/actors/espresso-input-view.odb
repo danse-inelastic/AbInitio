@@ -32,7 +32,7 @@ from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
 
-# Requires simulation id
+# Requires simulation id, config id and config type: (id, configid, type)
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -59,10 +59,12 @@ class Actor(base):
     def showLinks(self, document):  #, inputs
         document.add(Link(label="Edit", Class="action-link",
                           onclick = load(actor='espresso-input-edit',
-                          routine='link', id=self.id)))
+                          routine='link', id=self.id, configid=self.configid,
+                          type=self.type)))
         document.add(Link(label="Delete", Class="action-link",
                           onclick = load(actor='espresso-input-delete',
-                          routine='link', id=self.id)))
+                          routine='link', id=self.id, configid=self.configid,
+                          type=self.type)))
 
 
     def showConfig(self, document, input):
