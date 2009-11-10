@@ -36,15 +36,9 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
 
         document = Document(title='Simulation Name: %s' % sim.sname)
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-sim-edit', routine='link', id=self.id)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-sim-delete', routine='link', id=self.id)))
-        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso-sim-use', routine='link', id=self.id)))
-        document.add(Paragraph(text="Description: %s" % sim.description))
-        document.add(Paragraph(text="Type: %s" % sim.type))
-        document.add(Paragraph(text="Package: %s" % sim.package))
-        document.add(Paragraph(text="Formula: %s" % sim.formula))
-        document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
 
+        self.showLinks(document)
+        self.showSim(document, sim)
         self.showInputFiles(director, document, sim.type)
         self.showSettings(director, document)
         self.showServer(director, document)
@@ -52,6 +46,20 @@ class Actor(base):
         self.showRefs(document)
         
         return document
+
+    def showLinks(self, document):
+        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-sim-edit', routine='link', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-sim-delete', routine='link', id=self.id)))
+        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso-sim-use', routine='link', id=self.id)))
+
+
+    def showSim(self, document, sim):
+        document.add(Paragraph(text="Description: %s" % sim.description))
+        document.add(Paragraph(text="Type: %s" % sim.type))
+        document.add(Paragraph(text="Package: %s" % sim.package))
+        document.add(Paragraph(text="Formula: %s" % sim.formula))
+        document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
+
 
     def showInputFiles(self, director, document, type):
         document.add(Document(Class="clear-both"))

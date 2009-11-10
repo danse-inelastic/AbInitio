@@ -84,7 +84,7 @@ class Actor(base):
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
                          (sim.sname, "espresso-sim-view", "link", self.id),
-                         ("PW", None, None)]
+                         ("Create Configuration: %s" % self.type, None, None)]
 
         return self.pathlist
 
@@ -96,11 +96,11 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id     = self.inventory.id
-        self.type   = self.inventory.type
-        self.fname       = self.inventory.fname
-        self.description = self.inventory.description
-        self.text        = self.inventory.text
+        self.id             = self.inventory.id
+        self.type           = self.inventory.type
+        self.fname          = self.inventory.fname
+        self.description    = self.inventory.description
+        self.text           = self.inventory.text
 
     def _init(self):
         super(Actor, self)._init()

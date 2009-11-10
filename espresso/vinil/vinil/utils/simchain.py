@@ -59,10 +59,10 @@ class SimChain:
 
     def _getActor(self, input):
         """Returns proper actor depending if 'input' exists"""
-        if input:   # Edit
-            return "espresso-input-edit"
+        if input:   # View
+            return "espresso-input-view"
 
-        return "espresso-input-add" # Create new
+        return "espresso-input-add" # Create New
 
 
     def _orderInput(self, simlist, inputs):
