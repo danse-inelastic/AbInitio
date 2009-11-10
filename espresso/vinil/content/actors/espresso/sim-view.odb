@@ -50,15 +50,16 @@ class Actor(base):
     def showLinks(self, document):
         document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso/sim-edit', routine='link', id=self.id)))
         document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso/sim-delete', routine='link', id=self.id)))
-        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso/sim-use', routine='link', id=self.id)))
+        document.add(Link(label="Clone", Class="action-link", onclick = load(actor='espresso/sim-use', routine='link', id=self.id)))
 
 
     def showSim(self, document, sim):
-        document.add(Paragraph(text="Description: %s" % sim.description))
-        document.add(Paragraph(text="Type: %s" % sim.type))
-        document.add(Paragraph(text="Package: %s" % sim.package))
-        document.add(Paragraph(text="Formula: %s" % sim.formula))
-        document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
+        if sim: #?
+            document.add(Paragraph(text="Description: %s" % sim.description))
+            document.add(Paragraph(text="Type: %s" % sim.type))
+            document.add(Paragraph(text="Package: %s" % sim.package))
+            document.add(Paragraph(text="Formula: %s" % sim.formula))
+            document.add(Paragraph(text="Created: %s" % stamp2date(sim.timeCreated)))
 
 
     def showInputFiles(self, director, document, type):
@@ -90,13 +91,18 @@ class Actor(base):
         document.add(Document(Class="clear-both"))   # Empty document
         jobsdoc = Document(Class="display-inline")
         jobsdoc.add(Paragraph(text="Jobs: "))
-        jobids  = self.jobs(director)
-        if len(jobids) != 0:
-            for id in jobids:
-                jobsdoc.add(Link(label=id, Class="action-link", onclick=load(actor="jobs-view", routine="link", id=id)))
+        joblist  = self.jobs(director)
+
+        if len(joblist) != 0:
+            for job in joblist:
+                jobsdoc.add(Link(label=job.id, Class="action-link",
+                                 onclick=load(actor="jobs/view",
+                                 routine="link", id=job.id))
+                            )
         else:
             jobsdoc.add(Paragraph(text="None", Class="action-link"))
-        document.add(jobsdoc)  # [STUB]
+            
+        document.add(jobsdoc) 
 
 
     # TODO: Should have "Submit to Queue" only
@@ -112,14 +118,13 @@ class Actor(base):
 
 
     def jobs(self, director):
-        jobids = []
-        jobs  = director.clerk.getJobs(where="simulationId='%s'" % self.id)
-        for j in jobs:
-            if j:
-                jobids.append(j)
+        joblist = []
+        jobs = director.clerk.getJobs(where="simulationId='%s'" % self.id)
+        for job in jobs:
+            if job:
+                joblist.append(job)
 
-
-        return jobids
+        return joblist
 
     def settings(self):
         pass

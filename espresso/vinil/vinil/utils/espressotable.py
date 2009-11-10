@@ -57,7 +57,7 @@ def tableSimulations(headers, names, columns, ids):
         return link
 
     def use(i):
-        link = Link(label="Use", onclick = load(actor='espresso/sim-use', routine='link', id=ids[i]))
+        link = Link(label="Clone", onclick = load(actor='espresso/sim-use', routine='link', id=ids[i]))
         return link
 
     data    = []

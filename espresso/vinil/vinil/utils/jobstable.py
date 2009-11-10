@@ -50,7 +50,7 @@ def tableJobs(headers, jobids, simids, simnames, columns):
         return link
 
     def sim(i):
-        link = Link(label=simnames[i], onclick = load(actor='espresso/sim-view', routine='link', id=simids[i]))    #ids[i]
+        link = Link(label=simnames[i], onclick = load(actor='espresso/sim-view', routine='link', id=simids[i])) 
         return link
 
     def delete(i):

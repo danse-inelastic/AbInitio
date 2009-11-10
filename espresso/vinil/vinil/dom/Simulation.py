@@ -14,6 +14,7 @@
 """
 Simulation  - table that contains simulation data
 """
+#from vinil.utils.const import SIMULATIONS
 
 from vinil.components.DBTable import DBTable
 
@@ -54,6 +55,7 @@ class Simulation(DBTable):
     isExample.meta['tip'] = ""
 
 
+
 # Default records
 defaults    = ({"id": 1, "sname": 'MgB2_SP', "package": 'Quantum Espresso',
                 "type": 'Single-Phonon', "description": 'Single-Phonon simualtion',
@@ -62,7 +64,7 @@ defaults    = ({"id": 1, "sname": 'MgB2_SP', "package": 'Quantum Espresso',
                 "type": 'Total Energy', "description": 'Electron simualtion',
                 "formula": 'MgB2'},
                 {"id": 3, "sname": 'MgB2_MP', "package": 'Quantum Espresso',
-                "type": 'Multi-Phonon', "description": 'Multy-Phonon simualtion',
+                "type": 'Multi-Phonon DOS', "description": 'Multy-Phonon simualtion',
                 "formula": 'MgB2'},
                 {"id": 4, "sname": 'Ni_Energy', "package": 'Quantum Espresso',
                 "type": 'Total Energy', "description": 'Total Energy simualtion',
