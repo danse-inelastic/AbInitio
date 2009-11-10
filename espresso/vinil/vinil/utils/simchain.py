@@ -63,7 +63,7 @@ class SimChain:
         if input:   # View
             return "espresso/input-view"
 
-        return "espresso-input-add" # Create New
+        return "espresso/input-add" # Create New
 
 
     def _orderInput(self, simlist, inputs):
@@ -109,7 +109,7 @@ __date__ = "$Nov 9, 2009 10:50:54 AM$"
 # *************** DEAD CODE ********************
 #        one     = splitter.section()
 #        one.add(Paragraph(text="PW "))
-#        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=id)))
+#        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso/set-config", routine="link", id=id)))
 #        sep     = splitter.section()        # Separator
 #        sep.add(Paragraph(text=" -> "))
 #        two     = splitter.section()

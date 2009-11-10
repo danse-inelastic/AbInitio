@@ -10,7 +10,7 @@
 - Hook up qecalc and diffpy.Structure
     - What parameters are parsed from to be implemented calculations?
 - Implement web gui for config generation
-- [In Progress]Fix issues with initdb.py regarding reference and database constrains
+- [DONE]Fix issues with initdb.py regarding reference and database constrains
 - Switch to dsaw?
 - Make nice layout for forms (especially button "Cancel")
 - Implement Create Configuration
@@ -19,7 +19,8 @@
 - Create Materials section
 - Create/Delete database entries
 - Add "Help" box on each page
-- Create good parser for QE
+- If page does not exist trasfer to default page.
+- [Done] Create good parser for QE
 
 
 General Plan

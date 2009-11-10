@@ -78,7 +78,7 @@ class Stepper:
         print s
 
 def testStepper():
-    linklist = (("espresso", "link", "5"), ("espresso-material", "link", "6"))
+    linklist = (("espresso/index", "link", "5"), ("espresso/step-one", "link", "6"))
     stepper     = Stepper(linklist)
     stepper.toString()
 
