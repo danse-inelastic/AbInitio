@@ -39,7 +39,8 @@ class SimChain:
             section.add(Paragraph(text=self._simlist[i]))
             section.add(Link(label=self._inputText(orderedInputs[i]), Class="action-link",
                              onclick=load(actor=self._getActor(orderedInputs[i]),
-                             routine="link", id=id, type=self._simlist[i]))
+                                          routine="link", id=id, type=self._simlist[i],
+                                          configid=self._getId(self._simlist[i], inputs)))   # Passes config type (not id)
                         )
 
             if i != listsize - 1:   # No arrow for last config
@@ -70,15 +71,15 @@ class SimChain:
         newinputs   = []
 
         for name in simlist:
-            newinputs.append(self._simObject(name, inputs))
+            newinputs.append(self._configObject(name, inputs))
 
         return newinputs
 
 
-    def _simObject(self, name, inputs):
+    def _configObject(self, type, inputs):
         """Returns object if simulation type exists or None otherwise"""
         for sim in inputs:
-            if sim.type == name:
+            if sim.type == type:
                 return sim
 
         return None
@@ -90,6 +91,13 @@ class SimChain:
 
         return ()
 
+
+    def _getId(self, type, inputs):
+        config  = self._configObject(type, inputs)
+        if config:
+            return config.id
+
+        return ""
 
 if __name__ == "__main__":
     chain   = SimChain(None, None)

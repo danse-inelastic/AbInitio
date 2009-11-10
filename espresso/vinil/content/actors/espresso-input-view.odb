@@ -12,6 +12,7 @@
 #
 
 from vinil.utils.const import STEPS, TYPES
+from vinil.utils.utils import stamp2date
 from vinil.utils.simulationsteps import SimulationSteps
 from vinil.utils.stepper import Stepper
 from vinil.dom.Configuration import Configuration
@@ -36,8 +37,9 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id          = pyre.inventory.str('id', default='')      # Simulation Id
-        type        = pyre.inventory.str('type', default='')    # Type of the configuration file
+        id          = pyre.inventory.str('id', default='')          # Simulation Id
+        configid    = pyre.inventory.str('configid', default='')    # Configuration Id
+        type        = pyre.inventory.str('type', default='')        # Type of the configuration file
         fname       = pyre.inventory.str('fname', default='')
         description = pyre.inventory.str('description', default='')
         text        = pyre.inventory.str('text', default='')
@@ -45,25 +47,40 @@ class Actor(base):
 
     def content(self, director):
         self._sim       = director.clerk.getSimulations(id=self.id)
-        self._inputs    = director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (self.id, self.type))
+        self._input     = director.clerk.getConfigurations(id=self.configid)
 
-        document        = Document(title="%s Configuration: %s" % (self.type, self.filename(self._inputs)))   # , Class="step-content"
-        self.showLinks(document)
+        document        = Document(title="%s Configuration: %s" % (self.type, self.filename(self._input)))   # , Class="step-content"
+        self.showLinks(document)    # Finish
 
 
         return document
 
 
-    def filename(self, inputs):
-        if inputs:
-            assert len(inputs) == 1
-            return inputs[0].filename
+    def showLinks(self, document):  #, inputs
+        document.add(Link(label="Edit", Class="action-link",
+                          onclick = load(actor='espresso-input-edit',
+                          routine='link', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link",
+                          onclick = load(actor='espresso-input-delete',
+                          routine='link', id=self.id)))
+
+    def showConfig(self, document, config):
+        document.add(Paragraph(text="File Name: %s" % config.filename))
+        document.add(Paragraph(text="Type: %s" % config.type))
+        document.add(Paragraph(text="Description: %s" % config.description))
+        document.add(Paragraph(text="Parser: %s" % config.parser))
+        document.add(Paragraph(text="Created: %s" % stamp2date(config.timeCreated)))
+        document.add(Paragraph(text="Last Modified: %s" % stamp2date(config.timeModified)))
+        document.add(Paragraph(text="Text: %s" % config.text))
+
+    def filename(self, input):
+        if input:
+            assert len(input) == 1
+            return input.filename
 
         return ""
 
-    def showLinks(self, document):
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-input-edit', routine='link', id=self.id)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-input-delete', routine='link', id=self.id)))
+
 
 
     def pathlist(self, director):
@@ -84,11 +101,12 @@ class Actor(base):
 
     def _configure(self):
         super(Actor, self)._configure()
-        self.id     = self.inventory.id
-        self.type   = self.inventory.type
-        self.fname       = self.inventory.fname
-        self.description = self.inventory.description
-        self.text        = self.inventory.text
+        self.id             = self.inventory.id
+        self.configid       = self.inventory.configid
+        self.type           = self.inventory.type
+        self.fname          = self.inventory.fname
+        self.description    = self.inventory.description
+        self.text           = self.inventory.text
 
     def _init(self):
         super(Actor, self)._init()
@@ -99,6 +117,15 @@ def actor():
 
 __date__ = "$Nov 9, 2009 5:10:40 PM$"
 
+
+#        #self._inputs    = director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (self.id, self.type))
+#    # ?
+#    def inputId(self, inputs):
+#        if inputs:
+#            assert len(inputs) == 1
+#            return inputs[0].id
+#
+#        return ""
 
 
 #        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso-config-builder", routine="link", id=self.id)))
