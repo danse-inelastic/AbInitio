@@ -24,27 +24,27 @@ def visual(director):
     simulationsmenu = navmenus.menu(label='Simulations', onclick=load('simulations', routine='link'))
     simulationsQE = simulationsmenu.item(
         label='Quantum Espresso',
-        onclick=load('espresso', routine='link'))
+        onclick=load('espresso/index', routine='link'))
 
     simulationsVASP = simulationsmenu.item(
         label='VASP',
-        onclick=load('vasp', routine='link'))
+        onclick=load('vasp/index', routine='link'))
 
     simulationsGULP = simulationsmenu.item(
         label='GULP',
-        onclick=load('gulp', routine='link'))
+        onclick=load('gulp/index', routine='link'))
 
     simulationsMCVINE = simulationsmenu.item(
         label='MCViNE',
-        onclick=load('mcvine', routine='link'))
+        onclick=load('mcvine/index', routine='link'))
 
     simulationsBVK = simulationsmenu.item(
         label='BvK',
-        onclick=load('bvk', routine='link'))
+        onclick=load('bvk/index', routine='link'))
 
     simulationsMMTK = simulationsmenu.item(
         label='MMTK',
-        onclick=load('mmtk', routine='link'))
+        onclick=load('mmtk/index', routine='link'))
 
     # Molecular Modelling Toolkit
 
