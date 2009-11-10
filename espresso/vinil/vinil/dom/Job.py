@@ -12,6 +12,7 @@
 #
 
 # "userId": 1 -> dexity
+# "serverId": 1 -> foxtrot
 
 from vinil.utils.const import STATES
 from vinil.utils.utils import timestamp
@@ -73,13 +74,13 @@ class Job(DBTable):
 
 
 # Default records
-defaults    = ({"id": 1, "userId": 1, "simulationId": 4, "description": "",
+defaults    = ({"id": 1, "userId": 1, "simulationId": 4, "serverId": 1,
                "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
                 "numberProcessors": 8},
-               {"id": 2, "userId": 1, "simulationId": 5, "description": "",
+               {"id": 2, "userId": 1, "simulationId": 5, "serverId": 1,
                "status": STATES["C"], "timeCompleted": timestamp() + 60, "exitCode": 0,
                 "numberProcessors": 8},
-               {"id": 3, "userId": 1, "simulationId": 6, "description": "",
+               {"id": 3, "userId": 1, "simulationId": 6, "serverId": 1, 
                "status": STATES["R"], "timeCompleted": timestamp() + 60, "exitCode": 0,
                 "numberProcessors": 8})
 

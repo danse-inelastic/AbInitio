@@ -16,8 +16,7 @@ maindom = 'vinil.dom'
 # List of database table classes (ordered to handle references)
 
 
-#TABLES = ('Simulation',
-#          'Job')
+#TABLES = ('Job',)
 
 TABLES = ('Simulation',
           'Server',

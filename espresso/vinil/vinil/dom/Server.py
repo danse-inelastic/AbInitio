@@ -37,7 +37,13 @@ class Server(DBTable):
 
 
 # Default records
-defaults    = ()
+defaults    = ({"id": 1, "sname": "foxtrot.danse.us",
+                "description": "foxtrot", "ipAddress": "131.215.145.25"},
+               {"id": 2, "sname": "octopod.danse.us",
+                "description": "octopod", "ipAddress": "131.215.145.22"},
+               {"id": 3, "sname": "upgrayedd.danse.us",
+                "description": "upgrayedd", "ipAddress": "131.215.145.66"}
+              )
 
 # Init tables
 def inittable(clerk):

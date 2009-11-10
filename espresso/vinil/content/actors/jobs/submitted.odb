@@ -36,11 +36,16 @@ class Actor(base):
 
 
     def submit(self, director):
+        self.verify()
         self.createRecord(director)
         self.runSimulation(director)
         
         return load(actor='jobs/submitted', routine='link')
 
+
+    def verify(self):
+        """Checks if all the components available to run the simulation"""
+        pass
 
     def content(self, director):
         document = Document(title='Job Submitted')

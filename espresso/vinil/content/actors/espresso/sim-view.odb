@@ -104,14 +104,12 @@ class Actor(base):
         """Adds References"""
         document.add(Document(Class="clear-both"))   # Empty document
         refsdoc = Document(Class="display-block")
-        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
-        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso/step-three", routine="link", id=self.id)))
-        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso/step-four", routine="link", id=self.id)))
+#        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
+#        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso/step-three", routine="link", id=self.id)))
+#        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso/step-four", routine="link", id=self.id)))
         refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs/submitted", routine="submit", id=self.id)))
         document.add(refsdoc)
 
-    def inputFiles(self):
-        pass
 
     def jobs(self, director):
         jobids = []
