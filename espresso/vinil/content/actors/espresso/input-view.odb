@@ -57,7 +57,7 @@ class Actor(base):
 
 
     def showLinks(self, document):  #, inputs
-        document.add(Link(label="Edit", Class="action-link",
+        document.add(Link(label="EditBOBO", Class="action-link",
                           onclick = load(actor='espresso-input-edit',
                           routine='link', id=self.id, configid=self.configid,
                           type=self.type)))
