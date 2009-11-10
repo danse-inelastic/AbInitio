@@ -64,23 +64,22 @@ class Actor(base):
                           onclick = load(actor='espresso-input-delete',
                           routine='link', id=self.id)))
 
-    def showConfig(self, document, config):
-        document.add(Paragraph(text="File Name: %s" % config.filename))
-        document.add(Paragraph(text="Type: %s" % config.type))
-        document.add(Paragraph(text="Description: %s" % config.description))
-        document.add(Paragraph(text="Parser: %s" % config.parser))
-        document.add(Paragraph(text="Created: %s" % stamp2date(config.timeCreated)))
-        document.add(Paragraph(text="Last Modified: %s" % stamp2date(config.timeModified)))
-        document.add(Paragraph(text="Text: %s" % config.text))
+
+    def showConfig(self, document, input):
+        document.add(Paragraph(text="File Name: %s" % input.filename))
+        document.add(Paragraph(text="Type: %s" % input.type))
+        document.add(Paragraph(text="Description: %s" % input.description))
+        document.add(Paragraph(text="Parser: %s" % input.parser))
+        document.add(Paragraph(text="Created: %s" % stamp2date(input.timeCreated)))
+        document.add(Paragraph(text="Last Modified: %s" % stamp2date(input.timeModified)))
+        document.add(Paragraph(text="Text: %s" % input.text))
+
 
     def filename(self, input):
         if input:
-            assert len(input) == 1
             return input.filename
 
         return ""
-
-
 
 
     def pathlist(self, director):
@@ -116,6 +115,8 @@ def actor():
     return Actor('espresso-input-view')
 
 __date__ = "$Nov 9, 2009 5:10:40 PM$"
+
+
 
 
 #        #self._inputs    = director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (self.id, self.type))
