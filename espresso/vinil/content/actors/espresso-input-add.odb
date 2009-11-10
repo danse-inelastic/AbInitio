@@ -12,6 +12,7 @@
 #
 
 from vinil.dom.Configuration import Configuration
+from vinil.utils.const import PARSERS
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -77,7 +78,7 @@ class Actor(base):
                    "filename":      self.fname,
                    "type":          self.type,
                    "description":   self.description,
-                   "parser":        self.parser,
+                   "parser":        PARSERS[int(self.parser)],
                    "text":          self.text}
         config  = Configuration()
         config.setDirector(director)

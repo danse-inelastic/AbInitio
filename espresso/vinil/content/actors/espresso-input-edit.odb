@@ -70,7 +70,7 @@ class Actor(base):
 
 
     def updateRecord(self, director):
-        """Create configuration record"""
+        """Update configuration record"""
         params  = {"filename":      self.fname,
                    "type":          self.type,
                    "description":   self.description,
