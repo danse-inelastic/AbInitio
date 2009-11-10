@@ -51,7 +51,7 @@ class Actor(base):
 
         document        = Document(title="%s Configuration: %s" % (self.type, self.filename(self._input)))   # , Class="step-content"
         self.showLinks(document)    # Finish
-
+        self.showConfig(document, self._input)
 
         return document
 
