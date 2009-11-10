@@ -64,12 +64,12 @@ class Actor(base):
         d.add(tabs)
 
         cancel      = Button(label="Return")
-        cancel.onclick = load(actor = 'espresso-step-two', routine = 'link', id=sim.id)
+        cancel.onclick = load(actor = 'espresso/step-two', routine = 'link', id=sim.id)
         d.add(cancel)
 
         s_content.add(d)
 
-#        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
+#        linklist    = (("espresso/step-one", "link"), ("espresso/step-three", "link"))
 #        stepper     = Stepper(linklist)
 #        s_stepper   = stepper.getStepper()
 #        splitter.add(s_stepper)
@@ -81,10 +81,10 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
-                         (STEPS[1], "espresso-step-two", "link", self.id),
-                         ("PW", "espresso-set-config", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
+                         (STEPS[1], "espresso/step-two", "link", self.id),
+                         ("PW", "espresso/set-config", "link", self.id),
                          ("Configuration Builder", None, None)]
 
         return self.pathlist
@@ -106,7 +106,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-set-config')
+    return Actor('espresso/set-config')
 
 __date__ = "$Nov 3, 2009 6:01:31 PM$"
 

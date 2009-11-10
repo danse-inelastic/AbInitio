@@ -59,14 +59,14 @@ class Actor(base):
         d.add(Paragraph(text=text))
 
         d.add(Paragraph(text="PW"))
-        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        d.add(Link(label="Add", onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
         d.add(Paragraph(text="\/"))
         d.add(Paragraph(text="DOS"))
-        d.add(Link(label="Add", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
+        d.add(Link(label="Add", onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
 
         s_content.add(d)
 
-        linklist    = (("espresso-step-one", "link", None), ("espresso-step-three", "link", self.id))
+        linklist    = (("espresso/step-one", "link", None), ("espresso/step-three", "link", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -79,8 +79,8 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          (STEPS[1], None, None)]
 
         return self.pathlist
@@ -102,7 +102,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-step-two')
+    return Actor('espresso/step-two')
 
 
 # **************** DEAD CODE *******************

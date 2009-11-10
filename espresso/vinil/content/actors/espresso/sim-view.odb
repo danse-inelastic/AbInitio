@@ -48,9 +48,9 @@ class Actor(base):
         return document
 
     def showLinks(self, document):
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso-sim-edit', routine='link', id=self.id)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso-sim-delete', routine='link', id=self.id)))
-        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso-sim-use', routine='link', id=self.id)))
+        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso/sim-edit', routine='link', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso/sim-delete', routine='link', id=self.id)))
+        document.add(Link(label="Use as a Template", Class="action-link", onclick = load(actor='espresso/sim-use', routine='link', id=self.id)))
 
 
     def showSim(self, document, sim):
@@ -104,10 +104,10 @@ class Actor(base):
         """Adds References"""
         document.add(Document(Class="clear-both"))   # Empty document
         refsdoc = Document(Class="display-block")
-        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso-step-three", routine="link", id=self.id)))
-        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso-step-four", routine="link", id=self.id)))
-        refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs-submitted", routine="submit", id=self.id)))
+        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
+        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso/step-three", routine="link", id=self.id)))
+        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso/step-four", routine="link", id=self.id)))
+        refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs/submitted", routine="submit", id=self.id)))
         document.add(refsdoc)
 
     def inputFiles(self):
@@ -132,7 +132,7 @@ class Actor(base):
 
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
+                         ("Quantum Espresso", "espresso/index", "link"),
                          (sim.sname, None, None)]
 
         return self.pathlist
@@ -156,7 +156,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-sim-view')
+    return Actor('espresso/sim-view')
 
 
 __date__ = "$Nov 2, 2009 3:15:35 PM$"

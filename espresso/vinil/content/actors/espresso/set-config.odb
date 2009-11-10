@@ -57,7 +57,7 @@ class Actor(base):
 
         d           = Document(title="Simulation Name: %s" % name, Class="step-content")
 
-        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso-config-builder", routine="link", id=self.id)))
+        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso/config-builder", routine="link", id=self.id)))
         d.add(Paragraph(text="OR"))
         d.add(Paragraph(text="Create configuration using the form:"))
         
@@ -67,17 +67,17 @@ class Actor(base):
         configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
         text        = form.textarea(name="text", label='Config Text', value=self.text)
         submit      = form.submitbutton(label="Create Configuration")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-set-config', routine = 'createRecord', id=sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/set-config', routine = 'createRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-step-two', routine = 'link', id=sim.id)
+        cancel.onclick = load(actor = 'espresso/step-two', routine = 'link', id=sim.id)
         form.add(cancel)
         d.add(form)
 
         s_content.add(d)
 
-#        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
+#        linklist    = (("espresso/step-one", "link"), ("espresso/step-three", "link"))
 #        stepper     = Stepper(linklist)
 #        s_stepper   = stepper.getStepper()
 #        splitter.add(s_stepper)
@@ -92,9 +92,9 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
-                         (STEPS[1], "espresso-step-two", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
+                         (STEPS[1], "espresso/step-two", "link", self.id),
                          ("PW", None, None)]
 
         return self.pathlist
@@ -121,7 +121,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-set-config')
+    return Actor('espresso/set-config')
 
 __date__ = "$Nov 3, 2009 6:01:31 PM$"
 

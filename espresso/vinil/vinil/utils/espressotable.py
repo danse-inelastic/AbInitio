@@ -45,19 +45,19 @@ def tableSimulations(headers, names, columns, ids):
                               )
     # Populate the data list
     def name(i):
-        link = Link(label=names[i], onclick = load(actor='espresso-sim-view', routine='link', id=ids[i]))
+        link = Link(label=names[i], onclick = load(actor='espresso/sim-view', routine='link', id=ids[i]))
         return link
 
     def edit(i):
-        link = Link(label="Edit", onclick = load(actor='espresso-sim-edit', routine='link', id=ids[i]))
+        link = Link(label="Edit", onclick = load(actor='espresso/sim-edit', routine='link', id=ids[i]))
         return link
 
     def delete(i):
-        link = Link(label="Delete", onclick = load(actor='espresso-sim-delete', routine='link', id=ids[i]))
+        link = Link(label="Delete", onclick = load(actor='espresso/sim-delete', routine='link', id=ids[i]))
         return link
 
     def use(i):
-        link = Link(label="Use", onclick = load(actor='espresso-sim-use', routine='link', id=ids[i]))
+        link = Link(label="Use", onclick = load(actor='espresso/sim-use', routine='link', id=ids[i]))
         return link
 
     data    = []

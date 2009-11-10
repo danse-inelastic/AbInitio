@@ -70,11 +70,11 @@ class Actor(base):
 #        text        = form.textarea(name="text", label='Config Text', value=configtext)
         #text.value     # You can set value directly
         submit      = form.submitbutton(label="Save Changes")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-edit', routine = 'updateRecord', id=sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-edit', routine = 'updateRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso', routine = 'link')
+        cancel.onclick = load(actor = 'espresso/index', routine = 'link')
         form.add(cancel)
         document.add(form)
 
@@ -84,8 +84,8 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          ("Edit", None, None)]
 
         return self.pathlist
@@ -115,7 +115,7 @@ class Actor(base):
 #            config  = Configuration()
 #            config.createRecord(director, params)
 
-        return load(actor='espresso-sim-view', routine='link', id=self.id)  # Redirection to the page
+        return load(actor='espresso/sim-view', routine='link', id=self.id)  # Redirection to the page
 
     # stub
     def verify(self):
@@ -149,7 +149,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-sim-edit')
+    return Actor('espresso/sim-edit')
 
 
 

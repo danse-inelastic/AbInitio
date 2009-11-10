@@ -68,12 +68,12 @@ class Actor(base):
         modulesespresso    = form.text(name="", label='Modules', value=self.modulesespresso)
 
         submit          = form.submitbutton(label="Create Simulation Parameters")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-step-three', routine = 'createRecord', id=self.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/step-three', routine = 'createRecord', id=self.id)
 
         d.add(form)
 
         s_content.add(d)
-        linklist    = (("espresso-step-two", "link", self.id), ("espresso-step-four", "link", self.id))
+        linklist    = (("espresso/step-two", "link", self.id), ("espresso/step-four", "link", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -83,14 +83,14 @@ class Actor(base):
 
     def createRecord(self, director):
         # Create record
-        return load(actor='espresso-step-four', routine='link', id=self.id)  # Redirection to the page
+        return load(actor='espresso/step-four', routine='link', id=self.id)  # Redirection to the page
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          (STEPS[2], None, None)
                          ]
 
@@ -122,7 +122,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-step-three')
+    return Actor('espresso/step-three')
 
 
 

@@ -48,7 +48,7 @@ class Actor(base):
 
         d           = Document(title="Create Input Configuration: %s" % self.type)   # , Class="step-content"
 
-        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso-config-builder", routine="link", id=self.id)))
+        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso/config-builder", routine="link", id=self.id)))
         d.add(Paragraph(text="OR"))
         d.add(Paragraph(text="Create configuration using the form:"))
 
@@ -56,16 +56,16 @@ class Actor(base):
         fname       = form.text(name="fname", label='File Name', value=self.fname)
         type        = form.text(name="type", label='Config Type', value=self.type)      # Should be text
         description = form.text(name="description", label='Description', value=self.description)
-        parser      = form.selector(name="parser", label='Parser', entries=enumerate(["qeinput"]))  # Doesn't do anything
+        parser      = form.selector(name="parser", label='Parser', entries=enumerate(PARSERS))  # Doesn't do anything
         text        = form.textarea(name="text", label='Config Text', value=self.text)
         submit      = form.submitbutton(label="Create Configuration")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-add',
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/input-add',
                                                       routine = 'createRecord',
                                                       id=self.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=self.id)
+        cancel.onclick = load(actor = 'espresso/sim-view', routine = 'link', id=self.id)
         form.add(cancel)
         d.add(form)
 
@@ -83,15 +83,15 @@ class Actor(base):
         config  = Configuration()
         config.setDirector(director)
         config.createRecord(params)
-        return load(actor='espresso-sim-view', routine='link', id=self.id)
+        return load(actor='espresso/sim-view', routine='link', id=self.id)
 
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          ("Create Configuration: %s" % self.type, None, None)]
 
         return self.pathlist
@@ -117,27 +117,9 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-input-add')
+    return Actor('espresso/input-add')
 
 __date__ = "$Nov 9, 2009 4:09:15 PM$"
 
-
-#        splitter    = Splitter(orientation='vertical', id="step-splitter")
-#        simsteps    = SimulationSteps(current=2)
-#        s_steps     = simsteps.getSteps()
-#        splitter.add(s_steps)
-#        s_content   = splitter.section()
-
-#        if sim:
-#            name = sim.sname
-#        else:
-#            name = ""
-
-#        s_content.add(d)
-
-#        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
-#        stepper     = Stepper(linklist)
-#        s_stepper   = stepper.getStepper()
-#        splitter.add(s_stepper)
 
 

@@ -58,11 +58,11 @@ class Actor(base):
 
     def showLinks(self, document):  #, inputs
         document.add(Link(label="EditBOBO", Class="action-link",
-                          onclick = load(actor='espresso-input-edit',
+                          onclick = load(actor='espresso/input-edit',
                           routine='link', id=self.id, configid=self.configid,
                           type=self.type)))
         document.add(Link(label="Delete", Class="action-link",
-                          onclick = load(actor='espresso-input-delete',
+                          onclick = load(actor='espresso/input-delete',
                           routine='link', id=self.id, configid=self.configid,
                           type=self.type)))
 
@@ -88,8 +88,8 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          ("%s Configuration" % self.type, None, None)]
 
         return self.pathlist
@@ -114,39 +114,9 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-input-view')
+    return Actor('espresso/input-view')
 
 __date__ = "$Nov 9, 2009 5:10:40 PM$"
 
-
-
-
-#        #self._inputs    = director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (self.id, self.type))
-#    # ?
-#    def inputId(self, inputs):
-#        if inputs:
-#            assert len(inputs) == 1
-#            return inputs[0].id
-#
-#        return ""
-
-
-#        d.add(Link(label="Use Configuration Builder", onclick=load(actor="espresso-config-builder", routine="link", id=self.id)))
-#        d.add(Paragraph(text="OR"))
-#        d.add(Paragraph(text="Create configuration using the form:"))
-#
-#        form        = Form(id="form-vinil")
-#        fname       = form.text(name="fname", label='File Name', value=self.fname)
-#        description = form.text(name="description", label='Description', value=self.description)
-#        type        = form.text(name="type", label='Config Type', value=self.type)      # Should be text
-#        text        = form.textarea(name="text", label='Config Text', value=self.text)
-#        submit      = form.submitbutton(label="Create Configuration")
-#        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-add', routine = 'createRecord', id=self._sim.id)
-#
-#        # TODO: "Cancel" button looks UGLY
-#        cancel      = Button(label="Cancel")
-#        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=self.id)
-#        form.add(cancel)
-#        d.add(form)
 
 

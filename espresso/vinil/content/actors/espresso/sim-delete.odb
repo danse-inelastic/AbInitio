@@ -37,11 +37,11 @@ class Actor(base):
 
         form        = Form(id="form-vinil")
         submit      = form.submitbutton(label="Delete")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-sim-delete', routine = 'deleteRecord', id=sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-delete', routine = 'deleteRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso', routine = 'link')
+        cancel.onclick = load(actor = 'espresso/index', routine = 'link')
         form.add(cancel)
 
         document.add(form)
@@ -58,15 +58,15 @@ class Actor(base):
         if config:
             config[0].deleteRecord(director)
 
-        return load(actor='espresso', routine='link')  # Redirection to the page
+        return load(actor='espresso/index', routine='link')  # Redirection to the page
 
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          ("Delete", None, None)]
 
         return self.pathlist
@@ -89,7 +89,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-sim-delete')
+    return Actor('espresso/sim-delete')
 
 __date__ = "$Nov 2, 2009 3:19:17 PM$"
 

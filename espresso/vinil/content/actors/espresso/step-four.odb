@@ -79,7 +79,7 @@ class Actor(base):
         s_content.add(d)
 
         # Change label on the "Next" button to "Submit to Queue"
-        linklist    = (("espresso-step-three", "link", self.id), ("jobs-submitted", "submit", self.id))
+        linklist    = (("espresso/step-three", "link", self.id), ("jobs/submitted", "submit", self.id))
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -90,8 +90,8 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                      ("Simulations", "simulations", "link"),
-                     ("Quantum Espresso", "espresso", "link"),
-                     (sim.sname, "espresso-sim-view", "link", self.id),
+                     ("Quantum Espresso", "espresso/index", "link"),
+                     (sim.sname, "espresso/sim-view", "link", self.id),
                      (STEPS[3], None, None)
                      ]
 
@@ -114,7 +114,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-step-four')
+    return Actor('espresso/step-four')
 
 __date__ = "$Sep 29, 2009 7:50:12 PM$"
 

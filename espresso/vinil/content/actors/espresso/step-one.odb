@@ -62,14 +62,14 @@ class Actor(base):
         #isFavorite - All simulations are favorite at this moment!
         #d_form.add(FormCheckBox(entries=enumerate(options)) )
         submit      = form.submitbutton(label="Create New Simulation")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-step-one', routine = 'createRecord')
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/step-one', routine = 'createRecord')
 
         d.add(form)
         s_content.add(d)
 
         # TODO: Redo stepper. Should not conflict with submit button!
 
-        linklist    = (("espresso", "link", None), ())    # ("espresso-step-one", "link", self.id)
+        linklist    = (("espresso/index", "link", None), ())    # ("espresso/step-one", "link", self.id)
         stepper     = Stepper(linklist)
         s_stepper   = stepper.getStepper()
         splitter.add(s_stepper)
@@ -88,7 +88,7 @@ class Actor(base):
         sim     = Simulation()
         sim.createRecord(director, params)
 
-        return load(actor='espresso-step-two', routine='link', id=sim.id)  # Redirection to the page
+        return load(actor='espresso/step-two', routine='link', id=sim.id)  # Redirection to the page
 
 
     # stub
@@ -99,7 +99,7 @@ class Actor(base):
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
+                         ("Quantum Espresso", "espresso/index", "link"),
                          (STEPS[0], None, None)
                          ]
         return self.pathlist
@@ -128,7 +128,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-step-one')
+    return Actor('espresso/step-one')
 
 
 # *********** DEAD CODE ******************

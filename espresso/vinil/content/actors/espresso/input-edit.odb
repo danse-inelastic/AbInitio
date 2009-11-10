@@ -55,14 +55,14 @@ class Actor(base):
         parser      = form.selector(name="parser", label='Parser', entries=enumerate(PARSERS))  # Doesn't do anything
         text        = form.textarea(name="text", label='Config Text', value=self._input.text)
         submit      = form.submitbutton(label="Edit Configuration")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-edit',
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/input-edit',
                                                       routine = 'updateRecord',
                                                       id=self.id,
                                                       configid=self.configid)   # no type
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=self.id)
+        cancel.onclick = load(actor = 'espresso/sim-view', routine = 'link', id=self.id)
         form.add(cancel)
         d.add(form)
 
@@ -79,15 +79,15 @@ class Actor(base):
         self._input     = director.clerk.getConfigurations(id=self.configid)
         self._input.setDirector(director)
         self._input.updateRecord(params)
-        return load(actor='espresso-sim-view', routine='link', id=self.id)
+        return load(actor='espresso/sim-view', routine='link', id=self.id)
 
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         (sim.sname, "espresso-sim-view", "link", self.id),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
                          ("Edit Configuration: %s" % self.type, None, None)]
 
         return self.pathlist
@@ -113,7 +113,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('espresso-input-edit')
+    return Actor('espresso/input-edit')
 
 __date__ = "$Nov 9, 2009 5:07:11 PM$"
 
