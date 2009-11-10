@@ -37,7 +37,10 @@ class SimChain:
         for i in range(listsize):
             section     = splitter.section()
             section.add(Paragraph(text=self._simlist[i]))
-            section.add(Link(label=self._inputText(orderedInputs[i]), Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=id)))
+            section.add(Link(label=self._inputText(orderedInputs[i]), Class="action-link",
+                             onclick=load(actor="espresso-input", routine="link",
+                             id=id, type=self._simlist[i]))
+                        )
 
             if i != listsize - 1:   # No arrow for last config
                 sep     = splitter.section()        # Separator

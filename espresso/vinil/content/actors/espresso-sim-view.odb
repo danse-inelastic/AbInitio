@@ -55,25 +55,10 @@ class Actor(base):
 
     def addInputFiles(self, director, document, type):
         document.add(Document(Class="clear-both"))
-
+        document.add(Paragraph(text="Input Files: "))
         splitter        = SimChain(director, type)
-#        splitter    = Splitter(orientation='horizontal')
-#        one     = splitter.section()
-#        one.add(Paragraph(text="PW "))
-#        one.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-#        sep     = splitter.section()
-#        sep.add(Paragraph(text=" ----> "))
-#        two     = splitter.section()
-#        two.add(Paragraph(text="DOS"))
-#        two.add(Link(label="Add"))
         
         document.add(splitter.chain(self.id))
-
-#        document.add(Document(Class="clear-both"))   # Empty document
-#        inpdoc  = Document(Class="display-inline")
-#        inpdoc.add(Paragraph(text="Input Files: "))
-#        inpdoc.add(Link(label=filename, Class="action-link", onclick=load(actor="espresso-set-config", routine="link", id=self.id)))
-#        document.add(inpdoc)
 
 
     def addSettings(self, director, document):
