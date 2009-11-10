@@ -14,6 +14,7 @@
 from vinil.utils.const import STEPS, TYPES
 from vinil.utils.simulationsteps import SimulationSteps
 from vinil.utils.stepper import Stepper
+from vinil.dom.Configuration import Configuration
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -35,7 +36,7 @@ class Actor(base):
 
     class Inventory(base.Inventory):
         import pyre.inventory
-        id          = pyre.inventory.str('id', default='')
+        id          = pyre.inventory.str('id', default='')      # Simulation Id
         type        = pyre.inventory.str('type', default='')    # Type of the configuration file
         fname       = pyre.inventory.str('fname', default='')
         description = pyre.inventory.str('description', default='')
@@ -43,17 +44,7 @@ class Actor(base):
 
 
     def content(self, director):
-#        splitter    = Splitter(orientation='vertical', id="step-splitter")
-#        simsteps    = SimulationSteps(current=2)
-#        s_steps     = simsteps.getSteps()
-#        splitter.add(s_steps)
-#        s_content   = splitter.section()
-
-        sim         = director.clerk.getSimulations(id=self.id)
-#        if sim:
-#            name = sim.sname
-#        else:
-#            name = ""
+        self._sim   = director.clerk.getSimulations(id=self.id)
 
         d           = Document(title="Create Input Configuration: %s" % self.type)   # , Class="step-content"
 
@@ -67,26 +58,25 @@ class Actor(base):
         type        = form.text(name="type", label='Config Type', value=self.type)      # Should be text
         text        = form.textarea(name="text", label='Config Text', value=self.text)
         submit      = form.submitbutton(label="Create Configuration")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso-set-config', routine = 'createRecord', id=sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso-input-add', routine = 'createRecord', id=self._sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso-step-two', routine = 'link', id=sim.id)
+        cancel.onclick = load(actor = 'espresso-sim-view', routine = 'link', id=self.id)
         form.add(cancel)
         d.add(form)
 
-#        s_content.add(d)
-
-#        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
-#        stepper     = Stepper(linklist)
-#        s_stepper   = stepper.getStepper()
-#        splitter.add(s_stepper)
-
-        return d #splitter
+        return d
 
 
-    def createRecord(self):
-        pass
+    def createRecord(self, director):
+        """Create configuration record"""
+        params  = {"simulationId": self.id, "description": self.description, "type": self.type, "filename": self.fname, "text": self.text} 
+        config  = Configuration()
+        config.setDirector(director)
+        config.createRecord(params)
+        return load(actor='espresso-sim-view', routine='link', id=self.id)
+
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
@@ -111,15 +101,33 @@ class Actor(base):
         self.fname       = self.inventory.fname
         self.description = self.inventory.description
         self.text        = self.inventory.text
-#        self.configtype  = self.inventory.configtype
 
     def _init(self):
         super(Actor, self)._init()
         return
 
 def actor():
-    return Actor('espresso-input')
+    return Actor('espresso-input-add')
 
 __date__ = "$Nov 9, 2009 4:09:15 PM$"
+
+
+#        splitter    = Splitter(orientation='vertical', id="step-splitter")
+#        simsteps    = SimulationSteps(current=2)
+#        s_steps     = simsteps.getSteps()
+#        splitter.add(s_steps)
+#        s_content   = splitter.section()
+
+#        if sim:
+#            name = sim.sname
+#        else:
+#            name = ""
+
+#        s_content.add(d)
+
+#        linklist    = (("espresso-step-one", "link"), ("espresso-step-three", "link"))
+#        stepper     = Stepper(linklist)
+#        s_stepper   = stepper.getStepper()
+#        splitter.add(s_stepper)
 
 

@@ -52,6 +52,7 @@ class DBTable(Table):
         self._clerk = clerk
 
 
+    # Do I need it?
     def setIDD(self, idd):
         self._idd  = idd
 
