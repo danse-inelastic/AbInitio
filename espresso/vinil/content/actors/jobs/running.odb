@@ -42,7 +42,7 @@ class Actor(base):
 
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
-                         ("Jobs", "jobs", "link"),
+                         ("Jobs", "jobs/index", "link"),
                          ("Running", None, None) ]
 
         return self.pathlist
@@ -64,7 +64,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('jobs-running')
+    return Actor('jobs/running')
 
 
 __date__ = "$Nov 4, 2009 9:27:51 AM$"

@@ -36,11 +36,11 @@ class Actor(base):
 
         form        = Form(id="form-vinil")
         submit      = form.submitbutton(label="Delete")
-        form.onsubmit   = select(element=form).submit(actor = 'jobs-delete', routine = 'deleteRecord', id=job.id)
+        form.onsubmit   = select(element=form).submit(actor = 'jobs/delete', routine = 'deleteRecord', id=job.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'jobs', routine = 'link')
+        cancel.onclick = load(actor = 'jobs/index', routine = 'link')
         form.add(cancel)
 
         document.add(form)
@@ -53,16 +53,16 @@ class Actor(base):
         if job:
             job.deleteRecord(director)
 
-        return load(actor='jobs', routine='link')  # Redirection to the page
+        return load(actor='jobs/index', routine='link')  # Redirection to the page
 
-
+f
     def pathlist(self, director):
         job     = director.clerk.getJobs(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
                          ("Quantum Espresso", "espresso", "link"),
-                         ("Jobs", "jobs", "link"),
-                         (job.id, "jobs-view", "link", self.id),
+                         ("Jobs", "jobs/index", "link"),
+                         (job.id, "jobs/view", "link", self.id),
                          ("Delete", None, None)]
 
         return self.pathlist
@@ -85,7 +85,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('jobs-delete')
+    return Actor('jobs/delete')
 
 
 __date__ = "$Nov 4, 2009 7:21:22 PM$"

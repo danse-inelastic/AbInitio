@@ -39,19 +39,19 @@ class Actor(base):
         (simid, simname)    = self.simdata(director, job)
 
         d = Document(title='Job#: %s' % job.id)
-        d.add(Link(label="Delete", Class="action-link", onclick = load(actor='jobs-delete', routine='link', id=self.id)))
+        d.add(Link(label="Delete", Class="action-link", onclick = load(actor='jobs/delete', routine='link', id=self.id)))
 
         # Downloads
         d.add(Paragraph(text="Download:"))   # STUB
-        d.add(Link(label="Ni.tar.gz", Class="action-link", onclick = load(actor='jobs-view', routine='link', id=self.id)))
+        d.add(Link(label="Ni.tar.gz", Class="action-link", onclick = load(actor='jobs/view', routine='link', id=self.id)))
 
         # Simulation
         d.add(Paragraph(text="Simulation:"))
-        d.add(Link(label=simname, Class="action-link", onclick = load(actor='espresso-sim-view', routine='link', id=simid)))
+        d.add(Link(label=simname, Class="action-link", onclick = load(actor='espresso/sim-view', routine='link', id=simid)))
 
         # Server
         d.add(Paragraph(text="Server:"))   # STUB
-        d.add(Link(label="foxtrot.danse.us", Class="action-link", onclick = load(actor='jobs-view', routine='link', id=self.id)))
+        d.add(Link(label="foxtrot.danse.us", Class="action-link", onclick = load(actor='jobs/view', routine='link', id=self.id)))
 
         # Files
         d.add(Paragraph(text="Input Files: ni.scf.in, ni.dos.in"))      # STUB
@@ -98,8 +98,8 @@ class Actor(base):
         job     = director.clerk.getJobs(id=self.id)
         self.pathlist = [("Home","greet","link"),
                          ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso", "link"),
-                         ("Jobs", "jobs", "link"),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         ("Jobs", "jobs/index", "link"),
                          (job.id, None, None)]
 
         return self.pathlist
@@ -122,7 +122,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('jobs-view')
+    return Actor('jobs/view')
 
 __date__ = "$Nov 4, 2009 1:00:31 PM$"
 

@@ -39,20 +39,20 @@ class Actor(base):
         self.createRecord(director)
         self.runSimulation(director)
         
-        return load(actor='jobs-submitted', routine='link')
+        return load(actor='jobs/submitted', routine='link')
 
 
     def content(self, director):
         document = Document(title='Job Submitted')
         document.add(Paragraph(text="Your jobs was successfully submitted!"))
-        document.add(Link(label="All jobs", Class="action-link", onclick=load(actor="jobs", routine="link")))
+        document.add(Link(label="All jobs", Class="action-link", onclick=load(actor="jobs/index", routine="link")))
 
         return document
 
 
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
-                         ("Jobs", "jobs", "link"),
+                         ("Jobs", "jobs/index", "link"),
                          ("Submitted", None, None) ]
 
         return self.pathlist
@@ -177,7 +177,7 @@ class Actor(base):
         return
 
 def actor():
-    return Actor('jobs-submitted')
+    return Actor('jobs/submitted')
 
 
 __date__ = "$Nov 4, 2009 9:27:51 AM$"
