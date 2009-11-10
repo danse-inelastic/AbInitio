@@ -38,8 +38,8 @@ class SimChain:
             section     = splitter.section()
             section.add(Paragraph(text=self._simlist[i]))
             section.add(Link(label=self._inputText(orderedInputs[i]), Class="action-link",
-                             onclick=load(actor="espresso-input", routine="link",
-                             id=id, type=self._simlist[i]))
+                             onclick=load(actor=self._getActor(orderedInputs[i]),
+                             routine="link", id=id, type=self._simlist[i]))
                         )
 
             if i != listsize - 1:   # No arrow for last config
@@ -50,10 +50,19 @@ class SimChain:
 
 
     def _inputText(self, input):
+        """Returns"""
         if input:
             return input.filename
 
         return "Add"
+
+
+    def _getActor(self, input):
+        """Returns proper actor depending if 'input' exists"""
+        if input:   # Edit
+            return "espresso-input-edit"
+
+        return "espresso-input-add" # Create new
 
 
     def _orderInput(self, simlist, inputs):
