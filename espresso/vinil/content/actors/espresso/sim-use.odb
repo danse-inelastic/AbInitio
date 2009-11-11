@@ -136,9 +136,6 @@ class Actor(base):
         self.simtype     = self.inventory.simtype
         self.description = self.inventory.description
         self.formula     = self.inventory.formula
-#        self.fname       = self.inventory.fname
-#        self.text        = self.inventory.text
-#        self.configtype  = self.inventory.configtype
 
         return
 

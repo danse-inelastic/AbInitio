@@ -15,6 +15,7 @@
 Matter  - table that contains data related to matter
 """
 
+# Should matter depend on simulation?
 from vinil.components.DBTable import DBTable
 
 class Matter(DBTable):
@@ -27,7 +28,7 @@ class Matter(DBTable):
     id.meta['tip'] = "the unique id"
 
     simulationId    = pyre.db.varchar(name="simulationId", length=8)
-    simulationId.constraints = 'REFERENCES simulation (id)'
+    #simulationId.constraints = 'REFERENCES simulation (id)'
     simulationId.meta['tip'] = "simulationId"
 
     mname = pyre.db.varchar(name="mname", length=1024, default='')

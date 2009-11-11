@@ -34,7 +34,7 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
 
         document = Document(title='Delete Simulation: %s' % sim.sname)
-        document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
+        document.add(Paragraph(text="Deleting simulation will also delete jobs and configuration inputs. Are you sure you want to delete the simulation?"))
 
         form        = Form(id="form-vinil")
         submit      = form.submitbutton(label="Delete")
@@ -50,17 +50,38 @@ class Actor(base):
         return document
 
     def deleteRecord(self, director):
-        sim             = director.clerk.getSimulations(id=self.id)
+        # Order in which records are deleted is important. See the database schema
+        self.deleteConfigs(director)
+        self.deleteJobs(director)
+        self.deleteSim(director)
+        
+        # Delete matter?
+        return load(actor='espresso/index', routine='link')  # Redirection to the page
 
+    def deleteConfigs(self, director):
+        """Deletes config records"""
+        configs         = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+        if configs:
+            for c in configs:
+                c.setDirector(director)
+                c.deleteRecord()
+        
+
+    def deleteJobs(self, director):
+        """Deletes jobs"""
+        jobs            = director.clerk.getJobs(where="simulationId='%s'" % self.id)
+        if jobs:
+            for j in jobs:
+                j.setDirector(director)
+                j.deleteRecord()
+
+
+    def deleteSim(self, director):
+        """Finally, deletes simulation"""
+        sim             = director.clerk.getSimulations(id=self.id)
         if sim:
             sim.setDirector(director)
             sim.deleteRecord()
-        
-        # Delete config records
-        # Delete jobs
-        # Delete matter?
-
-        return load(actor='espresso/index', routine='link')  # Redirection to the page
 
 
     def pathlist(self, director):
