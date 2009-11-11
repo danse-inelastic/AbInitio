@@ -27,7 +27,7 @@ class Server(DBTable):
     id.meta['tip'] = "the unique id"
 
     sname = pyre.db.varchar(name="sname", length=256)
-    sname.meta['tip'] = "sname"
+    sname.meta['tip'] = "Server name reachable through the internet (E.g. foxtrot.danse.us)"
 
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"

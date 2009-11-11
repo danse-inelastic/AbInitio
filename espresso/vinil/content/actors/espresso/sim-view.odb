@@ -49,13 +49,20 @@ class Actor(base):
         return document
 
     def showLinks(self, document):
-        document.add(Link(label="Edit", Class="action-link", onclick = load(actor='espresso/sim-edit', routine='link', id=self.id)))
-        document.add(Link(label="Delete", Class="action-link", onclick = load(actor='espresso/sim-delete', routine='link', id=self.id)))
-        document.add(Link(label="Clone", Class="action-link", onclick = load(actor='espresso/sim-use', routine='link', id=self.id)))
+        document.add(Link(label="Edit", Class="action-link",
+                          onclick = load(actor='espresso/sim-edit',
+                          routine='link', id=self.id)))
+        document.add(Link(label="Delete", Class="action-link",
+                          onclick = load(actor='espresso/sim-delete',
+                          routine='link', id=self.id)))
+        document.add(Link(label="Clone", Class="action-link",
+                          onclick = load(actor='espresso/sim-use',
+                          routine='link', id=self.id)))
 
 
     def showSim(self, document, sim):
-        if sim: #?
+        """Shows simulation data"""
+        if sim: # ?
             document.add(Paragraph(text="Description: %s" % sim.description))
             document.add(Paragraph(text="Type: %s" % sim.type))
             document.add(Paragraph(text="Package: %s" % sim.package))
@@ -64,6 +71,7 @@ class Actor(base):
 
 
     def showInputFiles(self, director, document, type):
+        """Shows chain of configuration files"""
         document.add(Document(Class="clear-both"))
         document.add(Paragraph(text="Input Files: "))
         splitter        = SimChain(director, type)
@@ -85,7 +93,10 @@ class Actor(base):
         document.add(Document(Class="clear-both"))   # Empty document
         servdoc = Document(Class="display-inline")
         servdoc.add(Paragraph(text="Default Server: "))
-        servdoc.add(Link(label="foxtrot.danse.us", Class="action-link", onclick=load(actor="espresso/server-view", routine="link", id=self.id)))
+        servdoc.add(Link(label="foxtrot.danse.us", Class="action-link",
+                         onclick=load(actor="server-view",
+                         routine="link",
+                         sname="foxtrot.danse.us")))    # Hardcoded
         document.add(servdoc)
 
 

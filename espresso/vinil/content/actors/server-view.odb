@@ -1,0 +1,87 @@
+#!/usr/bin/env python
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Alex Dementsov
+#                      California Institute of Technology
+#                        (C) 2009  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+from vinil.utils.const import STEPS, TYPES
+from vinil.utils.utils import stamp2date
+from vinil.utils.simulationsteps import SimulationSteps
+from vinil.utils.stepper import Stepper
+from vinil.dom.Configuration import Configuration
+
+from luban.content import select
+from luban.content.Paragraph import Paragraph
+from luban.content.Document import Document
+from luban.content.HtmlDocument import HtmlDocument
+from luban.content import load
+from luban.content.Link import Link
+from luban.content.Splitter import Splitter
+from luban.content.FormSelectorField import FormSelectorField
+from luban.content.FormRadioBox import FormRadioBox
+from luban.content.Form import Form
+from luban.content.Tabs import Tabs
+from luban.content.Button import Button
+
+from vinil.components.Actor import Actor as base
+
+# Requires simulation id, config id and config type: (id, configid, type)
+class Actor(base):
+
+    class Inventory(base.Inventory):
+        import pyre.inventory
+        id          = pyre.inventory.str('id', default='')          # Simulation Id
+        sname       = pyre.inventory.str('sname', default='')
+
+
+    def content(self, director):
+        self._server       = director.clerk.getServers(where="sname='%s'" % self.sname)
+
+        document        = Document(title="Server Name: %s" % self.sname)   # , Class="step-content"
+        self.showServer(document, self._server)
+
+        return document
+
+
+    def showServer(self, document, server):
+        if server:
+            s   = server[0]
+            document.add(Paragraph(text="Server IP: %s" % s.ipAddress))
+            document.add(Paragraph(text="Description: %s" % s.description))
+
+
+    def pathlist(self, director):
+        self.pathlist = [("Home","greet","link"),
+                         ("Simulations", "simulations", "link"),
+                         ("Server: %s" % self.sname, None, None)]
+
+        return self.pathlist
+
+    def __init__(self, *args, **kwds):
+        super(Actor, self).__init__(*args, **kwds)
+
+        return
+
+
+    def _configure(self):
+        super(Actor, self)._configure()
+        self.id             = self.inventory.id
+        self.sname          = self.inventory.sname
+
+    def _init(self):
+        super(Actor, self)._init()
+        return
+
+def actor():
+    return Actor('server-view')
+
+__date__ = "$Nov 10, 2009 6:30:49 PM$"
+
+
