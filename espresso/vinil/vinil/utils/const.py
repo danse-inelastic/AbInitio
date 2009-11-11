@@ -64,6 +64,19 @@ STATES = {
 
 PARSERS = ("qeinput",)
 
+# Settings specific to QE
+QESETTINGS  = {
+                "server":       "Server Name",
+                "numproc":      "Number of Processors",
+                "numnodes":     "Number of Nodes",
+                "procpernode":  "Processors Per Node",
+                "npool":        "Npool",
+                "executable":   "Executable",
+                "params":       "Additional Parameters",
+                "qemodules":    "Modules"
+              }
+
+
 __date__ = "$Nov 3, 2009 3:12:34 PM$"
 
 
