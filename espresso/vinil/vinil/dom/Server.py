@@ -32,6 +32,12 @@ class Server(DBTable):
     description = pyre.db.varchar(name="description", length=1024, default='')
     description.meta['tip'] = "description"
 
+    coresnum    = pyre.db.integer(name="coresnum", default=0)   # not set
+    coresnum.meta['tip'] = "Number of cores"
+
+    procsnum    = pyre.db.integer(name="procsnum", default=0)   # not set
+    procsnum.meta['tip'] = "Total number of processors"
+
     ipAddress = pyre.db.varchar(name="ipAddress", length=64, default='')
     ipAddress.meta['tip'] = "ipAddress"
 

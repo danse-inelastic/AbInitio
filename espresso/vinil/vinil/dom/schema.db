@@ -21,6 +21,14 @@ atom
 matter
     simulationId    # ?
 
+- There is idea to implement separate table for simulations settings called 'settings'
+but it is specific for simulation package and resembles to Configuration table. So
+we will use Configuration instead for now
+#settings
+#    simulationId
+#    serverId
+
+
 *** Order for database tables creation:
 
 simulation
@@ -29,15 +37,16 @@ simulation
 *** Order for database tables deletion:
 
 
-# Status of the job:
-    "Submitted",
-    "Submission Failed",
-    "Running",
-    "Paused",
-    "Finished",
-    "Failed",
-    "Cancelled",
-    "Terminated"
+*** Status of jobs: See vinil.utils.const.STATES
+
+#    "Submitted",
+#    "Submission Failed",
+#    "Running",
+#    "Paused",
+#    "Finished",
+#    "Failed",
+#    "Cancelled",
+#    "Terminated"
 
 
 # Job - simulation that is submitted to queue

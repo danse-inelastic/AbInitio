@@ -32,7 +32,7 @@ def tableJobs(headers, jobids, simids, simnames, columns):
         submitted   = Model.descriptors.str(name='submitted')
         status      = Model.descriptors.str(name='status')
         delete      = Model.descriptors.link(name='delete')
-        check       = Model.descriptors.link(name='check')
+        refresh     = Model.descriptors.link(name='refresh')
 
     # create a view
     view = View( columns =  [ View.Column(label=headers[0], measure='jobid'),
@@ -42,7 +42,7 @@ def tableJobs(headers, jobids, simids, simnames, columns):
                               View.Column(label=headers[4], measure='submitted'),
                               View.Column(label=headers[5], measure='status'),
                               View.Column(label=headers[6], measure='delete'),
-                              View.Column(label=headers[7], measure='check'),]
+                              View.Column(label=headers[7], measure='refresh'),]
                               )
     # Populate the data list
     def jobid(i):
@@ -57,8 +57,8 @@ def tableJobs(headers, jobids, simids, simnames, columns):
         link = Link(label="Delete", onclick = load(actor='jobs/delete', routine='link', id=jobids[i]))
         return link
 
-    def check(i):
-        link = Link(label="Check", onclick = load(actor='jobs/index', routine='link', id=jobids[i]))       #ids[i]
+    def refresh(i):
+        link = Link(label="Refresh", onclick = load(actor='jobs/index', routine='link', id=jobids[i]))       #ids[i]
         return link
 
     data    = []
@@ -67,7 +67,7 @@ def tableJobs(headers, jobids, simids, simnames, columns):
         data.append(n)
         data[i]     += [sim(i)]
         data[i]     += columns[i]
-        data[i]     += [check(i)]
+        data[i]     += [refresh(i)]
         data[i]     += [delete(i)]
 
     # create the table
