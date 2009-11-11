@@ -14,8 +14,8 @@
 """
 Simulation  - table that contains simulation data
 """
-#from vinil.utils.const import SIMULATIONS
 
+from vinil.utils.const import SIMULATIONS
 from vinil.components.DBTable import DBTable
 
 class Simulation(DBTable):
@@ -55,25 +55,25 @@ class Simulation(DBTable):
     isExample.meta['tip'] = ""
 
 
-
+              
 # Default records
 defaults    = ({"id": 1, "sname": 'MgB2_SP', "package": 'Quantum Espresso',
-                "type": 'Single-Phonon', "description": 'Single-Phonon simualtion',
+                "type": SIMULATIONS[4], "description": 'Single-Phonon simualtion',
                 "formula": 'MgB2'},
                 {"id": 2, "sname": 'MgB2_E', "package": 'Quantum Espresso',
-                "type": 'Total Energy', "description": 'Electron simualtion',
+                "type": SIMULATIONS[0], "description": 'Electron simualtion',
                 "formula": 'MgB2'},
                 {"id": 3, "sname": 'MgB2_MP', "package": 'Quantum Espresso',
-                "type": 'Multi-Phonon DOS', "description": 'Multy-Phonon simualtion',
+                "type": SIMULATIONS[5], "description": 'Multy-Phonon simualtion',
                 "formula": 'MgB2'},
                 {"id": 4, "sname": 'Ni_Energy', "package": 'Quantum Espresso',
-                "type": 'Total Energy', "description": 'Total Energy simualtion',
+                "type": SIMULATIONS[0], "description": 'Total Energy simualtion',
                 "formula": 'Ni', "isFavorite": False, "isExample": True},
                 {"id": 5, "sname": 'Ni_E_DOS', "package": 'Quantum Espresso',
-                "type": 'Electron DOS', "description": 'Electron DOS simualtion',
+                "type": SIMULATIONS[1], "description": 'Electron DOS simualtion',
                 "formula": 'Ni', "isFavorite": False, "isExample": True},
                 {"id": 6, "sname": 'Ni_Ph_DOS', "package": 'Quantum Espresso',
-                "type": 'Multi-Phonon DOS', "description": 'Multy-Phonon DOS simualtion',
+                "type": SIMULATIONS[5], "description": 'Multy-Phonon DOS simualtion',
                 "formula": 'Ni', "isFavorite": False, "isExample": True})
 
 # Init tables

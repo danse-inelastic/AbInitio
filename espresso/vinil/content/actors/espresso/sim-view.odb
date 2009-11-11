@@ -14,6 +14,7 @@
 from vinil.utils.const import STEPS
 from vinil.utils.utils import stamp2date
 from vinil.utils.simchain import SimChain
+from vinil.utils.simparams import SimParams
 
 from luban.content.Splitter import Splitter
 
@@ -74,7 +75,9 @@ class Actor(base):
         document.add(Document(Class="clear-both"))   # Empty document
         setdoc  = Document(Class="display-inline")
         setdoc.add(Paragraph(text="Simulation Parameters: "))
-        setdoc.add(Link(label="settings.conf", Class="action-link", onclick=load(actor="server-view", routine="link", id=self.id)))
+
+        params  = SimParams(director)
+        setdoc.add(params.getLink(self.id))
         document.add(setdoc) # [STUB]
 
 

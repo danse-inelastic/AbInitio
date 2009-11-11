@@ -25,13 +25,13 @@ STEPS       = ("Create Simulation",
                "Set Simulation Parameters",
                "Review Simulation")
 
-SIMULATIONS = ("Total Energy",
-               "Electron DOS",
-               "Electron Dispersion",
-               "Geometry Optimization",
-               "Single-Phonon",
-               "Multi-Phonon DOS",
-               "Multi-Phonon Dispersion")
+SIMULATIONS = ("Total Energy",              # 0
+               "Electron DOS",              # 1
+               "Electron Dispersion",       # 2
+               "Geometry Optimization",     # 3
+               "Single-Phonon",             # 4
+               "Multi-Phonon DOS",          # 5
+               "Multi-Phonon Dispersion")   # 6
             
 # Types of simulations
 SIMCHAINS = OrderedDict()
