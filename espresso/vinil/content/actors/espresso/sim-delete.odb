@@ -55,7 +55,7 @@ class Actor(base):
         self.deleteJobs(director)
         self.deleteSim(director)
         
-        # Delete matter?
+        # Delete Matter?
         return load(actor='espresso/index', routine='link')  # Redirection to the page
 
     def deleteConfigs(self, director):
