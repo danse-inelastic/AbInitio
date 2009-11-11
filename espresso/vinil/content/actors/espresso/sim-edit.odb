@@ -52,7 +52,7 @@ class Actor(base):
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
         simtype     = form.selector(name="simtype", label='Simulation Type',
                                     entries=enumerate(SIMULATIONS),
-                                    value=self.simtypeValue(sim.type))
+                                    selection=self.simtypeValue(sim.type))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         submit      = form.submitbutton(label="Save Changes")
@@ -68,7 +68,11 @@ class Actor(base):
 
 
     def simtypeValue(self, simtype):
-        pass
+        for i in range(len(SIMULATIONS)):
+            if SIMULATIONS[i] == simtype:
+                return i
+
+        return 0
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
