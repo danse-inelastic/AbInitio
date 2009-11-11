@@ -39,11 +39,6 @@ class Actor(base):
         description = pyre.inventory.str('description', default='')
         formula     = pyre.inventory.str('formula', default='')
 
-#        # Config part
-#        fname       = pyre.inventory.str('fname', default='')
-#        text        = pyre.inventory.str('text', default='')
-#        configtype  = pyre.inventory.str('configtype', default='')
-
 
     def content(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
@@ -60,13 +55,11 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
+        simtype     = form.selector(name="simtype", label='Simulation Type',
+                                    entries=enumerate(SIMULATIONS),
+                                    selection=self.simtypeValue(sim.type))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
-#        fname       = form.text(name="fname", label='File Name', value=filename)
-#        configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
-#        text        = form.textarea(name="text", label='Config Text', value=configtext)
-        #text.value     # You can set value directly
         submit      = form.submitbutton(label="Create New Simulation")
         form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-use', routine = 'createRecord', id=self.id)
 
@@ -79,6 +72,23 @@ class Actor(base):
         return document
 
 
+    def simtypeValue(self, simtype):
+        for i in range(len(SIMULATIONS)):
+            if SIMULATIONS[i] == simtype:
+                return i
+
+        return 0
+
+
+    def createRecord(self, director):
+        """Creates record in the database """
+        self.verify()
+        sim             = director.clerk.getSimulations(id=self.id)
+
+        s   = self._createSimRecord(director)
+        return load(actor='espresso/index', routine='link')  # Redirection to the page
+
+
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
         self.pathlist = [("Home","greet","link"),
@@ -88,17 +98,6 @@ class Actor(base):
                          ("Use Template", None, None)]
 
         return self.pathlist
-
-
-    def createRecord(self, director):
-        """Creates record in the database """
-        self.verify()
-        sim             = director.clerk.getSimulations(id=self.id)
-        config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-
-        s   = self._createSimRecord(director)
-#        c   = self._createConfigRecord(director, s.id)
-        return load(actor='espresso/index', routine='link')  # Redirection to the page
 
 
     def _createSimRecord(self, director):
@@ -115,14 +114,6 @@ class Actor(base):
         s.setDirector(director)
         s.createRecord(params)
         return s
-
-
-#    def _createConfigRecord(self, director, sid):
-#        """Create configuration record"""
-#        configtype      = TYPES[int(self.configtype)]
-#        params  = {"simulationId": sid, "type": configtype, "filename": self.fname, "text": self.text} # no description?
-#        config  = Configuration()
-#        config.createRecord(director, params)
 
 
     # stub

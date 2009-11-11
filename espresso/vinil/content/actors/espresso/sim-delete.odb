@@ -21,6 +21,7 @@ from luban.content.Form import Form
 from luban.content.Button import Button
 
 from vinil.components.Actor import Actor as base
+# REDO Delete simulation
 class Actor(base):
 
     class Inventory(base.Inventory):
@@ -50,13 +51,14 @@ class Actor(base):
 
     def deleteRecord(self, director):
         sim             = director.clerk.getSimulations(id=self.id)
-        config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
 
         if sim:
-            sim.deleteRecord(director)
-
-        if config:
-            config[0].deleteRecord(director)
+            sim.setDirector(director)
+            sim.deleteRecord()
+        
+        # Delete config records
+        # Delete jobs
+        # Delete matter?
 
         return load(actor='espresso/index', routine='link')  # Redirection to the page
 
