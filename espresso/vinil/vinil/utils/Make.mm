@@ -28,6 +28,7 @@ EXPORT_PYTHON_MODULES = \
         pw.py \
         simchain.py \
         simparams.py \
+        simserver.py \
         simulationsteps.py \
         stepper.py \
         table.py \

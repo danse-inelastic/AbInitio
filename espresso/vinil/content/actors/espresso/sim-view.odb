@@ -15,6 +15,7 @@ from vinil.utils.const import STEPS
 from vinil.utils.utils import stamp2date
 from vinil.utils.simchain import SimChain
 from vinil.utils.simparams import SimParams
+from vinil.utils.simserver import SimServer
 
 from luban.content.Splitter import Splitter
 
@@ -93,12 +94,15 @@ class Actor(base):
         document.add(Document(Class="clear-both"))   # Empty document
         servdoc = Document(Class="display-inline")
         servdoc.add(Paragraph(text="Default Server: "))
-        servdoc.add(Link(label="foxtrot.danse.us", Class="action-link",
-                         onclick=load(actor="server-view",
-                         routine="link",
-                         sname="foxtrot.danse.us")))    # Hardcoded
+
+        server  = SimServer(director)
+        servdoc.add(server.getServer(self.id)) 
         document.add(servdoc)
 
+#Link(label="foxtrot.danse.us", Class="action-link",
+#                         onclick=load(actor="server-view",
+#                         routine="link",
+#                         sname="foxtrot.danse.us"))
 
     def showJobs(self, director, document):
         """Adds list of job ids to the document"""

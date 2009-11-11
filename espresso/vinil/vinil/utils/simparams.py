@@ -21,14 +21,40 @@ class SimParams:
 
     def __init__(self, director):
         self._director  = director
-#        self._simtype   = type
-#        self._simlist   = self._getSimlist(type)
-
+        self._type      = "settings"
 
     def getLink(self, id):      # simulation
-        settings  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='settings'" % id)
+        settings  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
 
-        link = Link(label="settings.conf", Class="action-link", onclick=load(actor="espresso/settings-view", routine="link", id=id))
+        link = Link(label=self._label(settings), Class="action-link",
+                    onclick=load(actor="espresso/settings-view",
+                    routine="link", id=id))
+
+        return link
+
+
+    def _label(self, settings):
+        """Returns filename"""
+        if settings:
+            return settings[0].filename
+
+        return "Add"
+
+
+    def _getActor(self, settings):
+        """Returns proper actor depending if 'input' exists"""
+        if settings:   # View
+            return "espresso/settings-view"
+
+        return "espresso/settings-add" # Create New
+
+
+if __name__ == "__main__":
+    chain   = SimParams(None)
+
+
+__date__ = "$Nov 10, 2009 5:52:02 PM$"
+
 
 
 #        link    = Link(label=self._inputText(orderedInputs[i]), Class="action-link",
@@ -53,24 +79,6 @@ class SimParams:
 #                sep     = splitter.section()        # Separator
 #                sep.add(Paragraph(text=" ----> "))
 
-        return link
-
-
-    def _inputText(self, input):
-        """Returns"""
-        if input:
-            return input.filename
-
-        return "Add"
-
-
-    def _getActor(self, input):
-        """Returns proper actor depending if 'input' exists"""
-        if input:   # View
-            return "espresso/input-view"
-
-        return "espresso/input-add" # Create New
-
 
 #    def _orderInput(self, simlist, inputs):
 #        """Orders input according to simlist (E.g. simlist = ("PW", "PH") )"""
@@ -89,6 +97,8 @@ class SimParams:
 #                return sim
 #
 #        return None
+#        self._simtype   = type
+#        self._simlist   = self._getSimlist(type)
 
 
 #    def _getSimlist(self, type):
@@ -97,18 +107,12 @@ class SimParams:
 #
 #        return ()
 
+#    def _getId(self, type, inputs):
+#        config  = self._configObject(type, inputs)
+#        if config:
+#            return config.id
+#
+#        return ""
 
-    def _getId(self, type, inputs):
-        config  = self._configObject(type, inputs)
-        if config:
-            return config.id
-
-        return ""
-
-if __name__ == "__main__":
-    chain   = SimParams(None)
-
-
-__date__ = "$Nov 10, 2009 5:52:02 PM$"
 
 
