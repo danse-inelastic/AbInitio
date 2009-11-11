@@ -43,16 +43,16 @@ class Actor(base):
 
     def content(self, director):
         # What if record is not present?
-        sim     = director.clerk.getSimulations(id=self.id)
+        sim         = director.clerk.getSimulations(id=self.id)
 
-        document = Document(title='Edit Simulation: %s' % sim.sname, Class="step-content")  # Class="step-content-form")
+        document    = Document(title='Edit Simulation: %s' % sim.sname, Class="step-content")  # Class="step-content-form")
+        types       = []
+        types.append(sim.type)
 
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Simulation Type',
-                                    entries=enumerate(SIMULATIONS),
-                                    selection=self.simtypeValue(sim.type))
+        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(types))        # Should not be editable
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         submit      = form.submitbutton(label="Save Changes")
@@ -65,24 +65,6 @@ class Actor(base):
         document.add(form)
 
         return document
-
-
-    def simtypeValue(self, simtype):
-        for i in range(len(SIMULATIONS)):
-            if SIMULATIONS[i] == simtype:
-                return i
-
-        return 0
-
-    def pathlist(self, director):
-        sim     = director.clerk.getSimulations(id=self.id)
-        self.pathlist = [("Home","greet","link"),
-                         ("Simulations", "simulations", "link"),
-                         ("Quantum Espresso", "espresso/index", "link"),
-                         (sim.sname, "espresso/sim-view", "link", self.id),
-                         ("Edit", None, None)]
-
-        return self.pathlist
     
 
     def updateRecord(self, director):
@@ -107,6 +89,15 @@ class Actor(base):
         """Verify data first """
         pass
 
+    def pathlist(self, director):
+        sim     = director.clerk.getSimulations(id=self.id)
+        self.pathlist = [("Home","greet","link"),
+                         ("Simulations", "simulations", "link"),
+                         ("Quantum Espresso", "espresso/index", "link"),
+                         (sim.sname, "espresso/sim-view", "link", self.id),
+                         ("Edit", None, None)]
+
+        return self.pathlist
 
     def __init__(self, *args, **kwds):
         super(Actor, self).__init__(*args, **kwds)
@@ -137,11 +128,17 @@ def actor():
 
 __date__ = "$Nov 2, 2009 3:15:49 PM$"
 
-#        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-#        if config:
-#            filename    = config[0].filename
-#            configtext  = config[0].text
-#        else:
-#            filename    = ""
-#            configtext  = ""
+# ****************** DEAD CODE ****************
 
+# Example of using 'selection' option
+
+#        simtype     = form.selector(name="simtype", label='Simulation Type',
+#                                    entries=enumerate(SIMULATIONS),
+#                                    selection=self.simtypeValue(sim.type))
+
+#    def simtypeValue(self, simtype):
+#        for i in range(len(SIMULATIONS)):
+#            if SIMULATIONS[i] == simtype:
+#                return i
+#
+#        return 0
