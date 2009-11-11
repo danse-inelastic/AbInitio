@@ -11,31 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import os
-from luban.content import select
-from luban.content.Paragraph import Paragraph
+from vinil.utils.const import STATES
+
 from luban.content.Document import Document
-from luban.content import load
-from luban.content.Link import Link
-from luban.content.Splitter import Splitter
-from luban.content.FormSelectorField import FormSelectorField
-from luban.content.Plot2D import Plot2D
 
-# Variable that should be set in envs.sh
-EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
-
-
-from vinil.components.Actor import Actor as base
+from vinil.components.JobsActor import JobsActor as base
 class Actor(base):
 
-    class Inventory(base.Inventory):
-        import pyre.inventory
-        id      = pyre.inventory.str('id')
-
-
     def content(self, director):
-        document = Document(title='Stopped Jobs')
-        document.add(Paragraph(text="Table of stopped jobs"))
+        document = Document()
+        data    = self.getTableData(director, where="status='%s'" % STATES['S'])
+        self.addTable(document, "Stopped Jobs", data)
 
         return document
 
@@ -47,21 +33,6 @@ class Actor(base):
 
         return self.pathlist
 
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
-
-        return
-
-
-    def _configure(self):
-        super(Actor, self)._configure()
-        self.id = self.inventory.id
-        return
-
-
-    def _init(self):
-        super(Actor, self)._init()
-        return
 
 def actor():
     return Actor('jobs/stopped')

@@ -62,11 +62,15 @@ class JobsActor(base):
 
 
     # TODO: Refactor
-    def addTable(self, document, title, headers, data):
+    def addTable(self, document, title, data):
         """
         Adds table to the document
         data = (jobids, simnames, columns)
         """
+        #[<Job ID> | <Simulation> | Server | User | Submitted | Status | <Delete> | <Check>]
+
+        headers = ("Job ID", "Simulation", "Server", "User", "Submitted", "Status", " ", " ")
+
         if len(data[0]) != 0:
             document.add(Paragraph(text=title, Class="header-h2"))
             document.add(tableController(headers, 'jobs/index'))    # temp

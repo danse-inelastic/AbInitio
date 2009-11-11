@@ -55,10 +55,10 @@ STATES = {
         'C': 'finished',
         'R': 'running',
         'Q': 'queued',
-        'E': 'exiting', #after having run
-        'H': 'onhold',
+        'E': 'exiting', # intermediate state, Running -> Exiting -> Completed
+        'H': 'onhold',  # cancelled
         'W': 'waiting',
-        'S': 'suspend',
+        'S': 'suspend', # stopped
         }
 
 
