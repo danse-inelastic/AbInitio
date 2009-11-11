@@ -11,25 +11,22 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = vinil
-PACKAGE = qecalc/qetask/qeparser/inputs
+PACKAGE = qecalc/qetask/qeparser/outputs
 
 
 #--------------------------------------------------------------------------
 #
 
 EXPORT_PYTHON_MODULES = \
-        __init__.py \
-        inputbands.py \
-        inputcppp.py \
-        inputd3.py \
-        inputdos.py \
-        inputgipaw.py \
-        inputld1.py \
-        inputph.py \
-        inputpp.py \
-        inputprojwfc.py \
-        inputpwcond.py \
-        inputpw.py \
+    baseoutput.py \
+    dos.py \
+    dynmat.py \
+    matdyn.py \
+    ph.py \
+    pw.py \
+    q2r.py \
+    qe_io_dict.py \
+    __init__.py \
 
 BUILD_DIRS = \
 
