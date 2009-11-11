@@ -14,7 +14,7 @@
 
 from vinil.utils.utils import timestamp
 from vinil.utils.utils import ifelse
-from vinil.utils.const import PACKAGES, SIMULATIONS, TYPES
+from vinil.utils.const import PACKAGES, SIMULATIONS, TYPES, SIMCHAINS
 from vinil.dom.Configuration import Configuration
 
 from luban.content import select
@@ -50,7 +50,9 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
+        simtype     = form.selector(name="simtype", label='Simulation Type',
+                                    entries=enumerate(SIMULATIONS),
+                                    value=self.simtypeValue(sim.type))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         submit      = form.submitbutton(label="Save Changes")
@@ -63,6 +65,10 @@ class Actor(base):
         document.add(form)
 
         return document
+
+
+    def simtypeValue(self, simtype):
+        pass
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)

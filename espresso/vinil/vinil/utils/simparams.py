@@ -17,7 +17,7 @@ from luban.content import load
 from luban.content.Link import Link
 
 
-class SimChain:
+class SimParams:
 
     def __init__(self, director):
         self._director  = director
@@ -26,7 +26,7 @@ class SimChain:
 
 
     def getLink(self, id):
-        inputs  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='settings'" % id)
+        #inputs  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='settings'" % id)
 
         link = Link(label="settings.conf", Class="action-link", onclick=load(actor="espresso/server-view", routine="link", id=id))
 #        link    = Link(label=self._inputText(orderedInputs[i]), Class="action-link",
@@ -104,7 +104,7 @@ class SimChain:
         return ""
 
 if __name__ == "__main__":
-    chain   = SimParams(None, None)
+    chain   = SimParams(None)
 
 
 __date__ = "$Nov 10, 2009 5:52:02 PM$"

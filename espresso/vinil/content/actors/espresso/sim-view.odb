@@ -85,7 +85,7 @@ class Actor(base):
         document.add(Document(Class="clear-both"))   # Empty document
         servdoc = Document(Class="display-inline")
         servdoc.add(Paragraph(text="Default Server: "))
-        servdoc.add(Link(label="foxtrot.danse.us", Class="action-link", onclick=load(actor="server-view", routine="link", id=self.id)))
+        servdoc.add(Link(label="foxtrot.danse.us", Class="action-link", onclick=load(actor="espresso/server-view", routine="link", id=self.id)))
         document.add(servdoc)
 
 
@@ -113,9 +113,6 @@ class Actor(base):
         """Adds References"""
         document.add(Document(Class="clear-both"))   # Empty document
         refsdoc = Document(Class="display-block")
-#        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
-#        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso/step-three", routine="link", id=self.id)))
-#        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso/step-four", routine="link", id=self.id)))
         refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs/submitted", routine="submit", id=self.id)))
         document.add(refsdoc)
 
@@ -168,3 +165,6 @@ def actor():
 __date__ = "$Nov 2, 2009 3:15:35 PM$"
 
 
+#        refsdoc.add(Link(label=STEPS[1], onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
+#        refsdoc.add(Link(label=STEPS[2], onclick=load(actor="espresso/step-three", routine="link", id=self.id)))
+#        refsdoc.add(Link(label=STEPS[3], onclick=load(actor="espresso/step-four", routine="link", id=self.id)))
