@@ -25,10 +25,12 @@ class SimParams:
 #        self._simlist   = self._getSimlist(type)
 
 
-    def getLink(self, id):
-        #inputs  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='settings'" % id)
+    def getLink(self, id):      # simulation
+        settings  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='settings'" % id)
 
-        link = Link(label="settings.conf", Class="action-link", onclick=load(actor="espresso/server-view", routine="link", id=id))
+        link = Link(label="settings.conf", Class="action-link", onclick=load(actor="espresso/settings-view", routine="link", id=id))
+
+
 #        link    = Link(label=self._inputText(orderedInputs[i]), Class="action-link",
 #                             onclick=load(actor=self._getActor(orderedInputs[i]),
 #                                          routine="link", id=id, type=self._simlist[i],
