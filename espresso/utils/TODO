@@ -4,4 +4,16 @@ TODO list for utils directory. Feel free to add whatever you feel is appropriate
    - [DONE] Matdyn input parser: Should be able to import as a string anything which starts
      right after end of the input namelist.  (Important!)
    - [DONE] Parsing problem with parsing cards in qeparser.py:
+   - There are problems in parsing parameters separated by comma (','):
+    &input
+       asr='crystal',  dos=.true.
+       amass(1)=26.982538, amass(2)=11.000,
+       flfrc='mgalb4666.fc', fldos='mgalb4.666.phdos', nk1=28,nk2=28,nk3=28
+    /
+
+    "nk1=28,nk2=28,nk3=28"
+will return:
+    nk1=28,
+    ,nk2=28,
+    ,nk3=28
 

@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from vinil.utils.const import SIMULATIONS
+from vinil.utils.const import SIMCHAINS
 
 from luban.content.Splitter import Splitter
 from luban.content.Paragraph import Paragraph
@@ -86,8 +86,8 @@ class SimChain:
 
 
     def _getSimlist(self, type):
-        if type in SIMULATIONS:
-            return SIMULATIONS[type]
+        if type in SIMCHAINS:
+            return SIMCHAINS[type]
 
         return ()
 

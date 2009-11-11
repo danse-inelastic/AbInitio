@@ -33,7 +33,6 @@ class Actor(base):
         import pyre.inventory
         # Add tips for each parameter?
 
-        # Simulation part
         id          = pyre.inventory.str('id', default='')      # Simulation Id
         sname       = pyre.inventory.str('sname', default='')
         package     = pyre.inventory.str('package', default='')
@@ -41,40 +40,25 @@ class Actor(base):
         description = pyre.inventory.str('description', default='')
         formula     = pyre.inventory.str('formula', default='')
 
-        # Config part
-#        fname       = pyre.inventory.str('fname', default='')
-#        text        = pyre.inventory.str('text', default='')
-#        configtype  = pyre.inventory.str('configtype', default='')
-
 
     def content(self, director):
+        # What if record is not present?
         sim     = director.clerk.getSimulations(id=self.id)
-#        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-#        if config:
-#            filename    = config[0].filename
-#            configtext  = config[0].text
-#        else:
-#            filename    = ""
-#            configtext  = ""
 
         document = Document(title='Edit Simulation: %s' % sim.sname, Class="step-content")  # Class="step-content-form")
 
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS.keys()))
+        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
-#        fname       = form.text(name="fname", label='File Name', value=filename)
-#        configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
-#        text        = form.textarea(name="text", label='Config Text', value=configtext)
-        #text.value     # You can set value directly
         submit      = form.submitbutton(label="Save Changes")
         form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-edit', routine = 'updateRecord', id=sim.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
-        cancel.onclick = load(actor = 'espresso/index', routine = 'link')
+        cancel.onclick = load(actor = 'espresso/sim-view', routine = 'link', id=self.id)
         form.add(cancel)
         document.add(form)
 
@@ -95,25 +79,16 @@ class Actor(base):
         """Updates record in the database """
         self.verify()
         sim             = director.clerk.getSimulations(id=self.id)
-        config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-
-        package         = PACKAGES[int(self.package)]
-        #configtype      = TYPES[int(self.configtype)]
-        simtype         = SIMULATIONS[int(self.simtype)]
 
         if sim:
-            params  = {"sname": self.sname, "package": package,
-                       "type": simtype, "description": self.description,
-                       "formula": self.formula}
-            sim.updateRecord(director, params)
+            params  = {"sname":         self.sname,
+                       "package":       PACKAGES[int(self.package)],
+                       "type":          SIMULATIONS[int(self.simtype)],
+                       "description":   self.description,
+                       "formula":       self.formula}
+            sim.setDirector(director)
+            sim.updateRecord(params)
 
-#        if config:
-#            params  = {"type": configtype, "filename": self.fname, "text": self.text}
-#            config[0].updateRecord(director, params)
-#        else:
-#            params  = {"simulationId": self.id, "type": configtype, "filename": self.fname, "text": self.text}
-#            config  = Configuration()
-#            config.createRecord(director, params)
 
         return load(actor='espresso/sim-view', routine='link', id=self.id)  # Redirection to the page
 
@@ -137,9 +112,6 @@ class Actor(base):
         self.simtype     = self.inventory.simtype
         self.description = self.inventory.description
         self.formula     = self.inventory.formula
-#        self.fname       = self.inventory.fname
-#        self.text        = self.inventory.text
-#        self.configtype  = self.inventory.configtype
 
         return
 
@@ -155,4 +127,11 @@ def actor():
 
 __date__ = "$Nov 2, 2009 3:15:49 PM$"
 
+#        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+#        if config:
+#            filename    = config[0].filename
+#            configtext  = config[0].text
+#        else:
+#            filename    = ""
+#            configtext  = ""
 

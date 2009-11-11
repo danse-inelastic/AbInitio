@@ -32,7 +32,6 @@ class Actor(base):
         import pyre.inventory
         # Add tips for each parameter?
 
-        # Simulation part
         id          = pyre.inventory.str('id', default='')      # Simulation Id
         sname       = pyre.inventory.str('sname', default='')
         package     = pyre.inventory.str('package', default='')
@@ -40,21 +39,21 @@ class Actor(base):
         description = pyre.inventory.str('description', default='')
         formula     = pyre.inventory.str('formula', default='')
 
-        # Config part
-        fname       = pyre.inventory.str('fname', default='')
-        text        = pyre.inventory.str('text', default='')
-        configtype  = pyre.inventory.str('configtype', default='')
+#        # Config part
+#        fname       = pyre.inventory.str('fname', default='')
+#        text        = pyre.inventory.str('text', default='')
+#        configtype  = pyre.inventory.str('configtype', default='')
 
 
     def content(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
-        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
-        if config:
-            filename    = config[0].filename
-            configtext  = config[0].text
-        else:
-            filename    = ""
-            configtext  = ""
+#        config  = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
+#        if config:
+#            filename    = config[0].filename
+#            configtext  = config[0].text
+#        else:
+#            filename    = ""
+#            configtext  = ""
 
         document = Document(title='Use Template: %s' % sim.sname, Class="step-content")  # Class="step-content-form")
 
@@ -64,12 +63,12 @@ class Actor(base):
         simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(SIMULATIONS))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
-        fname       = form.text(name="fname", label='File Name', value=filename)
-        configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
-        text        = form.textarea(name="text", label='Config Text', value=configtext)
+#        fname       = form.text(name="fname", label='File Name', value=filename)
+#        configtype  = form.selector(name="configtype", label='Config Type', entries=enumerate(TYPES))
+#        text        = form.textarea(name="text", label='Config Text', value=configtext)
         #text.value     # You can set value directly
         submit      = form.submitbutton(label="Create New Simulation")
-        form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-use', routine = 'createRecord', id=sim.id)
+        form.onsubmit   = select(element=form).submit(actor = 'espresso/sim-use', routine = 'createRecord', id=self.id)
 
         # TODO: "Cancel" button looks UGLY
         cancel      = Button(label="Cancel")
@@ -98,7 +97,7 @@ class Actor(base):
         config          = director.clerk.getConfigurations(where="simulationId='%s'" % self.id)
 
         s   = self._createSimRecord(director)
-        c   = self._createConfigRecord(director, s.id)
+#        c   = self._createConfigRecord(director, s.id)
         return load(actor='espresso/index', routine='link')  # Redirection to the page
 
 
@@ -106,20 +105,24 @@ class Actor(base):
         """Create simulation record"""
         package = PACKAGES[int(self.package)]
         simtype = SIMULATIONS[int(self.simtype)]
-        params  = {"sname": self.sname, "package": package,
-                   "type": simtype, "description": self.description,
-                   "formula": self.formula, "isFavorite": True}
+        params  = {"sname": self.sname,
+                   "package": package,
+                   "type": simtype,
+                   "description": self.description,
+                   "formula": self.formula,
+                   "isFavorite": True}
         s       = Simulation()
-        s.createRecord(director, params)
+        s.setDirector(director)
+        s.createRecord(params)
         return s
 
 
-    def _createConfigRecord(self, director, sid):
-        """Create configuration record"""
-        configtype      = TYPES[int(self.configtype)]
-        params  = {"simulationId": sid, "type": configtype, "filename": self.fname, "text": self.text} # no description?
-        config  = Configuration()
-        config.createRecord(director, params)
+#    def _createConfigRecord(self, director, sid):
+#        """Create configuration record"""
+#        configtype      = TYPES[int(self.configtype)]
+#        params  = {"simulationId": sid, "type": configtype, "filename": self.fname, "text": self.text} # no description?
+#        config  = Configuration()
+#        config.createRecord(director, params)
 
 
     # stub
@@ -142,9 +145,9 @@ class Actor(base):
         self.simtype     = self.inventory.simtype
         self.description = self.inventory.description
         self.formula     = self.inventory.formula
-        self.fname       = self.inventory.fname
-        self.text        = self.inventory.text
-        self.configtype  = self.inventory.configtype
+#        self.fname       = self.inventory.fname
+#        self.text        = self.inventory.text
+#        self.configtype  = self.inventory.configtype
 
         return
 

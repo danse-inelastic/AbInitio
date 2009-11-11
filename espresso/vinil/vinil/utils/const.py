@@ -25,15 +25,23 @@ STEPS       = ("Create Simulation",
                "Set Simulation Parameters",
                "Review Simulation")
 
+SIMULATIONS = ("Total Energy",
+               "Electron DOS",
+               "Electron Dispersion",
+               "Geometry Optimization",
+               "Single-Phonon",
+               "Multi-Phonon DOS",
+               "Multi-Phonon Dispersion")
+            
 # Types of simulations
-SIMULATIONS = OrderedDict()
-SIMULATIONS["Total Energy"]             = ("PW",)
-SIMULATIONS["Electron DOS"]             = ("PW", "DOS")
-SIMULATIONS["Electron Dispersion"]      = ("PW", "DOS")
-SIMULATIONS["Geometry Optimization"]    = ("PW",)
-SIMULATIONS["Single-Phonon"]            = ("PW", "PH", "DYNMAT")
-SIMULATIONS["Multi-Phonon DOS"]         = ("PW", "PH", "Q2R", "MATDYN")
-SIMULATIONS["Multi-Phonon Dispersion"]  = ("PW", "PH", "Q2R", "MATDYN")
+SIMCHAINS = OrderedDict()
+SIMCHAINS[SIMULATIONS[0]]   = ("PW",)
+SIMCHAINS[SIMULATIONS[1]]   = ("PW", "DOS")
+SIMCHAINS[SIMULATIONS[2]]   = ("PW", "DOS")
+SIMCHAINS[SIMULATIONS[3]]   = ("PW",)
+SIMCHAINS[SIMULATIONS[4]]   = ("PW", "PH", "DYNMAT")
+SIMCHAINS[SIMULATIONS[5]]   = ("PW", "PH", "Q2R", "MATDYN")
+SIMCHAINS[SIMULATIONS[6]]   = ("PW", "PH", "Q2R", "MATDYN")
 
 
 # Available servers
