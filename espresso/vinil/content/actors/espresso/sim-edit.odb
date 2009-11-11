@@ -52,7 +52,9 @@ class Actor(base):
         form        = Form(id="form-vinil")
         sname       = form.text(name="sname", label='Simulation Name', value=sim.sname)
         package     = form.selector(name="package", label='Package', entries=enumerate(PACKAGES))
-        simtype     = form.selector(name="simtype", label='Simulation Type', entries=enumerate(types))        # Should not be editable
+        simtype     = form.selector(name="simtype", label='Simulation Type',
+                                    entries=enumerate(SIMULATIONS),
+                                    selection=self.simtypeValue(sim.type))
         description = form.text(name="description", label='Description', value=sim.description)   # Make as textarea
         formula     = form.text(name="formula", label='Formula', value=sim.formula)
         submit      = form.submitbutton(label="Save Changes")
@@ -67,6 +69,15 @@ class Actor(base):
         return document
     
 
+
+    def simtypeValue(self, simtype):
+        for i in range(len(SIMULATIONS)):
+            if SIMULATIONS[i] == simtype:
+                return i
+
+        return 0
+
+
     def updateRecord(self, director):
         """Updates record in the database """
         self.verify()
@@ -75,7 +86,7 @@ class Actor(base):
         if sim:
             params  = {"sname":         self.sname,
                        "package":       PACKAGES[int(self.package)],
-                       "type":          SIMULATIONS[int(self.simtype)],
+                       "type":          SIMULATIONS[int(self.simtype)], # Type cannot be updated
                        "description":   self.description,
                        "formula":       self.formula}
             sim.setDirector(director)
