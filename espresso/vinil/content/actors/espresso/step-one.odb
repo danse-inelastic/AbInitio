@@ -86,7 +86,8 @@ class Actor(base):
                    "type": simtype, "description": self.description,
                    "formula": self.formula, "isFavorite": True}
         sim     = Simulation()
-        sim.createRecord(director, params)
+        sim.setDirector(director)
+        sim.createRecord(params)
 
         return load(actor='espresso/step-two', routine='link', id=sim.id)  # Redirection to the page
 

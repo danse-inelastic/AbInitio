@@ -16,6 +16,7 @@
 from vinil.utils.const import STEPS
 from vinil.utils.simulationsteps import SimulationSteps
 from vinil.utils.stepper import Stepper
+from vinil.utils.simchain import SimChain
 
 from luban.content import select
 from luban.content.Paragraph import Paragraph
@@ -57,13 +58,8 @@ class Actor(base):
         """
 
         d.add(Paragraph(text=text))
-
-        d.add(Paragraph(text="PW"))
-        d.add(Link(label="Add", onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
-        d.add(Paragraph(text="\/"))
-        d.add(Paragraph(text="DOS"))
-        d.add(Link(label="Add", onclick=load(actor="espresso/set-config", routine="link", id=self.id)))
-
+        self.showInputFiles(director, d, sim.type)
+        
         s_content.add(d)
 
         linklist    = (("espresso/step-one", "link", None), ("espresso/step-three", "link", self.id))
@@ -73,7 +69,12 @@ class Actor(base):
 
         return splitter
 
-    
+
+    def showInputFiles(self, director, document, type):
+        splitter        = SimChain(director, type)
+
+        document.add(splitter.chain(self.id))
+
 
     def pathlist(self, director):
         sim     = director.clerk.getSimulations(id=self.id)
