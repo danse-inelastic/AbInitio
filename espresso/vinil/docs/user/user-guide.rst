@@ -8,7 +8,39 @@ to VNF. Vinil is the acronim of VNF Mini on Luban.
 * User interface
     Navigation Panel
     Wizard for Creation of Simulation
+    Using Tables
 * Supported Simulations
 * Creating and Managing Simulations
 * Submitting and Monitoring Jobs
 * Displaying Simulation Results
+
+
+Quick Start: "Running Ni Total Energy Simulation"
+=================================================
+
+User interface
+==============
+
+Navigation Panel
+----------------
+
+Wizard for Creation of Simulation
+---------------------------------
+
+Using Tables
+------------
+
+Supported Simulations
+=======================
+
+
+Creating and Managing Simulations
+=================================
+
+
+Submitting and Monitoring Jobs
+==============================
+
+
+Displaying Simulation Results
+=============================

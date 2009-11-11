@@ -34,7 +34,8 @@ class Actor(base):
         sim     = director.clerk.getSimulations(id=self.id)
 
         document = Document(title='Delete Simulation: %s' % sim.sname)
-        document.add(Paragraph(text="Deleting simulation will also delete jobs and configuration inputs. Are you sure you want to delete the simulation?"))
+        document.add(Paragraph(text="Deleting simulation will also delete jobs and configuration inputs."))
+        document.add(Paragraph(text="Are you sure you want to delete the simulation?"))
 
         form        = Form(id="form-vinil")
         submit      = form.submitbutton(label="Delete")

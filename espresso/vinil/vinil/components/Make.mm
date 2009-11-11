@@ -43,6 +43,7 @@ EXPORT_PYTHON_MODULES = \
         Actor.py \
 	Clerk.py \
         DBTable.py \
+        JobsActor.py \
 	__init__.py \
 
 

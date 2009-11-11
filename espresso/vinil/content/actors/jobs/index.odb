@@ -29,76 +29,18 @@ from luban.content.Plot2D import Plot2D
 EXPORT_ROOT = os.environ.get('EXPORT_ROOT')
 
 
-from vinil.components.Actor import Actor as base
+from vinil.components.JobsActor import JobsActor as base
 class Actor(base):
-
-    class Inventory(base.Inventory):
-        import pyre.inventory
-        id      = pyre.inventory.str('id')
-
 
     def content(self, director):
         document = Document()
-        #document.add(Paragraph(text="Table of All Jobs"))
-        #document.add(Paragraph(text="[<Job ID> | <Simulation> | Server | User | Submitted | Status | <Delete> | <Check>]"))
+        #[<Job ID> | <Simulation> | Server | User | Submitted | Status | <Delete> | <Check>]
         
-
         headers = ("Job ID", "Simulation", "Server", "User", "Submitted", "Status", " ", " ")
-        
         data    = self.getTableData(director)
         self.addTable(document, "All Jobs", headers, data)
 
         return document
-
-
-    # TODO: Refactor
-    def getTableData(self, director, where=None):
-        """Gets table data from Simulations database table to display in table"""
-        jobs     = director.clerk.getJobs(where=where)
-        # Take data from User, Simulations
-        jobids      = []
-        simids      = []
-        simnames    = []
-        columns     = []
-
-        # Traversing jobs
-        for i in range(len(jobs)):
-            # Get simulation based on jobid
-            (simid, simname)    = self.simdata(director, jobs[i])
-
-            jobids.append(jobs[i].id)
-            simids.append(simid)
-            simnames.append(simname)
-            row     = ["foxtrot.danse.us", "dexity", stamp2date(jobs[i].timeSubmitted), jobs[i].status ]
-            columns.append(row)
-
-        return (jobids, simids, simnames, columns)
-
-
-    # TODO: Refactor
-    def addTable(self, document, title, headers, data):
-        """
-        Adds table to the document
-        data = (jobids, simnames, columns)
-        """
-        if len(data[0]) != 0:
-            document.add(Paragraph(text=title, Class="header-h2"))
-            document.add(tableController(headers, 'jobs/index'))
-            document.add(tableJobs(headers, data[0], data[1], data[2], data[3]))
-
-
-    def simdata(self, director, job):
-        """Returns simulation data based on job"""
-        simid   = None
-        simname = ""
-
-        if job:
-            sim     = director.clerk.getSimulations(id=job.simulationId)
-            if sim:
-                simid   = sim.id
-                simname = sim.sname
-
-        return (simid, simname)
 
     def pathlist(self, director):
         self.pathlist = [("Home","greet","link"),
@@ -106,24 +48,12 @@ class Actor(base):
 
         return self.pathlist
 
-    def __init__(self, *args, **kwds):
-        super(Actor, self).__init__(*args, **kwds)
-
-        return
-
-
-    def _configure(self):
-        super(Actor, self)._configure()
-        self.id = self.inventory.id
-        return
-
-
-    def _init(self):
-        super(Actor, self)._init()
-        return
 
 def actor():
     return Actor('jobs/index')
+
+
+
 
 
 
