@@ -31,6 +31,7 @@ distclean::
 
 EXPORT_DATAFILES = \
 	initdb.py \
+        jmd.py \
 
 CP_F = rsync
 EXPORT_DATA_PATH = $(EXPORT_ROOT)/$(PACKAGE)
