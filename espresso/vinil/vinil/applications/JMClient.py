@@ -11,7 +11,43 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from pyre.applications.Application import Application
+from pyre.applications.Daemon import Daemon
 
+
+class JMClient(Application, Daemon):
+
+
+    class Inventory(Application.Inventory):
+        import pyre.inventory
+
+        # ?
+        depositories = pyre.inventory.list("depositories")
+        depositories.meta['tip'] = """extra depositories for my harnessed components"""
+
+    def __init__(self, name):
+        Application.__init__(self, name, facility='daemon')
+        Daemon.__init__(self)
+        return
+
+    def main(self, *args, **kwds):
+        print "Hello world!"
+
+    def _configure(self):
+        super(JMClient, self)._configure()
+
+        self.depositories = self.inventory.depositories
+        return
+
+
+    def _init(self):
+        super(JMClient, self)._init()
+
+        curator = self.getCurator()
+        curator.addDepositories(*self.depositories)
+
+        return
+    
 __date__ = "$Nov 12, 2009 12:35:26 PM$"
 
 
