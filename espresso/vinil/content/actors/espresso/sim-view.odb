@@ -128,8 +128,15 @@ class Actor(base):
         """Adds References"""
         document.add(Document(Class="clear-both"))   # Empty document
         refsdoc = Document(Class="display-block")
-        refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="jobs/submitted", routine="submit", id=self.id)))
+        refsdoc.add(Link(label="Submit to Queue", onclick=load(actor="espresso/sim-view", routine="checkSubmit", id=self.id)))
         document.add(refsdoc)
+
+
+    def checkSubmit(self):
+        # Check config inputs
+        # Check settings
+        # If check failed, go to error page (with link "Go Back")
+        return load(actor="jobs/submitted", routine="submit", id=self.id)
 
 
     def jobs(self, director):

@@ -15,7 +15,7 @@ from luban.content.Splitter import Splitter
 from luban.content.Paragraph import Paragraph
 from luban.content import load
 from luban.content.Link import Link
-import ConfigParser
+
 
 class SimServer:
 
@@ -28,18 +28,57 @@ class SimServer:
         settings  = self._clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
 
         if self._serverIsSet(settings):
-            text    = Link(label=self._label(settings), Class="action-link",
-                        onclick=load(actor="espresso/settings-view",
-                        routine="link", id=id))
+            text    = Paragraph(text="Exists")
+#                        Link(label=self._label(settings), Class="action-link",
+#                        onclick=load(actor="espresso/settings-view",
+#                        routine="link", id=id))
         else:
             text    = Paragraph(text="None")
 
         return text
 
-    def _servreIsSet(settings):
+    def _serverIsSet(self, settings):
         """Checks if server is set"""
+#        if not settings:
+#            return False
+
+        import ConfigParser
+        import StringIO
+
+        config  = """
+[server]
+server-name = foxtrot.danse.us
+"""
+        if config:  # Implies that it has sections already
+            fp  = StringIO.StringIO(config)
+
+            parser  = ConfigParser.ConfigParser()
+            parser.readfp(fp)
+            if self._serverName(parser.get("server", "server-name")):
+                return True
+
         return False
-        #if not settings
+                
+    def _serverName(self, name):
+        if name == '':
+            return False
+
+        # Fix it
+#        if self._director:
+#            servers  = self._clerk.getServers()
+#            for s in servers:
+#                if name == s.sname:
+#                    return True
+
+        return True
+#        return False
+
+        
+#        s   = settings[0]
+#        if s:
+#            config  = s.text
+            
+        
 
 
 
@@ -59,8 +98,11 @@ class SimServer:
         return "espresso/settings-add" # Create New
 
 
+
+
 if __name__ == "__main__":
-    chain   = SimParams(None)
+    params   = SimServer(None)
+    #params.serverIsSet(None)
 
 
 __date__ = "$Nov 11, 2009 1:21:52 PM$"
