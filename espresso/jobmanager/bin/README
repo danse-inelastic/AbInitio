@@ -1,0 +1,17 @@
+
+Job Manager Executables
+
+Tools:
+
+jm.py       - General job manager tool
+jmdel.py    - Cancel the job
+jmget.py    - Retrieve Results
+jmstat.py   - Get status of the job
+jmtrace.py  - Trace status of the job
+jmadmin.py  - Manage jmserver
+
+Daemons:
+
+jmclient.py - job manager client supposedly used within application
+jmserver.py - job manager server that manages jobs on the cluster
+
