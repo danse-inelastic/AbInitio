@@ -42,7 +42,7 @@ distclean::
 EXPORT_PYTHON_MODULES = \
         InitDB.py \
         JMClient.py \
-        SuperApp.py \
+        WebApplication.py \
 	__init__.py \
 
 

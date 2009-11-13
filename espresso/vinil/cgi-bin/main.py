@@ -12,19 +12,21 @@
 #
 
 from luban.applications.utils import redirectWarningsToJournal
-redirectWarningsToJournal('warning')
+#redirectWarningsToJournal('warning')    # ?
 
-from vinil.application.SuperApp import SuperApp
+#from vinil.application.SuperApp import SuperApp
+from vinil.applications.WebApplication import WebApplication
+
 
 def main():
-    app = SuperApp('main-superapp')
+    app =WebApplication(name='main')
     return app.run()
-
 
 # main
 if __name__ == '__main__':
     # invoke the application shell
     import journal
+    import os
     debug = journal.debug('main' )
     debug.log(os.environ['PATH'] )
     debug.log(os.environ['PYTHONPATH'] )
