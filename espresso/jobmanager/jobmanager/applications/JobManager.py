@@ -112,7 +112,7 @@ class JobManager(Script):
 
     def _getPrivateDepositoryLocations(self):
         """Important method that returns location to depositories, e.g. 'config', 'content' """
-        if self._exportRoot:
+        if self._exportRoot:    # ?
             return [self._exportRoot+"/config"]
 
         return ["../config"]    # Need to run stript from bin/ directory

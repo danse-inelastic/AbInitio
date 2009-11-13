@@ -11,28 +11,25 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-webapp = 'webmain.py'
+from luban.applications.utils import redirectWarningsToJournal
+redirectWarningsToJournal('warning')
 
-import os
+from vinil.application.SuperApp import SuperApp
 
-# I don't know what this is hack is for
-#query_string = '&'.join( '%s=%s' % (k, ','.join(v)) for k,v in request.iteritems() )
-#os.environ['QUERY_STRING'] = query_string
+def main():
+    app = SuperApp('main-superapp')
+    return app.run()
 
-import tempfile
-d = tempfile.mkdtemp()
-out = os.path.join(d, 'out.html')
-err = os.path.join(d, 'err.html')
 
-cmd = "%s >%s  2>%s" % (webapp, out, err)
-if os.system( cmd ):    # Program execution: python webmain.py
-    print open( err ).read()
-else:
-    lines = open( out ).readlines()
-    print ''.join( lines[1:] )
+# main
+if __name__ == '__main__':
+    # invoke the application shell
+    import journal
+    debug = journal.debug('main' )
+    debug.log(os.environ['PATH'] )
+    debug.log(os.environ['PYTHONPATH'] )
+    main()
 
-import shutil
-shutil.rmtree(d)
 
 # version
 __id__ = "$Id$"

@@ -29,11 +29,14 @@ class Actor(base):
 
         # Implement echo or simple calculator with jmd
 
-        document.add(Link(label="Test jmd", onclick=select(id='test-jmd').replaceContent(Paragraph(text="World", id="test-jmd")) ))
-
-        document.add(Paragraph(text="Hello", id="test-jmd"))
+        document.add(Link(label="Test jmd",
+                          onclick=select(id='test-jmd').replaceContent(Paragraph(text="World", id="test-jmd")) )
+                    )
+        document.add(Paragraph(text=director.test, id="test-jmd"))   # "Hello"director.test
 
         return document
+
+        
 
     def pathlist(self, director):
         self.pathlist = (["Home", None, None],)
