@@ -11,13 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-#from luban.applications.SuperApp import SuperApp as base
-
 from luban.applications.WebApplication import WebApplication as base
 
 class WebApplication(base):
 
-    # Adding test doesn't work
     class Inventory(base.Inventory):
         import pyre.inventory
 

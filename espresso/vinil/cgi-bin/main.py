@@ -12,7 +12,7 @@
 #
 
 from luban.applications.utils import redirectWarningsToJournal
-redirectWarningsToJournal('warning')    # ?
+redirectWarningsToJournal('warning')
 
 from vinil.applications.WebApplication import WebApplication
 

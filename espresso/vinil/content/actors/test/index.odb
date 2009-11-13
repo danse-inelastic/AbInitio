@@ -32,7 +32,7 @@ class Actor(base):
         document.add(Link(label="Test jmd",
                           onclick=select(id='test-jmd').replaceContent(Paragraph(text="World", id="test-jmd")) )
                     )
-        document.add(Paragraph(text="Hello", id="test-jmd"))   # "Hello"director.blah
+        document.add(Paragraph(text=director.blah, id="test-jmd"))   # "Hello"director.blah
 
         return document
 
