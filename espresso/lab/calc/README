@@ -1,0 +1,3 @@
+
+calc: simple server (daemon) implemented in pyre whose purpose is make simple 
+calculation on the sent number (e.g. square number)
