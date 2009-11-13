@@ -15,7 +15,7 @@ from pyre.applications.Application import Application
 from pyre.applications.Daemon import Daemon
 
 
-class JMClient(Application, Daemon):
+class JMDaemon(Application, Daemon):
 
 
     class Inventory(Application.Inventory):
@@ -34,14 +34,14 @@ class JMClient(Application, Daemon):
         print "Hello world!"
 
     def _configure(self):
-        super(JMClient, self)._configure()
+        super(JMDaemon, self)._configure()
 
         self.depositories = self.inventory.depositories
         return
 
 
     def _init(self):
-        super(JMClient, self)._init()
+        super(JMDaemon, self)._init()
 
         curator = self.getCurator()
         curator.addDepositories(*self.depositories)

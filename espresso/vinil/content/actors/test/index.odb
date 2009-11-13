@@ -27,7 +27,9 @@ class Actor(base):
     def content(self, director):
         document = Document()
 
-        # Implement echo or simple calculator with jmd
+        # Implement tests for jmd:
+        # 1. Echo
+        # 2. Simple calculator
 
         document.add(Link(label="Test jmd",
                           onclick=select(id='test-jmd').replaceContent(Paragraph(text="World", id="test-jmd")) )

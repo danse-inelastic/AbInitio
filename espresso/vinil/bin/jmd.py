@@ -15,12 +15,15 @@
 Job Manager Daemon that serves as a client (jmclient) for job manager server (jmserver)
 """
 
-from vinil.applications.JMClient import JMClient
-import sys
+def main():
+    from vinil.jmd.JMDaemon import JMDaemon
 
-app = JMClient(name='jmd')
-app.run()
-#sys.exit(app.run())
+    app = JMDaemon(name='jmd')
+    return app.run(spawn=True)
+
+if __name__ == "__main__":
+    main()
+
 
 __date__ = "$Nov 12, 2009 12:32:59 PM$"
 

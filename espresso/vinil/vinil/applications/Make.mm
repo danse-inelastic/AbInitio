@@ -41,7 +41,6 @@ distclean::
 
 EXPORT_PYTHON_MODULES = \
         InitDB.py \
-        JMClient.py \
         WebApplication.py \
 	__init__.py \
 

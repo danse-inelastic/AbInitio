@@ -20,6 +20,7 @@ BUILD_DIRS = \
     applications \
     components \
     dom \
+    jmd \
     qecalc \
     utils \
 

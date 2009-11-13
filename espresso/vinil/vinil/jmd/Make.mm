@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = vinil
-PACKAGE = jobmanager
+PACKAGE = jmd
 
 
 BUILD_DIRS = \
@@ -40,6 +40,7 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
+    JMDaemon.py \
     __init__.py \
 
 
