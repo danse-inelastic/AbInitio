@@ -1,3 +1,8 @@
 
 echo: simple server (daemon) implemented in pyre whose purpose is to echo back
 the sent request.
+
+Sample Session:
+- Start EchoDaemon
+- Send request from command line (e.g. telnet)
+- Send request from application
