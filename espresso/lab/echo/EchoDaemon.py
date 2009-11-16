@@ -15,40 +15,30 @@ from pyre.applications.Application import Application
 from pyre.applications.Daemon import Daemon
 from EchoService import EchoService
 
+
 class EchoDaemon(Application, Daemon):
 
     class Inventory(Application.Inventory):
         import pyre.inventory
         home = pyre.inventory.str("home", default="/tmp")   # ?
-
+        
 
     def main(self, *args, **kwds):
-        
-        service  = self.configureComponent(EchoService, 'service') #    EchoService()
+        service    = EchoService('service')
+        self.configureComponent(service, registry=None)
+        service.init()
         service.serve()
-        
-        # harness service?
-
-#        service.init()
-#        service.eventLoop()
-
 
     def __init__(self, name=None):
         Application.__init__(self, name, facility='daemon')
         Daemon.__init__(self)
 
     def _defaults(self):
-        print "defaults"
         Application._defaults(self)
-
-
-#    def _init(self):
-#        curator = self.getCurator()
-#        curator.addDepositories(*self.home)
+        self.inventory.port = 50010 # default port doesn't work
 
 
     def _configure(self):
-        print "configure"
         super(EchoDaemon, self)._configure()
 
         import os
@@ -57,7 +47,18 @@ class EchoDaemon(Application, Daemon):
 
 if __name__ == "__main__":
     echo    = EchoDaemon('echo')
-    echo.run(spawn=False)
+    echo.run()  # spawn=False - for debugging
+
+
+
+#        client = harnessComponent(self, self.Client, clientName)
+#        service.init()
+#        service.eventLoop()
+
+
+#    def _init(self):
+#        curator = self.getCurator()
+#        curator.addDepositories(*self.home)
 
 
 #    def _init(self):
