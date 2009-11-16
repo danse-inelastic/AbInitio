@@ -11,13 +11,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.services.TCPSession import TCPSession
+# Should I inherit from pyre.services.Session instead?
 
-class EchoSession(TCPSession):
+from pyre.services.Session import Session as base
 
-    from pyre.services.RequestError import RequestError
+class EchoSession(base):
 
-    class Inventory(TCPSession.Inventory):
+    class Inventory(base.Inventory):
         import pyre.inventory
 
         from pyre.services import pickler
@@ -34,6 +34,10 @@ class EchoSession(TCPSession):
         super(EchoSession, self)._configure()
         self.marshaller = self.inventory.marshaller
         return
+
+
+
+#    from pyre.services.RequestError import RequestError
 
 
 #    def _init(self):

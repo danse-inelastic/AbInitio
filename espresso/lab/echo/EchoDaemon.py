@@ -13,6 +13,7 @@
 
 from pyre.applications.Application import Application
 from pyre.applications.Daemon import Daemon
+from EchoService import EchoService
 
 class EchoDaemon(Application, Daemon):
 
@@ -22,23 +23,41 @@ class EchoDaemon(Application, Daemon):
 
 
     def main(self, *args, **kwds):
-        pass
+        
+        service  = self.configureComponent(EchoService, 'service') #    EchoService()
+        service.serve()
+        
+        # harness service?
 
-    def __init__(self, name):
+#        service.init()
+#        service.eventLoop()
+
+
+    def __init__(self, name=None):
         Application.__init__(self, name, facility='daemon')
-        Stager.__init__(self)
+        Daemon.__init__(self)
+
+    def _defaults(self):
+        print "defaults"
+        Application._defaults(self)
+
+
+#    def _init(self):
+#        curator = self.getCurator()
+#        curator.addDepositories(*self.home)
 
 
     def _configure(self):
-        super(Daemon, self)._configure()
+        print "configure"
+        super(EchoDaemon, self)._configure()
 
         import os
         self.home = os.path.abspath(self.inventory.home)
 
 
 if __name__ == "__main__":
-    echo    = EchoDaemon()
-    echo.run()
+    echo    = EchoDaemon('echo')
+    echo.run(spawn=False)
 
 
 #    def _init(self):
@@ -50,6 +69,9 @@ if __name__ == "__main__":
 #        return
 #        clientName = pyre.inventory.str("client-name")
 #        serverInfo = pyre.inventory.str("server-info", default="server-info")
+
+#    def _getPrivateDepositoryLocations(self):
+#        return ['.']
 
 
 
