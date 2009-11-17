@@ -27,8 +27,11 @@ class SimParams:
         settings  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
 
         link = Link(label=self._label(settings), Class="action-link",
-                    onclick=load(actor="espresso/settings-view",
-                    routine="link", id=id))
+                    onclick=load(actor      = self._getActor(settings),
+                                 routine    = "link",
+                                 id         = id,
+                                 configid   = self._configid(settings))
+                    )
 
         return link
 
@@ -39,6 +42,14 @@ class SimParams:
             return settings[0].filename
 
         return "Add"
+
+
+    def _configid(self, settings):
+        """Returns config id"""
+        if settings:
+            return settings[0].id
+
+        return None
 
 
     def _getActor(self, settings):

@@ -28,11 +28,11 @@ class SimServer:
         settings    = self._clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
         servername  = self._serverName(settings)
 
-        if servername   != '':  # self._serverIsSet(settings):
-            #text    = Paragraph(text=servername)
+        if servername   != '':  
             text    = Link(label=servername, Class="action-link",
                            onclick=load(actor="server-view",
-                           routine="link", sname=servername))
+                           routine="link",
+                           sname=servername))
         else:
             text    = Paragraph(text="None")
 
@@ -48,12 +48,14 @@ class SimServer:
         import StringIO
 
         if settings[0]:
-            config  = settings[0].text  # check if settings[0] isinstanceof Configuration
+            # check if settings[0] isinstanceof Configuration
+            config  = settings[0].text  
 
-    #        config  = """
-    #[server]
-    #server-name = foxtrot.danse.us
-    #"""
+        #Example of config:
+        #config  = """
+        #[server]
+        #server-name = foxtrot.danse.us
+        #"""
             if config:  # Implies that it has sections already
                 fp  = StringIO.StringIO(config)
                 parser  = ConfigParser.ConfigParser()

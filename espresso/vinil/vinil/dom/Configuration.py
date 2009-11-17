@@ -110,7 +110,14 @@ configDOS = """&inputpp
 
 configSettings  = """
 [server]
-server-name = foxtrot.danse.us
+server-name     = foxtrot.danse.us
+num-proc        = 8
+num-nodes    	= 8
+proc-per-node 	= 12
+npool       	= 8 
+executable      = mpirun
+params          = --mca btl openib,sm,self
+modules         = openmpi/gnu acml/4.3.0_gfortran64_int32 espresso
 """
 
 # Electron DOS (Ni_E_DOS): simulationId = 5

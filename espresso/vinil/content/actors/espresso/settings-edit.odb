@@ -12,6 +12,21 @@
 #
 
 
+
+#    class Inventory(base.Inventory):
+#        import pyre.inventory
+#        id          = pyre.inventory.str('id', default='')          # Simulation Id
+#        configid    = pyre.inventory.str('configid', default='')    # Configuration Id
+#        servername  = pyre.inventory.str('servername', default='')
+#        numproc     = pyre.inventory.int('numproc', default=0)
+#        numnodes    = pyre.inventory.int('numnodes', default=0)
+#        procpernode = pyre.inventory.int('procpernode', default=0)
+#        npool       = pyre.inventory.int('npool', default=0)
+#        executable  = pyre.inventory.str('executable', default='')
+#        params      = pyre.inventory.str('params', default='')
+#        modules     = pyre.inventory.str('modules', default='')
+
+
 __date__ = "$Nov 11, 2009 1:03:02 PM$"
 
 
