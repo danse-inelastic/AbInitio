@@ -26,38 +26,23 @@ class SimParams:
     def getLink(self, id):      # simulation
         settings  = self._director.clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
 
-        link = Link(label=self._label(settings), Class="action-link",
-                    onclick=load(actor      = self._getActor(settings),
+        link = Link(label="Add", Class="action-link",
+                    onclick=load(actor      = "espresso/settings-add",
                                  routine    = "link",
-                                 id         = id,
-                                 configid   = self._configid(settings))
+                                 id         = id)
                     )
 
+        if settings:
+            s = settings[0]
+            if s:
+                link = Link(label=s.filename, Class="action-link",
+                            onclick=load(actor      = "espresso/settings-view",
+                                         routine    = "link",
+                                         id         = id,
+                                         configid   = s.id)
+                            )
+
         return link
-
-
-    def _label(self, settings):
-        """Returns filename"""
-        if settings:
-            return settings[0].filename
-
-        return "Add"
-
-
-    def _configid(self, settings):
-        """Returns config id"""
-        if settings:
-            return settings[0].id
-
-        return None
-
-
-    def _getActor(self, settings):
-        """Returns proper actor depending if 'input' exists"""
-        if settings:   # View
-            return "espresso/settings-view"
-
-        return "espresso/settings-add" # Create New
 
 
 if __name__ == "__main__":

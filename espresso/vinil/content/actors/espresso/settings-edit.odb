@@ -86,16 +86,15 @@ class Actor(base):
         self._settings.setDirector(director)
 
         params  = {"filename":      self.filename,
-                   "text":          self._text(self._settings)}
+                   "text":          self._text()}
                    #"description":   self.description,  # I don't really need description at this point!
                    
         self._settings.updateRecord(params)
         return load(actor='espresso/sim-view', routine='link', id=self.id)
 
 
-    def _text(self, settings):
+    def _text(self):
         """Returns text based on set parameters"""
-        #(parser, fp)    = self.parser(settings)
         import ConfigParser
         import StringIO
 
