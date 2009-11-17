@@ -29,35 +29,39 @@ class SimServer:
         servername  = self._serverName(settings)
 
         if servername   != '':  # self._serverIsSet(settings):
-            text    = Paragraph(text=servername)
-#                        Link(label=self._label(settings), Class="action-link",
-#                        onclick=load(actor="espresso/settings-view",
-#                        routine="link", id=id))
+            #text    = Paragraph(text=servername)
+            text    = Link(label=servername, Class="action-link",
+                           onclick=load(actor="server-view",
+                           routine="link", sname=servername))
         else:
             text    = Paragraph(text="None")
 
         return text
 
     def _serverName(self, settings):
-        """Checks if server is set"""
-#        if not settings:
-#            return False
+        """Get the server name"""
+        # settings is list of Configuration tables
+        if len(settings) == 0:
+            return ''
 
         import ConfigParser
         import StringIO
 
-        config  = """
-[server]
-server-name = foxtrot.danse.us
-"""
-        if config:  # Implies that it has sections already
-            fp  = StringIO.StringIO(config)
-            parser  = ConfigParser.ConfigParser()
-            parser.readfp(fp)
-            name    = parser.get("server", "server-name")
+        if settings[0]:
+            config  = settings[0].text  # check if settings[0] isinstanceof Configuration
 
-            if self._isServerName(name):
-                return name
+    #        config  = """
+    #[server]
+    #server-name = foxtrot.danse.us
+    #"""
+            if config:  # Implies that it has sections already
+                fp  = StringIO.StringIO(config)
+                parser  = ConfigParser.ConfigParser()
+                parser.readfp(fp)
+                name    = parser.get("server", "server-name")
+
+                if self._isServerName(name):
+                    return name
 
         return ''
                 
@@ -66,14 +70,13 @@ server-name = foxtrot.danse.us
             return False
 
         if self._director:
-            servers  = self._clerk.getServers() # where="WHERE id"
+            servers  = self._clerk.getServers()
             for s in servers:
                 """Check if the server name is available in the server names """
                 if name == s.sname:
                     return True
 
         return False
-#        return False
 
         
 #        s   = settings[0]

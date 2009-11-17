@@ -108,6 +108,11 @@ configDOS = """&inputpp
    DeltaE=0.1
 /"""
 
+configSettings  = """
+[server]
+server-name = foxtrot.danse.us
+"""
+
 # Electron DOS (Ni_E_DOS): simulationId = 5
 
 # Default records
@@ -120,6 +125,8 @@ defaults    = (
                 "filename": "ni.pp.in", "text": configDOS},
                 {"id": 4, "simulationId": 5, "type": "DOS",
                 "filename": "ni.scf.dos.in", "text": configDOS},
+                {"id": 5, "simulationId": 6, "type": "settings",    # Example of settings type
+                "filename": "settings.conf", "text": configSettings},
               )
 
 # Init tables
