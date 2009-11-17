@@ -25,10 +25,11 @@ class SimServer:
         self._type      = "settings"
 
     def getServer(self, id):      # simulation id
-        settings  = self._clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
+        settings    = self._clerk.getConfigurations(where="simulationId='%s' AND type='%s'" % (id, self._type))
+        servername  = self._serverName(settings)
 
-        if self._serverIsSet(settings):
-            text    = Paragraph(text="Exists")
+        if servername   != '':  # self._serverIsSet(settings):
+            text    = Paragraph(text=servername)
 #                        Link(label=self._label(settings), Class="action-link",
 #                        onclick=load(actor="espresso/settings-view",
 #                        routine="link", id=id))
@@ -37,7 +38,7 @@ class SimServer:
 
         return text
 
-    def _serverIsSet(self, settings):
+    def _serverName(self, settings):
         """Checks if server is set"""
 #        if not settings:
 #            return False
@@ -51,26 +52,27 @@ server-name = foxtrot.danse.us
 """
         if config:  # Implies that it has sections already
             fp  = StringIO.StringIO(config)
-
             parser  = ConfigParser.ConfigParser()
             parser.readfp(fp)
-            if self._serverName(parser.get("server", "server-name")):
-                return True
+            name    = parser.get("server", "server-name")
 
-        return False
+            if self._isServerName(name):
+                return name
+
+        return ''
                 
-    def _serverName(self, name):
+    def _isServerName(self, name):
         if name == '':
             return False
 
-        # Fix it
-#        if self._director:
-#            servers  = self._clerk.getServers()
-#            for s in servers:
-#                if name == s.sname:
-#                    return True
+        if self._director:
+            servers  = self._clerk.getServers() # where="WHERE id"
+            for s in servers:
+                """Check if the server name is available in the server names """
+                if name == s.sname:
+                    return True
 
-        return True
+        return False
 #        return False
 
         

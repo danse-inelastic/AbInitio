@@ -11,23 +11,58 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from pyre.services.Service import Service
+from pyre.services.TCPService import TCPService
+MAXSIZE = 1024
 
-class EchoService(Service):
+class EchoService(TCPService):
 
     def __init__(self, name=None):
         super(EchoService, self).__init__(name)
 
     
-    def _createPortMonitor(self):
-        import pyre.ipc
-        return pyre.ipc.monitor('tcp')
-
-
     def onConnectionAttempt(self, selector, monitor):
         socket, address = monitor.accept()
 
-        request = self.marshaller.receive(socket)
+        # How to include marshaller?
+        data    = socket.recv(MAXSIZE)
+        if data:
+            socket.send(data)
+        else:
+            socket.close()
+
+        return True
+
+
+
+#    class Inventory(TCPService.Inventory):
+#
+#        import pyre.inventory
+#        from pyre.services import pickler
+#        marshaller = pyre.inventory.facility("marshaller", factory=pickler)
+#
+#
+#    def _configure(self):
+#        super(EchoService, self)._configure()
+#
+#        self.marshaller = self.inventory.marshaller
+
+
+
+#        selector.notifyOnReadReady(socket, )
+#        request = self.marshaller.receive(socket)
+        #print request
+#        result = self.evaluator.evaluate(self, request.command, request.args)
+#        self.marshaller.send(result, socket)
+
+#        f   = open("/tmp/request.log", "w")
+#        f.write("%s" % request)
+#        f.close()
+
+
+        
+
+
+
 
 
 #        if not self.validateConnection(address):

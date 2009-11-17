@@ -22,6 +22,7 @@ class EchoDaemon(Application, Daemon):
         import pyre.inventory
         home = pyre.inventory.str("home", default="/tmp")   # ?
         
+        
 
     def main(self, *args, **kwds):
         service    = EchoService('service')
