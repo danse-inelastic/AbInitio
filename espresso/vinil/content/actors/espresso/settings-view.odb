@@ -39,14 +39,6 @@ class Actor(base):
         import pyre.inventory
         id          = pyre.inventory.str('id', default='')          # Simulation Id
         configid    = pyre.inventory.str('configid', default='')    # Configuration Id
-#        servername  = pyre.inventory.str('servername', default='')
-#        numproc     = pyre.inventory.int('numproc', default=0)
-#        numnodes    = pyre.inventory.int('numnodes', default=0)
-#        procpernode = pyre.inventory.int('procpernode', default=0)
-#        npool       = pyre.inventory.int('npool', default=0)
-#        executable  = pyre.inventory.str('executable', default='')
-#        params      = pyre.inventory.str('params', default='')
-#        modules     = pyre.inventory.str('modules', default='')
 
 
     def content(self, director):
@@ -78,13 +70,13 @@ class Actor(base):
     def showConfig(self, document, settings):
         self._parser    = self.parser(settings)
         document.add(Paragraph(text="File Name: %s" % self.filename(settings)) )
-        document.add(Paragraph(text="Server Name (example: foxtrot.danse.us): %s" % self._get("server", "server-name")))
+        document.add(Paragraph(text="Server Name: %s" % self._get("server", "server-name")))
         document.add(Paragraph(text="Number of Processors: %s" % self._get("server", "num-proc")))
         document.add(Paragraph(text="Number of Nodes: %s" % self._get("server", "num-nodes")))
         document.add(Paragraph(text="Processors Per Node: %s" % self._get("server", "proc-per-node")))
         document.add(Paragraph(text="Npool: %s" % self._get("server", "npool")))
-        document.add(Paragraph(text="Executable (example: mpirun): %s" % self._get("server", "executable")))
-        document.add(Paragraph(text="Parameters: %s" % self._get("server", "params")))
+        document.add(Paragraph(text="Executable: %s" % self._get("server", "executable")))
+        document.add(Paragraph(text="Additional Parameters: %s" % self._get("server", "params")))
         document.add(Paragraph(text="Modules: %s" % self._get("server", "modules")))
 
 
@@ -146,24 +138,6 @@ class Actor(base):
 
 def actor():
     return Actor('espresso/settings-view')
-
-
-#numproc        = 8
-#numnodes    	= 8
-#procpernode 	= 12
-#npool       	= 8
-#executable      = mpirun
-#params          = --mca btl openib,sm,self
-#
-#[modules]
-#modules-espresso    = openmpi/gnu acml/4.3.0_gfortran64_int32 espresso
-
-
-#        document.add(Link(label="Delete", Class="action-link",
-#                          onclick = load(actor='espresso/input-delete',
-#                          routine='link', id=self.id, configid=self.configid,
-#                          type=self.type)))
-
 
 
 
