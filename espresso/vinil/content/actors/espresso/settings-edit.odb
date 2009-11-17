@@ -36,6 +36,7 @@ class Actor(base):
         id          = pyre.inventory.str('id', default='')          # Simulation Id
         configid    = pyre.inventory.str('configid', default='')    # Configuration Id
         filename    = pyre.inventory.str('filename', default='')
+        description = pyre.inventory.str('description', default='')
         servername  = pyre.inventory.str('servername', default='')
         numproc     = pyre.inventory.int('numproc', default=0)
         numnodes    = pyre.inventory.int('numnodes', default=0)
@@ -50,7 +51,7 @@ class Actor(base):
         self._sim       = director.clerk.getSimulations(id=self.id)
         self._settings  = director.clerk.getConfigurations(id=self.configid)
 
-        self._parser    = self.parser(self._settings)
+        (self._parser, fp)  = self.parser(self._settings)
         d               = Document(title="Edit Settings Configuration")   # , Class="step-content"
 
         form            = Form(id="form-vinil")
@@ -78,31 +79,46 @@ class Actor(base):
 
         return d
 
-#        self._parser    = self.parser(settings)
-#        document.add(Paragraph(text="File Name: %s" % self.filename(settings)) )
-#        document.add(Paragraph(text="Server Name: %s" % self._get("server", "server-name")))
-#        document.add(Paragraph(text="Number of Processors: %s" % self._get("server", "num-proc")))
-#        document.add(Paragraph(text="Number of Nodes: %s" % self._get("server", "num-nodes")))
-#        document.add(Paragraph(text="Processors Per Node: %s" % self._get("server", "proc-per-node")))
-#        document.add(Paragraph(text="Npool: %s" % self._get("server", "npool")))
-#        document.add(Paragraph(text="Executable: %s" % self._get("server", "executable")))
-#        document.add(Paragraph(text="Additional Parameters: %s" % self._get("server", "params")))
-#        document.add(Paragraph(text="Modules: %s" % self._get("server", "modules")))
-
-
 
     def updateRecord(self, director):
-        """Update configuration record"""
-        params  = {"filename":      self.fname,
-                   "type":          self.type,
-                   "description":   self.description,
-                   "parser":        PARSERS[int(self.parser)],
-                   "text":          self.text}
-        self._input     = director.clerk.getConfigurations(id=self.configid)
-        self._input.setDirector(director)
-        self._input.updateRecord(params)
+        """Update settings record"""
+        self._settings     = director.clerk.getConfigurations(id=self.configid)
+        self._settings.setDirector(director)
+
+        params  = {"filename":      self.filename,
+                   "text":          self._text(self._settings)}
+                   #"description":   self.description,  # I don't really need description at this point!
+                   
+        self._settings.updateRecord(params)
         return load(actor='espresso/sim-view', routine='link', id=self.id)
 
+
+    def _text(self, settings):
+        """Returns text based on set parameters"""
+        #(parser, fp)    = self.parser(settings)
+        import ConfigParser
+        import StringIO
+
+        parser  = ConfigParser.ConfigParser()
+        fp  = StringIO.StringIO()
+        parser.read(fp)
+
+        if parser:
+            parser.add_section("server")
+            parser.set("server", "server-name", SERVERS[int(self.servername)])
+            parser.set("server", "num-proc", self.numproc)
+            parser.set("server", "num-nodes", self.numnodes)
+            parser.set("server", "proc-per-node", self.procpernode)
+            parser.set("server", "npool", self.npool)
+            parser.set("server", "executable", self.executable)
+            parser.set("server", "params", self.params)
+            parser.set("server", "modules", self.modules)
+
+            parser.write(fp)
+            return fp.getvalue()
+
+        return ''
+    
 
     def parser(self, settings):
         import ConfigParser
@@ -116,9 +132,9 @@ class Actor(base):
                 fp  = StringIO.StringIO(config)
                 parser  = ConfigParser.ConfigParser()
                 parser.readfp(fp)
-                return parser
+                return (parser, fp)
 
-        return None
+        return (None, None)
 
 
     def _get(self, section, param):
@@ -156,6 +172,7 @@ class Actor(base):
         self.id             = self.inventory.id
         self.configid       = self.inventory.configid
         self.filename       = self.inventory.filename
+        self.description    = self.inventory.description
         self.servername     = self.inventory.servername
         self.numproc        = self.inventory.numproc
         self.numnodes       = self.inventory.numnodes

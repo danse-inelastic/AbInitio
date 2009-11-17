@@ -68,7 +68,7 @@ class Actor(base):
 
                     
     def showConfig(self, document, settings):
-        self._parser    = self.parser(settings)
+        (self._parser, fp)    = self.parser(settings)
         document.add(Paragraph(text="File Name: %s" % self.filename(settings)) )
         document.add(Paragraph(text="Server Name: %s" % self._get("server", "server-name")))
         document.add(Paragraph(text="Number of Processors: %s" % self._get("server", "num-proc")))
@@ -92,9 +92,9 @@ class Actor(base):
                 fp  = StringIO.StringIO(config)
                 parser  = ConfigParser.ConfigParser()
                 parser.readfp(fp)
-                return parser
+                return (parser, fp)
 
-        return None
+        return (None, None)
 
 
     def _get(self, section, param):

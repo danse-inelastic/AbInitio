@@ -124,15 +124,15 @@ modules         = openmpi/gnu acml/4.3.0_gfortran64_int32 espresso
 
 # Default records
 defaults    = (
-               {"id": 1, "simulationId": 5, "type": "PW",
+               {"id": 1, "simulationId": 5, "type": "PW", "parser": "qeinput",
                "filename": "ni.scf.in", "text": configPW},
-               {"id": 2, "simulationId": 6, "type": "PH",
+               {"id": 2, "simulationId": 6, "type": "PH", "parser": "qeinput",
                 "filename": "ni.ph.in", "text": configPH},
-               {"id": 3, "simulationId": 4, "type": "PP",
+               {"id": 3, "simulationId": 4, "type": "PP", "parser": "qeinput",
                 "filename": "ni.pp.in", "text": configDOS},
-                {"id": 4, "simulationId": 5, "type": "DOS",
+                {"id": 4, "simulationId": 5, "type": "DOS", "parser": "qeinput",
                 "filename": "ni.scf.dos.in", "text": configDOS},
-                {"id": 5, "simulationId": 6, "type": "settings",    # Example of settings type
+                {"id": 5, "simulationId": 6, "type": "settings", "parser": "ConfigParser",   # Example of settings type
                 "filename": "settings.conf", "text": configSettings},
               )
 
