@@ -50,10 +50,17 @@ def parsePHFile(filename):
     return (e,  x)
 
 
+#def newid(director):
+#    id  = ''
+#    if director:
+#        id = director.idd.token().locator
+#
+#    return id
+
 def newid(director):
     id  = ''
     if director:
-        id = director.idd.token().locator
+        id = director.getGUID()
 
     return id
 

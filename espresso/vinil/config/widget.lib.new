@@ -1,11 +1,11 @@
 {
   "": {
      "stylesheets": [
-        "../css-vinil/main.css",
-        "../css-vinil/form.css",
         "jquery/ui/smoothness/ui.all.css",
-        "jquery/jquery.tooltip.css"
+        "jquery/jquery.tooltip.css",
 
+	"luban.css",
+	"aokuang.css"
         ],
      "jslibs":      [
         "jquery/jquery.js",
@@ -35,7 +35,9 @@
   },
   "table": {
      "stylesheets": [
-        "../css-vinil/table/table.css"
+        "tabulator/datePicker.css",
+        "tabulator/tabulator.css",
+        "tabulator/tabulator-color.css"
         ],
      "jslibs":      [
         "jquery/date.js",
@@ -56,7 +58,6 @@
   },
   "tabs": {
      "stylesheets": [
-        "../css-vinil/jquery/jquery-ui.custom.css"
         ],
      "jslibs":      [
         "jquery/ui/ui.tabs.js"
@@ -64,7 +65,7 @@
   },
   "appmenubar": {
      "stylesheets": [
-        "../css-vinil/jquery/jquery.jdMenu.css"
+        "jquery/jquery.jdMenu.css"
         ],
      "jslibs":      [
         "jquery/jdMenu-1.4.1/jquery.jdMenu.js",

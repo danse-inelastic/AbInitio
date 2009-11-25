@@ -3,34 +3,16 @@
      "stylesheets": [
         "../css-vinil/main.css",
         "../css-vinil/form.css",
-        "jquery/ui/smoothness/ui.all.css",
-        "jquery/jquery.tooltip.css"
-
+        "jquery/ui/css/smoothness/jquery-ui-1.7.1.custom.css"
         ],
      "jslibs":      [
         "jquery/jquery.js",
-        "jquery/jquery.rightClick.js",
-        "jquery/jquery.dimensions.js",
-        "jquery/jquery.bgiframe.js",
-        "jquery/jquery.tooltip.js",
         "jquery/ui/ui.core.js",
         "luban/luban-core.js",
         "luban/luban-controller.js",
-        "luban/luban-compiler-preloader.js",
         "luban/luban-actioncompiler.js",
         "luban/luban-documentmill.js",
-        "luban/luban-widgets-basic.js",
-
-        "other/editarea_0_8_1_1/edit_area/edit_area_full.js"
-        ]
-  },
-  "dialog": {
-     "stylesheets": [
-        ],
-     "jslibs":      [
-        "jquery/ui/ui.draggable.js",
-        "jquery/ui/ui.resizable.js",
-        "jquery/ui/ui.dialog.js"
+        "luban/luban-widgets-basic.js"
         ]
   },
   "table": {
@@ -42,7 +24,12 @@
         "jquery/jquery.datePicker.js",
         "jquery/tabulator.js",
         "jquery/elementFactory.js",
-        "jquery/tableFactory.js"
+        "jquery/tableFactory.js",
+        "jquery/plotxy.js",
+        "jquery/jquery.flot.js",
+        "/jquery/jquery.rightClick.js",
+        "luban/luban-widgets-table.js",
+        "luban/luban-widgets-plot2d.js"
         ]
   },
   "treeview": {
@@ -68,6 +55,8 @@
         ],
      "jslibs":      [
         "jquery/jdMenu-1.4.1/jquery.jdMenu.js",
+        "jquery/jdMenu-1.4.1/jquery.dimensions.js",
+        "jquery/jdMenu-1.4.1/jquery.bgiframe.js",
         "jquery/jdMenu-1.4.1/jquery.positionBy.js"
         ]
   },
@@ -76,26 +65,6 @@
         ],
      "jslibs":      [
         "jquery/ui/ui.accordion.js"
-        ]
-  },
-  "progressbar": {
-     "stylesheets": [
-        ],
-     "jslibs":      [
-        "jquery/ui/ui.progressbar.js"
-        ]
-  },
-  "plot2d": {
-     "stylesheets": [
-        ],
-     "jslibs":      [
-        "jquery/jquery.flot.js"
-        ]
-  },
-  "codeeditor": {
-     "stylesheets": [
-        ],
-     "jslibs":      [
         ]
   }
 }
