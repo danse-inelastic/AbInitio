@@ -181,11 +181,17 @@ def testParseConfig():
     c = qe.card('atomic_positions')
     c.editLines(['Say Hi! :)'])
     print qe.toString()
-    #qe.save("ni.scf.in.mod")
+    #qe.save("../tests/ni.scf.in.mod")
+
+def testAttach():
+    qe  = QEInput("../tests/si.ph.in", type="ph")
+    qe.parse()
+    qe.save("../tests/si.ph.in.mod")
 
 if __name__ == "__main__":
-    testCreateConfig()
-    testParseConfig()
+    #testCreateConfig()
+    #testParseConfig()
+    testAttach()
 
 
 

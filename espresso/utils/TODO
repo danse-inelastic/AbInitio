@@ -17,3 +17,18 @@ will return:
     ,nk2=28,
     ,nk3=28
 
+    - Extract header and attachment properly!
+    phonons of Si at the G-point
+    &INPUTPH
+       tr2_ph = 1.0d-12,
+       prefix = 'si',
+       epsil = .false.,
+       trans = .true.,
+       zue = .false.,
+       outdir = '/scratch/si',
+       amass(1) = 28.0855,
+       fildyn = 'si.dyn_G',
+       fildrho = 'si.drho_G',
+    /
+    0.0 0.0 0.0
+
