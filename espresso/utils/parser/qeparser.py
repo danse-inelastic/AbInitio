@@ -16,17 +16,21 @@ COMMENT         = '!.*'                 # Comment
 NAME            = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
 SPACES          = '[ \t]*'              # Spaces and tabs
 NO_SPACES       = '[^\s]*'              # No spaces
-NEWLINE         = '[\n\r]*'             # New line ()
+NEWLINE         = '[\n\r]*'             # New line (for Windows), not used at this point
 PARAMTER        = '[\w,()]+'            # Parameter characters (space is not allowed)
 VALUE           = '[^\s,]+'             # Parameter's value (numerate all possible characters)
 EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
-NAMELIST        = """%s&%s%s([^&]*)/""" % (SPACES, SPACES, NAME)        # Namelist block (handles directory slashes)
+NAMEHEADER      = '%s&%s%s'  % (SPACES, SPACES, NAME) # Namelist header
+NAMELIST        = '%s([^&]*)/' % NAMEHEADER  # Namelist block (handles directory slashes)
 OPEN_BRACKET    = '[({]?'               # Open bracket
 CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE      = r'^\s*'               # Empty line
-ATTACHSIM       = ['matdyn', 'ph', 'd3']      # Simulation types that have attachments
 
+
+ATTACHSIM       = ['matdyn', 'ph', 'd3']      # Simulation types that have attachments
+# Carriage return which is different for Linux, Mac OS and Windows
+CR              = {"linux": '\n', "windows": '\n\r', "mac": '\r'}
 
 import re
 from orderedDict import OrderedDict
@@ -35,24 +39,37 @@ from card import Card
 
 class QEParser:
     """
-    Flexible Parser for Quantum Espresso (QE) configuration files. It parses the file specified
-    by filename or configuration string and stores parameters in namelists, cards and
-    attachment (specific for matdyn) data structures that later on can be used in
-    parameters' manipulations
+    Flexible Parser for Quantum Espresso (QE) configuration files.
+    
+    It parses the file specified by filename or configuration string and stores
+    parameters in namelists, cards and attachment data
+    structures that later on can be used in parameters' manipulations
     """
     
-    def __init__(self, filename=None, configText=None, type='pw'):
-        self.namelists  = OrderedDict()
-        self.cards      = OrderedDict()
+    def __init__(self, filename = None, configText = None, type = 'pw', os = "linux"):
+        """
+        Parameters:
+            filename    -- absolute or relative filename to be parsed
+            configText  -- configuration text to be parsed
+            type        -- type of the simulation
+            os          -- operating system defined for carriage return
+        """
+        
+        self.header     = None
+        self.namelists  = OrderedDict()     # Namelist dictionary
+        self.cards      = OrderedDict()     # Cards dictionary
         self.attach     = None
         self.filename   = filename
         self.configText = configText
         self.namelistRef    = None
         self.cardRef        = None
         self.type           = type
+        self.cr             = CR[os]
+
 
     def parse(self):
-        self.getReferences()
+        """Parses string and returns namelists, cards, attachment and header"""
+        self._getReferences()
 
         if self.configText is not None: # First try use configText
             text = self.configText
@@ -63,10 +80,15 @@ class QEParser:
         
         self._parseNamelists(text)
         self._parseCards(text)
+        
         return (self.namelists, self.cards, self.attach)
 
 
     def toString(self):
+        """Prints parsed values to stdout"""
+        if self.header:
+            print self.header
+
         for n in self.namelists.keys():
             print self.namelists[n].toString()
 
@@ -77,7 +99,9 @@ class QEParser:
             print self.attach
 
 
-    def getReferences(self):
+    def _getReferences(self):
+        """Get reference names for namelists and cards for specified simulation type"""
+        
         input   = "input%s" % self.type
         module  = _import("inputs.%s" % input)
         self.namelistRef   = getattr(module, "namelists")
@@ -86,11 +110,15 @@ class QEParser:
 
         
     def _parseNamelists(self, text):
+        """Parses text and populates namelist dictionary"""
         namelists  = OrderedDict()
         p   = re.compile(COMMENT)
         s1  = re.sub(p, '', text)           # Remove comments
         p2  = re.compile(NAMELIST)
         matches     = p2.findall(s1)        # Finds all namelist blocks
+        
+        self._setHeader(text)
+        
         for m in matches:
             name    = m[0].lower()
             if name in self.namelistRef:
@@ -100,8 +128,8 @@ class QEParser:
         self._convertNamelists(namelists)
 
 
-    # Converts from dictionary to Namelist
     def _convertNamelists(self, namelists):
+        """Converts dictionary to Namelist"""
         for name in namelists.keys():
             nl      = Namelist(name)
             for p in namelists[name]:
@@ -110,8 +138,8 @@ class QEParser:
             self.namelists[name] = nl
 
 
-    # Parses parameters
     def _parseParams(self, text):
+        """Parses parameters"""
         params  = []
         p   = re.compile(EXPRESSION)        # Match expression
         matches = p.findall(text)
@@ -120,6 +148,7 @@ class QEParser:
             params.append(pl)
 
         return params
+
 
     def _getParams(self, text):
         """ Takes string like 'a = 2' and returns tuple ('a', 2) """
@@ -134,21 +163,35 @@ class QEParser:
 
         return (param, val)
 
+
+    def _setHeader(self, text):
+        """
+        Sets header for configuration files.
+
+        If the first line does not start with the namelist header the header is set
+        """
+        
+#        if len(matches):
+#            nl  = matches[0]
+#            print nl
+        
+        
+
+
     def _parseCards(self, text):
+        """Parses text and populates cards dictionary"""
         p   = re.compile(COMMENT)
         s1  = re.sub(p, '', text)       # Remove comments
         p2  = re.compile(NAMELIST)
         s2  = re.sub(p2, '', s1)        # Remove namelists
 
-        # Special case for simulations that have attachments
-        if self.type in ATTACHSIM:
-            self.attach = s2.strip()
+        if self._setAttach(s2):
             return
         
         rawlist = []
 
         p   = re.compile(EMPTY_LINE)
-        s   = s2.split('\n')
+        s   = s2.split(self.cr)         
         for line in s:
             line    = line.strip()
             if line != '':
@@ -156,8 +199,14 @@ class QEParser:
 
         self._convertCards(self._getCards(rawlist))
 
-    def _getAttach(self, str):
-        pass
+    def _setAttach(self, text):
+        """Special case for simulations that have attachments"""
+        if self.type in ATTACHSIM:
+            self.attach = text.strip()
+            return True
+
+        return False
+
 
     def _getCards(self, rawlist):
         cards       = OrderedDict()
@@ -307,19 +356,47 @@ textPh  = """
 
 """
 
+textHeader  = """phonons of Si at the G-point
+&INPUTPH
+   tr2_ph = 1.0d-12,
+   prefix = 'si',
+   epsil = .false.,
+   trans = .true.,
+   zue = .false.,
+   outdir = '/scratch/si',
+   amass(1) = 28.0855,
+   fildyn = 'si.dyn_G',
+   fildrho = 'si.drho_G',
+/
+0.0 0.0 0.0
+"""
+
+textComma   = """&input
+   asr='crystal',  dos=.true.
+   amass(1)=26.982538, amass(2)=11.000,
+   flfrc='mgalb4666.fc', fldos='mgalb4.666.phdos', nk1=28,nk2=28,nk3=28
+/
+"""
+
 def testMatdyn():
     qeparserText    = QEParser(configText = textMatdyn, type="matdyn")
     qeparserText.parse()
     qeparserText.toString()
 
+
 def testFile():
     qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
     qeparserFile.parse()
     qeparserFile.toString()
- 
+
+
+def testHeader():
+    parser          = QEParser(configText = textHeader, type="ph")
+    parser.parse()
+    parser.toString()
 
 if __name__ == "__main__":
-    pass
+    testHeader()
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
 
