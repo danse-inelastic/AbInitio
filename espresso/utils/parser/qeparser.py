@@ -27,10 +27,7 @@ CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE      = r'^\s*'               # Empty line
 
-
 ATTACHSIM       = ['matdyn', 'ph', 'd3']      # Simulation types that have attachments
-# Carriage return which is different for Linux, Mac OS and Windows
-CR              = {"linux": '\n', "windows": '\n\r', "mac": '\r'}
 
 import re
 from orderedDict import OrderedDict
@@ -46,7 +43,7 @@ class QEParser:
     structures that later on can be used in parameters' manipulations
     """
     
-    def __init__(self, filename = None, configText = None, type = 'pw', os = "linux"):
+    def __init__(self, filename = None, configText = None, type = 'pw'):
         """
         Parameters:
             filename    -- absolute or relative filename to be parsed
@@ -64,60 +61,103 @@ class QEParser:
         self.namelistRef    = None
         self.cardRef        = None
         self.type           = type
-        self.cr             = CR[os]
 
 
     def parse(self):
         """Parses string and returns namelists, cards, attachment and header"""
-        self._getReferences()
+        self._setReferences()
 
         if self.configText is not None: # First try use configText
-            text = self.configText
+            s = self.configText
         elif self.filename is not None: # ... then from file
-            text = self._getText(self.filename)
+            s = self._getText(self.filename)
         else:
             raise NameError('Dude, set config text or filename')  # Compalain
-        
-        self._parseNamelists(text)
-        self._parseCards(text)
+
+        s   = self._parseHeader(s)
+        s   = self._parseNamelists(s)
+        s   = self._parseAttach(s)
+        self._parseCards(s)
         
         return (self.namelists, self.cards, self.attach)
 
 
     def toString(self):
-        """Prints parsed values to stdout"""
+        """Returns string of parsed values"""
+        
+        s   = ''
         if self.header:
-            print self.header
+            s   += self.header
 
         for n in self.namelists.keys():
-            print self.namelists[n].toString()
+            s   += self.namelists[n].toString()
 
         for c in self.cards.keys():
-            print self.cards[c].toString()
+            s   += self.cards[c].toString()
 
         if self.attach:
-            print self.attach
+            s   += self.attach
 
+        return s
 
-    def _getReferences(self):
+    def _setReferences(self):
         """Get reference names for namelists and cards for specified simulation type"""
         
         input   = "input%s" % self.type
         module  = _import("inputs.%s" % input)
         self.namelistRef   = getattr(module, "namelists")
         self.cardRef       = getattr(module, "cards")
-        return (self.namelistRef, self.cardRef)
+
+
+    def _parseHeader(self, text):
+        """Cuts the first line if it header"""
+
+        lines   = text.splitlines(True)
+        if lines:
+            l   = lines[0]
+            if not self._isNameHeader(l):
+                self.header     = l
+                lines           = lines[1:]
+
+        return "".join(lines)
+
+
+#    def _setHeader(self, text):
+#        """
+#        Sets header for configuration files.
+#        If the first line does not start with the namelist header the header is set
+#        """
+#
+#        lines   = text.splitlines(True) # Keep end of the line
+#        if lines:
+#            l   = lines[0]
+#            if not self._isNameHeader(l):
+#                self.header = l
+#
+#                return True
+#
+#        return False
+#
+
+    def _isNameHeader(self, line):
+        """Check if line has substring of the name header"""
+        p   = re.compile(NAMEHEADER)
+        m   = p.match(line.lower())
+        if m:
+            name    = m.group(1)
+            if name in self.namelistRef:
+                return True
+
+        return False
 
         
     def _parseNamelists(self, text):
         """Parses text and populates namelist dictionary"""
-        namelists  = OrderedDict()
-        p   = re.compile(COMMENT)
-        s1  = re.sub(p, '', text)           # Remove comments
-        p2  = re.compile(NAMELIST)
+
+        namelists   = OrderedDict()
+        s1          = self._removeComments(text)
+        p2          = re.compile(NAMELIST)
         matches     = p2.findall(s1)        # Finds all namelist blocks
-        
-        self._setHeader(text)
         
         for m in matches:
             name    = m[0].lower()
@@ -127,6 +167,12 @@ class QEParser:
 
         self._convertNamelists(namelists)
 
+
+    def _removeComments(self, text):
+        """Removes comments from the text"""
+        p   = re.compile(COMMENT)
+        return re.sub(p, '', text)           
+        
 
     def _convertNamelists(self, namelists):
         """Converts dictionary to Namelist"""
@@ -141,7 +187,7 @@ class QEParser:
     def _parseParams(self, text):
         """Parses parameters"""
         params  = []
-        p   = re.compile(EXPRESSION)        # Match expression
+        p       = re.compile(EXPRESSION)        # Match expression
         matches = p.findall(text)
         for m in matches:
             pl  = self._getParams(m)         # Parameters list
@@ -164,48 +210,46 @@ class QEParser:
         return (param, val)
 
 
-    def _setHeader(self, text):
-        """
-        Sets header for configuration files.
-
-        If the first line does not start with the namelist header the header is set
-        """
-        
-#        if len(matches):
-#            nl  = matches[0]
-#            print nl
-        
-        
-
-
     def _parseCards(self, text):
         """Parses text and populates cards dictionary"""
-        p   = re.compile(COMMENT)
-        s1  = re.sub(p, '', text)       # Remove comments
-        p2  = re.compile(NAMELIST)
-        s2  = re.sub(p2, '', s1)        # Remove namelists
-
-        if self._setAttach(s2):
+        if self.type in ATTACHSIM:  # There should not be cards for simulations with attachment
             return
-        
+
+#        s1  = self._removeComments(text)
+#        p2  = re.compile(NAMELIST)
+#        s2  = re.sub(p2, '', s1)        # Remove namelists
+        #s3  = self._cutHeader(s2)
+
+#        if self._setAttach(s3):
+#            return
+
+        self._convertCards(self._getCards(self._rawlist(text) ))
+
+
+
+
+    def _parseAttach(self, text):
+        """Special case for simulations that have attachments"""
+
+        if self.type in ATTACHSIM:
+            self.attach = text #"".join(self._rawlist(text))
+            return True
+
+
+        return False
+
+
+    def _rawlist(self, text):
+        """Removes empty lines"""
         rawlist = []
 
-        p   = re.compile(EMPTY_LINE)
-        s   = s2.split(self.cr)         
+        s   = text.splitlines(True)
         for line in s:
             line    = line.strip()
             if line != '':
                 rawlist.append(line)    # rawlist contains both cardnames and card lines in order
 
-        self._convertCards(self._getCards(rawlist))
-
-    def _setAttach(self, text):
-        """Special case for simulations that have attachments"""
-        if self.type in ATTACHSIM:
-            self.attach = text.strip()
-            return True
-
-        return False
+        return rawlist
 
 
     def _getCards(self, rawlist):
@@ -356,7 +400,7 @@ textPh  = """
 
 """
 
-textHeader  = """phonons of Si at the G-point
+textHeader  = """&INPUTPH
 &INPUTPH
    tr2_ph = 1.0d-12,
    prefix = 'si',
@@ -393,7 +437,7 @@ def testFile():
 def testHeader():
     parser          = QEParser(configText = textHeader, type="ph")
     parser.parse()
-    parser.toString()
+    print parser.toString()
 
 if __name__ == "__main__":
     testHeader()
