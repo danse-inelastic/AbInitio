@@ -76,9 +76,9 @@ class QEParser:
             raise NameError('Dude, set config text or filename')  # Compalain
 
         self._parseHeader(text)
-#        self._parseNamelists(text)
-#        self._parseAttach(text)
-#        self._parseCards(text)
+        self._parseNamelists(text)
+        self._parseAttach(text)
+        self._parseCards(text)
         
         return (self.namelists, self.cards, self.attach)
 
@@ -101,6 +101,7 @@ class QEParser:
 
         return s
 
+
     def _setReferences(self):
         """Get reference names for namelists and cards for specified simulation type"""
         
@@ -112,7 +113,6 @@ class QEParser:
 
     def _parseHeader(self, text):
         """Cuts the first line if it header"""
-
         start   = self._namelistStart(text)
         if start is not None and start == 0:
             return  # There is no header    # text.count('\n', 0, start-1)
@@ -122,18 +122,6 @@ class QEParser:
             self.header   = lines[0]
 
 
-    def _namelistStart(self, text):
-        """Returns the start character position of the namelist in the text"""
-        s          = self._removeComments(text)
-        p          = re.compile(NAMELIST)
-        matches     = p.finditer(s)        # Finds all namelist blocks
-        
-        for m in matches:
-            return m.start()     # Get first value
-
-        return None
-
-        
     def _parseNamelists(self, text):
         """Parses text and populates namelist dictionary"""
 
@@ -193,33 +181,31 @@ class QEParser:
         return (param, val)
 
 
+    def _parseAttach(self, text):
+        """Special case for simulations that have attachments"""
+
+        if self.type in ATTACHSIM:
+            self.attach = self._cutNamelistText(text)
+
+
     def _parseCards(self, text):
         """Parses text and populates cards dictionary"""
         if self.type in ATTACHSIM:  # There should not be cards for simulations with attachment
             return
 
-#        s1  = self._removeComments(text)
-#        p2  = re.compile(NAMELIST)
-#        s2  = re.sub(p2, '', s1)        # Remove namelists
-        #s3  = self._cutHeader(s2)
-
-#        if self._setAttach(s3):
-#            return
-
-        self._convertCards(self._getCards(self._rawlist(text) ))
+        s   = self._cutNamelistText(text)
+        self._convertCards(self._getCards(self._rawlist(s) ))
 
 
+    def _cutNamelistText(self, text):
+        """Cuts the namelist text"""
+        s       = text
+        end     = self._namelistEnd(text)
 
+        if end is not None:
+            s   = text[end:]  # Suppose that cards and attachmet starts with new line
 
-    def _parseAttach(self, text):
-        """Special case for simulations that have attachments"""
-
-        if self.type in ATTACHSIM:
-            self.attach = text #"".join(self._rawlist(text))
-            return True
-
-
-        return False
+        return s
 
 
     def _rawlist(self, text):
@@ -261,6 +247,7 @@ class QEParser:
 
         return cards
 
+
     def _convertCards(self, cards):
         for cname in cards.keys():
             c   = Card(cname)
@@ -269,6 +256,39 @@ class QEParser:
                 c.addLine(l)
 
             self.cards[cname]    = c
+
+
+    def _namelistStart(self, text):
+        """Returns the start character position of the first namelist in the text"""
+        s           = self._removeComments(text)
+        p           = re.compile(NAMELIST)
+        matches     = p.finditer(s)        # Finds all namelist blocks
+        starts      = []
+
+        for m in matches:
+            starts.append(m.start())
+
+        if len(starts):
+            return starts[0]    # Get first value
+
+        return None
+
+
+    def _namelistEnd(self, text):
+        """Returns the end character position of the last namelist in the text"""
+        s           = self._removeComments(text)
+        p           = re.compile(NAMELIST)
+        matches     = p.finditer(s)        # Finds all namelist blocks
+        ends      = []
+
+        for m in matches:
+            ends.append(m.end())
+
+        size    = len(ends)
+        if size:
+            return ends[size-1]    # Get last position value
+
+        return None
 
 
     def _getText(self, filename):
@@ -432,6 +452,8 @@ if __name__ == "__main__":
     testHeader()
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
+
+
 
 # ****************** DEAD CODE *********************
 
