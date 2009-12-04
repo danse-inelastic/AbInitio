@@ -63,8 +63,7 @@ class Namelist():
         for p in self.params.keys():
             s += '%s%s = %s,%s' % (indent, p, self.params[p], br)
 
-        s += "/"
-        #s += "/%s" % br    # No need extra line
+        s += "/%s" % br 
         return s
 
     # Depricated methods:

@@ -17,9 +17,9 @@ NAME            = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
 SPACES          = '[ \t]*'              # Spaces and tabs
 NO_SPACES       = '[^\s]*'              # No spaces
 NEWLINE         = '[\n\r]*'             # New line (for Windows), not used at this point
-PARAMTER        = '[\w,()]+'            # Parameter characters (space is not allowed)
+PARAMETER       = '[\w,()]+'            # Parameter characters (space is not allowed)
 VALUE           = '[^\s,]+'             # Parameter's value (numerate all possible characters)
-EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
+EXPRESSION      = '(%s%s=%s%s)' % (PARAMETER, SPACES, SPACES, VALUE)     # Parameter's expression
 NLHEADER        = '%s&%s%s'  % (SPACES, SPACES, NAME) # Namelist header
 NAMELIST        = '%s([^&]*)/' % NLHEADER  # Namelist block (handles directory slashes)
 NLSCOPE         = '(%s)' % NAMELIST     # Namelist scope
@@ -66,7 +66,7 @@ class QEParser:
 
     def parse(self):
         """Parses string and returns namelists, cards, attachment and header"""
-        self._setReferences()
+        self.setReferences()
 
         if self.configText is not None: # First try use configText
             text = self.configText
@@ -80,7 +80,7 @@ class QEParser:
         self._parseAttach(text)
         self._parseCards(text)
         
-        return (self.namelists, self.cards, self.attach)
+        return (self.header, self.namelists, self.cards, self.attach)
 
 
     def toString(self):
@@ -102,20 +102,22 @@ class QEParser:
         return s
 
 
-    def _setReferences(self):
-        """Get reference names for namelists and cards for specified simulation type"""
+    def setReferences(self):
+        """Sets reference names for namelists and cards for specified simulation type"""
         
         input   = "input%s" % self.type
         module  = _import("inputs.%s" % input)
         self.namelistRef   = getattr(module, "namelists")
         self.cardRef       = getattr(module, "cards")
 
+        return (self.namelistRef, self.cardRef)
+    
 
     def _parseHeader(self, text):
         """Cuts the first line if it header"""
         start   = self._namelistStart(text)
         if start is not None and start == 0:
-            return  # There is no header    # text.count('\n', 0, start-1)
+            return  # There is no header 
 
         lines   = text.splitlines(True)
         if lines:
@@ -203,7 +205,7 @@ class QEParser:
         end     = self._namelistEnd(text)
 
         if end is not None:
-            s   = text[end:]  # Suppose that cards and attachmet starts with new line
+            s   = text[end + 1:]  # Suppose that cards and attachmet starts with new line
 
         return s
 
@@ -418,6 +420,7 @@ textHeader  = """
 0.0 0.0 0.0
 """
 
+# This is not a problem text (just add spaces between commas)
 textComma   = """&input
    asr='crystal',  dos=.true.
    amass(1)=26.982538, amass(2)=11.000,
@@ -426,15 +429,26 @@ textComma   = """&input
 """
 
 def testMatdyn():
-    qeparserText    = QEParser(configText = textMatdyn, type="matdyn")
-    qeparserText.parse()
-    qeparserText.toString()
+    parser    = QEParser(configText = textMatdyn, type="matdyn")
+    parser.parse()
+    print parser.toString()
+
+
+def testDynmat():
+    parser    = QEParser(configText = textDynmat, type="dynmat")
+    parser.parse()
+    print parser.toString()
 
 
 def testFile():
-    qeparserFile    = QEParser(filename = "../tests/ni.scf.in")
-    qeparserFile.parse()
-    qeparserFile.toString()
+    parser    = QEParser(filename = "../tests/ni.scf.in")
+    parser.parse()
+    print parser.toString()
+
+def testCards():
+    parser    = QEParser(configText = textCards)
+    parser.parse()
+    print parser.toString()
 
 
 def testComma():
@@ -448,37 +462,17 @@ def testHeader():
     parser.parse()
     print parser.toString()
 
+
 if __name__ == "__main__":
+    #testMatdyn()
+    #testDynmat()
+    #testFile()
+    #testCards()
+    #testComma()
     testHeader()
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
 
-
-
-# ****************** DEAD CODE *********************
-
-
-#    def _isNamelist(self, firstline, text):
-#        """Check if line has substring of the name header"""
-#        if m:
-#            print m.start()
-#
-##            name    = m.group(1)
-##            print m.start()
-##            if name in self.namelistRef:
-##                return name
-#
-#        return ''
-
-
-#        s1          = self._removeComments(text)
-#        p2          = re.compile(NAMELIST)
-#        matches     = p2.finditer(s1)        # Finds all namelist blocks
-#
-#        for m in matches:
-#            print m.start()     # Get first value
-#            if not self._isNamelist(l, text): # Check if the line is an actual namelist
-#                self.header     = l
 
 
 
