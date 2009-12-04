@@ -20,8 +20,9 @@ NEWLINE         = '[\n\r]*'             # New line (for Windows), not used at th
 PARAMTER        = '[\w,()]+'            # Parameter characters (space is not allowed)
 VALUE           = '[^\s,]+'             # Parameter's value (numerate all possible characters)
 EXPRESSION      = '(%s%s=%s%s)' % (PARAMTER, SPACES, SPACES, VALUE)     # Parameter's expression
-NAMEHEADER      = '%s&%s%s'  % (SPACES, SPACES, NAME) # Namelist header
-NAMELIST        = '%s([^&]*)/' % NAMEHEADER  # Namelist block (handles directory slashes)
+NLHEADER        = '%s&%s%s'  % (SPACES, SPACES, NAME) # Namelist header
+NAMELIST        = '%s([^&]*)/' % NLHEADER  # Namelist block (handles directory slashes)
+NLSCOPE         = '(%s)' % NAMELIST     # Namelist scope
 OPEN_BRACKET    = '[({]?'               # Open bracket
 CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
@@ -68,16 +69,16 @@ class QEParser:
         self._setReferences()
 
         if self.configText is not None: # First try use configText
-            s = self.configText
+            text = self.configText
         elif self.filename is not None: # ... then from file
-            s = self._getText(self.filename)
+            text = self._getText(self.filename)
         else:
             raise NameError('Dude, set config text or filename')  # Compalain
 
-        s   = self._parseHeader(s)
-        s   = self._parseNamelists(s)
-        s   = self._parseAttach(s)
-        self._parseCards(s)
+        self._parseHeader(text)
+#        self._parseNamelists(text)
+#        self._parseAttach(text)
+#        self._parseCards(text)
         
         return (self.namelists, self.cards, self.attach)
 
@@ -112,43 +113,25 @@ class QEParser:
     def _parseHeader(self, text):
         """Cuts the first line if it header"""
 
+        start   = self._namelistStart(text)
+        if start is not None and start == 0:
+            return  # There is no header    # text.count('\n', 0, start-1)
+
         lines   = text.splitlines(True)
         if lines:
-            l   = lines[0]
-            if not self._isNameHeader(l):
-                self.header     = l
-                lines           = lines[1:]
-
-        return "".join(lines)
+            self.header   = lines[0]
 
 
-#    def _setHeader(self, text):
-#        """
-#        Sets header for configuration files.
-#        If the first line does not start with the namelist header the header is set
-#        """
-#
-#        lines   = text.splitlines(True) # Keep end of the line
-#        if lines:
-#            l   = lines[0]
-#            if not self._isNameHeader(l):
-#                self.header = l
-#
-#                return True
-#
-#        return False
-#
+    def _namelistStart(self, text):
+        """Returns the start character position of the namelist in the text"""
+        s          = self._removeComments(text)
+        p          = re.compile(NAMELIST)
+        matches     = p.finditer(s)        # Finds all namelist blocks
+        
+        for m in matches:
+            return m.start()     # Get first value
 
-    def _isNameHeader(self, line):
-        """Check if line has substring of the name header"""
-        p   = re.compile(NAMEHEADER)
-        m   = p.match(line.lower())
-        if m:
-            name    = m.group(1)
-            if name in self.namelistRef:
-                return True
-
-        return False
+        return None
 
         
     def _parseNamelists(self, text):
@@ -400,7 +383,7 @@ textPh  = """
 
 """
 
-textHeader  = """&INPUTPH
+textHeader  = """
 &INPUTPH
    tr2_ph = 1.0d-12,
    prefix = 'si',
@@ -434,6 +417,12 @@ def testFile():
     qeparserFile.toString()
 
 
+def testComma():
+    parser          = QEParser(configText = textComma, type="matdyn")
+    parser.parse()
+    print parser.toString()
+
+
 def testHeader():
     parser          = QEParser(configText = textHeader, type="ph")
     parser.parse()
@@ -443,5 +432,31 @@ if __name__ == "__main__":
     testHeader()
 
 __date__ = "$Oct 9, 2009 4:34:28 PM$"
+
+# ****************** DEAD CODE *********************
+
+
+#    def _isNamelist(self, firstline, text):
+#        """Check if line has substring of the name header"""
+#        if m:
+#            print m.start()
+#
+##            name    = m.group(1)
+##            print m.start()
+##            if name in self.namelistRef:
+##                return name
+#
+#        return ''
+
+
+#        s1          = self._removeComments(text)
+#        p2          = re.compile(NAMELIST)
+#        matches     = p2.finditer(s1)        # Finds all namelist blocks
+#
+#        for m in matches:
+#            print m.start()     # Get first value
+#            if not self._isNamelist(l, text): # Check if the line is an actual namelist
+#                self.header     = l
+
 
 
