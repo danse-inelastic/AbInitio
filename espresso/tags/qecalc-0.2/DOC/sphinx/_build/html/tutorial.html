@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; qecalc v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="qecalc v0.2 documentation" href="index.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Welcome to qecalc’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/pyre-logo-new.png" border="0" alt="py4sci" height="80"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to qecalc’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+        <li><a href="http://dev.danse.us/trac/AbInitio/wiki/WikiStart">ab initio trac page </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Tutorial</a><ul>
+<li><a class="reference external" href="#introduction">Introduction</a></li>
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#usage">Usage</a></li>
+<li><a class="reference external" href="#examples">Examples</a><ul>
+<li><a class="reference external" href="#pwcalc">PWCalc</a></li>
+<li><a class="reference external" href="#multiphononcalc">MultiPhononCalc</a></li>
+<li><a class="reference external" href="#converger">Converger</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">Welcome to qecalc&#8217;s documentation!</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="api.html"
+                                  title="next chapter">API</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tutorial.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.quantum-espresso.org">Quantum Espresso</a> (QE) is widely used GNU distributed open source ab initio package
+for plane wave Density Functional Theory (DFT) and molecular dynamics calculations.
+Often users need to go beyond basic capabilities of an ab initio program and
+use its outputs for more advanced tasks. Some examples:</p>
+<ul class="simple">
+<li>convergence studies of a property of interest with respect to ranging values of different input parameters</li>
+<li>Various optimization and minimization problems</li>
+<li>Plotting and data processing</li>
+</ul>
+<p>QECalc is a set of Quantum Espresso launchers and input/ouput parsers available
+organized  under single API.
+Its primary goal is to use its classes to streamline user&#8217;s work flow,
+offer new functionality and provide the machinery  to build new  features using
+numpy, scipy, and matplotlib. One such example can be the class Converger from
+qecalc/converger.py which can be  used to converge such
+properties as &#8216;total energy&#8217;, &#8216;geometry&#8217;, and &#8216;single phonon&#8217; with respect to
+any iteratable variable of PW config file. More examples can be seen in examples
+directory. Sources can be checked out following the installation instructions
+or can be browsed <a class="reference external" href="http://dev.danse.us/trac/AbInitio/browser/espresso/qecalc">here</a></p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways of installing qecalc. One is easy_install and another is
+checking out current development version from our svn repository.</p>
+<p>For easy_install option make sure  setuptools is installed and type:</p>
+<div class="highlight-python"><pre>easy_install qecalc</pre>
+</div>
+<p>or for custom location (which has to be in $PYTHONPATH) type:</p>
+<div class="highlight-python"><pre>easy_install -d $INSDIR qecalc</pre>
+</div>
+<p>For svn option, you should have svn client installed
+and go through the following steps:</p>
+<ol class="arabic">
+<li><p class="first">Go to your installation dir ($INSDIR), for example, ~/apps and type:</p>
+<div class="highlight-python"><pre>svn co svn://svn@danse.us/AbInitio/espresso/qecalc</pre>
+</div>
+<p>qecalc project tree will be created</p>
+</li>
+<li><p class="first">Add qecalc to your PYTHONPATH variable:</p>
+<div class="highlight-python"><pre>export PYTHONPATH=$INSDIR/qecalc:$PYTHONPATH</pre>
+</div>
+</li>
+<li><p class="first">This module also depends on <a class="reference external" href="http://pypi.python.org/pypi/diffpy.Structure">diffpy.Structure</a>  package. Make sure  setuptools is installed and type:</p>
+<div class="highlight-python"><pre>easy_install diffpy.Structure</pre>
+</div>
+</li>
+</ol>
+<p>If you already have .tar.gz source distribution, you may as well just
+decompress it and add qecalc to PYTHONPATH</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>It is essential the user knows how to use Quantum Espresso for the basic tasks.
+Excellent place to start is the <a class="reference external" href="http://www.quantum-espresso.org/wiki">Quantum Espresso wiki</a> page.
+It is important to check that QE input files lead to satisfactory results
+before using them in automated manner.</p>
+<p>In order to run python scripts with Quantum Espresso, one needs to provide all
+the appropriate config files (scf.in for total energy or geometry optimization;
+additionally ph.in and dynmat.in for single phonon; or ph.in, q2r.in and matdyn.in
+for multi phonon calculation; etc) and place config.ini
+into working dir, which specifies parallel environment of your task as well as
+all the relevant input and output files. An example of config.ini is located in qecalc directory. All
+its sections do not need to be populated, only the parameters needed for a
+specific task. If some of the parameters are missing, default values will be used.
+The default values are located in qecalc/qecalc/settings.py</p>
+<p>Before the run, check that all the pseudopotentials from the pw config file
+are available and your output dir exists (e.g. temp/ ). Also make sure
+Quantum Espresso is in your $PATH environment variable.</p>
+<p>Execute your python script which uses qecalc API from your working dir.</p>
+<p>Please, see examples directory as well as API documentation for more details.
+IPython is a nice tool to play with the examples.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pwcalc">
+<h3>PWCalc<a class="headerlink" href="#pwcalc" title="Permalink to this headline">¶</a></h3>
+<p>PWCalc consists of one task, launching pw.x. Before running the example, one needs
+to create config.ini file in the current dir as well as scf.in input file for pw.x.
+Example of config.ini is provided below:</p>
+<div class="highlight-python"><pre>[Launcher]
+# parallelization parameters
+# if this section is empty - serial mode is used
+paraPrefix:   mpiexec -n 8
+paraPostfix: -npool 8
+
+#useTorque: True
+#paraPrefix: mpirun --mca btl openib,sm,self
+#paraPostfix: -npool 900
+
+# this string will be passed to qsub, -d workingDir -V are already there:
+#torqueResourceList: -l nodes=16:ppn=12 -N MyJobName -j oe
+
+
+[pw.x]
+# pwscf input/output files
+pwscfInput:  scf.in
+pwscfOutput: scf.out</pre>
+</div>
+<p>lookupProperty() goes through the all the  output files of given calc:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># PWCalc</span>
+<span class="kn">from</span> <span class="nn">qecalc.pwcalc</span> <span class="kn">import</span> <span class="n">PWCalc</span>
+<span class="n">pwcalc</span> <span class="o">=</span> <span class="n">PWCalc</span><span class="p">(</span><span class="s">&#39;config.ini&#39;</span><span class="p">)</span>
+<span class="n">pwcalc</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+<span class="n">pwcalc</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;total energy&#39;</span><span class="p">)</span>
+<span class="n">pwcalc</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;total energy&#39;</span><span class="p">,</span> <span class="n">withUnits</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">pwcalc</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;stress&#39;</span><span class="p">,</span> <span class="n">withUnits</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">pwcalc</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;forces&#39;</span><span class="p">,</span> <span class="n">withUnits</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiphononcalc">
+<h3>MultiPhononCalc<a class="headerlink" href="#multiphononcalc" title="Permalink to this headline">¶</a></h3>
+<p>config.ini, pw.x, ph.x, q2r.x, and matdyn.x input files should be in the
+current dir. config.ini should have additional sections corresponding to
+additional tasks:</p>
+<div class="highlight-python"><pre>[ph.x]
+#ph.x input/ouput, relevant to all phonon calculations:
+phInput:  ph.in
+phOutput: ph.out
+
+
+[dynmat.x]
+#dynmat.x input/output files relevant to single phonon calculation
+dynmatInput:  dynmat.in
+dynmatOutput: dynmat.out
+
+
+[q2r.x]
+# input/output files relevant to multiple phonon calculation
+q2rInput:      q2r.in
+q2rOutput:     q2r.out
+
+
+[matdyn.x]
+# input/output files relevant to multiple phonon calculation
+matdynInput:   matdyn.in
+matdynOutput:  matdyn.out
+matdynModes:   matdyn.modes
+matdynFreqs:   matdyn.freq
+matdynfldos:   matdyn.phdos</pre>
+</div>
+<p>In the following example it is also assumed outputs are already there
+after a successful run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">qecalc.multiphononcalc</span> <span class="kn">import</span> <span class="n">MultiPhononCalc</span>
+<span class="n">mphon</span> <span class="o">=</span> <span class="n">MultiPhononCalc</span><span class="p">(</span><span class="s">&#39;config.ini&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">mphon</span><span class="o">.</span><span class="n">taskList</span><span class="p">:</span>
+    <span class="n">task</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+<span class="n">mphon</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;total energy&#39;</span><span class="p">,</span> <span class="n">withUnits</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="c"># this will output out qpoints, frequencies and eigen modes</span>
+<span class="n">mphon</span><span class="o">.</span><span class="n">lookupProperty</span><span class="p">(</span><span class="s">&#39;multi phonon&#39;</span><span class="p">,</span> <span class="n">withUnits</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">mphon</span><span class="o">.</span><span class="n">dispersion</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;Gamma&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">,</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">mphon</span><span class="o">.</span><span class="n">dispersion</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="converger">
+<h3>Converger<a class="headerlink" href="#converger" title="Permalink to this headline">¶</a></h3>
+<p>Class converger will converge a value  with respect to k-points or different parameters in &#8216;system&#8217;
+namelist of pw.x input file. Currently, the value can be &#8216;total energy&#8217;,
+&#8216;fermi energy&#8217; or &#8216;single phonon&#8217;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">qecalc.converger</span> <span class="kn">import</span> <span class="n">Converger</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">Converger</span><span class="p">(</span><span class="s">&#39;config.ini&#39;</span><span class="p">,</span><span class="s">&#39;total energy&#39;</span><span class="p">,</span> <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ecut</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">converge</span><span class="p">(</span><span class="n">what</span> <span class="o">=</span> <span class="s">&#39;ecutwfc&#39;</span><span class="p">,</span> <span class="n">startValue</span> <span class="o">=</span> <span class="mi">18</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">conv_thr</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">converge</span><span class="p">(</span><span class="n">what</span> <span class="o">=</span> <span class="s">&#39;conv_thr&#39;</span><span class="p">,</span> <span class="n">startValue</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">multiply</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to qecalc’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+        <li><a href="http://dev.danse.us/trac/AbInitio/wiki/WikiStart">ab initio trac page </a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Nikolay Markovskiy.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>
