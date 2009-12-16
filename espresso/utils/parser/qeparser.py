@@ -287,8 +287,8 @@ class QEParser:
         """
         Returns the end character position of the last namelist in the text
         Notes:
-            - text should be clear from comments (filtered by _removeComments(text)).
-              Otherwise the end of the last namelist will be incorrect
+            - text should be clear from comments (filtered by _removeComments(text)),
+              otherwise the end character of the last namelist will be incorrect
         """
         s           = self._removeComments(text)
 
