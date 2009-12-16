@@ -26,6 +26,7 @@ all: export
 
 EXPORT_BINS = \
 	phonapp.py \
+        qeapp.py \
 	vaspapp.py \
 
 
