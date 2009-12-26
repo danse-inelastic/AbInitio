@@ -1,0 +1,10 @@
+Anharm at the G-point
+&INPUTPH
+    prefix = 'si',
+    outdir = '/scratch/temp',
+    fildrho = 'si.drho',
+    fild0rho = 'si.drho_G',
+    amass(1) = 28.0855,
+    fildyn = 'si.anh',
+/
+0.000000    -1.000000    0.000000

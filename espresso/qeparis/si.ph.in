@@ -1,0 +1,13 @@
+phonons of Si at the G-point
+&INPUTPH
+    tr2_ph = 1.0d-12,
+    prefix = 'si',
+    epsil = .false.,
+    trans = .true.,
+    zue = .false.,
+    outdir = '/scratch/temp',
+    amass(1) = 28.0855,
+    fildyn = 'si.dyn',
+    fildrho = 'si.drho',
+/
+0.000000    -1.000000    0.000000
