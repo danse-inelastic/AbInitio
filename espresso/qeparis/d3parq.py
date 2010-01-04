@@ -17,6 +17,10 @@ import sys
 from qecalc.d3calc import D3Calc
 from qeutils import kmesh
 
+import subprocess
+import shutil
+import os
+
 configString = """
 # all the relevant input files must be preconfiguered for specific tasks
 # before using this class
@@ -107,25 +111,99 @@ d3Output: si.d3.out
 #    d3.setting.outdir = outdir
 #
 
+def calcIndeces(npoints, nproc):
+
+        idx = []
+        pointsPerProc = int(npoints/nproc)
+        remainder = npoints % nproc
+
+        uninproc = nproc
+        if remainder != 0:
+            uninproc = nproc - 1
+            remainder = npoints % uninproc
+            pointsPerProc = int(npoints/ uninproc)
+
+        print 'remainder = ', remainder
+
+        print pointsPerProc
+        for i in range(uninproc):
+            idx.append( range(i*pointsPerProc, (i*pointsPerProc+pointsPerProc) ) )
+            print idx[-1]
+        if remainder != 0:
+            idx.append( range( pointsPerProc*uninproc, (pointsPerProc*uninproc+remainder) ) )
+            print idx[-1]
+
+        return idx
 
 if __name__ == "__main__":
 
     myrank = MPI.COMM_WORLD.Get_rank()
     qpoints = None
+    d3calc = D3Calc(configString = configString)
+    d3calc.pw.input.parse()
+
     if myrank == 0:
-        d3calc = D3Calc(configString = configString)
-        print d3calc.pw.setting.get('pwInput')
-        d3calc.pw.input.parse()
-        d3calc.pw.input.save()
+        #d3calc.pw.input.save()
         qpointGrid = [2,2,2]
         qpoints = kmesh.kMeshCart( qpointGrid, \
                             d3calc.pw.input.structure.lattice.reciprocalBase() )
         nprocs = MPI.COMM_WORLD.Get_size()
         if nprocs > qpoints.shape[0]:
+            print 'Warning ! Number of processors exceeds number of q-points '
             nprocs = qpoints.shape[0]
-        pointsPerProc = int(qpoints.shape[0]/nprocs)
-        nprocs = pointsPerProc*qpoints.shape[0]
-        print qpoints.reshape(nprocs, pointsPerProc, qpoints.shape[1])
+        print qpoints.shape[0]
+        print nprocs
+    
+        for i, irange in enumerate(calcIndeces(qpoints.shape[0], nprocs)):
+            print irange
+            print qpoints[irange, :]
+            if i != 0:
+                MPI.COMM_WORLD.send(qpoints[irange, :], dest = i, tag = 66)
+            else:
+                qpnts = qpoints[irange, :]
+
+    if myrank != 0:
+        qpnts = MPI.COMM_WORLD.recv(source=0, tag=66)
+
+
+
+    print 'irank = ', myrank, '\tqpoints = ', qpnts
+
+
+    taskOutDir = d3calc.pw.setting.get('outdir') + '/d3calc' + str(myrank)
+    print taskOutDir
+
+    # Create irank dir
+
+    # clean if exists:
+    shutil.rmtree(taskOutDir, ignore_errors = True)
+    # create dir and all subdirs from taskOutDir
+    os.makedirs(taskOutDir)
+
+    for task in d3calc.getAllTasks():
+        task.syncSetting()
+        task.setting.set('outdir', './tmp')
+        taskFileList = task.setting.getExistingFiles()
+        for fileName in taskFileList:
+            shutil.copyfile(fileName, taskOutDir + '/' + \
+                                                    os.path.basename(fileName))
+        #print task.name(), '\t', taskFileList
+    os.chdir(taskOutDir)
+    print d3calc.pw.cmdLine()
+    print os.getcwd()
+    d3calc.pw.setSerial()
+    #d3calc.pw.launch()
+    p = subprocess.Popen('matdyn.x', shell=True)#, stdout = subprocess.PIPE)
+    #os.system('pw.x')
+    
+    # copy all relevant input files
+    # change dir
+    # run calc
+    # parse output
+    # send to main node
+    
+
+
         #for i in range(nprocs):
         #    qpt = qpoints[i:(i+pointsPerProc-1), :]
         #    MPI.COMM_WORLD.Send([qpt, MPI.FLOAT], dest=i, tag=66)
