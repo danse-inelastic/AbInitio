@@ -50,7 +50,6 @@ class QEParser:
             filename    -- absolute or relative filename to be parsed
             configText  -- configuration text to be parsed
             type        -- type of the simulation
-            os          -- operating system defined for carriage return
         """
         
         self.header     = None
