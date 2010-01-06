@@ -31,11 +31,11 @@ configString = """
 [Launcher]
 # parallelization parameters
 # if this section is empty - serial mode is used
-paraPrefix:   mpiexec -n 8
-paraPostfix: -npool 8
+#paraPrefix:   mpiexec -n 8
+#paraPostfix: -npool 8
 
-serialPrefix: mpiexec -n 1
-serialPostfix:
+#serialPrefix: mpiexec -n 1
+#serialPostfix:
 
 #useTorque: True # default: False
 #paraPrefix: mpirun --mca btl openib,sm,self
@@ -50,8 +50,8 @@ serialPostfix:
 #paraRemoteShell: bpsh -a
 
 # this string will be passed to qsub, -d workingDir -V are already there:
-paraTorqueParams: -l nodes=2:ppn=12 -N myjob -j oe
-serialTorqueParams: -l nodes=1:ppn=1 -N myjob -j oe
+#paraTorqueParams: -l nodes=2:ppn=12 -N myjob -j oe
+#serialTorqueParams: -l nodes=1:ppn=1 -N myjob -j oe
 
 outdir: /scratch/markovsk/d3paratest
 
@@ -83,26 +83,6 @@ d3Input:  si.d3.in
 d3Output: si.d3.out
 """
 
-#def D3ParQ(qpoints, d3):
-#    outDir = d3.setting.outDir
-#    myrank = MPI.COMM_WORLD.Get_rank()
-#
-#
-#
-#if __name__ == "__main__":
-#
-#    if len(sys.argv) != 2:
-#        raise
-#
-#    configName = sys.argv[1]
-#    d3 = D3Task(configName)
-#    outDir = d3.setting.outDir
-#    myrank = MPI.COMM_WORLD.Get_rank()
-#    outDir = outDir + '/d3task_' + str(myrank)
-#
-#    d3.setting.outdir = outdir
-#
-
 def calcIndices(npoints, nproc):
 
         idx = []
@@ -115,42 +95,34 @@ def calcIndices(npoints, nproc):
             remainder = npoints % uninproc
             pointsPerProc = int(npoints/ uninproc)
 
-        #print 'remainder = ', remainder
-
-        #print pointsPerProc
         for i in range(uninproc):
             idx.append( range(i*pointsPerProc, (i*pointsPerProc+pointsPerProc) ) )
-            #print idx[-1]
         if remainder != 0:
             idx.append( range( pointsPerProc*uninproc, (pointsPerProc*uninproc+remainder) ) )
-            #print idx[-1]
 
         return idx
 
-if __name__ == "__main__":
+
+def main():
 
     myrank = MPI.COMM_WORLD.Get_rank()
     qpoints = None
     d3calc = D3Calc(configString = configString)
 
-    #for task in d3calc.getAllTasks():
-    #    task.syncSetting()    
-        
+    #if myrank == 0:
+    mphon = MultiPhononCalc(configString = configString)
+    mphon.ph.syncSetting()
+    mphon.ph.output.parse()
+    grid, qpoints_indep, qpoints_full = mphon.ph.output.property('qpoints')
+    qpoints = numpy.array(qpoints_indep)
+    nprocs = MPI.COMM_WORLD.Get_size()
+    assert nprocs <= qpoints.shape[0], 'Number of processors exceeds number of q-points !'
+#        if nprocs > qpoints.shape[0]:
+#            print 'Warning ! Number of processors exceeds number of q-points '
+#            nprocs = qpoints.shape[0]
+#            raise
     if myrank == 0:
-        mphon = MultiPhononCalc(configString = configString)
-        mphon.ph.syncSetting()
-        mphon.ph.output.parse()
-        grid, qpoints_indep, qpoints_full = mphon.ph.output.property('qpoints')
-        qpoints = numpy.array(qpoints_indep)
         print qpoints
-        #qpointGrid = [2,2,2]
-        #qpoints = kmesh.kMeshCart( qpointGrid, \
-        #                    d3calc.pw.input.structure.lattice.reciprocalBase() )
-        nprocs = MPI.COMM_WORLD.Get_size()
-        if nprocs > qpoints.shape[0]:
-            print 'Warning ! Number of processors exceeds number of q-points '
-            nprocs = qpoints.shape[0]
-    
         for i, irange in enumerate(calcIndices(qpoints.shape[0], nprocs)):
             #print irange
             #print qpoints[irange, :]
@@ -158,8 +130,8 @@ if __name__ == "__main__":
                 MPI.COMM_WORLD.send(qpoints[irange, :], dest = i, tag = 66)
             else:
                 qpnts = qpoints[irange, :]
-                
-        
+
+
 
     if myrank != 0:
         qpnts = MPI.COMM_WORLD.recv(source=0, tag=66)
@@ -178,10 +150,10 @@ if __name__ == "__main__":
     shutil.rmtree(taskOutDir, ignore_errors = True)
     # create dir and all subdirs from taskOutDir
     os.makedirs(taskOutDir)
-     
+
     for task in d3calc.getAllTasks():
         task.syncSetting()
-        task.setting.set('outdir', 'tmp/')        
+        task.setting.set('outdir', 'tmp/')
         taskFileList = task.setting.getExistingFiles()
         for fileName in taskFileList:
             shutil.copyfile(fileName, taskOutDir + '/' + \
@@ -192,12 +164,10 @@ if __name__ == "__main__":
 
     print  d3calc.pw.cmdLine()
     d3calc.pw.launch()
-    
+
     d3data = []
 
     fildrho = d3calc.d3.setting.get('fildrho').strip('_G')
-    if fildrho == ' ' or fildrho == '':
-        fildrho = 'fildrho'
     #print d3calc.d3.setting.get('fildrho')
     #print d3calc.d3.input.namelist('inputph').param('fildrho')
     #print fildrho
@@ -210,21 +180,21 @@ if __name__ == "__main__":
         task.input.qpoints.set([0.0, 0.0, 0.0])
         task.input.save()
         task.launch()
-    #d3calc.launch()       
-    
-    # non Gamma points    
+    #d3calc.launch()
+
+    # non Gamma points
     d3calc.ph.setting.set('fildrho', fildrho)
     d3calc.d3.setting.set('fildrho', fildrho)
-    for qpoint in qpnts:    
+    for qpoint in qpnts:
         for task in d3calc.getAllTasks()[1:]:
             print 'launching task', task.name(), 'at', qpoint
             task.input.qpoints.set(qpoint)
             task.input.save()
             task.launch()
         d3data.append(d3calc.d3.output.property('d3 tensor'))
-        
+
     d3data = MPI.COMM_WORLD.gather(d3data, root = 0)
-    
+
     if myrank == 0:
         #flatten list of data:
         d3results = []
@@ -233,32 +203,13 @@ if __name__ == "__main__":
                 d3results.append(qdata)
         #d3results = d3data
         print d3results
-        print numpy.array(d3results).shape
-    
-    #if myrank == 0:
-
-    
-    #d3calc.pw.setSerial()
-    #d3calc.launch()
-    #p = subprocess.Popen('matdyn.x', shell=True)#, stdout = subprocess.PIPE)
-    #os.system('pw.x')
-    
-    # copy all relevant input files
-    # change dir
-    # run calc
-    # parse output
-    # send to main node
-    
+        #print numpy.array(d3results).shape
 
 
-        #for i in range(nprocs):
-        #    qpt = qpoints[i:(i+pointsPerProc-1), :]
-        #    MPI.COMM_WORLD.Send([qpt, MPI.FLOAT], dest=i, tag=66)
-    #if myrank != 0:
-    #    MPI.COMM_WORLD.Recv([qpt, MPI.FLOAT], source=0, tag=66)
+if __name__ == "__main__":
+    main()
 
-    #   if pointsPerProc == 0:
-    #        raise NameError('too many processors')
+
 
 
 
