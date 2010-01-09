@@ -226,6 +226,41 @@ class ValueFit():
         return self._coeff
 
 
+class 1DFit()
+    def __init__(self, xValues, yValues, fitter):
+        """indexRange is for files' indexing. prcntVolume - coresponding volume
+        expansions"""
+        self.fitter = fitter
+#        Fit.__init__(self, *fitDirective)
+        self._xVal = xValues
+        self._yVal = yValues
+        #self._prcntVolume = numpy.array(prcntVolume)
+        #self._values = numpy.array(values)
+        self._fit()
+
+
+    def _fit(self):        
+        self._coeff = self.fitter.fit(self._xVal, self._yVal)
+
+
+    def fittedValue(self, xVal):
+        return self.fitter.func(self._coeff, xVal)
+
+    def chi2(self):
+        fitted = []
+        for v in self._xVal:
+            fitted.append(self.fittedValue(v))
+        fitted = numpy.array(fitted)
+        diff = fitted - self._yVal
+        return numpy.sqrt(numpy.dot(diff, diff))
+
+    def values(self ):
+        return(self._yVal)
+
+
+    def coeff(self):
+        return self._coeff
+
 if __name__ == "__main__":
     print "Hello World";
 
