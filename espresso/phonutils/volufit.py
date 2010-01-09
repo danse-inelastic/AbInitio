@@ -226,7 +226,7 @@ class ValueFit():
         return self._coeff
 
 
-class Fit1D()
+class Fit1D():
     def __init__(self, xValues, yValues, fitter):
         """indexRange is for files' indexing. prcntVolume - coresponding volume
         expansions"""
