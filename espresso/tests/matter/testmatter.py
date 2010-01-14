@@ -53,7 +53,7 @@ def testMatter():
                                                             psList = psList)
 
     s = ''
-    pwInput.structure.save(string = s)
+    s = pwInput.structure.save(string = s)
 
     print s
 
