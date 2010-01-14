@@ -29,11 +29,11 @@ def testMatter():
     #struct.read('data/graphite.cif', format='cif')
     #struct.read('data/PbTe.cif', format='cif')
     struct.read('data/Ni.stru', format='pdffit')
-    #struct.read('data/CdSe-wurtzite.stru', format='pdffit')
+    struct.read('data/CdSe-wurtzite.stru', format='pdffit')
 
 
-    print struct
-    print struct.lattice.base
+    #print struct
+    #print struct.lattice.base
 
     #struct = Structure(filename='data/Ni.stru')
     #struct = Structure(filename='data/graphite.cif')
@@ -48,10 +48,14 @@ def testMatter():
     massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-    pwInput.structure.setStructureFromDiffpyStructure(struct, ibrav = 2, \
+    pwInput.structure.setStructureFromDiffpyStructure(struct, \
                                                             massList = massList,\
                                                             psList = psList)
 
+#    pwInput.structure.setReducedStructureFromDiffpyStructure(struct, \
+#                                                            massList = massList,\
+#                                                            psList = psList)                                                            
+                                                            
     s = ''
     s = pwInput.structure.save(string = s)
 
