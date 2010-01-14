@@ -29,7 +29,7 @@ def testMatter():
     #struct.read('data/graphite.cif', format='cif')
     #struct.read('data/PbTe.cif', format='cif')
     struct.read('data/Ni.stru', format='pdffit')
-    struct.read('data/CdSe-wurtzite.stru', format='pdffit')
+    #struct.read('data/CdSe-wurtzite.stru', format='pdffit')
 
 
     #print struct
@@ -42,6 +42,7 @@ def testMatter():
     #struct = Structure(pbte)
 
 
+    # does not work well in matter:
     #s = pbte.writeStr(format='cif')
 
 
@@ -55,9 +56,11 @@ def testMatter():
 #    pwInput.structure.setReducedStructureFromDiffpyStructure(struct, ibrav = 2, \
 #                                                            massList = massList,\
 #                                                            psList = psList)                                                            
-                                                            
-    s = ''
-    s = pwInput.structure.save(string = s)
+    # this will update string s:                                                   
+    #s = ''
+    #s = pwInput.structure.toString(string = s)
+    
+    s = pwInput.structure.toString()
 
     print s
 
