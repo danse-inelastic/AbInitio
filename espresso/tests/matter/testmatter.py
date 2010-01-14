@@ -14,58 +14,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import matter
-from qecalc.pwcalc import PWCalc
 from diffpy.Structure import Structure
-
-configString = """
-[pw.x]
-pwInput: scf.in
-"""
-
-scfString = """
-&CONTROL
-    calculation = 'scf',
-    wf_collect = .true.,
-    prefix = 'si',
-    pseudo_dir = './',
-    verbosity = 'high',
-    outdir = '/scratch/markovsk/d3paratest',
-/
-
-&SYSTEM
-    ibrav = 2,
-    celldm(1) = 10.20,
-    nat = 2,
-    ntyp = 1,
-    ecutwfc = 24.0,
-/
-
-&ELECTRONS
-    mixing_beta = 0.7,
-    conv_thr = 1.0d-12,
-/
-
-ATOMIC_SPECIES
- Si  28.086  Si.pz-vbc.UPF
-
-ATOMIC_POSITIONS (crystal)
- Si 0.00 0.00 0.00
- Si 0.25 0.25 0.25
-
-K_POINTS (automatic)
- 4 4 4  1 1 1
-"""
-
+from qecalc.qetask.qeparser.pwinput import PWInput
 
 testSCFString = """
 """
 
 def testMatter():
 
-    pwcalc = PWCalc( configString = configString )
-    pwcalc.pw.syncSetting()
-
-
+    pwInput = PWInput(config = testSCFString)
 
 
     struct = matter.Structure()
@@ -82,33 +39,20 @@ def testMatter():
     #struct = Structure(filename='data/graphite.cif')
     #struct = Structure(filename='data/PbTe.cif')
     #struct = Structure(filename='data/CdSe-wurtzite.stru')
-    #struct = matter.Structure(filename='data/graphite.cif')
     #struct = Structure(pbte)
 
 
     #s = pbte.writeStr(format='cif')
 
-    #print s
-
-#    print struct
-
-#    print struct.lattice.a
-#    print struct.lattice.b
-#    print struct.lattice.c
-
-#    print struct.lattice.alpha
-#    print struct.lattice.beta
-#    print struct.lattice.gamma
 
     massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-    pwcalc.pw.input.structure.setStructureFromDiffpyStructure(struct, ibrav = 4, \
+    pwInput.structure.setStructureFromDiffpyStructure(struct, ibrav = 4, \
                                                             massList = massList,\
                                                             psList = psList)
 
-    pwcalc.pw.input.structure.save('qqq.in')
-    #print pwcalc.pw.input.structure.diffpy()
+    pwInput.structure.save('qqq.in')
 
 
 if __name__ == "__main__":
