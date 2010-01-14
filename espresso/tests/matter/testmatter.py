@@ -61,6 +61,8 @@ def testMatter():
     #s = pwInput.structure.toString(string = s)
     
     s = pwInput.structure.toString()
+    
+    #pwInput.structure.save('scf.in')
 
     print s
 
