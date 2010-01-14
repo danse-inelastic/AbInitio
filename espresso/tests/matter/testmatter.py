@@ -52,7 +52,7 @@ def testMatter():
                                                             massList = massList,\
                                                             psList = psList)
 
-#    pwInput.structure.setReducedStructureFromDiffpyStructure(struct, \
+#    pwInput.structure.setReducedStructureFromDiffpyStructure(struct, ibrav = 2, \
 #                                                            massList = massList,\
 #                                                            psList = psList)                                                            
                                                             
