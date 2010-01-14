@@ -49,9 +49,16 @@ def testMatter():
     massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-    pwInput.structure.setStructureFromDiffpyStructure(struct, \
-                                                            massList = massList,\
-                                                            psList = psList)
+    pwInput.structure.load(source = 'diffpy', structure = struct, \
+                           massList = massList, psList = psList)
+
+#    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 2, \
+#                           massList = massList, psList = psList)
+
+
+#    pwInput.structure.setStructureFromDiffpyStructure(struct, \
+#                                                            massList = massList,\
+#                                                            psList = psList)
 
 #    pwInput.structure.setReducedStructureFromDiffpyStructure(struct, ibrav = 2, \
 #                                                            massList = massList,\
