@@ -48,11 +48,14 @@ def testMatter():
     massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-    pwInput.structure.setStructureFromDiffpyStructure(struct, ibrav = 4, \
+    pwInput.structure.setStructureFromDiffpyStructure(struct, ibrav = 2, \
                                                             massList = massList,\
                                                             psList = psList)
 
-    pwInput.structure.save('qqq.in')
+    s = ''
+    pwInput.structure.save(string = s)
+
+    print s
 
 
 if __name__ == "__main__":
