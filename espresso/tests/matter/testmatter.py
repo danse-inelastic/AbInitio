@@ -49,10 +49,12 @@ def testMatter():
     massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-    pwInput.structure.load(source = 'diffpy', ibrav = 2, structure = struct, \
-                           massList = massList, psList = psList)
+#    pwInput.structure.load(source = 'diffpy', ibrav = 0, structure = struct, \
+#                           massList = massList, psList = psList)
 
-    #print pwInput.structure.atomLabels()
+    pwInput.structure.load(source = 'diffpy', ibrav = 0, structure = struct )
+
+    print pwInput.structure.atomLabels()
 
 #    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 2, \
 #                           massList = massList, psList = psList)
