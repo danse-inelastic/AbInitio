@@ -52,6 +52,8 @@ def testMatter():
     pwInput.structure.load(source = 'diffpy', ibrav = 2, structure = struct, \
                            massList = massList, psList = psList)
 
+    #print pwInput.structure.atomLabels()
+
 #    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 2, \
 #                           massList = massList, psList = psList)
 
