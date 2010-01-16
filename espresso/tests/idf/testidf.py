@@ -94,9 +94,11 @@ ATOMIC_POSITIONS ALAT
     idfPolData = Polarizations.read('Polarizations.idf')
     idfOmega2Data = Omega2.read('Omega2.idf')
 
-    #save lattice/grid information and make it angstrem compatible:
+
+    #save lattice/grid information and make it angstrem compatible, multiply by 2pi:
     genQgridinfo('Qgridinfo', nqGrid, \
-               pwInput.structure.lattice.diffpy().reciprocal().base*1.889725989)
+                  pwInput.structure.lattice.diffpy().\
+                                  reciprocal().base*2.0*3.14159265*1.889725989)
     print idfPolData
     print idfOmega2Data
 
@@ -117,7 +119,9 @@ ATOMIC_POSITIONS ALAT
 
     idfDOSData = DOS.read('DOS')
     print idfDOSData
-
+    #import numpy
+    #import numpy.linalg as numalg
+    #print 2 * 3.14159265 * numalg.inv(numpy.transpose(pwInput.structure.lattice.diffpy().base/1.889725989))
 #*********************Cleaning**************************************************
     import os
     os.system('cat ./Qgridinfo')
