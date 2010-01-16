@@ -2,7 +2,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # QEcalc              by DANSE Inelastic group
-#                     Brent Fultz
+#                     Nikolay Markovskiy
 #                     California Institute of Technology
 #                     (C) 2009  All Rights Reserved
 #
@@ -12,16 +12,10 @@
 # See LICENSE.txt for license information.
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
 
 
 class QEDOS:
     def __init__(self): pass
-
-#    def loadPhonons(self, fname = None):
-#        self._modes, self._freqs, self._qpts =  \
-#                                    self.matdyn.output.property('multi phonon')
 
 
 if __name__ == "__main__":
