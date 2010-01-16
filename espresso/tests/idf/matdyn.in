@@ -1,0 +1,10 @@
+&INPUT
+    asr = 'simple',
+    amass(1) = 24.305,
+    amass(2) = 11.000,
+    flfrc = 'mgb2666.fc',
+    nk1 = 10,
+    nk2 = 10,
+    nk3 = 10,
+    dos = .true.,
+/
