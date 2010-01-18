@@ -56,7 +56,7 @@ def testMatter():
 
     #print pwInput.structure.atomLabels()
 
-    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 2, \
+    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 0, \
                            massList = massList, psList = psList)
 
 
@@ -70,6 +70,12 @@ def testMatter():
     # this will update string s:                                                   
     #s = ''
     #s = pwInput.structure.toString(string = s)
+    
+    #pwInput.removeNamelist('system')
+    pwInput.removeCard('atomic_species')    
+    pwInput.removeCard('atomic_positions')
+    #pwInput.removeCard('cell_parameters') 
+    pwInput.structure.parseInput()
     
     s = pwInput.structure.toString()
     
