@@ -27,6 +27,7 @@ EXPORT_PYTHON_MODULES = \
 
 BUILD_DIRS = \
         inputs \
+        pseudo \
 
 OTHER_DIRS = \
 
