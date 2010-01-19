@@ -165,7 +165,6 @@ Fe.pz-sp-van_ak.info
 Fe.pz-sp-van_ak.UPF
 Fe.star1s-pbe-sp-mt_gipaw.info
 Fe.star1s-pbe-sp-mt_gipaw.UPF
-filename.upf
 F.pbe-n-van.info
 F.pbe-n-van.UPF
 F.pw91-n-van.info
@@ -372,7 +371,6 @@ P.pz-bhs.info
 P.pz-bhs.UPF
 P.pz-van_ak.info
 P.pz-van_ak.UPF
-pseudo.list
 Pt.pbe-nd-rrkjus.UPF
 Pt.pbe-n-van.info
 Pt.pbe-n-van.UPF
