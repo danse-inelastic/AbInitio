@@ -41,6 +41,7 @@ class Card():
         return self._lines[num]
 
     def lines(self):
+        "Returns list of lines"
         return self._lines
 
     def addLine(self, line):

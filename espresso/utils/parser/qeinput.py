@@ -152,6 +152,22 @@ class QEInput(object):
     def type(self):
         return self.type
 
+    def structure(self):
+        """Returns basic structure information as list tuples
+        Example: [('Ni', '52.98', 'Ni.pbe-nd-rrkjus.UPF'), ()]
+        """
+        # Hard to extract structure not from pw type input
+        # TODO: Should also have "atomic_species" card
+        if self.type != "pw":
+            return None
+
+        list    = []        # list of structure
+        lines   = self.cards["atomic_species"]
+        for l in lines:     #
+            list.add(l.split())
+
+        return list
+
         
 def _import(package):
     return __import__(package, globals(), locals(), [''], -1)
