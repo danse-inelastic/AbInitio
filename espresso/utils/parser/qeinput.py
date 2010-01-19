@@ -104,28 +104,6 @@ class QEInput(object):
         except KeyError:    # parameter is not present
             raise
 
-    def toString(self):
-        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
-        s = ''
-        if self.header:             # Add header
-            s   += self.header
-
-        for name in self.namelistRef:   # Add namelists
-            nl  = self.getObject(name, self.namelists)
-            if nl is not None:
-                s   += nl.toString()
-
-        for name in self.cardRef:   # Add cards
-            c  = self.getObject(name, self.cards)
-            if c is not None:
-                s   += c.toString()
-
-        if self.attach:             # Add attribute (e.g. for type='matdyn')
-            s   += self.attach
-
-        return s
-
-
     def getObject(self, name, dict):
         """Returns object that corresponds to 'name'"""
         for n in dict.values():
@@ -162,9 +140,9 @@ class QEInput(object):
             return None
 
         list    = []        # list of structure
-        lines   = self.cards["atomic_species"]
+        card    = self.card("atomic_species")
 
-        for l in lines:     # Should have format: "<Label> <Mass> <Pseudo-Potential>"
+        for l in card.lines():     # Should have format: "<Label> <Mass> <Pseudo-Potential>"
             l   = l.strip()
             if l == "":     # Empty line
                 continue
@@ -172,7 +150,29 @@ class QEInput(object):
 
         return list
 
-        
+
+    def toString(self):
+        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
+        s = ''
+        if self.header:             # Add header
+            s   += self.header
+
+        for name in self.namelistRef:   # Add namelists
+            nl  = self.getObject(name, self.namelists)
+            if nl is not None:
+                s   += nl.toString()
+
+        for name in self.cardRef:   # Add cards
+            c  = self.getObject(name, self.cards)
+            if c is not None:
+                s   += c.toString()
+
+        if self.attach:             # Add attribute (e.g. for type='matdyn')
+            s   += self.attach
+
+        return s
+
+
 def _import(package):
     return __import__(package, globals(), locals(), [''], -1)
 
