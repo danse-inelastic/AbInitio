@@ -146,7 +146,7 @@ class QEInput(object):
             l   = l.strip()
             if l == "":     # Empty line
                 continue
-            list.add(l.split())
+            list.append(l.split())
 
         return list
 
