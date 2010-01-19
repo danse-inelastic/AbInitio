@@ -19,6 +19,7 @@ PACKAGE = utils/qeparser/pseudo
 #
 
 EXPORT_PYTHON_MODULES = \
+    __init__.py \
     pseudo.py \
     orderedDict.py \
 
