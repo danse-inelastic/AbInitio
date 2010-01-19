@@ -132,7 +132,7 @@ class QEInput(object):
 
     def structure(self):
         """Returns basic structure information as list tuples
-        Example: [('Ni', '52.98', 'Ni.pbe-nd-rrkjus.UPF'), ()]
+        Example: [('Ni', '52.98', 'Ni.pbe-nd-rrkjus.UPF'), (...)]
         """
         # Hard to extract structure not from pw type input
         # TODO: Should also have "atomic_species" card
@@ -155,7 +155,7 @@ class QEInput(object):
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
         s = ''
         if self.header:             # Add header
-            s   += self.header
+            s   += "%s\n" % self.header
 
         for name in self.namelistRef:   # Add namelists
             nl  = self.getObject(name, self.namelists)
