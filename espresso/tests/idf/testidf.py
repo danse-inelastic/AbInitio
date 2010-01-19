@@ -23,6 +23,8 @@ from qecalc.qetask.qeparser.pwinput import PWInput
 from qecalc.qetask.matdyntask import MatdynTask
 from qeutils import kmesh
 
+C       = 29979245800.0
+TWO_PI  = 2.*3.14159265
 
 def genQgridinfo(filename, nqGrid, recipLattice):
 
@@ -83,12 +85,13 @@ ATOMIC_POSITIONS ALAT
     matdyn.input.qpoints.set(qpoints)
     matdyn.input.save()
     matdyn.launch()
-    
+
+    #matdyn.output.toString()
     matdyn.output.parse()
     Pols, Freqs, qPoints = matdyn.output.property('multi phonon')
 
     # convert to Hz**2 and save
-    Omega2.write( (Freqs*29979245800.0*2.*3.14159265)**2,'Omega2.idf','')
+    Omega2.write( (Freqs*C*TWO_PI)**2,'Omega2.idf','')
     Polarizations.write(Pols, 'Polarizations.idf','Polarizations')    
 
     idfPolData = Polarizations.read('Polarizations.idf')
@@ -125,8 +128,8 @@ ATOMIC_POSITIONS ALAT
 #*********************Cleaning**************************************************
     import os
     os.system('cat ./Qgridinfo')
-    os.system('rm Omega2.idf Polarizations.idf matdyn.modes  matdyn.out \
-                                          matdyn.dos matdyn.freq DOS Qgridinfo')
+    #os.system('rm Omega2.idf Polarizations.idf matdyn.modes  matdyn.out \
+    #                                      matdyn.dos matdyn.freq DOS Qgridinfo')
 
 if __name__ == "__main__":
 
