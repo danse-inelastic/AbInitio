@@ -163,7 +163,11 @@ class QEInput(object):
 
         list    = []        # list of structure
         lines   = self.cards["atomic_species"]
-        for l in lines:     #
+
+        for l in lines:     # Should have format: "<Label> <Mass> <Pseudo-Potential>"
+            l   = l.strip()
+            if l == "":     # Empty line
+                continue
             list.add(l.split())
 
         return list
