@@ -89,7 +89,7 @@ def generate():
 
 def test():
     from pseudo import PSEUDO
-    print PSEUDO[PSEUDO.keys()[0]][0]
+    print "First pseudo-potential: %s" % PSEUDO[PSEUDO.keys()[0]][0]
 
 if __name__ == "__main__":
     generate()
