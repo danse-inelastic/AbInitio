@@ -11,14 +11,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import idf.Polarizations, idf.Omega2, idf.DOS   # Change imports as you need
+"Tests conversion of matdyn.dos -> DOS"
 
-from qecalc.qetask.qeparser.pwinput import PWInput
+# Change imports as you need
+import idf.DOS   
+
 from qecalc.qetask.matdyntask import MatdynTask
 #from qeutils import kmesh
 
 C       = 29979245800.0
 TWO_PI  = 2.*3.14159265
+TO_THZ  = 0.0299792458
 
 def testIDF():
     settingString = """
@@ -32,16 +35,21 @@ fldos = matdyn.dos
 #flfrc = mgb2666.fc
 #matdynInput = matdyn.in
 
-#*********************Initialize matdyn*****************************************
+    # Initialize matdyn
+
     matdyn = MatdynTask( configString = settingString)
     matdyn.syncSetting()
     matdyn.output.parse()
     axis, dos = matdyn.output.property('phonon dos')
 
-    # save DOS in THz
-    idf.DOS.write(axis*0.0299792458, dos, filename = 'DOS.3', comment = '')
+    # XXX Why nqGrid?
+    #nqGrid = [10,10,10]
+    #matdyn.input.qpoints.setAutomatic(nqGrid)
 
-    idfDOSData = idf.DOS.read('DOS.3')
+    # save DOS in THz
+    idf.DOS.write(axis*TO_THZ, dos, filename = 'DOS.1', comment = '')
+
+    idfDOSData = idf.DOS.read('DOS.1')
     print idfDOSData
 
 if __name__ == "__main__":

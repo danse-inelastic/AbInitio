@@ -17,7 +17,9 @@
 # Phonons on a Grid task (for VNF experiment) and export data obtained into
 # IDF format
 
-import Polarizations, Omega2, DOS
+import idf.Polarizations as Polarizations
+import idf.Omega2 as Omega2
+import idf.DOS as DOS
 
 from qecalc.qetask.qeparser.pwinput import PWInput
 from qecalc.qetask.matdyntask import MatdynTask
@@ -25,15 +27,6 @@ from qeutils import kmesh
 
 C       = 29979245800.0
 TWO_PI  = 2.*3.14159265
-
-def genQgridinfo(filename, nqGrid, recipLattice):
-
-    s = ''
-    for i in range(3):
-        s = s + 'b%d = %# .8f , %# .8f , %# .8f\nn%d = %d\n'%(i+1, \
-        recipLattice[i,0], recipLattice[i,1], recipLattice[i,2], i+1, nqGrid[i])
-
-    open(filename, 'w').write(s)
 
 def testIDF():
 
@@ -99,7 +92,7 @@ ATOMIC_POSITIONS ALAT
 
 
     #save lattice/grid information and make it angstrem compatible, multiply by 2pi:
-    genQgridinfo('Qgridinfo', nqGrid, \
+    genQgridinfo('Qgridinfo.idf', nqGrid, \
                   pwInput.structure.lattice.diffpy().\
                                   reciprocal().base*2.0*3.14159265*1.889725989)
     print idfPolData
@@ -127,7 +120,7 @@ ATOMIC_POSITIONS ALAT
     #print 2 * 3.14159265 * numalg.inv(numpy.transpose(pwInput.structure.lattice.diffpy().base/1.889725989))
 #*********************Cleaning**************************************************
     import os
-    os.system('cat ./Qgridinfo')
+    os.system('cat ./Qgridinfo.idf')
     #os.system('rm Omega2.idf Polarizations.idf matdyn.modes  matdyn.out \
     #                                      matdyn.dos matdyn.freq DOS Qgridinfo')
 
