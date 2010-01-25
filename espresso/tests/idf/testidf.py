@@ -28,6 +28,15 @@ from qeutils import kmesh
 C       = 29979245800.0
 TWO_PI  = 2.*3.14159265
 
+def genQgridinfo(filename, nqGrid, recipLattice):
+
+    s = ''
+    for i in range(3):
+        s = s + 'b%d = %# .8f , %# .8f , %# .8f\nn%d = %d\n'%(i+1, \
+        recipLattice[i,0], recipLattice[i,1], recipLattice[i,2], i+1, nqGrid[i])
+
+    open(filename, 'w').write(s)
+
 def testIDF():
 
 

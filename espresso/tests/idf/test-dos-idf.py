@@ -15,7 +15,6 @@
 
 # Change imports as you need
 import idf.DOS   
-
 from qecalc.qetask.matdyntask import MatdynTask
 #from qeutils import kmesh
 
@@ -38,7 +37,7 @@ fldos = matdyn.dos
     # Initialize matdyn
 
     matdyn = MatdynTask( configString = settingString)
-    matdyn.syncSetting()
+    #matdyn.syncSetting()   # Why do I need this?
     matdyn.output.parse()
     axis, dos = matdyn.output.property('phonon dos')
 
