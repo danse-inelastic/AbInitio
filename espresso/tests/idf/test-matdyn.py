@@ -17,7 +17,7 @@ from qecalc.qetask.matdyntask import MatdynTask
 from qeutils import kmesh
 
 def testMatdyn():
-    matdyn = MatdynTask( configString = "")
+    #matdyn = MatdynTask( configString = "")
 
     pwString = """
 &SYSTEM
@@ -43,9 +43,9 @@ ATOMIC_POSITIONS ALAT
     asr = 'crystal',
     flfrc = '/home/dexity/espresso/qejobs/643E2QQI/default.fc',
     dos = .true.,
-    nk1 = 16,
-    nk2 = 16,
-    nk3 = 16,
+    nk1 = 4,
+    nk2 = 4,
+    nk3 = 4,
     amass(1) = 26.98,
 /
 """
@@ -59,7 +59,7 @@ ATOMIC_POSITIONS ALAT
     print matdynInput.toString()
 
     # Pass matdyn input to matdyn task
-    matdyn.input    = matdynInput
+    #matdyn.input    = matdynInput
     nl      = matdynInput.namelist("input")
 
     # Populate grid
@@ -67,8 +67,9 @@ ATOMIC_POSITIONS ALAT
     qpoints = kmesh.kMeshCart(nqGrid, pwInput.structure.lattice.reciprocalBase())
 
     # Generate grid point
-    matdyn.input.qpoints.set(qpoints)   # Generate Q-mesh
-    open("matdyn.2.in", "w").write(matdyn.input.toString())
+    #matdyn.input.qpoints.set(qpoints)   # Generate Q-mesh
+    matdynInput.qpoints.set(qpoints)
+    open("matdyn.2.in", "w").write(matdynInput.toString())
     #print matdyn.input.toString()
 
 
