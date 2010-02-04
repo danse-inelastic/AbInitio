@@ -1,0 +1,49 @@
+News in version 0.2.3
+- fixed bugs in parsers and calcs
+- prefix variable in Setting wil override all prefixes in tasks
+- added projwfc task
+- class Converger can be initialized from a config file or config string,
+  analogous to QETask
+- Added new examples and updated old ones
+
+News in version 0.2.2:
+- section name of config.ini file can be passed to any task. Allowing to have
+- calcs can be initialized by task lists and as well as lists with section names
+  from config.ini
+- Varables' names corresponding to files from Class "Setting" match ones
+  in QE config files.
+  multiple sections for one task (pw scf, pw nscf etc)
+  renamed variables:
+     torqueResourceList to paraTorqueParams
+     pwscfInput to pwInput
+     pwscfOutput to pwOutput
+     outDir to outdir
+     phFildyn to fildyn
+     matdynModes to flvec
+     matdynFreqs to flfrq
+     fldos (in [dos.x]) to fldos
+     etc.
+  added:
+     serialPrefix
+     serialPostfix
+     serialTorqueParams
+- File name variables in Setting('config.ini') have the highest priority. If a
+  variable is not there, corresponding QE input file is searched, if it is not
+  in the QE input, QE default value is implied.
+- set('varName', varValue) and get('varName') are the only supported methods
+  to work with class Setting.
+- if outdir is not specified in config.ini file, it will be initialized for
+  each task from correponding QE input file(if relevant)
+- task.syncSetting() needs to be run before output parsing if some of the
+  output files are specified in QE input files only. task.syncSetting()
+  is always executed on task.launch()
+
+News in version 0.2.1:
+
+- fixed few bugs in parsers
+- added outDir variable (mandatory) in [Launcher] section. Each task will
+  synchronise its outDir through qecalc.qetask._syncSetting()
+- added paraRemoteShell variable (default is nothing) in [Launcher] section for
+  parallel remote shell script command (which will prefix mkdir or rm -rf for example).
+  Relevant when there is no Network File System (e.g. scratch space)
+- added d3 output parser ('d3 tensor')
