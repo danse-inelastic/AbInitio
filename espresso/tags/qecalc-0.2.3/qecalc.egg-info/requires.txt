@@ -1,2 +1,0 @@
-diffpy.Structure
-numpy

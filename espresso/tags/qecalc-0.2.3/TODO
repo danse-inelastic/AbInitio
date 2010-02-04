@@ -1,4 +1,0 @@
-[] introduce default values for all possible variables in class Setting
-[] finish merger mapping in calcs
-[] parser matdyn withUnits stoped working (works without)
-[] job manager support
