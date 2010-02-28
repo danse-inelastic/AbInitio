@@ -1,0 +1,38 @@
+
+Modules:
+- JobTracker
+- TaskTracker
+- JobClient
+
+Technologies:
+- Queue Manager: Torque
+- Web Interface: Django
+- Network framework: Twisted
+- Command Line Interface: optparse, getopt
+- Computation: Quantum Espresso - "Total energy"
+- Database: MySQL
+- Configuration: Python script, XML
+- XML parser: ?
+- Web Server: ?
+
+
+Functionality:
+
+
+Use Case:
+- Job submission
+- Record keeper (namenode)
+-
+
+Questions:
+- How to spawn TaskTracker?
+- How to spawn JobTracker?
+
+
+[Web Server]
+    |
+[JobTracker] <--> [TaskTracker]
+                        |
+                  [Queue Manager]
+
+

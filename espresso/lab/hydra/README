@@ -1,0 +1,9 @@
+
+Prototype of job manager based on Hadoop (http://hadoop.apache.org) architecture
+
+- NameServer:
+- JobTrackerServer: 8021
+- TaskTrackerServer: 57727
+
+Web Interface:
+- JobTracker: 50030
