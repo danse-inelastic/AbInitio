@@ -20,14 +20,7 @@ from twisted.internet import reactor
 class JobTracker(LineReceiver):
     def connectionMade(self):
         print "Got new client!"
-        
-        try:
-            factory = JobClientFactory()
-            reactor.connectTCP('localhost', TT_PORT, factory)
-            #reactor.run()
-            self.factory.clients.append(self)
-        except:
-            pass
+        self.factory.clients.append(self)
 
 
     def connectionLost(self, reason):
@@ -36,6 +29,14 @@ class JobTracker(LineReceiver):
 
     def lineReceived(self, line):
         print "received", repr(line)
+        if len(self.factory.clients) == 1:
+            try:
+                factory = JobClientFactory()
+                reactor.connectTCP('localhost', TT_PORT, factory)
+            except:
+                pass
+
+
         for c in self.factory.clients:
             c.message(line)
 
@@ -53,6 +54,13 @@ class JobClientFactory(ClientFactory):
     def clientConnectionLost(self, connector, reason):
         print 'connection lost:', reason.getErrorMessage()
         reactor.stop()
+
+
+#        try:
+#            factory = JobClientFactory()
+#            reactor.connectTCP('localhost', TT_PORT, factory)
+#        except:
+#            self.factory.clients.remove(self)
 
 
 

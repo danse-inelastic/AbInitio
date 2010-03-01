@@ -11,8 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-TT_PORT = 8020
-
 from twisted.protocols import basic
 
 class TaskTracker(basic.LineReceiver):
@@ -34,15 +32,6 @@ class TaskTracker(basic.LineReceiver):
         self.transport.write(message + ' TaskTracker \n')
 
 
-from twisted.internet import protocol
-from twisted.application import service, internet
-
-factory = protocol.ServerFactory()
-factory.protocol = TaskTracker
-factory.clients = []
-
-application = service.Application("tasktracker")
-internet.TCPServer(TT_PORT, factory).setServiceParent(application)
 
 __date__ = "$Feb 28, 2010 9:44:22 PM$"
 

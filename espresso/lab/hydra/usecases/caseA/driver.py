@@ -12,20 +12,32 @@
 #
 
 JT_PORT = 8021
+TT_PORT = 8020
 
 from twisted.internet import protocol
 from twisted.application import service, internet
 from jobtracker import JobTracker
-
-jtFactory = protocol.ServerFactory()
-jtFactory.protocol = JobTracker
-jtFactory.clients = []
+from tasktracker import TaskTracker
 
 application = service.Application("BadPhone")
 
-jtService   = internet.TCPServer(JT_PORT, jtFactory)
-jtService.setName("JobTracker")
-jtService.setServiceParent(application)
+# JobTracker
+ttFactory = protocol.ServerFactory()
+ttFactory.protocol = JobTracker
+ttFactory.clients = []
+
+ttService   = internet.TCPServer(JT_PORT, ttFactory)
+ttService.setName("JobTracker")
+ttService.setServiceParent(application)
+
+# TaskTracker
+ttFactory = protocol.ServerFactory()
+ttFactory.protocol = TaskTracker
+ttFactory.clients = []
+
+ttService   = internet.TCPServer(TT_PORT, ttFactory)
+ttService.setName("TaskTracker")
+ttService.setServiceParent(application)
 
 
 __date__ = "$Mar 1, 2010 12:57:11 AM$"
