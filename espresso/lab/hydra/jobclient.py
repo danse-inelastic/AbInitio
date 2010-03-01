@@ -46,21 +46,6 @@ class JobClient:
     def getQueues(self):
         pass
 
-#    def (self):
-#        pass
-#
-#    def (self):
-#        pass
-#
-#    def (self):
-#        pass
-#
-#    def (self):
-#        pass
-#
-#    def (self):
-#        pass
-
 
 __date__ = "$Feb 28, 2010 2:43:55 PM$"
 
