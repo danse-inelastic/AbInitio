@@ -7,3 +7,6 @@ Use Case A: "Broken phone line"
 
 Components: telnet, JobTracker, TaskTracker
 Complexity: basic
+Schema:
+[telnet] -> [JobTracker] -> [TaskTracker]
+         <-              <-
