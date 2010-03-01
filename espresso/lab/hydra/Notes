@@ -35,4 +35,7 @@ Questions:
                         |
                   [Queue Manager]
 
+JobTracker port:    8021
+TaskTracker port:   8020
+
 
