@@ -11,14 +11,24 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-JT_PORT = 8021
+TT_PORT = 8020
 
-from twisted.protocols import basic
+from twisted.protocols.basic import LineReceiver
+from twisted.internet.protocol import ClientFactory
+from twisted.internet import reactor
 
-class JobTracker(basic.LineReceiver):
+class JobTracker(LineReceiver):
     def connectionMade(self):
         print "Got new client!"
-        self.factory.clients.append(self)
+        
+        try:
+            factory = JobClientFactory()
+            reactor.connectTCP('localhost', TT_PORT, factory)
+            #reactor.run()
+            self.factory.clients.append(self)
+        except:
+            pass
+
 
     def connectionLost(self, reason):
         print "Lost a client!"
@@ -30,7 +40,7 @@ class JobTracker(basic.LineReceiver):
             c.message(line)
 
     def message(self, message):
-        self.transport.write(message + '\n')
+        self.transport.write(message + ' JobTracker ')
 
 
 class JobClientFactory(ClientFactory):
@@ -44,17 +54,6 @@ class JobClientFactory(ClientFactory):
         print 'connection lost:', reason.getErrorMessage()
         reactor.stop()
 
-
-
-from twisted.internet import protocol
-from twisted.application import service, internet
-
-factory = protocol.ServerFactory()
-factory.protocol = JobTracker
-factory.clients = []
-
-application = service.Application("jobtracker")
-internet.TCPServer(JT_PORT, factory).setServiceParent(application)
 
 
 __date__ = "$Feb 28, 2010 9:44:36 PM$"
