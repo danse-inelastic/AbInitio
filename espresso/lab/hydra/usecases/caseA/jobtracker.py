@@ -22,7 +22,6 @@ class JobTracker(LineReceiver):
         print "Got new client!"
         self.factory.clients.append(self)
 
-
     def connectionLost(self, reason):
         print "Lost a client!"
         self.factory.clients.remove(self)
