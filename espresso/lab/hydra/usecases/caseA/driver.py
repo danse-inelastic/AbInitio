@@ -19,10 +19,10 @@ from twisted.application import service, internet
 from jobtracker import JobTracker
 from tasktracker import TaskTracker
 
-application = service.Application("BadPhone")
+application = service.Application("BrokenPhone")
 
 # JobTracker
-ttFactory = protocol.ServerFactory()
+ttFactory = protocol.Factory()
 ttFactory.protocol = JobTracker
 ttFactory.clients = []
 

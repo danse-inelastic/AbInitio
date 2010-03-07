@@ -296,3 +296,703 @@
 2010-03-01 08:55:22-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0xa471bac>
 2010-03-01 08:55:22-0800 [-] Main loop terminated.
 2010-03-01 08:55:22-0800 [-] Server Shut Down.
+2010-03-05 17:44:38-0800 [-] Log opened.
+2010-03-05 17:44:38-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-05 17:44:38-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-05 17:44:38-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-05 17:44:38-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9543c4c>
+2010-03-05 17:44:38-0800 [-] twisted.internet.protocol.Factory starting on 8020
+2010-03-05 17:44:38-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9543c8c>
+2010-03-05 17:45:10-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-05 17:45:13-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-05 17:45:13-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x95621ec>
+2010-03-05 17:45:13-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-05 17:45:13-0800 [Uninitialized] Got new client!
+2010-03-05 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:13-0800 [Uninitialized] Lost a client!
+2010-03-05 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:13-0800 [TaskTracker,0,127.0.0.1] Lost a client!
+2010-03-05 17:45:15-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-05 17:45:15-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x956d8ac>
+2010-03-05 17:45:15-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-05 17:45:15-0800 [Uninitialized] Got new client!
+2010-03-05 17:45:15-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:15-0800 [Uninitialized] Lost a client!
+2010-03-05 17:45:15-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:15-0800 [TaskTracker,1,127.0.0.1] Lost a client!
+2010-03-05 17:45:17-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-05 17:45:17-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x946228c>
+2010-03-05 17:45:17-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-05 17:45:17-0800 [Uninitialized] Got new client!
+2010-03-05 17:45:17-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:17-0800 [Uninitialized] Lost a client!
+2010-03-05 17:45:17-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-05 17:45:17-0800 [TaskTracker,2,127.0.0.1] Lost a client!
+2010-03-05 18:04:52-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 17:44:16-0800 [-] Log opened.
+2010-03-06 17:44:16-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 17:44:16-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 17:44:16-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 17:44:16-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9ec9c4c>
+2010-03-06 17:44:16-0800 [-] twisted.internet.protocol.Factory starting on 8020
+2010-03-06 17:44:16-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9ec9c8c>
+2010-03-06 17:45:09-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 17:45:11-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 17:45:11-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x9ee81ec>
+2010-03-06 17:45:11-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 17:45:11-0800 [Uninitialized] Got new client!
+2010-03-06 17:45:11-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:11-0800 [Uninitialized] Lost a client!
+2010-03-06 17:45:11-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:11-0800 [TaskTracker,0,127.0.0.1] Lost a client!
+2010-03-06 17:45:13-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-06 17:45:13-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x9ef38ac>
+2010-03-06 17:45:13-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 17:45:13-0800 [Uninitialized] Got new client!
+2010-03-06 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:13-0800 [Uninitialized] Lost a client!
+2010-03-06 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:13-0800 [TaskTracker,1,127.0.0.1] Lost a client!
+2010-03-06 17:45:13-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-06 17:45:13-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x9de828c>
+2010-03-06 17:45:13-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 17:45:13-0800 [Uninitialized] Got new client!
+2010-03-06 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:13-0800 [Uninitialized] Lost a client!
+2010-03-06 17:45:13-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:13-0800 [TaskTracker,2,127.0.0.1] Lost a client!
+2010-03-06 17:45:15-0800 [JobTracker,0,127.0.0.1] received '\xff\xf4\xff\xfd\x06'
+2010-03-06 17:45:15-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x9ee8d2c>
+2010-03-06 17:45:15-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 17:45:15-0800 [Uninitialized] Got new client!
+2010-03-06 17:45:15-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:15-0800 [Uninitialized] Lost a client!
+2010-03-06 17:45:15-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 27, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 17:45:15-0800 [TaskTracker,3,127.0.0.1] Lost a client!
+2010-03-06 17:45:48-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 17:45:48-0800 [-] (Port 8020 Closed)
+2010-03-06 17:45:48-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x9ec9c8c>
+2010-03-06 17:45:48-0800 [-] (Port 8021 Closed)
+2010-03-06 17:45:48-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x9ec9c4c>
+2010-03-06 17:45:48-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 17:45:48-0800 [-] Main loop terminated.
+2010-03-06 17:45:48-0800 [-] Server Shut Down.
+2010-03-06 18:50:03-0800 [-] Log opened.
+2010-03-06 18:50:03-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 18:50:03-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 18:50:03-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 18:50:03-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x8616c2c>
+2010-03-06 18:50:03-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 18:50:03-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8616c6c>
+2010-03-06 18:50:27-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 18:50:38-0800 [JobTracker,0,127.0.0.1] received 'Hi2'
+2010-03-06 18:50:38-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x86311cc>
+2010-03-06 18:50:38-0800 [twisted.internet.protocol.ServerFactory] Got new client!
+2010-03-06 18:50:38-0800 [Uninitialized] Got new client!
+2010-03-06 18:50:38-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 18:50:38-0800 [Uninitialized] Lost a client!
+2010-03-06 18:50:38-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 28, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 18:50:38-0800 [TaskTracker,0,127.0.0.1] Lost a client!
+2010-03-06 18:50:39-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-06 18:50:39-0800 [JobTracker,0,127.0.0.1] Starting factory <jobtracker.JobClientFactory instance at 0x863c88c>
+2010-03-06 18:50:39-0800 [twisted.internet.protocol.ServerFactory] Got new client!
+2010-03-06 18:50:39-0800 [Uninitialized] Got new client!
+2010-03-06 18:50:39-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 146, in _doReadOrWrite
+	    why = getattr(selectable, method)()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 664, in doConnect
+	    self._connectDone()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 671, in _connectDone
+	    self.protocol.makeConnection(self)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/protocol.py", line 364, in makeConnection
+	    self.connectionMade()
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 23, in connectionMade
+	    self.factory.clients.append(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 18:50:39-0800 [Uninitialized] Lost a client!
+2010-03-06 18:50:39-0800 [Uninitialized] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/application/app.py", line 348, in runReactorWithLogging
+	    reactor.run()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1166, in run
+	    self.mainLoop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1178, in mainLoop
+	    self.doIteration(t)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 140, in doSelect
+	    _logrun(selectable, _drdw, selectable, method, dict)
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/selectreactor.py", line 156, in _doReadOrWrite
+	    self._disconnectSelectable(selectable, why, method=="doRead")
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/posixbase.py", line 194, in _disconnectSelectable
+	    selectable.connectionLost(failure.Failure(why))
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 677, in connectionLost
+	    Connection.connectionLost(self, reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 519, in connectionLost
+	    protocol.connectionLost(reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 28, in connectionLost
+	    self.factory.clients.remove(self)
+	exceptions.AttributeError: JobClientFactory instance has no attribute 'clients'
+	
+2010-03-06 18:50:39-0800 [TaskTracker,1,127.0.0.1] Lost a client!
+2010-03-06 18:50:50-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 18:50:50-0800 [-] (Port 8020 Closed)
+2010-03-06 18:50:50-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x8616c6c>
+2010-03-06 18:50:50-0800 [-] (Port 8021 Closed)
+2010-03-06 18:50:50-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x8616c2c>
+2010-03-06 18:50:50-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 18:50:50-0800 [-] Main loop terminated.
+2010-03-06 18:50:50-0800 [-] Server Shut Down.
+2010-03-06 19:03:02-0800 [-] Log opened.
+2010-03-06 19:03:02-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:03:02-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:03:02-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:03:02-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x8ce7c2c>
+2010-03-06 19:03:02-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:03:02-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8ce7c6c>
+2010-03-06 19:08:18-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:08:20-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 19:21:19-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 19:21:19-0800 [-] (Port 8020 Closed)
+2010-03-06 19:21:19-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x8ce7c6c>
+2010-03-06 19:21:19-0800 [-] (Port 8021 Closed)
+2010-03-06 19:21:19-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x8ce7c2c>
+2010-03-06 19:21:19-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 19:21:19-0800 [-] Main loop terminated.
+2010-03-06 19:21:19-0800 [-] Server Shut Down.
+2010-03-06 19:21:40-0800 [-] Log opened.
+2010-03-06 19:21:40-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:21:40-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:21:40-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:21:40-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x8b87b0c>
+2010-03-06 19:21:40-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:21:40-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8b87b4c>
+2010-03-06 19:21:50-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:21:52-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 19:22:34-0800 [JobTracker,0,127.0.0.1] received ''
+2010-03-06 19:30:05-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 19:30:05-0800 [-] (Port 8020 Closed)
+2010-03-06 19:30:05-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x8b87b4c>
+2010-03-06 19:30:05-0800 [-] (Port 8021 Closed)
+2010-03-06 19:30:05-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x8b87b0c>
+2010-03-06 19:30:05-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 19:30:05-0800 [-] Main loop terminated.
+2010-03-06 19:30:05-0800 [-] Server Shut Down.
+2010-03-06 19:30:09-0800 [-] Log opened.
+2010-03-06 19:30:09-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:30:09-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:30:09-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:30:09-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x8d6db0c>
+2010-03-06 19:30:09-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:30:09-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8d6db4c>
+2010-03-06 19:30:24-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:30:37-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 19:30:37-0800 [JobTracker,0,127.0.0.1] <JobTracker #0 on 8021>
+2010-03-06 19:45:01-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 19:45:01-0800 [-] (Port 8020 Closed)
+2010-03-06 19:45:01-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x8d6db4c>
+2010-03-06 19:45:01-0800 [-] (Port 8021 Closed)
+2010-03-06 19:45:01-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x8d6db0c>
+2010-03-06 19:45:01-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 19:45:01-0800 [-] Main loop terminated.
+2010-03-06 19:45:01-0800 [-] Server Shut Down.
+2010-03-06 19:45:06-0800 [-] Log opened.
+2010-03-06 19:45:06-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:45:06-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:45:06-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:45:06-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9595b0c>
+2010-03-06 19:45:06-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:45:06-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x9595b4c>
+2010-03-06 19:45:28-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:45:30-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 19:45:30-0800 [JobTracker,0,127.0.0.1] <JobTracker #0 on 8021>
+2010-03-06 19:48:06-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 19:48:06-0800 [-] (Port 8020 Closed)
+2010-03-06 19:48:06-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x9595b4c>
+2010-03-06 19:48:06-0800 [-] (Port 8021 Closed)
+2010-03-06 19:48:06-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x9595b0c>
+2010-03-06 19:48:06-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 19:48:06-0800 [-] Main loop terminated.
+2010-03-06 19:48:06-0800 [-] Server Shut Down.
+2010-03-06 19:48:08-0800 [-] Log opened.
+2010-03-06 19:48:08-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:48:08-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:48:08-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:48:08-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x9d9fb0c>
+2010-03-06 19:48:08-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:48:08-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x9d9fb4c>
+2010-03-06 19:48:12-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:48:14-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 19:49:11-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 19:49:11-0800 [-] (Port 8020 Closed)
+2010-03-06 19:49:11-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x9d9fb4c>
+2010-03-06 19:49:11-0800 [-] (Port 8021 Closed)
+2010-03-06 19:49:11-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x9d9fb0c>
+2010-03-06 19:49:11-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 19:49:11-0800 [-] Main loop terminated.
+2010-03-06 19:49:11-0800 [-] Server Shut Down.
+2010-03-06 19:49:13-0800 [-] Log opened.
+2010-03-06 19:49:13-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 19:49:13-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 19:49:13-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 19:49:13-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x956ab0c>
+2010-03-06 19:49:13-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 19:49:13-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x956ab4c>
+2010-03-06 19:49:16-0800 [twisted.internet.protocol.Factory] Got new client!
+2010-03-06 19:49:17-0800 [JobTracker,0,127.0.0.1] received 'Hi'
+2010-03-06 20:18:05-0800 [-] Received SIGTERM, shutting down.
+2010-03-06 20:18:05-0800 [-] (Port 8020 Closed)
+2010-03-06 20:18:05-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x956ab4c>
+2010-03-06 20:18:05-0800 [-] (Port 8021 Closed)
+2010-03-06 20:18:05-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x956ab0c>
+2010-03-06 20:18:05-0800 [JobTracker,0,127.0.0.1] Lost a client!
+2010-03-06 20:18:05-0800 [-] Main loop terminated.
+2010-03-06 20:18:05-0800 [-] Server Shut Down.
+2010-03-06 20:18:09-0800 [-] Log opened.
+2010-03-06 20:18:09-0800 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-03-06 20:18:09-0800 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-03-06 20:18:09-0800 [-] twisted.internet.protocol.Factory starting on 8021
+2010-03-06 20:18:09-0800 [-] Starting factory <twisted.internet.protocol.Factory instance at 0x8c02b0c>
+2010-03-06 20:18:09-0800 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-03-06 20:18:09-0800 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8c02b4c>
+2010-03-07 09:53:46-0800 [-] Received SIGTERM, shutting down.
+2010-03-07 09:53:46-0800 [-] (Port 8020 Closed)
+2010-03-07 09:53:46-0800 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0x8c02b4c>
+2010-03-07 09:53:46-0800 [-] (Port 8021 Closed)
+2010-03-07 09:53:46-0800 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0x8c02b0c>
+2010-03-07 09:53:46-0800 [-] Main loop terminated.
+2010-03-07 09:53:46-0800 [-] Server Shut Down.
