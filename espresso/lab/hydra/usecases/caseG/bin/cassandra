@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+"""
+There should be just one binary that launches daemons
+
+Usage:
+    $ cassandra start taskmaster    # Starting Task master daemon
+    $ cassandra start worker        # Starting Worker daemon
+"""
+
+
