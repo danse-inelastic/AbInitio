@@ -3,9 +3,12 @@
 """
 There should be just one binary that launches daemons
 
-Usage:
-    $ cassandra start taskmaster    # Starting Task master daemon
-    $ cassandra start worker        # Starting Worker daemon
+Usage: cassandra <command> [command options]
+
+Commands:
+    start       # Start taskmaster or worker daemons
+    stop        # Stop taskmaster or worker daemons
+
 """
 
 
