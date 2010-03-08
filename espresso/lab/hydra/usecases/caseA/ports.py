@@ -11,11 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from jobtracker import JobTracker
+JT_PORT = 8021  # JobTracker port   (prototype of proxy server)
+TT_PORT = 8020  # TaskTracker port  (prototype of computing server)
 
-# No test at this time
-jt  = JobTracker()
-
-__date__ = "$Mar 6, 2010 7:53:48 PM$"
+__date__ = "$Mar 7, 2010 11:11:14 PM$"
 
 

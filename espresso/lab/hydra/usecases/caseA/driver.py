@@ -11,29 +11,28 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-JT_PORT = 8021
-TT_PORT = 8020
-
+# Twisted specific
 from twisted.internet import protocol
 from twisted.application import service, internet
+
+# CaseA specific
+from ports import JT_PORT, TT_PORT
 from jobtracker import JobTracker
 from tasktracker import TaskTracker
 
-application = service.Application("BrokenPhone")
+application = service.Application("ProxyEcho")
 
 # JobTracker
-ttFactory = protocol.Factory()
-ttFactory.protocol = JobTracker
-#ttFactory.clients = []
+jtFactory = protocol.Factory()
+jtFactory.protocol  = JobTracker
 
-ttService   = internet.TCPServer(JT_PORT, ttFactory)
-ttService.setName("JobTracker")
-ttService.setServiceParent(application)
+jtService   = internet.TCPServer(JT_PORT, jtFactory)
+jtService.setName("JobTracker")
+jtService.setServiceParent(application)
 
 # TaskTracker
 ttFactory = protocol.ServerFactory()
 ttFactory.protocol = TaskTracker
-#ttFactory.clients = []
 
 ttService   = internet.TCPServer(TT_PORT, ttFactory)
 ttService.setName("TaskTracker")

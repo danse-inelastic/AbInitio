@@ -11,33 +11,29 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+TASK_MESSAGE = " -> TaskTracker"
 from twisted.protocols import basic
+
+"""
+Starts as a daemon. Receives a line and sends back the attached task message
+"""
 
 class TaskTracker(basic.LineReceiver):
     def connectionMade(self):
         print "TaskTracker: got new client!"
+        self.factory.client = self  # Save the client
 
 
     def connectionLost(self, reason):
         print "TaskTracker: lost a client!"
+        self.factory.client = None
 
 
     def lineReceived(self, line):
-        print "received", repr(line)
-        self.transport.write(line + ' TaskTracker ')
+        print "TaskTracker: received", repr(line)
+        client  = self.factory.client
+        self.sendLine(line + TASK_MESSAGE)
 
-
-#        if len(self.factory.clients) > 0:
-#            c   = self.factory.clients[0]
-#            c.message(line)
-#
-#    def message(self, message):
-        
-        #self.factory.clients.remove(self)
-        
-        #self.factory.clients.append(self)
-
-#
 
 __date__ = "$Feb 28, 2010 9:44:22 PM$"
 
