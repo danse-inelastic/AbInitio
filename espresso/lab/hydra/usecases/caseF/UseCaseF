@@ -1,0 +1,5 @@
+Use Case F:
+
+    Add user specific clients (analogous to Amazon clients)
+
+Components: telnet, JobTracker, TaskTracker, Torque, MySQL, Apache, WebService (REST, RPC?)
