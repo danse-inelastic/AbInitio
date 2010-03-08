@@ -24,7 +24,7 @@ application = service.Application("BrokenPhone")
 # JobTracker
 ttFactory = protocol.Factory()
 ttFactory.protocol = JobTracker
-ttFactory.clients = []
+#ttFactory.clients = []
 
 ttService   = internet.TCPServer(JT_PORT, ttFactory)
 ttService.setName("JobTracker")
@@ -33,7 +33,7 @@ ttService.setServiceParent(application)
 # TaskTracker
 ttFactory = protocol.ServerFactory()
 ttFactory.protocol = TaskTracker
-ttFactory.clients = []
+#ttFactory.clients = []
 
 ttService   = internet.TCPServer(TT_PORT, ttFactory)
 ttService.setName("TaskTracker")

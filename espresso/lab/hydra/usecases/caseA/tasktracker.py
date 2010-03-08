@@ -15,23 +15,29 @@ from twisted.protocols import basic
 
 class TaskTracker(basic.LineReceiver):
     def connectionMade(self):
-        print "Got new client!"
-        self.factory.clients.append(self)
+        print "TaskTracker: got new client!"
+
 
     def connectionLost(self, reason):
-        print "Lost a client!"
-        self.factory.clients.remove(self)
+        print "TaskTracker: lost a client!"
+
 
     def lineReceived(self, line):
         print "received", repr(line)
-        if len(self.factory.clients) > 0:
-            c   = self.factory.clients[0]
-            c.message(line)
-
-    def message(self, message):
-        self.transport.write(message + ' TaskTracker \n')
+        self.transport.write(line + ' TaskTracker ')
 
 
+#        if len(self.factory.clients) > 0:
+#            c   = self.factory.clients[0]
+#            c.message(line)
+#
+#    def message(self, message):
+        
+        #self.factory.clients.remove(self)
+        
+        #self.factory.clients.append(self)
+
+#
 
 __date__ = "$Feb 28, 2010 9:44:22 PM$"
 
