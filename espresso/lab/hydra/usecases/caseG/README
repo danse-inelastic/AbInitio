@@ -5,3 +5,5 @@ Reimplement Cassandra with twisted framework
 Notes:
     Make sure that the directory in the PYTHONPATH
 
+Portability:
+    Tested on Ubuntu 9.04.

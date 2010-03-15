@@ -12,7 +12,7 @@
 #
 
 PROJECT = vnfb
-PACKAGE = utils/qeparser/pseudo
+PACKAGE = qeutils/qeparser/pseudo
 
 
 #--------------------------------------------------------------------------
