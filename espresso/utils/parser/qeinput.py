@@ -61,14 +61,18 @@ class QEInput(object):
         """ Parses the configuration file and stores the values in qe dictionary """
         (self.header, self.namelists, self.cards, self.attach) = self.parser.parse()
 
+
     def createNamelist(self, name):
         """Creates namelist and adds to QEInput. """
         nl  = Namelist(name)
         self.namelists[name] = nl
+        return nl
+
 
     def addNamelist(self, namelist):
         """Adds namelist. """
         self.namelists[namelist.name()] = namelist
+
 
     def removeNamelist(self, name):
         try:
@@ -76,20 +80,31 @@ class QEInput(object):
         except KeyError:    # parameter is not present
             return
 
+
     def namelist(self, name):
-        # Do I need editNamelist()?
-        try:
+        "Returns namelist specified by name if exists or create a new one"
+        if self.namelistExists(name):   # If exists, return namelist
             return self.namelists[name]
-        except KeyError:    # parameter is not present
-            raise
+
+        return createNamelist(name) # otherwise create a new one
+
+
+    def namelistExists(self, name):
+        "Checks if namelist specified by name exists"
+        return self._exists(name, self.namelists.keys())
+
 
     def createCard(self, name):
         """Creates card and adds to QEInput. """
-        self.cards[name] = Card(name)
+        card    = Card(name)
+        self.cards[name] = card
+        return card
+
 
     def addCard(self, card):
         """Adds card. """
         self.cards[card.name()] = card
+
 
     def removeCard(self, name):
         try:
@@ -97,12 +112,19 @@ class QEInput(object):
         except KeyError:    # parameter is not present
             return
 
+
     def card(self, name):
-        # Do I need editNamelist()?
-        try:
+        "Returns card specified by name if exists or create a new one"
+        if cardExists(name):        # If exists, return card
             return self.cards[name]
-        except KeyError:    # parameter is not present
-            raise
+
+        return createCard(name)
+
+
+    def cardExists(self, name):
+        "Checks if card specified by name exists"
+        return self._exists(name, self.cards.keys())
+
 
     def getObject(self, name, dict):
         """Returns object that corresponds to 'name'"""
@@ -127,8 +149,10 @@ class QEInput(object):
         f.write(self.toString())
         f.close()
 
+
     def type(self):
         return self.type
+
 
     def structure(self):
         """Returns basic structure information as list tuples
@@ -171,6 +195,14 @@ class QEInput(object):
             s   += self.attach
 
         return s
+
+
+    def _exists(self, name, list):
+        if name in list:
+            return True
+
+        return False
+        
 
 
 def _import(package):
