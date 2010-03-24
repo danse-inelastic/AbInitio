@@ -115,10 +115,10 @@ class QEInput(object):
 
     def card(self, name):
         "Returns card specified by name if exists or create a new one"
-        if cardExists(name):        # If exists, return card
+        if self.cardExists(name):        # If exists, return card
             return self.cards[name]
 
-        return createCard(name)
+        return self.createCard(name)
 
 
     def cardExists(self, name):
