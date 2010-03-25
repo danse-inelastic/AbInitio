@@ -86,7 +86,7 @@ class QEInput(object):
         if self.namelistExists(name):   # If exists, return namelist
             return self.namelists[name]
 
-        return createNamelist(name) # otherwise create a new one
+        return self.createNamelist(name) # otherwise create a new one
 
 
     def namelistExists(self, name):
