@@ -95,14 +95,14 @@ class QEInput(object):
 
 
     def createCard(self, name):
-        """Creates card and adds to QEInput. """
+        "Creates card and adds to QEInput. "
         card    = Card(name)
         self.cards[name] = card
         return card
 
 
     def addCard(self, card):
-        """Adds card. """
+        "Adds card"
         self.cards[card.name()] = card
 
 
@@ -111,6 +111,11 @@ class QEInput(object):
             del(self.cards[name])
         except KeyError:    # parameter is not present
             return
+
+
+    def attach(self):
+        "Returns attachment"
+        return self.attach
 
 
     def addAttach(self, text):
