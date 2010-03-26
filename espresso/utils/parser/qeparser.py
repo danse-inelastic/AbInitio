@@ -28,7 +28,7 @@ CLOSE_BRACKET   = '[)}]?'               # Close bracket
 CARD            = '(%s[\w]+)%s%s(%s[\w]*%s)%s' % (SPACES, SPACES, OPEN_BRACKET, SPACES, SPACES, CLOSE_BRACKET)  # Card name
 EMPTY_LINE      = r'^\s*'               # Empty line
 
-ATTACHSIM       = ['matdyn', 'ph', 'd3']      # Simulation types that have attachments
+ATTACHSIM       = ['matdyn', 'dynmat', 'ph', 'd3']      # Simulation types that have attachments
 
 import re
 from orderedDict import OrderedDict

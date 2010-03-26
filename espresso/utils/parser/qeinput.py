@@ -52,7 +52,7 @@ class QEInput(object):
         self.type       = type
         self.namelists  = OrderedDict()
         self.cards      = OrderedDict()
-        self.attach     = None          # Specific for 'matdyn'
+        self.attach     = None          # Specific for 'matdyn', 'dynmat'
         self.namelistRef    = None
         self.cardRef        = None
         self.qe         = [self.header, self.namelists, self.cards, self.attach]
@@ -111,6 +111,19 @@ class QEInput(object):
             del(self.cards[name])
         except KeyError:    # parameter is not present
             return
+
+
+    def addAttach(self, text):
+        """
+        Sets attachment to some string.
+        If attachment is not None it still will be overwritten
+        """
+        self.attach = text
+
+
+    def removeAttach(self):
+        "Sets attachment to None"
+        self.attach = None
 
 
     def card(self, name):
