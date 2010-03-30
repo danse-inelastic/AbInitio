@@ -39,7 +39,7 @@ class Namelist():
 
     def add(self, param, val, quotes = False):
         "Adds parameter to the namelist"
-        param = param.lower()   # Should be lowered?
+        #param = param.lower()   # Should be lowered?
         if quotes:
             val     = self._quote(val)
 
