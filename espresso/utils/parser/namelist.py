@@ -38,8 +38,8 @@ class Namelist():
         return None
 
     def add(self, param, val, quotes = False):
-        # Replaces addParam() Add verification? 
-        param = param.lower()
+        "Adds parameter to the namelist"
+        param = param.lower()   # Should be lowered?
         if quotes:
             val     = self._quote(val)
 
@@ -48,7 +48,7 @@ class Namelist():
 
     def set(self, param, val, quotes = False):
         #  Replaces editParam() and addParam(). Merge with add()?
-        """Edits parameter. If it doesn't exist, it just ignores it """
+        "Sets existing parameter to the specified value. If it doesn't exist, it just ignores it """
         if self.__paramExists(param):
             if quotes:
                 val     = self._quote(val)
