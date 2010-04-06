@@ -1,9 +1,14 @@
-Use Case G: 
+Use Case G: "Cassandra on Twisted"
 
-Reimplement Cassandra with twisted framework
+Reimplementation of Cassandra with twisted framework
 
 Notes:
     Make sure that the directory in the PYTHONPATH
 
-Portability:
+Portability issues:
     Tested on Ubuntu 9.04.
+
+
+Default configuration directories for Taskmaster and Worker:
+    config/taskmaster
+    config/worker

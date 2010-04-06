@@ -79,7 +79,7 @@ def run():
         print str(c)
         sys.exit(1)
 
-    command = config.subCommand
+    command = config.subCommands
     so = config.subOptions
 
     if command == "start":

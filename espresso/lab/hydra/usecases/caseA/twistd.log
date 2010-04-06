@@ -51,3 +51,56 @@
 2010-03-07 23:27:13-0800 [TaskTracker,0,127.0.0.1] TaskTracker: lost a client!
 2010-03-07 23:27:13-0800 [-] Main loop terminated.
 2010-03-07 23:27:13-0800 [-] Server Shut Down.
+2010-04-06 11:07:25-0700 [-] Log opened.
+2010-04-06 11:07:25-0700 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-04-06 11:07:25-0700 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-04-06 11:07:25-0700 [-] twisted.internet.protocol.Factory starting on 8021
+2010-04-06 11:07:25-0700 [-] Starting factory <twisted.internet.protocol.Factory instance at 0xb77f60ac>
+2010-04-06 11:07:25-0700 [-] twisted.internet.protocol.ServerFactory starting on 8020
+2010-04-06 11:07:25-0700 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0xb77f60ec>
+2010-04-06 11:07:43-0700 [twisted.internet.protocol.Factory] JobTracker: got new client!
+2010-04-06 11:07:43-0700 [twisted.internet.protocol.Factory] Starting factory <jobtracker.JobClientFactory instance at 0xb77f662c>
+2010-04-06 11:07:43-0700 [twisted.internet.protocol.ServerFactory] TaskTracker: got new client!
+2010-04-06 11:07:43-0700 [Uninitialized] JobClient: got new client!
+2010-04-06 11:07:47-0700 [JobTracker,0,127.0.0.1] JobTracker: received 'Hello'
+2010-04-06 11:07:47-0700 [TaskTracker,0,127.0.0.1] TaskTracker: received 'Hello -> JobTracker'
+2010-04-06 11:07:47-0700 [JobClient,client] JobClient: received 'Hello -> JobTracker -> TaskTracker'
+2010-04-06 11:08:09-0700 [-] Received SIGTERM, shutting down.
+2010-04-06 11:08:09-0700 [-] (Port 8020 Closed)
+2010-04-06 11:08:09-0700 [-] Stopping factory <twisted.internet.protocol.ServerFactory instance at 0xb77f60ec>
+2010-04-06 11:08:09-0700 [-] (Port 8021 Closed)
+2010-04-06 11:08:09-0700 [-] Stopping factory <twisted.internet.protocol.Factory instance at 0xb77f60ac>
+2010-04-06 11:08:09-0700 [TaskTracker,0,127.0.0.1] TaskTracker: lost a client!
+2010-04-06 11:08:09-0700 [JobClient,client] connection lost: Connection to the other side was lost in a non-clean fashion: Connection lost.
+2010-04-06 11:08:09-0700 [JobClient,client] Unhandled Error
+	Traceback (most recent call last):
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/defer.py", line 307, in _startRunCallbacks
+	    self._runCallbacks()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/defer.py", line 323, in _runCallbacks
+	    self.result = callback(self.result, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 410, in _continueFiring
+	    callable(*args, **kwargs)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 596, in disconnectAll
+	    failure.Failure(main.CONNECTION_LOST))
+	--- <exception caught here> ---
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 84, in callWithLogger
+	    return callWithContext({"system": lp}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/log.py", line 69, in callWithContext
+	    return context.call({ILogContext: newCtx}, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 59, in callWithContext
+	    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/python/context.py", line 37, in callWithContext
+	    return func(*args,**kw)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/tcp.py", line 678, in connectionLost
+	    self.connector.connectionLost(reason)
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 1040, in connectionLost
+	    self.factory.clientConnectionLost(self, reason)
+	  File "/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseA/jobtracker.py", line 78, in clientConnectionLost
+	    reactor.stop()
+	  File "/usr/local/lib/python2.6/dist-packages/Twisted-9.0.0-py2.6-linux-i686.egg/twisted/internet/base.py", line 553, in stop
+	    "Can't stop reactor that isn't running.")
+	twisted.internet.error.ReactorNotRunning: Can't stop reactor that isn't running.
+	
+2010-04-06 11:08:09-0700 [JobTracker,0,127.0.0.1] JobTracker: lost a client!
+2010-04-06 11:08:09-0700 [-] Main loop terminated.
+2010-04-06 11:08:09-0700 [-] Server Shut Down.
