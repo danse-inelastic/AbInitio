@@ -21,7 +21,7 @@ class TaskMaster(MultiService):
     def loadConfig(self):
         configFile = os.path.join(self._basedir, self._configFileName)
 
-        log.msg("Creating TaskMaster")
+        log.msg("creating TaskMaster")
         log.msg("loading configuration from %s" % configFile)
         
         try:
@@ -56,5 +56,5 @@ class TaskMaster(MultiService):
         except KeyError:
             log.err("missing config dictionary")
 
-        open("/tmp/taskmaster-parse", "w").write("parseConfig %s " % config["taskmasterPort"])
+        log.msg("parseConfig %s " % config["taskmasterPort"])
         
