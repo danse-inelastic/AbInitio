@@ -19,9 +19,6 @@ There should be just one binary that launches daemons
 import sys
 from twisted.python import usage
 
-#def start(config):
-#    print "Start ", config['basedir']
-
 
 def stop(so):
     print "Stop "
@@ -79,7 +76,7 @@ def run():
         print str(c)
         sys.exit(1)
 
-    command = config.subCommands
+    command = config.subCommand     # passed command!
     so = config.subOptions
 
     if command == "start":
