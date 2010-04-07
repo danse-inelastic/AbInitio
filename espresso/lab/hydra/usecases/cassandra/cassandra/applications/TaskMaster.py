@@ -2,8 +2,41 @@
 import os
 from twisted.python import log
 from twisted.application.service import MultiService
-from twisted.internet.protocol import ServerFactory
+#from twisted.internet.protocol import ServerFactory
 from twisted.application import strports
+
+JOB_MESSAGE = " -> JobTracker"
+
+from twisted.protocols.basic import LineReceiver
+from twisted.internet.protocol import ClientFactory
+from twisted.internet import reactor
+
+
+class JobClient(LineReceiver):
+
+    def connectionMade(self):
+        print "JobClient: got new client!"
+        self.factory.client   = self    # Save the client
+
+
+    def lineReceived(self, line):
+        print "JobClient: received", repr(line)
+        self.sendLine("You said: %s" % line)
+#        proxy   = self.factory.proxy
+#        proxy.sendLine(line + JOB_MESSAGE)
+
+
+class JobClientFactory(ClientFactory):
+    protocol       = JobClient
+
+    def clientConnectionFailed(self, connector, reason):
+        print 'connection failed:', reason.getErrorMessage()
+        reactor.stop()
+
+    def clientConnectionLost(self, connector, reason):
+        print 'connection lost:', reason.getErrorMessage()
+        reactor.stop()
+
 
 class TaskMaster(MultiService):
     debug = 0
@@ -13,7 +46,7 @@ class TaskMaster(MultiService):
         self._basedir           = basedir
         self._configFileName    = configFileName
         self._slavePort         = None  # Should rename?
-        self._slaveFactory      = ServerFactory()  # Start with small # Later use: pb.PBServerFactory(p)
+        self._slaveFactory      = JobClientFactory()  # Start with small # Later use: pb.PBServerFactory(p)
         
 
     def startService(self):
