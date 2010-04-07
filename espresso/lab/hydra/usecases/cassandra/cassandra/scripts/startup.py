@@ -12,14 +12,15 @@ def start(config):
         print "No setting.tac file. Giving up!"
         sys.exit(1)
 
-    
-    # fork a child to launch the daemon, while the parent process tails the logfile
-    if os.fork():
-        # this is the parent
-        print "Starting reactor ..."
-        reactor.run()
+    # One can fork process to trace logs. 
+#    # Fork a child to launch the daemon, while the parent process tails the logfile
+#    if os.fork():
+#        # this is the parent
+#        print "Starting reactor ..."
+#        reactor.run()
+#        reactor.stop()
 
-    # this is the child: give the logfile-watching parent a chance to start
+    # This is the child: give the logfile-watching parent a chance to start
     # watching it before we start the daemon
     time.sleep(0.2)
     launch(config)
