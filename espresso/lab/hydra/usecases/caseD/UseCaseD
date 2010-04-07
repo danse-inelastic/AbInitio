@@ -1,4 +1,0 @@
-Use Case D: <Name ?>
-    Run simulation with Torque and Database and HTTP server
-
-Components: telnet, JobTracker, TaskTracker, Torque, MySQL, Apache
