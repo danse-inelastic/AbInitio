@@ -12,7 +12,7 @@
 #
 
 from twisted.application import service
-from buildbot.master import BuildMaster
+from cassandra.applications.TaskMaster import TaskMaster
 
 basedir = r'/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseG/config/taskmaster/'
 configfile = r'taskmaster.cfg'
@@ -31,7 +31,7 @@ except ImportError:
     # probably not yet twisted 8.2.0 and beyond, can't set log yet
     pass
 
-BuildMaster(basedir, configfile).setServiceParent(application)
+TaskMaster(basedir, configfile).setServiceParent(application)
 
 
 __date__ = "$Apr 6, 2010 10:57:59 AM$"
