@@ -12,3 +12,13 @@ Portability issues:
 Default configuration directories for Taskmaster and Worker:
     config/taskmaster
     config/worker
+
+
+Misc Notes:
+-----------
+
+Features of buildbot:
+    - configure daemon
+    - reconfigure daemon
+
+

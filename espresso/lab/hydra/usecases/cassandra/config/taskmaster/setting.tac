@@ -12,24 +12,16 @@
 #
 
 from twisted.application import service
+from twisted.python.logfile import LogFile
+from twisted.python.log import ILogObserver, FileLogObserver
 from cassandra.applications.TaskMaster import TaskMaster
 
-basedir = r'/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/taskmaster'
-configfile = r'taskmaster.cfg'
-rotateLength = 1000000
-maxRotatedFiles = None
+basedir     = r'/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/taskmaster'
+configfile  = r'taskmaster.cfg'
 
 application = service.Application('taskmaster')
-try:
-    from twisted.python.logfile import LogFile
-    from twisted.python.log import ILogObserver, FileLogObserver
-    logfile = LogFile.fromFullPath("twistd.log",
-                                    rotateLength    = rotateLength,
-                                    maxRotatedFiles = maxRotatedFiles)
-    application.setComponent(ILogObserver, FileLogObserver(logfile).emit)
-except ImportError:
-    # probably not yet twisted 8.2.0 and beyond, can't set log yet
-    pass
+logfile     = LogFile.fromFullPath("twistd.log")
+application.setComponent(ILogObserver, FileLogObserver(logfile).emit)
 
 TaskMaster(basedir, configfile).setServiceParent(application)
 

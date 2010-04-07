@@ -2,6 +2,8 @@
 import os
 from twisted.python import log
 from twisted.application.service import MultiService
+from twisted.internet.protocol import ServerFactory
+from twisted.application import strports
 
 class TaskMaster(MultiService):
     debug = 0
@@ -10,15 +12,19 @@ class TaskMaster(MultiService):
         MultiService.__init__(self)
         self._basedir           = basedir
         self._configFileName    = configFileName
+        self._slavePort         = None  # Should rename?
+        self._slaveFactory      = ServerFactory()  # Start with small # Later use: pb.PBServerFactory(p)
         
 
     def startService(self):
         "Starts service"
         MultiService.startService(self)
-        self.loadConfig()
+
+        self._loadConfig()
+        self._listen()
 
 
-    def loadConfig(self):
+    def _loadConfig(self):
         configFile = os.path.join(self._basedir, self._configFileName)
 
         log.msg("creating TaskMaster")
@@ -28,7 +34,6 @@ class TaskMaster(MultiService):
             f = open(configFile, "r")
         except IOError, e:
             log.msg("unable to open config file '%s'" % configFile)
-            log.msg("leaving old configuration in place")
             log.err(e)
             return
 
@@ -37,8 +42,6 @@ class TaskMaster(MultiService):
         except:
             log.msg("error during parseConfig")
             log.err()
-            log.msg("The new config file is unusable, so I'll ignore it.")
-            log.msg("I will keep using the previous config file instead.")
         f.close()
 
 
@@ -56,5 +59,17 @@ class TaskMaster(MultiService):
         except KeyError:
             log.err("missing config dictionary")
 
-        log.msg("parseConfig %s " % config["taskmasterPort"])
-        
+        self._portNum   = config["taskmasterPort"]
+        log.msg("setting port number %s " % self._portNum)  # For fun
+
+
+    def _listen(self):
+        "Set service to listen on tcp port"
+        # _portNum supposed to be a strports specification
+        if type(self._portNum) is int:
+            self._portNum = "tcp:%d" % self._portNum
+
+        if self._portNum:
+            self.slavePort = strports.service(self._portNum, self._slaveFactory)
+            self.slavePort.setServiceParent(self)
+            log.msg("TaskMaster listening on port %s" % self._portNum)
