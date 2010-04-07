@@ -14,7 +14,7 @@
 from twisted.application import service
 from cassandra.applications.TaskMaster import TaskMaster
 
-basedir = r'/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/caseG/config/taskmaster/'
+basedir = r'/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/taskmaster'
 configfile = r'taskmaster.cfg'
 rotateLength = 1000000
 maxRotatedFiles = None

@@ -64,6 +64,7 @@ class Options(usage.Options):
 
 
 def run():
+    "Main script"
     config = Options()
     try:
         config.parseOptions()
