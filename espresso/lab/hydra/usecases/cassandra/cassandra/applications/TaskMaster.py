@@ -43,11 +43,12 @@ class TaskMaster(MultiService):
 
     def __init__(self, basedir, configFileName = "taskmaster.cfg"):
         MultiService.__init__(self)
-        self._basedir           = basedir
-        self._configFileName    = configFileName
-        self._slavePort         = None  # Should rename?
-        self._slaveFactory      = JobClientFactory()  # Start with small # Later use: pb.PBServerFactory(p)
-        
+        self._basedir               = basedir
+        self._configFileName        = configFileName
+        self._slavePort             = None  # Should rename?
+        self._slaveFactory          = JobClientFactory()  # Rename? # Later use: pb.PBServerFactory(p)
+        self._slaveFactory.proxy    = self  # Set proxy
+
 
     def startService(self):
         "Starts service"
@@ -55,6 +56,11 @@ class TaskMaster(MultiService):
 
         self._loadConfig()
         self._listen()
+
+
+    def stopService(self):
+        "Stops service"
+        MultiService.stopService(self)
 
 
     def _loadConfig(self):
