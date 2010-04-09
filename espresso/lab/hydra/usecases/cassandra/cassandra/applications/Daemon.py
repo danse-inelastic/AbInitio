@@ -22,6 +22,7 @@ class Daemon(MultiService):
     def stopService(self):
         "Stops service"
         MultiService.stopService(self)
+        log.msg("stopping service")
 
 
     def _setConfig(self):

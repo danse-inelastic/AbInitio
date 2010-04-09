@@ -1,0 +1,143 @@
+Proxy Echo Session
+------------------
+
+Description:
+    Two daemons TaskMaster and Worker are running and listening on two different ports: 
+    8100 (TaskMaster) and 8102 (Worker). Daemon Worker starts first, then TaskMaster
+    which in turn connects to Worker. Client (telnet) connects to TaskMaster and
+    sends message "Hello" to JobTracker. JobTracker appends message "JobTracker"
+    sends it to TaskTracker. TaskTracker appends message "TaskTracker" and sends
+    back to the JobTracker which in turns sends back to the client. So the returned
+    message becomes: "Hello -> JobTracker -> TaskTracker -> JobTracker"
+
+    Proxy Echo is similar to caseA except that the two daemons are started separately
+    as application and are configured by taskmaster.cfg and worker.cfg. Both TaskMaster
+    and Worker use twisted.application.service.MultiService (cool!)
+
+Notes:
+    JobTracker - protocol of the TaskMaster service
+    TaskTracker - protocol of the Worker service
+
+
+Revision: 1166
+
+Home directory:
+$ pwd
+/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra
+
+
+Set environments:
+$ source envs.sh
+
+
+Check what options we have so far. Actually, just two options: start and stop
+(for each daemon separately)
+
+$ cassandra
+/home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/cassandra/bin/cassandra:  Must specify a command
+
+Usage:    cassandra <command> [command options]
+Options:
+      --version
+      --help     Display this help and exit.
+Commands:
+    start      Start taskmaster or worker daemons
+    stop       Stop taskmaster or worker daemons
+
+
+For example, if you want to start "TaskMaster" just type (don't do that now,
+because we have automated script for that: start.sh and stop.sh):
+
+$ cassandra start config/taskmaster
+
+Starting TaskMaster and Worker daemons:
+$ ./start.sh
+
+Check if daemons are listening. We see that 8102 (Worker) has established connection
+(with TaskMaster)
+$ netstat -an | grep "8100\|8102"
+tcp        0      0 0.0.0.0:8100            0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:8102            0.0.0.0:*               LISTEN
+tcp        0      0 127.0.0.1:8102          127.0.0.1:48708         ESTABLISHED
+tcp        0      0 127.0.0.1:48708         127.0.0.1:8102          ESTABLISHED
+
+
+Connect to TaskMaster and type some word. You see that the message passes through
+JobTracker, then to TaskTracker, back to JobTracker and finally you get the message.
+
+$ telnet localhost 8100
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Hello
+Hello -> JobTracker -> TaskTracker -> JobTracker
+Cool
+Cool -> JobTracker -> TaskTracker -> JobTracker
+
+Finally, we need to kill daemons:
+
+$./stop.sh
+cassandra process 18604 is dead
+cassandra process 18607 is dead
+
+Let's check the logs now:
+
+$ cat config/taskmaster/twistd.log
+2010-04-08 19:29:11-0700 [-] Log opened.
+2010-04-08 19:29:11-0700 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-04-08 19:29:11-0700 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-04-08 19:29:11-0700 [-] loading configuration from /home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/taskmaster/taskmaster.cfg
+2010-04-08 19:29:11-0700 [-] settings parameters from taskmaster.cfg config
+2010-04-08 19:29:11-0700 [-] twisted.internet.protocol.ServerFactory starting on 8100
+2010-04-08 19:29:11-0700 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x87ca18c>
+2010-04-08 19:29:11-0700 [-] TaskMaster is listening on port: 8100
+2010-04-08 19:29:11-0700 [-] Starting factory <twisted.internet.protocol.ClientFactory instance at 0x87ca16c>
+2010-04-08 19:29:11-0700 [-] TaskMaster connects to Worker
+2010-04-08 19:29:11-0700 [Uninitialized] JobClient: got new client!
+2010-04-08 19:35:22-0700 [twisted.internet.protocol.ServerFactory] JobTracker: got new client!
+2010-04-08 19:35:26-0700 [JobTracker,0,127.0.0.1] JobTracker: received 'Hello'
+2010-04-08 19:35:26-0700 [JobClient,client] JobClient: received 'Hello -> JobTracker -> TaskTracker'
+2010-04-08 19:35:29-0700 [JobTracker,0,127.0.0.1] JobTracker: received 'Cool'
+2010-04-08 19:35:29-0700 [JobClient,client] JobClient: received 'Cool -> JobTracker -> TaskTracker'
+2010-04-08 19:39:40-0700 [JobClient,client] Stopping factory <twisted.internet.protocol.ClientFactory instance at 0x87ca16c>
+2010-04-08 19:39:40-0700 [-] Received SIGTERM, shutting down.
+2010-04-08 19:39:40-0700 [-] stopping service
+2010-04-08 19:39:40-0700 [JobTracker,0,127.0.0.1] JobTracker: lost a client!
+2010-04-08 19:39:40-0700 [-] Main loop terminated.
+2010-04-08 19:39:40-0700 [-] Server Shut Down.
+
+
+dexity@cactus:~/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra$ cat config/worker/twistd.log
+2010-04-08 19:29:11-0700 [-] Log opened.
+2010-04-08 19:29:11-0700 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-04-08 19:29:11-0700 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-04-08 19:29:11-0700 [-] starting Worker service
+2010-04-08 19:29:11-0700 [-] loading configuration from /home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/worker/worker.cfg
+2010-04-08 19:29:11-0700 [-] settings parameters from worker.cfg config
+2010-04-08 19:29:11-0700 [-] twisted.internet.protocol.ServerFactory starting on 8102
+2010-04-08 19:29:11-0700 [-] Starting factory <twisted.internet.protocol.ServerFactory instance at 0x8f71f4c>
+2010-04-08 19:29:11-0700 [-] TaskMaster is listening on port: 8102
+2010-04-08 19:29:11-0700 [twisted.internet.protocol.ServerFactory] TaskTracker: got new client!
+2010-04-08 19:35:26-0700 [TaskTracker,0,127.0.0.1] TaskTracker: received 'Hello -> JobTracker'
+2010-04-08 19:35:29-0700 [TaskTracker,0,127.0.0.1] TaskTracker: received 'Cool -> JobTracker'
+2010-04-08 19:39:40-0700 [-] Received SIGTERM, shutting down.
+2010-04-08 19:39:40-0700 [-] stopping service
+2010-04-08 19:39:40-0700 [TaskTracker,0,127.0.0.1] TaskTracker: lost a client!
+2010-04-08 19:39:40-0700 [-] Main loop terminated.
+2010-04-08 19:39:40-0700 [-] Server Shut Down.
+
+
+We can do similar session on different machines. For this we need to change the
+taskmaster.cfg and worker.cfg configuration files, set environmet and start
+daemons separately. Start worker first:
+
+[Machine A]
+$ ./envs.sh
+$ cassandra start config/worker
+
+[Machine B]
+$ ./envs.sh
+$ cassandra start config/taskmaster
+
+Important note: Make sure that port is not blocked by the firewall
