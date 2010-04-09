@@ -54,14 +54,10 @@ class JobTracker(LineReceiver):
 
 
 
-class TaskMaster(Daemon):   #MultiService):
-#    debug = 0
-#
+class TaskMaster(Daemon):
+    
     def __init__(self, basedir, configFileName = "taskmaster.cfg"):
         Daemon.__init__(self, basedir, configFileName)
-#        MultiService.__init__(self)
-#        self._basedir                   = basedir
-#        self._configFileName            = configFileName
         self._clientFactory             = ClientFactory()  # Rename? # Later use: pb.PBServerFactory(p)
         self._clientFactory.protocol    = JobClient
         self._serverFactory             = ServerFactory()
@@ -73,15 +69,9 @@ class TaskMaster(Daemon):   #MultiService):
         "Starts service"
         Daemon.startService(self)
 
-#        self._loadConfig()
         self._setParams()
         self._listen()
 #        self._connect()
-
-
-#    def stopService(self):
-#        "Stops service"
-#        MultiService.stopService(self)
 
 
     def clientFactory(self):
@@ -91,40 +81,6 @@ class TaskMaster(Daemon):   #MultiService):
     def serverFactory(self):
         return self._serverFactory
 
-
-#    def _loadConfig(self):
-#        configFile = os.path.join(self._basedir, self._configFileName)
-#
-#        log.msg("loading configuration from %s" % configFile)
-#
-#        try:
-#            f = open(configFile, "r")
-#        except IOError, e:
-#            log.msg("unable to open config file '%s'" % configFile)
-#            log.err(e)
-#            return
-#
-#        try:
-#            self._parseConfig(f)
-#        except:
-#            log.msg("error during parseConfig")
-#            log.err()
-#        f.close()
-#
-#
-#    def _parseConfig(self, file):
-#        "Parsing configuration file"
-#        localDict = {'basedir': os.path.expanduser(self._basedir)}
-#        try:
-#            exec file in localDict
-#        except:
-#            log.msg("error while parsing config file")
-#            raise
-#
-#        try:
-#            config = localDict['CassandraConfig']
-#        except KeyError:
-#            log.err("missing config dictionary")
 
     def _setParams(self):
         self._setConfig()
