@@ -1,11 +1,8 @@
 
-#from twisted.python import log
-#from twisted.application.service import MultiService
+from twisted.python import log
 from twisted.application.internet import TCPServer
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.protocol import ServerFactory
-
-
 
 from cassandra.applications.Daemon import Daemon
 
