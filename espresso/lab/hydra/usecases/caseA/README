@@ -1,0 +1,35 @@
+Use Case A: "Proxy Echo"
+    Two daemons are running listening on two different ports. Client (telnet)
+    sends message "Hello" to JobTracker. JobTracker appends message "JobTracker"
+    sends it to TaskTracker. TaskTracker appends message "TaskTracker" and sends
+    back to the JobTracker which in turns sends back to the client. So the resultant
+    message becomes: "Hello JobTracker TaskTracker JobTracker"
+
+Components: telnet, JobTracker, TaskTracker
+Complexity: basic
+Schema:
+[telnet] -> [JobTracker] -> [TaskTracker]
+         <-              <-
+
+
+Sample session:
+
+1. Start JobTracker and TaskTracker daemons:
+
+$ twistd -y driver.py
+
+2. Connect to the JobTracker (proxy server) with a standard client (e.g. telnet),
+type some text and click <Enter>
+
+$ telnet localhost 8021
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Hi
+Hi -> JobTracker -> TaskTracker -> JobTracker
+
+3. Shut down daemons by killing the process, (make sure that twistd.pid is the local
+directory)
+
+$ kill `cat twistd.pid`
