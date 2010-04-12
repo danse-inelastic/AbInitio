@@ -1,4 +1,4 @@
-Use Case A: "Proxy Echo"
+Use Case: "Proxy Echo Simple"
     Two daemons are running and listening on two different ports. Client (telnet)
     sends message "Hello" to JobTracker. JobTracker appends message "JobTracker"
     sends it to TaskTracker. TaskTracker appends message "TaskTracker" and sends
