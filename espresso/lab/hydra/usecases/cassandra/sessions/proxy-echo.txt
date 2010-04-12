@@ -1,6 +1,8 @@
 Proxy Echo Session
 ------------------
 
+Revision: 1166
+
 Description:
     Two daemons TaskMaster and Worker are running and listening on two different ports: 
     8100 (TaskMaster) and 8102 (Worker). Daemon Worker starts first, then TaskMaster
@@ -18,8 +20,6 @@ Notes:
     JobTracker - protocol of the TaskMaster service
     TaskTracker - protocol of the Worker service
 
-
-Revision: 1166
 
 Home directory:
 $ pwd
