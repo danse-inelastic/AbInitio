@@ -1,9 +1,16 @@
-Use Case G: "Cassandra on Twisted"
+Use Case: "Cassandra on Twisted"
 
 Reimplementation of Cassandra with twisted framework
 
-Notes:
-    Make sure that the directory in the PYTHONPATH
+Relations:
+TaskmasterDaemon    -> TaskMasterDaemon(Daemon(MultiService))
+Taskmaster          -> TaskMaster(pb.PBServerFactory)
+TaskmasterProxy     -> TaskMasterProxy(pb.Referenceable)
+
+WorkerDaemon        -> WorkerDaemon(Daemon(MultiService))
+Worker              -> Worker(pb.PBClientFactory)
+WorkerProxy         -> WorkerProxy(pb.Referenceable)
+
 
 Portability issues:
     Tested on Ubuntu 9.04.
