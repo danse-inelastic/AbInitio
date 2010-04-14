@@ -18,6 +18,3 @@ class WorkerProxy(Referenceable):
     def remote_reset(self):
         print 'reset'
 
-
-#    def remote_workerInit(self):
-#        print "workerInit"

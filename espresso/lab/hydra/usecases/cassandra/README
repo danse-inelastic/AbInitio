@@ -5,7 +5,7 @@ Reimplementation of Cassandra with twisted framework
 Relations:
 TaskmasterDaemon    -> TaskMasterDaemon(Daemon(MultiService))
 Taskmaster          -> TaskMaster(pb.PBServerFactory)
-TaskmasterProxy     -> TaskMasterProxy(pb.Referenceable)
+TaskmasterProxy     -> TaskMasterProxy(pb.Root)
 
 WorkerDaemon        -> WorkerDaemon(Daemon(MultiService))
 Worker              -> Worker(pb.PBClientFactory)
