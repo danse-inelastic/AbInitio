@@ -1,22 +1,17 @@
 
 
 from twisted.python import log
-from twisted.application.internet import TCPServer
-from twisted.protocols.basic import LineReceiver
-from twisted.internet.protocol import ServerFactory
+from twisted.application.internet import TCPClient
+from cassandra.labor.Worker import Worker
 
 from cassandra.applications.Daemon import Daemon
 
 
-
-
-
 class WorkerDaemon(Daemon):
 
-    def __init__(self, basedir, configFileName = "taskmaster.cfg"):
+    def __init__(self, basedir, configFileName = "worker.cfg"):
         Daemon.__init__(self, basedir, configFileName)
-        self._worker             = ServerFactory()
-#        self._serverFactory.protocol    = TaskTracker
+        self._worker             = Worker() # PBClientFactory
 
         log.msg("creating Worker")
 
@@ -25,8 +20,6 @@ class WorkerDaemon(Daemon):
         "Starts service"
         Daemon.startService(self)
         log.msg("starting Worker service")
-
-        
 
         self._setParams()
         self._connect()
@@ -38,7 +31,7 @@ class WorkerDaemon(Daemon):
             return
 
         self._masterPort    = self._config["masterPort"]
-        self._masterHost    = self._config["workerHost"]
+        self._masterHost    = self._config["masterHost"]
 
         log.msg("settings parameters from %s config" % self._configFileName)
 
@@ -49,6 +42,10 @@ class WorkerDaemon(Daemon):
         workerClient.setServiceParent(self)
         log.msg("Worker connects to TaskMaster")
 
+
+
+#from twisted.protocols.basic import LineReceiver
+#from twisted.internet.protocol import ServerFactory
 
 #    def _listen(self):
 #        "Set service to listen on tcp port"

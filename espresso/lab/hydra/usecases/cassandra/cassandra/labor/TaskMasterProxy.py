@@ -1,5 +1,7 @@
 
-from twisted.spread.pb import Referenceable
+from twisted.spread.pb import Root  # Referenceable
 
-class TaskMasterProxy(Referenceable):
-    pass
+class TaskMasterProxy(Root):
+
+    def remote_workerInit(self):
+        print "workerInit"

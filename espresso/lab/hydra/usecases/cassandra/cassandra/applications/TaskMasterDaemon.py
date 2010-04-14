@@ -3,9 +3,8 @@
 
 
 from twisted.python import log
-from twisted.application.internet import TCPClient, TCPServer
+from twisted.application.internet import TCPServer
 
-from twisted.internet.protocol import ClientFactory, ServerFactory
 
 from cassandra.labor.TaskMaster import TaskMaster
 from cassandra.applications.Daemon import Daemon
@@ -14,13 +13,8 @@ class TaskMasterDaemon(Daemon):
     
     def __init__(self, basedir, configFileName = "taskmaster.cfg"):
         Daemon.__init__(self, basedir, configFileName)
-        self._taskmaster                = TaskMaster()  # PBServerFactory
-#        self._clientFactory             = ClientFactory()  # Rename? # Later use: pb.PBServerFactory(p)
-#        self._clientFactory.protocol    = JobClient
-#        self._serverFactory             = ServerFactory()
-#        self._serverFactory.protocol    = JobTracker
-#        self._serverFactory.master      = self
-
+        self._taskmaster    = TaskMaster()  # PBServerFactory
+        
         log.msg("creating TaskMasterDaemon")
 
 
@@ -32,22 +26,12 @@ class TaskMasterDaemon(Daemon):
         self._listen()
 
 
-    def clientFactory(self):
-        return self._clientFactory
-
-
-    def serverFactory(self):
-        return self._serverFactory
-
-
     def _setParams(self):
         self._setConfig()
         if not self._config:
             return
 
         self._masterPort    = self._config["masterPort"]
-        self._workerPort    = self._config["workerPort"]
-        self._workerHost    = self._config["workerHost"]
         log.msg("settings parameters from %s config" % self._configFileName)
 
 
@@ -57,7 +41,24 @@ class TaskMasterDaemon(Daemon):
         masterService.setServiceParent(self)
         log.msg("TaskMaster is listening on port: %d" % self._masterPort)
 
-        
+
+
+#        self._clientFactory             = ClientFactory()  # Rename? # Later use: pb.PBServerFactory(p)
+#        self._clientFactory.protocol    = JobClient
+#        self._serverFactory             = ServerFactory()
+#        self._serverFactory.protocol    = JobTracker
+#        self._serverFactory.master      = self
+
+#    def clientFactory(self):
+#        return self._clientFactory
+#
+#
+#    def serverFactory(self):
+#        return self._serverFactory
+#
+#from twisted.internet.protocol import ClientFactory, ServerFactory
+#
+#from twisted.application.internet import TCPClient, 
 #    def _connect(self):
 #        "Connect to the worker"
 #        masterClient = TCPClient(self._workerHost, self._workerPort, self._clientFactory)
