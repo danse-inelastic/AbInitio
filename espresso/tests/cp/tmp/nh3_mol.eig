@@ -1,0 +1,30 @@
+  STEP:     10       0.00
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -31.34  -15.26    1.66    8.39
+  STEP:     20       0.00
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.70  -11.38   -7.95   -2.04
+  STEP:     30       0.00
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.25  -10.73   -8.96   -4.39
+  STEP:     40       0.00
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.04  -10.57   -9.27   -5.31
+  STEP:     50       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -19.97  -10.44   -9.48   -5.75
+  STEP:     60       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -19.97  -10.35   -9.64   -5.98
+  STEP:     70       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.00  -10.29   -9.77   -6.09
+  STEP:     80       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.05  -10.25   -9.88   -6.14
+  STEP:     90       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.09  -10.24   -9.96   -6.17
+  STEP:    100       0.01
+   Eigenvalues (eV), kp =   1 , spin =  1
+  -20.14  -10.24  -10.02   -6.18

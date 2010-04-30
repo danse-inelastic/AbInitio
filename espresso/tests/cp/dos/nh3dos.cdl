@@ -1,0 +1,63 @@
+netcdf nh3dos {
+dimensions:
+	FREQSTEPS = 10 ;
+variables:
+	double frequency(FREQSTEPS) ;
+		frequency:units = "THz" ;
+	double dos(FREQSTEPS) ;
+		dos:units = "nm^2*ps^-1" ;
+
+// global attributes:
+		:title = "CartesianDensityOfStates_serial" ;
+		:jobinfo = "##########################################################################################\n",
+			"Job information for CartesianDensityOfStates_serial analysis.\n",
+			"##########################################################################################\n",
+			"\n",
+			"Job launched on: Thu Apr 29 17:00:48 2010\n",
+			"\n",
+			"General informations\n",
+			"--------------------\n",
+			"User: dexity\n",
+			"OS: Linux-2.6.28-15-generic\n",
+			"Processor: i686\n",
+			"nMOLDYN version: 3.0.4\n",
+			"\n",
+			"Parameters\n",
+			"----------\n",
+			"subset = all\n",
+			"projection = no\n",
+			"timeinfo = 1:10:1\n",
+			"trajectory = /home/dexity/Documents/Work/CalTech/VNF/QE/cp/nh3/dos/nh3_mol.nc\n",
+			"pyroserver = monoprocessor\n",
+			"weights = equal\n",
+			"deuteration = no\n",
+			"differentiation = 0\n",
+			"dos = /home/dexity/Documents/Work/CalTech/VNF/QE/cp/nh3/nh3dos.nc\n",
+			"fftwindow = 10.0\n",
+			"\n",
+			"Subset selection\n",
+			"----------------\n",
+			"Number of atoms selected for analysis: 4\n",
+			"\n",
+			"Deuteration selection\n",
+			"---------------------\n",
+			"Number of atoms selected for deuteration: 0\n",
+			"\n",
+			"\n",
+			"Job status\n",
+			"----------\n",
+			"\n",
+			"Output file written on: Thu Apr 29 17:00:48 2010\n",
+			"\n",
+			"" ;
+data:
+
+ frequency = 0, 4.1341447651260417, 8.2682895302520834, 12.402434295378123, 
+    16.536579060504167, 20.670723825630205, 24.804868590756247, 
+    28.939013355882288, 33.073158121008333, 37.207302886134372 ;
+
+ dos = 2.0145192205169639e-11, 2.0212268919501757e-11, 
+    2.0381991331979576e-11, 2.0576915716279678e-11, 2.0714160105096279e-11, 
+    2.0745166075558688e-11, 2.0674097374902395e-11, 2.0549437516814273e-11, 
+    2.0437692178766889e-11, 2.0393497730351114e-11 ;
+}
