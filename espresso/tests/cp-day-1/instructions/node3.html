@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercise 2: Constrained dynamics of methane</TITLE>
+<META NAME="description" CONTENT="Exercise 2: Constrained dynamics of methane">
+<META NAME="keywords" CONTENT="instructions_day1">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day1.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="instructions_day1.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html54"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html52"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html46"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html55"
+  HREF="node4.html">Optional Exercises</A>
+<B> Up:</B> <A NAME="tex2html53"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html47"
+  HREF="node2.html">Exercise 1: Vibrational dynamics</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00030000000000000000">
+Exercise 2: Constrained dynamics of methane</A>
+</H1>
+
+<P>
+In this exercise, we will dampen the C-H stretching mode of methane and 
+isolate the C-H bending mode by performing a constrained MD simulation.
+In particular, we will fix the C-H distance for each of the bonds while
+letting the remaining parameters vary freely throughout the dynamics. (Note
+that this exercise demonstrates Qbox functionality and has no cp.x equivalent.)
+
+<P>
+Return to the kraken supercomputer and enter the
+<code>/lustre/scratch/your_username/day1</code> subdirectory.
+Look at the <code>mdc.i</code> input file: 
+<PRE>
+(1)  # MD with constraints
+(2)  # start from CH4 sample (with atoms displaced!) 
+(3)  load ch4.xml
+(4)
+(5)  # define constraints for bond lengths
+(6)  constraint define distance d1 C H1 2.08
+(7)  constraint define distance d2 C H2 2.08
+(8)  constraint define distance d3 C H3 2.08
+(9)  constraint define distance d4 C H4 2.08
+(10) constraint enforce
+(11)
+(12) angle H1 C H2
+(13) angle H1 C H3
+(14) angle H1 C H4
+(15) angle H2 C H3
+(16) angle H2 C H4
+(17) angle H3 C H4
+(18)
+(19) set wf_dyn PSDA
+(20) set ecutprec 3
+(21) run 0 20
+(22)
+(23) save ch4_disp.xml
+(24) 
+(25) set atoms_dyn MD
+(26) set dt 20
+(27) run 200 5
+</PRE>
+
+<P>
+This input file is designed to perform several steps automatically.
+Line 3 loads the results from the
+electronic minimization of the perturbed system that we performed in the
+previous exercise.
+
+<P>
+Lines 5-10 define the constraints we want to employ in our
+dynamics. Here, we want to fix the C-H bond distance for each of the hydrogen
+atoms H1, H2, H3, and H4. These four distance constraints are given the names
+d1, d2, d3, and d4. Finally, the `constraint enforce' command is given. This
+causes Qbox to use the SHAKE algorithm to force the system geometry into a
+configuration matching the constraints. 
+
+<P>
+Lines 12-17 instruct Qbox to print the six H-C-H bond angles. This can be 
+used to verify that even though the bond <SPAN  CLASS="textit">lengths</SPAN> are constrained, the 
+bond <SPAN  CLASS="textit">angles</SPAN> are not tetrahedral.
+
+<P>
+At this point in the process, the algorithm has generated a new geometry. As
+such, we need to run a new electronic minimization, which is done in lines
+19-21.
+
+<P>
+Finally, the dynamics is performed in Lines 25-27.
+
+<P>
+Note that this time we have set the timestep to be 20 atomic units instead of
+10. Can you think why we are justified in using the larger timestep?
+
+<P>
+Run the dynamics on kraken:
+<PRE>
+  qsub mdc.job
+</PRE>
+
+<P>
+Once the simulation is finished, use the output to create an `xyz' file. Then 
+copy this file to your local workstation:
+<PRE>
+ [On kraken]:
+   qbox_xyz.sh mdc.r &gt; mdc.xyz
+ [On your local workstation]
+   cd ~/QE-school/week2/day1
+   scp your_username@kraken-pwd.nics.tennessee.edu:/lustre/scratch/your_username/day1/mdc.xyz .
+</PRE>
+
+<P>
+Return to your local workstation and visualize the new xyz file. Can you see 
+the bending modes clearly?  
+
+<P>
+Now repeat the analysis of the vibrational modes using the velocity 
+autocorrelation function procedure described above. Which of the peaks has 
+disappeared?
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html54"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html52"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html46"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html55"
+  HREF="node4.html">Optional Exercises</A>
+<B> Up:</B> <A NAME="tex2html53"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html47"
+  HREF="node2.html">Exercise 1: Vibrational dynamics</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-28
+</ADDRESS>
+</BODY>
+</HTML>

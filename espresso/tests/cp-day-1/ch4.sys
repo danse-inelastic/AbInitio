@@ -1,0 +1,9 @@
+# methane molecule
+set cell        12 0 0  0 12 0  0 0 12
+species carbon carbon_pbe.xml 
+species hydrogen hydrogen_pbe.xml 
+atom C    carbon       0.00000000   0.00000000   0.00000000 
+atom H1   hydrogen     1.20000000   1.20000000   1.20000000 
+atom H2   hydrogen     1.20000000  -1.20000000  -1.20000000 
+atom H3   hydrogen    -1.20000000   1.20000000  -1.20000000 
+atom H4   hydrogen    -1.20000000  -1.20000000   1.20000000 

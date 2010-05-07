@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="instructions_day1">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day1.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="instructions_day1.html">
+<LINK REL="up" HREF="instructions_day1.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html27"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html25"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html19"
+  HREF="instructions_day1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html28"
+  HREF="node2.html">Exercise 1: Vibrational dynamics</A>
+<B> Up:</B> <A NAME="tex2html26"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html20"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html29"
+  HREF="node1.html#SECTION00011000000000000000">Quick summary of MD</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00010000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+In this exercise, we will be using Qbox to perform first-principles
+Born-Oppenheimer molecular dynamics (BOMD). Note that the Quantum-Espresso 
+package you have been using for the other exercises also has a module 
+(cp.x) for performing both Car-Parrinello and Born-Oppenheimer MD. 
+Input files for both packages will be provided, although these notes assume 
+you will be using Qbox (inputs for cp.x are set up for Car-Parrinello MD 
+rather than Born-Oppenheimer MD).
+
+<P>
+The Qbox manual is located at:
+<TT><A NAME="tex2html1"
+  HREF="http://eslab.ucdavis.edu/software/qbox/QboxUserGuide.pdf">http://eslab.ucdavis.edu/software/qbox/QboxUserGuide.pdf</A></TT>.
+It contains detailed information about each of the input options in 
+Qbox, only a few of which will be covered in this exercise.
+
+<P>
+For help on input variables for the cp.x module of Quantum-Espresso, 
+consult the <code>INPUT_CP.html</code> file within the `Doc' subdirectory of 
+the source distribution.
+
+<P>
+You might also find this general introduction to MD by Furio Ercolessi useful:
+<TT><A NAME="tex2html2"
+  HREF="http://www.fisica.uniud.it/~ercolessi/md/md/">http://www.fisica.uniud.it/~ercolessi/md/md/</A></TT>.
+Although it is based on interatomic potentials rather than first-principles 
+techniques, much of the general material is relevant to both methods.
+
+<P>
+
+<H2><A NAME="SECTION00011000000000000000">
+Quick summary of MD</A>
+</H2>
+
+<P>
+Molecular dynamics follows classical mechanics by solving Newton's
+equations of motions for all atoms:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+\mathbf{F}_i=m_i \mathbf{\ddot{x}}_i
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="71" HEIGHT="26" BORDER="0"
+ SRC="img1.png"
+ ALT="\begin{displaymath}
+\mathbf{F}_i=m_i \mathbf{\ddot{x}}_i
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2.png"
+ ALT="$i$"></SPAN> denotes the atom index. Thus, in principle, for any initial parameters
+(positions, velocities),
+the positions, velocities, and accelerations are determined for all future
+times. 
+
+<P>
+In classical MD, the force on an atom is obtained by differentiating
+the potential energy <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$U$"></SPAN> (usually represented analytically) with respect 
+to the positions <!-- MATH
+ $\{\mathbf{R}_i\}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$\{\mathbf{R}_i\}$"></SPAN>:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+\mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{R}_i},
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="87" HEIGHT="42" BORDER="0"
+ SRC="img5.png"
+ ALT="\begin{displaymath}
+\mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{R}_i},
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+In first-principles MD, the forces are calculated via the Hellmann-Feynman
+theorem:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+\mathbf{F}_i = -\left \langle \psi \left \vert \frac{\partial 
+                  \hat{H}}{\partial \mathbf{R}_i} \right \vert 
+                  \psi \right \rangle
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="146" HEIGHT="54" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{displaymath}
+\mathbf{F}_i = -\left \langle \psi \left \vert \frac{\parti...
+...{H}}{\partial \mathbf{R}_i} \right \vert
+\psi \right \rangle
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The forces at time <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img7.png"
+ ALT="$t$"></SPAN> are used to obtain accelerations, which are then 
+integrated numerically to get the atomic positions at time <SPAN CLASS="MATH"><IMG
+ WIDTH="49" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$t + \Delta t$"></SPAN>. The 
+<SPAN  CLASS="textit">timestep</SPAN> <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$\Delta t$"></SPAN> is the parameter that controls the coarseness of 
+the integration; this must be chosen independently for each 
+simulation. Too large a value of <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$\Delta t$"></SPAN> can lead to numerical instability 
+in the integration scheme and erratic behavior of conserved quantities (e.g.,
+energy in the <SPAN  CLASS="textit">NVE</SPAN> ensemble). If <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$\Delta t$"></SPAN> is too small,
+simulations can take an unreasonably long amount of time, simulations can take
+an unreasonably long amount of time.
+
+<P>
+Both Qbox and cp.x use the <SPAN  CLASS="textit">Velocity Verlet algorithm</SPAN> for numerical 
+integration, which updates the positions and velocities independently for
+greater numerical stability. Details can be found here:
+<TT><A NAME="tex2html3"
+  HREF="http://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet">http://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet</A></TT>.
+
+<P>
+In the canonical <SPAN  CLASS="textit">NVT</SPAN> ensemble (which we will be using for the MD runs) 
+the ion velocities should follow a Maxwell-Boltzmann distribution once the
+system is thermalized. The time required for this thermalization to complete is
+system dependent but is often on the order of a few picoseconds.
+
+<P>
+<SPAN  CLASS="textbf">Note that <SPAN  CLASS="textit">thermalization time</SPAN> is different from <SPAN  CLASS="textit">equilibration
+time</SPAN>!</SPAN> A system can often take much longer to equilibrate than to thermalize, 
+as we will see in the exercise for Day 2.
+
+<P>
+In the canonical ensemble, temperature is controlled by rescaling the 
+velocities, which is usually done by coupling the system to a heat bath. 
+There are several different ways of doing so, but most try to maintain
+Maxwell-Boltzmann statistics.
+
+<P>
+Also, note that both Qbox and cp.x use gamma-only sampling of the
+Brillouin Zone. Since real and reciprocal space are inversely related,
+this means that your supercell size must be large enough to ensure that gamma 
+sampling is accurate. In addition, the supercell must be large enough to
+realize long-wavelength fluctuations in atomic movements. This is especially
+important for simulating phenomena like phase transitions, which is the focus
+of Day 2 this week.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html27"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html25"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html19"
+  HREF="instructions_day1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html28"
+  HREF="node2.html">Exercise 1: Vibrational dynamics</A>
+<B> Up:</B> <A NAME="tex2html26"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html20"
+  HREF="instructions_day1.html">Summer School on Materials</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-28
+</ADDRESS>
+</BODY>
+</HTML>

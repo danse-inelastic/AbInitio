@@ -1,0 +1,576 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercise 1: Vibrational dynamics of methane</TITLE>
+<META NAME="description" CONTENT="Exercise 1: Vibrational dynamics of methane">
+<META NAME="keywords" CONTENT="instructions_day1">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day1.css">
+
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="instructions_day1.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html38"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html36"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html30"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html39"
+  HREF="node3.html">Exercise 2: Constrained dynamics</A>
+<B> Up:</B> <A NAME="tex2html37"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html31"
+  HREF="node1.html">Introduction</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html40"
+  HREF="node2.html#SECTION00021000000000000000">Ground-state energy of methane</A>
+<LI><A NAME="tex2html41"
+  HREF="node2.html#SECTION00022000000000000000">Dynamics of methane</A>
+<LI><A NAME="tex2html42"
+  HREF="node2.html#SECTION00023000000000000000">Time dependence of energy and temperature</A>
+<LI><A NAME="tex2html43"
+  HREF="node2.html#SECTION00024000000000000000">Simulating longer dynamics by running in parallel</A>
+<LI><A NAME="tex2html44"
+  HREF="node2.html#SECTION00025000000000000000">Visualizing dynamics</A>
+<LI><A NAME="tex2html45"
+  HREF="node2.html#SECTION00026000000000000000">Analyzing vibrational modes</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00020000000000000000">
+Exercise 1: Vibrational dynamics of methane</A>
+</H1>
+
+<P>
+In today's exercises, we will learn how to perform basic MD using Qbox
+and use the results to examine the vibrational modes of methane. 
+
+<P>
+The <code>~/QE-school/week2/day1</code> directory contains the files related to Qbox;
+equivalent input files for cp.x can be found in the <code>cp</code> subdirectory.
+
+<P>
+Qbox and cp.x can run interactively and output to stdout, but it is usually
+more useful to use an input script and redirect the output to a file.
+Qbox uses an xml specification as the output file format; cp.x uses a
+proprietary format similar to the output of pw.x. 
+However, the output of both can be parsed to extract a trajectory file for the ions in 
+the standard `xyz' format, which can be read by most visualization programs
+(more on this later).
+
+<P>
+The general input syntax for the programs is:
+<PRE>
+ qbox [input-file] &gt; [output-file]
+ cp.x &lt; [input-file] &gt; [output-file]
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00021000000000000000">
+Ground-state energy of methane</A>
+</H2>
+
+<P>
+We will begin by determining the ground-state energy of a molecule
+of methane in a cubic box. Note that we are not running any dynamics yet.
+
+<P>
+Examine the file <code>ch4.sys</code>. This file contains the
+specifications for the input configuration of the methane molecule. In
+principle, one should first relax the ionic degrees of freedom to get the 
+ground-state geometry, but for now, we'll take the approximate
+positions listed here.
+(For cp.x, this information is contained directly within the input file).
+
+<P>
+<PRE>
+ (1)  # methane molecule
+ (2)  set cell        16 0 0  0 16 0  0 0 16
+ (3)  species carbon carbon_pbe.xml 
+ (4)  species hydrogen hydrogen_pbe.xml 
+ (5)  atom C    carbon       0.00000000   0.00000000   0.00000000 
+ (6)  atom H1   hydrogen     1.20000000   1.20000000   1.20000000 
+ (7)  atom H2   hydrogen     1.20000000  -1.20000000  -1.20000000 
+ (8)  atom H3   hydrogen    -1.20000000   1.20000000  -1.20000000 
+ (9)  atom H4   hydrogen    -1.20000000  -1.20000000   1.20000000
+</PRE>
+
+<P>
+<DL COMPACT>
+<DT>Line 1</DT>
+<DD>The `#' is a comment ignored by <code>Qbox</code>.
+</DD>
+<DT>Line 2</DT>
+<DD>Sets the cell parameters in units of Bohr (here, a 16 <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$\times$"></SPAN> 16
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$\times$"></SPAN> 16 Bohr<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$^3$"></SPAN> cubic box). The input is
+three consecutive sets of triplets corresponding to the x,y, and z coordinates
+of the three lattice vectors.
+</DD>
+<DT>Lines 3-4</DT>
+<DD>Indicates the two species used in the simulation (C &amp; H) and
+connects them to their pseudopotential files (<code>carbon_pbe.xml</code> &amp;
+<code>hydrogen_pbe.xml)</code>.
+</DD>
+<DT>Lines 5-9</DT>
+<DD>Lists the atom name, atom type, and atom coordinates in
+Bohr. In Qbox, each atom requires a unique name (H1, H2, H3, H4); in
+cp.x, one need specify only the atom type.
+</DD>
+</DL>
+
+<P>
+Now examine <code>gs.i</code>. This file contains the input specifications
+that control the simulation.
+
+<P>
+<PRE>
+ (1)  ch4.sys
+ (2)  set ecut 35
+ (3)  set xc PBE
+ (4)  set wf_dyn PSDA
+ (5)  set ecutprec 3
+ (6)  randomize_wf
+ (7)  run 0 50
+ (8)  save ch4.xml
+</PRE>
+
+<P>
+<DL COMPACT>
+<DT>Line 1</DT>
+<DD>This directs Qbox to first process the contents of the
+<code>ch4.sys</code> file (if desired, we could have 
+concatenated these two files into a single input file instead).
+</DD>
+<DT>Line 2</DT>
+<DD>This sets the plane-wave cutoff in Ry. Required for all types of 
+simulations.
+</DD>
+<DT>Line 3</DT>
+<DD>This tells the code that your pseudopotentials use the PBE
+exchange-correlation functional. Required for all types of simulations.
+</DD>
+<DT>Line 4</DT>
+<DD>Sets the wavefunction dynamics. `PSDA' means steepest descent
+with Anderson acceleration, which is a minimization scheme. Refer to the 
+documentation for other options.
+</DD>
+<DT>Line 5</DT>
+<DD>Sets the cutoff in Ry for the preconditioner. Only mess with this
+if you know what you are doing.
+</DD>
+<DT>Line 6</DT>
+<DD>Randomizes the electronic wavefunctions to give a starting
+configuration for the minimization. Usually only makes sense for the initial 
+electronic minimization at fixed ionic coordinates.
+</DD>
+<DT>Line 7</DT>
+<DD>This is the meat of Qbox. If `run' is given with two
+arguments, the first tells how many ionic (MD) timesteps to perform (none here,
+since we are performing only an electronic relaxation); the second tells how
+many electronic iterations to perform for each ionic step (50 in this example).
+You'll be changing this throughout the exercise.
+</DD>
+<DT>Line 8</DT>
+<DD>Saves the output state to a file (here, <code>ch4.xml</code>). This
+will allow us to restart the simulation in the future (or start a new one
+based on the final configuration of the current one). We will use this 
+file as the starting point for our next simulation.
+</DD>
+</DL>
+
+<P>
+Run the code and output the result to <code>gs.r</code>:
+<PRE>
+  qbox gs.i &gt; gs.r
+</PRE>
+
+<P>
+Look at the xml output. For each electronic iteration, look at the total 
+energy, which is marked with the xml tag <code>&lt;etotal_int&gt;</code>.
+
+<P>
+Do this by direct examination, or type:
+
+<P>
+<PRE>
+  grep 'etotal' gs.r
+</PRE>
+
+<P>
+Note the energy convergence. 
+
+<P>
+
+<H2><A NAME="SECTION00022000000000000000">
+Dynamics of methane</A>
+</H2>
+
+<P>
+Now we will stretch the bonds from their relaxed position and run dynamics on
+the result.
+
+<P>
+First we need to run the electronic minimization on the the new stretched
+configuration.
+
+<P>
+Copy the old <code>ch4.sys</code> into a new system file (e.g., <code>ch4_md.sys</code>). 
+Now edit the positions, perturbing each of the bonds by about 5-10&amp; of their
+bond length. Be sure you break the symmetry by mixing up the directions
+and magnitudes of the perturbations; this way you will observe as many
+vibrational modes as possible.
+
+<P>
+Edit <code>gs.i</code> so the system processes the new system file instead of the old
+one. Run the result:
+
+<P>
+<PRE>
+  qbox gs.i &gt; gs_md.r
+</PRE>
+
+<P>
+Check the energy of this new configuration.
+
+<P>
+Now we want to generate a run that will load your saved state (with 
+the electrons minimized) and run Born-Oppenheimer dynamics for 50 timesteps. 
+We will use 5 electronic minimization steps for each ionic iteration, with a 
+timestep of 10&nbsp;au. No need to set up a thermostat; we'll run in the <SPAN  CLASS="textit">NVE</SPAN> 
+ensemble for simplicity.
+
+<P>
+The input file for this step is <code>md.i</code>:
+<PRE>
+ (1) load ch4.xml
+ (2) set ecutprec 3
+ (3) set wf_dyn PSDA
+ (4) set atoms_dyn SDA
+ (5) set dt 10
+ (6) run 50 5
+</PRE>
+
+<P>
+<DL COMPACT>
+<DT>Line 1</DT>
+<DD>Loads the file <code>ch4.xml</code> to recover the exact state of the system,
+in this case from the end of the previous step. Note that this will load all
+accompanying initialization variables, so we don't need to reinitialize
+everything.
+</DD>
+<DT>Line 2</DT>
+<DD>Sets the cutoff for the preconditioner to 3 Ry.
+</DD>
+<DT>Line 3</DT>
+<DD>Sets the wavefunction dynamics to PSDA, as before.
+</DD>
+<DT>Line 4</DT>
+<DD>Sets the atom dynamics to SDA (steepest descent
+minimization).
+</DD>
+<DT>Line 5</DT>
+<DD>Sets the timestep for the dynamics (in atomic
+units of 0.02419&nbsp;fs).
+</DD>
+<DT>Line 6</DT>
+<DD>Runs 50 ionic MD steps, with 5 electronic
+minimization iterations after each ion step.
+
+<P>
+</DD>
+</DL>
+
+<P>
+Now run the dynamics:
+<PRE>
+  qbox md.i &gt; md.r
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00023000000000000000">
+Time dependence of energy and temperature</A>
+</H2>
+
+<P>
+Once the dynamics are complete, plot the temperature of the system as a 
+function of MD iteration using the <code>temp_ion.plt</code> script:
+<PRE>
+  ./temp_ion.plt md.r
+</PRE>
+In addition to plotting the constant of motion (red), the script performs
+a linear regression (green) and gives the average value (blue) so the trends
+are easier to see.
+
+<P>
+What is the physical interpretation of the temperature fluctuations (we will 
+return to this later)?
+
+<P>
+Keep the temperature window open. We want to compare it to the evolution of the
+potential energy. The script <code>econste.plt</code> plots the potential energy and
+the constant of motion on the same plot to allow for direct comparison. Run it
+by typing:
+<PRE>
+  ./etotal.plt md.r
+</PRE>
+
+<P>
+Compare the time dependence of the potential energy (green curve) to the 
+kinetic energy you calculated earlier. Do the results make sense?
+
+<P>
+Now compare the evolution of the constant of motion (COM) to that of the 
+potential energy. Is the COM conserved as expected?
+
+<P>
+
+<H2><A NAME="SECTION00024000000000000000">
+Simulating longer dynamics by running in parallel</A>
+</H2>
+
+<P>
+Next we want to compute the vibrational modes of methane from the dynamics
+simulation. To do so, we will need to run a much longer simulation.
+
+<P>
+You should have received a username and password for the Kraken supercomputer 
+at the University of Tennessee. Since longer first-principles MD runs are
+computationally intensive, we will be running the remainder of our simulations
+on that machine and then transferring the results to the local machine for
+visualization and analysis.
+
+<P>
+SSH to Kraken (don't forget the <code>-Y</code> flag):
+<PRE>
+  ssh -Y kraken-pwd.nics.tennessee.edu -l your_username
+</PRE>
+
+<P>
+You should now be in your home directory. Run the following command:
+<PRE>
+  source /lustre/scratch/proj/qbox/icmr/qbox-setup-day1.sh
+</PRE>
+
+<P>
+This will set up your account with the proper path and a copy of the input 
+files. 
+
+<P>
+You will need to run all of your calculations directly on the luster parallel 
+filesystem rather than the regular home directory. Accordingly, each user has 
+a scratch space for runs. Change to your personal scratch directory within 
+the luster filesystem by typing:
+<PRE>
+  cd /lustre/scratch/your_username/day1
+</PRE>
+
+<P>
+The files in this directory should match the original distribution that you 
+decompressed to your workstation. Note that there are
+two additional files called <code>gs.job</code> and <code>md.job</code>. These are the job
+submission files for the parallel scheduler. Choose one and examine its 
+contents. When you generate new runs, you can use these as templates for 
+creating corresponding job submission files.
+
+<P>
+The `size' parameter near the top tells the scheduler how many processors to 
+allocate. This should be the same as the number following the <code>-n</code> flag 
+in the final line. The maximum walltime is also given, along with a few other 
+parameters that you shouldn't need to change. 
+
+<P>
+The actual command to run is given in the final line. If you use one of these
+files as a template for a new run, you will need to edit the
+name of the input and output file for Qbox.
+
+<P>
+In our case, we now want to simulate 400 timesteps of Born-Oppenheimer dynamics
+of methane in order to collect enough data for our vibrational analysis. 
+
+<P>
+We need to start by replicating the ground-state electronic minimization
+procedure for the methane with displaced coordinates (the same one you 
+performed on your local workstation). On kraken, edit the file <code>ch4.sys</code>
+and change the coordinates of the ions to match the displaced coordinates from 
+the last run. 
+
+<P>
+Rerun the ground-state electronic minimization calculation, which is done by 
+issuing the following command to schedule the <code>gs.job</code> job in the queue:
+<PRE>
+  qsub gs.job
+</PRE>
+
+<P>
+You can check on the status of your job by typing:
+<PRE>
+  qstat -u your_username
+</PRE>
+
+<P>
+Once the electronic minimization is complete, edit the file <code>md.i</code>. 
+This is the same input file we used for the 
+50-timestep MD run we did earlier. Change the coordinates of the
+ions to match the displaced coordinates from the last run. Then change the 
+`run' command to have the system perform 400 timesteps worth of dynamics rather
+than 50. 
+
+<P>
+Run the new, longer simulation:
+<PRE>
+  qsub md.job
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00025000000000000000">
+Visualizing dynamics</A>
+</H2>
+
+<P>
+The visualization software and analysis codes require inputs in `xyz' format,
+so we first need to generate the xyz file. Return to your kraken account and 
+use the <code>qbox_xyz.sh</code> script:
+<PRE>
+  qbox_xyz.sh md.r &gt; md.xyz
+</PRE>
+
+<P>
+Use `scp' to copy over the xyz file to your local workstation. Open a new
+window and type:
+<PRE> 
+  cd ~/QE-school/week2/day1
+  scp your_username@kraken-pwd.nics.tennessee.edu:/lustre/scratch/your_username/day1/md.xyz .
+</PRE>
+
+<P>
+Now launch XCrysDen on your local workstation by typing:
+<PRE>
+  xcrysden --xyz md.xyz
+</PRE>
+
+<P>
+It will take some time, but eventually it should load all the coordinates as an 
+animation. 
+
+<P>
+Cycle through the animation to see the vibrations of the C-H bonds. 
+
+<P>
+
+<H2><A NAME="SECTION00026000000000000000">
+Analyzing vibrational modes</A>
+</H2>
+
+<P>
+Now we want to extract the power spectrum from the
+molecular vibrations. We can do this by performing a Fourier transform on the
+velocity autocorrelation function (VAF). The VAF gives a normalized measure of 
+the correlation between the velocity of an atom at one time and that same 
+quantity later in the simulation. 
+
+<P>
+The program <code>vaf.x</code> generates the velocity autocorrelation function given
+an xyz-formatted input file and writes the result to <code>vaf.dat</code>.  
+
+<P>
+Run <code>vaf.x</code> and follow the on-screen instructions. Start
+your analysis at the first frame. 
+
+<P>
+The plotting program xmgrace offers a convenient way to perform a
+discrete Fourier transform (DFT). Load the VAF file into xmgrace.
+Now use the Fourier Transform function in the Data -&gt; Transformations menu. Set
+the `Load result X' box to `Frequency' and look at the result for the DFT. You 
+may have to rescale the plot to see the data (click on `AXY'). 
+
+<P>
+The time data in <code>vaf.dat</code> has units of picoseconds, which means
+the Fourier transform will have frequency units of THz. 
+
+<P>
+Look at the peak locations. Can you reproduce the two dominant peaks in the 
+IR spectrum here: <TT><A NAME="tex2html4"
+  HREF="http://science.widener.edu/svb/ftir/ir_ch4.html">http://science.widener.edu/svb/ftir/ir_ch4.html</A></TT>?
+Note that their results are given in cm<SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img12.png"
+ ALT="$^{-1}$"></SPAN> rather than THz (1&nbsp;THz =
+33.36 cm<SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img12.png"
+ ALT="$^{-1}$"></SPAN>).
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html38"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html36"
+  HREF="instructions_day1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html30"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html39"
+  HREF="node3.html">Exercise 2: Constrained dynamics</A>
+<B> Up:</B> <A NAME="tex2html37"
+  HREF="instructions_day1.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html31"
+  HREF="node1.html">Introduction</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-28
+</ADDRESS>
+</BODY>
+</HTML>
