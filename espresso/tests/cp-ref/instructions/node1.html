@@ -1,0 +1,534 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercise 1: Analyzing MD runs--Melting of bulk silicon</TITLE>
+<META NAME="description" CONTENT="Exercise 1: Analyzing MD runs--Melting of bulk silicon">
+<META NAME="keywords" CONTENT="instructions_day2">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day2.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="instructions_day2.html">
+<LINK REL="up" HREF="instructions_day2.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html29"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html27"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html21"
+  HREF="instructions_day2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html30"
+  HREF="node2.html">Exercise 2: Scaling behavior</A>
+<B> Up:</B> <A NAME="tex2html28"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html22"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html31"
+  HREF="node1.html#SECTION00011000000000000000">MD simulation of melting silicon</A>
+<UL>
+<LI><A NAME="tex2html32"
+  HREF="node1.html#SECTION00011100000000000000">Equilibration at 500&nbsp;K</A>
+<LI><A NAME="tex2html33"
+  HREF="node1.html#SECTION00011200000000000000">Equilibration of high-temperature solid at 2500&nbsp;K</A>
+<LI><A NAME="tex2html34"
+  HREF="node1.html#SECTION00011300000000000000">Melting transition at 3000&nbsp;K</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html35"
+  HREF="node1.html#SECTION00012000000000000000">Temperature as a function of time</A>
+<LI><A NAME="tex2html36"
+  HREF="node1.html#SECTION00013000000000000000">Potential energy and constant of motion as a function of time</A>
+<LI><A NAME="tex2html37"
+  HREF="node1.html#SECTION00014000000000000000">Visualization</A>
+<LI><A NAME="tex2html38"
+  HREF="node1.html#SECTION00015000000000000000">Velocity distribution</A>
+<LI><A NAME="tex2html39"
+  HREF="node1.html#SECTION00016000000000000000">Mean squared displacement</A>
+<LI><A NAME="tex2html40"
+  HREF="node1.html#SECTION00017000000000000000">Radial distribution function</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00010000000000000000">
+Exercise 1: Analyzing MD runs--Melting of bulk silicon</A>
+</H1>
+
+<P>
+In this exercise, we will explore some of the common analysis techniques for
+MD simulations, using a melting simulation of bulk silicon as our test 
+system.
+
+<P>
+Beyond visual identification of melting, we will examine the phase transition
+using thermodynamic markers (change in the total internal energy) and
+structural markers (the radial distribution function). We will also use two
+dynamical quantities--the mean square displacement and the velocity
+autocorrelation function--to observe the melting transition.
+
+<P>
+When performing calculations and comparisons, remember that both
+Qbox and cp.x output data in Hartree atomic units.
+
+<P>
+
+<H2><A NAME="SECTION00011000000000000000">
+MD simulation of melting silicon</A>
+</H2>
+
+<P>
+Given the computational expense of the simulations in today's exercises, we
+will be using the Kraken supercomputer to generate the data. As before, we will
+be using Qbox; however, equivalent input files for cp.x can be found in 
+the <code>cp</code> subdirectory in today's tarball.
+
+<P>
+Log onto Kraken and set up your environment for Day 2 there:
+<PRE>
+  ssh -Y kraken-pwd.nics.tennessee.edu -l your_username
+  source /lustre/scratch/proj/qbox/icmr/qbox-setup-day2.sh
+  cd /lustre/scratch/your_username/day2
+</PRE>
+This will replicate the files you have on your workstation for today's
+exercises.
+
+<P>
+On Kraken, examine the contents of <code>gs.i</code>. It contains the coordinates 
+(in atomic units) for 64 atoms of bulk Si in a cubic box of dimension 
+20.52&nbsp;Bohr. Key lines are annotated.
+
+<P>
+Run Qbox, using <code>gs.i</code> to generate the electronic ground state of 
+the solid Si crystal. Remember that this is done by submitting a job file to
+the queue:
+<PRE>
+  qsub gs.job
+</PRE>
+Note that by default, the script saves the final state in the file 
+<code>si64.xml</code>.
+
+<P>
+Remember that you can check on the status of your running jobs by typing:
+<PRE>
+  qstat -u your_username
+</PRE>
+
+<P>
+
+<H3><A NAME="SECTION00011100000000000000">
+Equilibration at 500&nbsp;K</A>
+</H3>
+
+<P>
+Now we want to see what happens when we melt the crystal. In principle, one
+could simply run a dynamics simulation at very high temperature by immediate 
+coupling to a thermostat. However, having the system influenced too much by 
+the thermostat without waiting for equipartitioning can generate unphysical 
+dynamics. It is usually safer to raise the temperature slowly by first 
+equilibrating the system at one or more intermediate temperatures.
+
+<P>
+We will run three successive dynamics simulations. First,
+we will equilibrate the system in the solid phase at lower temperature 
+(500&nbsp;K). Then we'll raise the temperature to 2500&nbsp;K--note that this is 
+actually already <SPAN  CLASS="textit">above</SPAN> the experimental melting point--to create a
+superheated solid. Finally, we'll raise the temperature to 3000&nbsp;K, generating a
+strong thermodynamic driving force for melting.
+
+<P>
+Start by examining the file <code>md.i</code>. Notice that is reads the electronic
+ground state we generated in the last step and runs Born-Oppenheimer dynamics  
+for 750&nbsp;timesteps with <SPAN CLASS="MATH"><IMG
+ WIDTH="61" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.png"
+ ALT="$\Delta t = 40$"></SPAN>&nbsp;au, or about 0.75&nbsp;ps total. 
+
+<P>
+Why can we use a much bigger timestep than we did for methane?
+
+<P>
+In contrast with yesterday's simulations, we are now running in the <SPAN  CLASS="textit">NVT</SPAN>
+ensemble. This requires coupling to a thermostat. Three lines in the input file 
+control the thermostat:
+<PRE>
+set thermostat LOWE
+set th_temp 500
+set th_time 1500
+</PRE>
+The first of these directs Qbox to use the Lowe thermostat, which
+involves a stochastic coupling to a heat bath. Other thermostat options can be
+found in the documentation. The second line sets the temperature of the
+thermostat in degrees Kelvin. The third line controls the frequency of
+stochastic collisions with the heat bath, given in atomic units of time (the
+inverse of the target frequency).
+
+<P>
+Run the simulation on Kraken at 500&nbsp;K for 0.75&nbsp;ps. Write the output to a file
+<code>md_500.r</code> (remember that the job submission file <code>md.job</code> controls 
+where the output goes). 
+
+<P>
+
+<H3><A NAME="SECTION00011200000000000000">
+Equilibration of high-temperature solid at 2500&nbsp;K</A>
+</H3>
+
+<P>
+Now we want to raise the temperature to generate a superheated solid.
+
+<P>
+Copy the simulation file <code>md.i</code> from the previous step into a new file.
+Modify it to read the simulation output from the previous step at 500&nbsp;K and 
+run another 0.75&nbsp;ps of dynamics on Kraken, this time at 2500&nbsp;K. 
+
+<P>
+<SPAN  CLASS="textbf">It is important that you do not overwrite the output from
+the previous run!</SPAN> Use an output filename <code>md_2500.r</code> instead. 
+We will need all of the output files intact once we start the analysis.
+
+<P>
+
+<H3><A NAME="SECTION00011300000000000000">
+Melting transition at 3000&nbsp;K</A>
+</H3>
+
+<P>
+Now that you have a well thermalized solid, increase the thermodynamic driving
+force to melt the crystal by performing an additional 2&nbsp;ps worth of dynamics 
+at 3000&nbsp;K. Start from the 2500&nbsp;K save file and write the output to a new file
+<code>md_3000.r</code>.
+
+<P>
+You may start on the next sections while you wait for this run to finish.
+
+<P>
+
+<H2><A NAME="SECTION00012000000000000000">
+Temperature as a function of time</A>
+</H2>
+
+<P>
+Once you have your data, plot the temperature as a function of time for each 
+of the three simulations. Use the provided <code>temp_ion.plt</code> script on 
+Kraken:
+<PRE>
+  temp_ion.plt md_500.r 
+  temp_ion.plt md_2500.r 
+  temp_ion.plt md_3000.r
+</PRE>
+
+<P>
+Note the evolution of the temperature in each case. On average, how long 
+is the system taking to thermalize? One can speed this up by starting from an
+nonideal crystal or by tuning the time constant for the thermostat (although
+one must be careful doing so).
+
+<P>
+
+<H2><A NAME="SECTION00013000000000000000">
+Potential energy and constant of motion as a function of time</A>
+</H2>
+
+<P>
+Now we want to extract the total internal energy as a function of time for the 
+two high-temperature simulations (2500&nbsp;K and 3000&nbsp;K). Use the provided 
+<code>econste.plt</code> script:
+<PRE>
+  econste.plt md_2500.r 
+  econste.plt md_3000.r
+</PRE>
+Note that in addition to the potential energy, the script also plots the
+constant of motion.
+
+<P>
+Is the energy conserved in the simulations? Is this what you would expect?
+
+<P>
+Analyze the fluctuations and drift in the constant of motion. How does the
+magnitude of the fluctuations in the constant of motion compare to that of the
+potential energy?
+
+<P>
+For the 3000&nbsp;K simulation, get a [very] rough estimate of the latent heat of 
+melting by comparing the energy at the beginning of the simulation (before the 
+melt) to the energy at the end (after the melt).
+
+<P>
+
+<H2><A NAME="SECTION00014000000000000000">
+Visualization</A>
+</H2>
+
+<P>
+Assuming your simulations completed successfully, you should now have data for
+all three temperatures.
+
+<P>
+If (for some reason) your runs were unsuccessful, you can grab a copy of the 
+outputs from the sample directory (on your local workstation):
+<PRE>
+cp ~brandonw/week2/day2/sample/md*.r .
+</PRE>
+
+<P>
+All of the remaining analysis will be done on your local workstation on xyz 
+files rather than on the direct output on Kraken. Generate xyz files on Kraken 
+corresponding to each of your outputs:
+<PRE>
+  qbox_xyz.sh md_500.r &gt; md_500.xyz
+  qbox_xyz.sh md_2500.r &gt; md_2500.xyz
+  qbox_xyz.sh md_3000.r &gt; md_3000.xyz
+</PRE>
+
+<P>
+Now copy these files to your local workstation. Open a new window on your
+workstation and type:
+<PRE> 
+  cd ~/QE-school/week2/day2
+  scp your_username@kraken-pwd.nics.tennessee.edu:/lustre/scratch/your_username/day2/md*.xyz .
+</PRE>
+
+<P>
+Now that we have the xyz files, we want to visualize the melting directly.
+
+<P>
+There are dozens of visualization programs that can read xyz-formatted files. 
+XCrysDen (<TT><A NAME="tex2html1"
+  HREF="http://www.xcrysden.org">http://www.xcrysden.org</A></TT>), which you have already been using, 
+is one of these.
+
+<P>
+Another excellent (and free) program is VMD, developed at UIUC 
+(<TT><A NAME="tex2html2"
+  HREF="http://www.ks.uiuc.edu/Research/vmd/">http://www.ks.uiuc.edu/Research/vmd/</A></TT>).
+
+<P>
+Return to your local workstation and launch XCrysDen to visualize the dynamics 
+at 500&nbsp;K:
+<PRE>
+  xcrysden --xyz md_500.xyz
+</PRE>
+
+<P>
+It will take some time, but eventually it should load all the coordinates as an 
+animation, which you can step through frame by frame using the `&gt;' button or
+else cycle through continuously using the `&#187;' button.
+
+<P>
+Do the same for the 2500&nbsp;K and 3000&nbsp;K files. 
+
+<P>
+Visually compare the vibrational amplitudes at 500&nbsp;K and 2500&nbsp;K, then
+convince yourself that the system melts in the 3000&nbsp;K simulation.
+
+<P>
+
+<H2><A NAME="SECTION00015000000000000000">
+Velocity distribution</A>
+</H2>
+
+<P>
+A good thermostat should generate a distribution of velocity magnitudes during 
+the run that reproduces Maxwell-Boltzmann statistics. 
+Confirm that this is the case for the Lowe thermostat we are using here. Use 
+the code <code>vel_hist.x</code> to generate a histogram of the velocity magnitudes
+for the simulation at 3000&nbsp;K. Type (on your local workstation):
+
+<P>
+<PRE>
+  ./vel_hist.x
+</PRE>
+
+<P>
+Follow the on-screen instructions. 
+You will need to input the simulation temperature and the ion mass
+in atomic mass units amu (not to be confused with the <SPAN  CLASS="textit">atomic unit of 
+mass</SPAN>, which is the electron rest mass!) so the code can generate the proper
+Maxwell-Boltzmann distribution for comparison purposes. To get the most
+accurate value for the simulation temperature, look at the emphaverage value 
+in the temperature plot. Use a velocity bin sampling width of 1e-6 atomic 
+units. 
+
+<P>
+The output <code>vel_hist.dat</code> will have three columns. The first is the 
+velocity bin in atomic units. The second is the normalized frequency that
+speed is observed during the simulation. The third column gives the ideal 
+Maxwell-Boltzmann distribution for your target temperature (for details, see
+<TT><A NAME="tex2html3"
+  HREF="http://en.wikipedia.org/wiki/Maxwell-Boltzmann_distribution#Distribution_of_speeds">http://en.wikipedia.org/wiki/Maxwell-Boltzmann_distribution#Distribution_of_speeds</A></TT>).
+
+<P>
+Plot both curves and compare the two (in xmgrace, load the data as type 
+`NXY' to display both data sets at once).
+
+<P>
+Does your system follow MB statistics? 
+
+<P>
+
+<H2><A NAME="SECTION00016000000000000000">
+Mean squared displacement</A>
+</H2>
+
+<P>
+One can obtain a lot of useful information about the diffusive behavior of the
+system from mean squared displacements (MSD). They are calculated in the 
+following way:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+\langle \vert \mathbf{r}(t)-\mathbf{r}(0)\vert^2 \rangle
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="98" HEIGHT="28" BORDER="0"
+ SRC="img2.png"
+ ALT="\begin{displaymath}
+\langle \vert \mathbf{r}(t)-\mathbf{r}(0)\vert^2 \rangle
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+A solid will have a plateau value for the MSD that corresponds to the square of
+the RMS amplitude of vibration. A liquid will have a linearly increasing MSD 
+(can you think why?).
+
+<P>
+Calculate the mean squared displacement for the two high-temperature runs
+(2500&nbsp;K and 3000&nbsp;K). Type:
+<PRE>
+  ./msd.x
+</PRE>
+Follow the on-screen instructions. You will need to input the simulation 
+timestep <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$\Delta t$"></SPAN>. The results will output to <code>msd.dat</code>. Be sure to 
+rename this file after each MSD calculation so it's not accidentally 
+overwritten.
+
+<P>
+Plot the MSD for the two runs.
+
+<P>
+Do the trends match your expectations?
+
+<P>
+At 3000&nbsp;K, you should be able to clearly distinguish the liquid and solid
+regimes from the slope of the MSD. How far into the simulation is the onset of 
+melting (record the frame number)?
+
+<P>
+
+<H2><A NAME="SECTION00017000000000000000">
+Radial distribution function</A>
+</H2>
+
+<P>
+The radial pair distribution function <SPAN CLASS="MATH"><IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$g(r)$"></SPAN> is a useful way of analyzing
+structural changes in a crystal. It gives the relative probability of finding
+an atom a particular distance away from another. Since it is normalized 
+against the equivalent measure for a perfectly randomized system of identical 
+size, the quantity is unitless. 
+
+<P>
+In a solid, the radial distribution function will consist of sharp peaks. As a
+material melts, these peaks will broaden and some will disappear.
+
+<P>
+Generate the radial distribution function for all three of your simulations.
+To do so, use the <code>rdf.x</code> code and follow the on-screen instructions. 
+The code will create a file <code>rdf.dat</code> that contains <SPAN CLASS="MATH"><IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$g(r)$"></SPAN>. The
+code will overwrite any existent rdf.dat file each time it runs, so be sure to
+rename the file each time. To run the code, type:
+
+<P>
+<PRE>
+ ./rdf.x
+</PRE>
+
+<P>
+For the first two solid simulations (500&nbsp;K and 2500&nbsp;K), start your analysis at
+the first frame. For the 3000&nbsp;K simulation, choose as
+the starting frame an iteration that is <SPAN  CLASS="textbf">safely</SPAN> within the liquid 
+regime.  You should use the mean squared displacement to choose this range.
+Note that you will also need to know the cubic lattice parameter for the 
+simulation (20.52&nbsp;Bohr). For the grid spacing, use a value of 0.05&nbsp;Bohr.
+
+<P>
+Plot all three radial distribution function files using xmgrace or your 
+favorite plotting program.
+
+<P>
+Which peaks disappear when the system melts? Why don't all of them go away?
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html29"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html27"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html21"
+  HREF="instructions_day2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html30"
+  HREF="node2.html">Exercise 2: Scaling behavior</A>
+<B> Up:</B> <A NAME="tex2html28"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html22"
+  HREF="instructions_day2.html">Summer School on Materials</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-29
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercise 2: Scaling behavior of first-principles MD</TITLE>
+<META NAME="description" CONTENT="Exercise 2: Scaling behavior of first-principles MD">
+<META NAME="keywords" CONTENT="instructions_day2">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day2.css">
+
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="instructions_day2.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html49"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html47"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html41"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html50"
+  HREF="node3.html">Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer</A>
+<B> Up:</B> <A NAME="tex2html48"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html42"
+  HREF="node1.html">Exercise 1: Analyzing MD</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00020000000000000000">
+Exercise 2: Scaling behavior of first-principles MD</A>
+</H1>
+
+<P>
+Next, we're going to examine the scaling behavior of first-principles MD by
+looking at a much larger sample of the silicon cell we used in the previous
+simulation. 
+
+<P>
+Return to Kraken and look at the file <code>gs216.i</code>. This file contains the 
+configuration for a 216-atom supercell of silicon, or 3x3x3 conventional FCC 
+cells.
+
+<P>
+We want to use this configuration to test the scaling of our dynamics as a
+function first of the size of the system and then of the number of processors
+used.
+
+<P>
+First, run the ground-state electronic minimization. To do so, create a new job
+file <code>gs216.job</code> that runs Qbox using the <code>gs216.i</code> input and 
+outputs to a new file <code>gs216.r</code>. Use your old <code>gs.job</code> as a
+template. Then submit the job to the queue:
+<PRE>
+  qsub gs216.job
+</PRE>
+
+<P>
+Now we'll run the dynamics on the big cell. Create a new <code>md216_500.i</code> 
+file based on your old <code>md.i</code> file. Change it so that it runs MD on the 
+larger 216-atom sample from the electronic minimization run you just 
+performed. Enable the thermostat at 500&nbsp;K. For this exercise, we're
+only interested in the scaling behavior, so running a few timesteps should be
+sufficient (say, 10 or 20). Keep all other parameters in the input file the
+same. 
+
+<P>
+Now create a job file <code>md216_500.job</code> for your run. Be sure to keep the
+number of processors the same as what you used in the smaller simulation (by
+default, 8). Set up the job file to output the results to a new file
+<code>md216_500.r</code> and submit the job:
+<PRE>
+  qsub md216_500.job
+</PRE>
+
+<P>
+When your job completes, look at the wall clock time for both your old 
+simulation and your new simulation:
+<PRE>
+  grep real_time md_500.r md216_500.r
+</PRE>
+
+<P>
+Compare the two, dividing by the number of MD iterations performed in each case.
+How does the wall clock time per iteration change as a function of system size?
+
+<P>
+Now let's examine the scaling with the number of processors. Edit your 
+<code>md216_500.job</code> file and double the number of processors from 8 to 16. Do
+this by changing two lines in the file--first, the line referencing the
+processor count in the header; and second, the last line that actually runs the
+qbox binary. Then change the job file so it outputs the results to a new file
+<code>md216_500_moreprocs.r</code>, and run the new job:
+<PRE>
+  qsub md216_500.job
+</PRE>
+
+<P>
+Compare the wall time for the run you just did with the one run on 8
+processors:
+<PRE>
+  grep real_time md216_500.r md216_500_moreprocs.r
+</PRE>
+
+<P>
+How good is the scaling behavior? 
+
+<P>
+If you're feeling ambitious, try a few different numbers of processors to
+refine your results (a good chance to test out your excellent scripting 
+skills). Can you see a limit to the scaling?
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html49"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html47"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html41"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html50"
+  HREF="node3.html">Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer</A>
+<B> Up:</B> <A NAME="tex2html48"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html42"
+  HREF="node1.html">Exercise 1: Analyzing MD</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-29
+</ADDRESS>
+</BODY>
+</HTML>

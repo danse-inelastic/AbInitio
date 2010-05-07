@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Optional exercises</TITLE>
+<META NAME="description" CONTENT="Optional exercises">
+<META NAME="keywords" CONTENT="instructions_day2">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day2.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="instructions_day2.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html69"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html67"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html61"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html70"
+  HREF="node5.html">About this document ...</A>
+<B> Up:</B> <A NAME="tex2html68"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html62"
+  HREF="node3.html">Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00040000000000000000">
+Optional exercises</A>
+</H1>
+
+<P>
+Time permitting, try the following optional exercises:
+
+<UL>
+<LI>Compare the coordination of Si atoms before and after melting (i.e., for
+the 2500&nbsp;K and 3000&nbsp;K simulations) by
+integrating the corresponding radial distribution function (you can do
+this by using the `Integration' function in
+xmgrace). Note that the coordination number in the first coordination
+shell corresponds to the cumulative sum
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+n(R)=\rho \sum_{r=0}^{R} 4\pi r^2 RDF(r) \Delta r
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="203" HEIGHT="56" BORDER="0"
+ SRC="img5.png"
+ ALT="\begin{displaymath}
+n(R)=\rho \sum_{r=0}^{R} 4\pi r^2 RDF(r) \Delta r
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+at the point <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img6.png"
+ ALT="$R$"></SPAN> where the RDF reaches its first minimum. Here <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$\rho$"></SPAN>
+represents the number density of the perfect crystal, or the number of atoms
+per unit volume, and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$\Delta r$"></SPAN> is the spacing between RDF sampling points, as
+specified in the <code>rdf.x</code> input.
+You will have to calculate <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$\rho$"></SPAN> yourself; the easiest way is to examine a
+single unit cell.
+
+<P>
+</LI>
+<LI>The slope of the mean squared displacement can be used to extract the diffusion 
+coefficient. To do so, calculate the slope of the MSD <SPAN  CLASS="textit">for the liquid 
+regime only</SPAN> at 3000&nbsp;K. Load the file in xmgrace and select the relevant
+regime by choosing Edit -&gt; Regions -&gt; Define. Change `Region type' to `In Horiz
+Range' and then select the range of interest on the graph. 
+
+<P>
+Then calculate the slope in that regime by choosing Data -&gt; Transformations -&gt; 
+Regression. Under `Restrictions' select `Region 0' to include only the range of
+interest. The output in the popup console will give the slope, which will be 
+in units of Bohr<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$^2$"></SPAN>/iteration. To convert it to more useful units, remember
+that each iteration corresponds to a time <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$\Delta t$"></SPAN> atomic units (<!-- MATH
+ $\Delta t
+\times$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$\Delta t
+\times$"></SPAN>0.024189&nbsp;fs); and 1&#197; = 1e8&nbsp;cm = 0.529177&nbsp;Bohr.
+
+<P>
+Use the <SPAN  CLASS="textit">Einstein relation</SPAN> to calculate the diffusion coefficient:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+D = \frac{1}{6} \lim _{t \to \infty} \frac{\mathrm{MSD}(t)}{t}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="138" HEIGHT="40" BORDER="0"
+ SRC="img11.png"
+ ALT="\begin{displaymath}
+D = \frac{1}{6} \lim _{t \to \infty} \frac{\mathrm{MSD}(t)}{t}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+A typical liquid has <SPAN CLASS="MATH"><IMG
+ WIDTH="72" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$D &gt; 10^{-5}$"></SPAN>&nbsp;cm<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$^2$"></SPAN>/s. How does this compare to your
+data?
+
+<P>
+</LI>
+<LI>The <SPAN  CLASS="textit">Lindemann criterion</SPAN> is a rule of thumb for determining melting
+points based on the RMS amplitude of vibration in the solid (see Jin et al.,
+PRL 87, 055703). It predicts that the system will melt when this quantity
+reaches about 10% of the nearest-neighbor distance for the perfect crystal.
+
+<P>
+Look at the MSD curve at 3000&nbsp;K, this time focusing on the <SPAN  CLASS="textit">solid regime</SPAN> 
+only (i.e., before melting). Where does it plateau? (Since the
+simulation is out of equilibrium for the solid regime, the plateau may not be
+perfect). 
+
+<P>
+What RMS amplitude of vibration does this correspond to?
+
+<P>
+What percent of the silicon nearest-neighbor distance is your RMS vibration 
+amplitude? 
+
+<P>
+Does this match the Lindemann criterion?
+
+<P>
+</LI>
+<LI>The velocity autocorrelation function provides an alternative method 
+for calculating the diffusion coefficient. 
+
+<P>
+Calculate the velocity autocorrelation function for <SPAN  CLASS="textit">only the liquid 
+regime</SPAN> of the 3000&nbsp;K simulation:
+<PRE>
+  ./vac.x
+</PRE>
+Follow the on-screen instructions, using the starting frame corresponding to 
+the liquid regime, as determined from the MSD.
+
+<P>
+Plot the VAF and use it to calculate the diffusion coefficient from the 
+<SPAN  CLASS="textit">Green-Kubo relation</SPAN>:
+<BR><P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay">
+<!-- MATH
+ \begin{displaymath}
+D = \frac{1}{3} \lim_{t \to \infty} \sum_{t'=0}^{t} \mathrm{VAC}(t') \times
+\Delta \tau
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="206" HEIGHT="55" BORDER="0"
+ SRC="img13.png"
+ ALT="\begin{displaymath}
+D = \frac{1}{3} \lim_{t \to \infty} \sum_{t'=0}^{t} \mathrm{VAC}(t') \times
+\Delta \tau
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\Delta \tau$"></SPAN> represents the sampling interval, which by default is
+chosen by the code to be the same as the timestep <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$\Delta t$"></SPAN>.
+
+<P>
+Essentially, this amounts to cumulatively summing the VAF as a function of time
+and then multiplying it by 1/3 of the sampling interval <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$\Delta t$"></SPAN>. The
+cumulative sum can be done in xmgrace using the Integration option under
+Data -&gt; Transformations.
+
+<P>
+What do you get as the value of your diffusion coefficient? Convert your result
+to cm<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$^2$"></SPAN>/s (note that the code outputs velocities in atomic units = 2.1877e6
+m/s).
+
+<P>
+How does this value compare to the one from the MSD?
+
+<P>
+Does it change if you run your liquid simulation for longer (remember that
+diffusion coefficients can take a long time to converge)?
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html69"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html67"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html61"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html70"
+  HREF="node5.html">About this document ...</A>
+<B> Up:</B> <A NAME="tex2html68"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html62"
+  HREF="node3.html">Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-29
+</ADDRESS>
+</BODY>
+</HTML>

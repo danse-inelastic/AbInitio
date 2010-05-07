@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer MD</TITLE>
+<META NAME="description" CONTENT="Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer MD">
+<META NAME="keywords" CONTENT="instructions_day2">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="instructions_day2.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="instructions_day2.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html59"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html57"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html51"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html60"
+  HREF="node4.html">Optional exercises</A>
+<B> Up:</B> <A NAME="tex2html58"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html52"
+  HREF="node2.html">Exercise 2: Scaling behavior</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00030000000000000000">
+Exercise 3: Car-Parrinello vs.&nbsp;Born-Oppenheimer MD</A>
+</H1>
+
+<P>
+For this exercise, we will return to yesterday's example of methane and compare
+the Car-Parrinello and Born-Oppenheimer MD methods.
+On your local workstation, enter the <code>qbox_cpmd</code> directory:
+<PRE>
+  cd qbox_cpmd
+</PRE>
+
+<P>
+Here you will find input files for yesterday's methane dynamics exercise using 
+Car-Parrinello MD as well as Born-Oppenheimer MD.  We have already
+displaced the coordinates of the atoms in <code>ch4.sys</code>. Since these dynamics
+are for illustrative comparison purposes only, we will run for a relatively 
+short 50 timesteps.
+
+<P>
+Look at the file <code>md_cp.i</code>. There are two differences with repect to the
+Born-Oppenheimer case. First, we have set `wf_dyn' to `MD', indicating we want 
+Verlet integration of the electronic wavefunctions.
+Second, we now have only one parameter following the `run' command 
+(the number of MD steps); this is because the electrons and ions are now being
+propagated simultaneously.
+
+<P>
+Note that we have kept the timestep at what we used yesterday (10&nbsp;au).
+
+<P>
+Start by running the ground-state electronic minimization:
+<PRE>
+  qbox gs.i &gt; gs.r
+</PRE>
+
+<P>
+Now run the CP dynamics:
+<PRE>
+  qbox md_cp.i &gt; md_cp.r
+</PRE>
+
+<P>
+For comparison purposes, we also want to run BO dynamics:
+<PRE>
+  qbox md_bo.i &gt; md_bo.r
+</PRE>
+
+<P>
+Look at the constant of motion for the CP run:
+<PRE>
+  ./eonste.plt md_cp.r
+</PRE>
+
+<P>
+Is it conserved?
+
+<P>
+Now compare the ionic temperature for the CP run to that for the BO run:
+<PRE>
+  ./temp_ion.plt md_cp.r 
+  ./temp_ion.plt md_bo.r
+</PRE>
+
+<P>
+Are the dynamics consistent? 
+
+<P>
+Remember that in CP MD, the electrons carry a fictitious kinetic energy of
+their own that can affect the ion dynamics. Use the <code>kin_el_ion.plt</code>
+script to plot the electronic ``kinetic energy'' and the ionic kinetic energy
+on the same scale (in atomic units):
+<PRE>
+  ./kin_el_ion.plt md_cp.r
+</PRE>
+What are their relative magnitudes? A good rule of thumb is to keep the
+electronic ``kinetic energy'' to within 10-20% of the ionic kinetic energy. 
+
+<P>
+Try changing the timestep for the CP run in the <code>md_cp.i</code> file to 2&nbsp;au. 
+Increase the number of ionic iterations so you are still simulating the same 
+total dynamics time. Run the new dynamics:
+<PRE>
+  qbox md_cp.i &gt; md_cp.r
+</PRE>
+
+<P>
+Now look at the ionic temperature:
+<PRE>
+  ./temp_ion.plt md_cp.r 
+  ./temp_ion.plt md_bo.r
+</PRE>
+
+<P>
+Now look at the electronic and ionic kinetic energies for the CP run:
+<PRE>
+  ./kin_el_ion.plt md_cp.r
+</PRE>
+
+<P>
+What has changed? Why?
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html59"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html57"
+  HREF="instructions_day2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html51"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html60"
+  HREF="node4.html">Optional exercises</A>
+<B> Up:</B> <A NAME="tex2html58"
+  HREF="instructions_day2.html">Summer School on Materials</A>
+<B> Previous:</B> <A NAME="tex2html52"
+  HREF="node2.html">Exercise 2: Scaling behavior</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brandon Wood
+2009-07-29
+</ADDRESS>
+</BODY>
+</HTML>
