@@ -1,4 +1,8 @@
 
+# See also:
+#   http://dev.danse.us/trac/common/browser/kernelGenerator/src/vsat/trajectory/ConvertFromGulpDLPOLY.py
+
+
 from MMTK import *
 from MMTK.Trajectory import Trajectory, SnapshotGenerator, TrajectoryOutput
 import string
