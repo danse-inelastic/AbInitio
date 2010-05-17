@@ -20,6 +20,7 @@ PACKAGE = qeutils/qeparser/inputs
 EXPORT_PYTHON_MODULES = \
         __init__.py \
         inputbands.py \
+        inputcp.py \
         inputcppp.py \
         inputd3.py \
         inputdos.py \
