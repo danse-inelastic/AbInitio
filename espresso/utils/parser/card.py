@@ -71,7 +71,7 @@ class Card():
             s += br
 
         for l in self._lines:
-            s += '%s%s%s' % (indent, l.strip().strip(br), br)
+            s += '%s%s%s' % (indent, l.strip().strip('\n').strip(br), br)
 
         return s
 
