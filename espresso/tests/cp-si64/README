@@ -3,3 +3,5 @@ Let's consider system of Si 64
 Reference papers:
 PRB 49, p14251 (1994)
 
+Initial position of atoms is stored in si64.init.xyz
+
