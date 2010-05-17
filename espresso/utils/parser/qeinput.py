@@ -25,6 +25,7 @@ from qeparser import QEParser
 #    'ph'               -
 #    'pp'               -
 #    'bands'            -
+#    'cp'               - 
 #    'cppp'             -
 #    'd3'               -
 #    'dos'              -
