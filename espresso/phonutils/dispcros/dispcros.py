@@ -38,9 +38,9 @@ if __name__ == "__main__":
     phDisp = PHDispersion(pw.input.structure.lattice, matdyn)
 
     #phDisp.launch('M', 'Gamma', 'A', 'L', 200, 200, 200)
-    nP = 400
+    nP = 80
     #phDisp.launch('Gamma', 'K', 'M', 'Gamma', 'A','H', 'L', 'A', nP, nP, nP, nP , nP , nP, nP)
-    phDisp.launch('Gamma', 'A','H', 'L', 'Gamma2', nP, nP, nP, nP )
+    phDisp.launch([0,0,0], [0.5, 0.5, 0.5], nP)
     #phDisp.launch('Gamma', 'K', 'M', 'Gamma', nP , nP, nP)
     #phDisp.launch('Gamma', 'K',  nP )
 
@@ -85,6 +85,7 @@ if __name__ == "__main__":
     #print dispersion
     #print dispersion[0]
     #phDisp.dispersion =  numpy.array(dispersion)
-    phDisp.solveAllCrossings(thrsh_scl = 0.8)
+    
+    #phDisp.solveAllCrossings(thrsh_scl = 0.6)
     phDisp.plot()
     #print phDisp.dispersion
