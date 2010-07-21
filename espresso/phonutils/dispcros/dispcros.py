@@ -24,6 +24,7 @@ configString = """
 # input/output files relevant to multiple phonon calculation
 matdynInput:   matdyn.in
 matdynOutput:  matdyn.out
+flfrc:         mgb2666.fc
 """
 
 if __name__ == "__main__":
@@ -38,11 +39,11 @@ if __name__ == "__main__":
     phDisp = PHDispersion(pw.input.structure.lattice, matdyn)
 
     #phDisp.launch('M', 'Gamma', 'A', 'L', 200, 200, 200)
-    nP = 80
-    #phDisp.launch('Gamma', 'K', 'M', 'Gamma', 'A','H', 'L', 'A', nP, nP, nP, nP , nP , nP, nP)
-    phDisp.launch([0,0,0], [0.5, 0.5, 0.5], nP)
+    nP = 100
+    phDisp.launch('Gamma', 'K', 'M', 'Gamma', 'A','H', 'L', 'A', nP, nP, nP, nP , nP , nP, nP)
+    #phDisp.launch('Gamma', 'H', nP)
     #phDisp.launch('Gamma', 'K', 'M', 'Gamma', nP , nP, nP)
-    #phDisp.launch('Gamma', 'K',  nP )
+    #phDisp.launch( 'Gamma', 'K',  nP )
 
    # phDisp.solveIndex((0,0,0), [-0.1,0.2,0.4])
 
@@ -85,7 +86,8 @@ if __name__ == "__main__":
     #print dispersion
     #print dispersion[0]
     #phDisp.dispersion =  numpy.array(dispersion)
-    
-    #phDisp.solveAllCrossings(thrsh_scl = 0.6)
+
+    phDisp.dispersion = phDisp.dispersion*0.1239
+    phDisp.solveAllCrossings(thrsh_scl = 0.75)
     phDisp.plot()
     #print phDisp.dispersion

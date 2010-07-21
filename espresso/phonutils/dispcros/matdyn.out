@@ -3,3 +3,6 @@ Norm of the difference between old and new force-constants:   0.0001086421866208
      Message from routine matdyn:
      Z* not found in file mgb2666.fc, TO-LO splitting at q=0 will be absent!
      A direction for q was not specified:TO-LO splitting will be absent
+     Message from routine matdyn:
+     Z* not found in file mgb2666.fc, TO-LO splitting at q=0 will be absent!
+     A direction for q was not specified:TO-LO splitting will be absent

@@ -44,27 +44,30 @@ class VoluPhon():
 
     def setPhonons(self, indexRange, fitter):
         """Will read freqs from x_matdyn.modes files and fit the freqs"""
-        matdynModesName = self.mphon.matdyn.setting.matdynModes
-        self.mphon.matdyn.setting.matdynModes = str(indexRange[0]) + '_' + matdynModesName
+        matdynModesName = self.mphon.matdyn.setting.get('flvec')
+        self.mphon.matdyn.setting.set('flvec', str(indexRange[0]) + '_' + matdynModesName)
         self.mphon.matdyn.output.parse()
         Pol, Omega, qPoints = self.mphon.matdyn.output.property('multi phonon')
         volOmega = numpy.zeros(shape=(len(indexRange), numpy.shape(Omega)[0], \
                                                       numpy.shape(Omega)[1]  ) )
         volOmega[0] = Omega
         for i in range(1,len(indexRange)):
-            self.mphon.matdyn.setting.matdynModes = str(indexRange[i]) + '_' + matdynModesName
+            self.mphon.matdyn.setting.set('flvec', str(indexRange[i]) + '_' + matdynModesName)
             self.mphon.matdyn.output.parse()
             Pol, Omega, qPoints = self.mphon.matdyn.output.property('multi phonon')
             volOmega[i] = Omega
-        self.mphon.matdyn.setting.matdynModes = matdynModesName
+        self.mphon.matdyn.setting.set('flvec', matdynModesName)
         self.freqs = volufit.FreqFit(self.__prcntVolume, volOmega,fitter)
 
 
     def gammaDispersion(self, *pathNPoints):
         if self.freqs.fitter.type != 'polynom':
             raise Exception('This method is only relevant for polynomial fit')
+        self.mphon.pw.input.parse()
+        self.mphon.matdyn.input.parse()
         self.mphon.dispersion.setPath(*pathNPoints)
         self.mphon.dispersion.setValues(-self.freqs.coeff()[:,:,-1])
+        self.mphon.dispersion.save('gamma_disp')
         self.mphon.dispersion.plot()
 
 
@@ -73,7 +76,7 @@ class VoluPhon():
 
 
 if __name__ == "__main__":
-    indexRange = range(0,7,2)
+    indexRange = range(0,5,2)
     prcntVol = array(indexRange)/1000.0
     voluPhon = VoluPhon('config.ini', prcntVol)
     voluPhon.setPhonons(indexRange)

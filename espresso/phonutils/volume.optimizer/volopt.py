@@ -15,7 +15,7 @@ def getHexEnergy(c, *args ):
     qe.pw.input.structure.lattice.c = c
     qe.pw.input.structure.save()
     qe.launch()
-    qe.pw.input.structure.parseOutput(qe.pw.setting.pwscfOutput)
+    qe.pw.input.structure.parseOutput(qe.pw.setting.get('pwOutput'))
     qe.pw.input.structure.save()
     return qe.pw.output.property('total energy')[0]
 
@@ -44,8 +44,8 @@ def hexVolOpt(a0, c0_a0, volumeExpansion):
     c = brentOut[0]
     energy = brentOut[1]
     a = np.sqrt(volume/c)
-    os.system('cp ' + qe.pw.setting.pwscfOutput + ' ' +  str(c) + qe.pw.setting.pwscfOutput)
-    os.system('cp ' + qe.pw.setting.pwscfInput + ' ' +  str(c) + qe.pw.setting.pwscfInput)
+    os.system('cp ' + qe.pw.setting.get('pwOutput') + ' ' +  str(c) + qe.pw.setting.get('pwOutput'))
+    os.system('cp ' + qe.pw.setting.get('pwInput') + ' ' +  str(c) + qe.pw.setting.get('pwInput'))
     return a, c/a, energy
 
 if __name__ == '__main__':
@@ -57,10 +57,10 @@ if __name__ == '__main__':
     # !!!!!!  Make sure you have correct starting scf.in at equilibrium
     pwcalc = PWCalc('config.ini')
     # name of file at eqilibrium is pwscfInput.eqv:
-    eqvFileName = pwcalc.pw.setting.pwscfInput + '.eqv'
+    eqvFileName = pwcalc.pw.setting.get('pwInput') + '.eqv'
     if not os.path.exists(eqvFileName):
         raise Exception('Should provide PW input file at equilibrium')
-    os.system('cp ' + eqvFileName + ' ' + pwcalc.pw.setting.pwscfInput )
+    os.system('cp ' + eqvFileName + ' ' + pwcalc.pw.setting.get('pwInput') )
     pwcalc.pw.input.parse()
     if pwcalc.pw.input.namelist('control').param('calculation') != "'relax'":
         print pwcalc.pw.input.namelist('control').param('calculation')
