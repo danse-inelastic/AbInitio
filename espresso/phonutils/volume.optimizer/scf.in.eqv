@@ -1,8 +1,8 @@
 &CONTROL
     calculation = 'relax',
     restart_mode = 'from_scratch',
-    etot_conv_thr = 1.0D-7,
-    forc_conv_thr = 1.0D-6,
+    etot_conv_thr = 1.0D-6,
+    forc_conv_thr = 1.0D-5,
     tstress = .true.,
     tprnfor = .true.,
     prefix = 'mgalb4',
@@ -27,6 +27,7 @@
 
 &ELECTRONS
     conv_thr = 1.0d-10,
+    mixing_beta = 0.4
 /
 
 &IONS
