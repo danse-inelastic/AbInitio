@@ -76,6 +76,14 @@ class VolumeOptimizer:
         print output                
         import pickle       
         pickle.dump( output, open(self.pickleName, 'wb') )
+        
+        self._output = output
+        
+        return self._output
+
+    
+    def output(self):        
+        return self._output
 
 
     def _volOpt(self, volumeExpansion):
