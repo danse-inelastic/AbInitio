@@ -1,17 +1,39 @@
 #!/usr/bin/env python
 
-# Parses configuration file (for pw.x) and stores it in dictionary.
-# It also allows to dump the dictionary to create the configuration file
-# The main use case is to parse the existing configuration file, change 
-# some values and save it back to the configuration file.
-
-# Input parameters are defined in INPUT_PW.html 
-
 """
-Stability issues:
-- Card starts with card title on a separate line and values between card titles.
-- Prints both Namelists and Cards in capital 
-- Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
+QEInput - parses, modifies and creates Quantum Espresso (QE) configuration files
+
+Features:
+    - Parses existing configuration file
+    - Adds, edits and removes parameters from/to a namelist or a card
+    - Creates new configuration file
+
+Parameters of QE configuration files are defined in the Doc directory of the
+source code. You can download it from:
+
+    http://www.quantum-espresso.org/download.php
+
+
+Main Use Cases:
+    - Parse existing configuration file, modify parameters in namelists or cards
+    and save updated configuration to the same file.
+    - Create new configuration file from scratch
+
+Stability Issues:
+    - Card starts with card title on a separate line and values between card titles.
+
+Example:
+
+ATOMIC_SPECIES
+ Al  26.9815 Al.blyp-n-van_ak.UPF
+
+ATOMIC_POSITIONS (crystal)
+ Al      0.00000000  0.00000000  0.00000000
+
+
+Implementation Issues:
+    - Saves both Namelists and Cards titles in capital
+    - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
 from orderedDict import OrderedDict
@@ -39,10 +61,6 @@ from qeparser import QEParser
 #    'q2r'              -
 
 class QEInput(object):
-    """Quantum Espresso configuration class. It can:
-    - Parse existing configuration file
-    - Add, Edit or Remove parameters from/to namelist or card
-    """
 
     # Either filename or config (not both) can be specified
     def __init__(self, filename=None, config=None, type='pw'):
@@ -227,52 +245,6 @@ class QEInput(object):
 def _import(package):
     return __import__(package, globals(), locals(), [''], -1)
 
-
-# Tests
-def testCreateConfig():
-    print "Testing creation of config file"
-    qe  = QEInput()
-    nl  = Namelist('control')
-    nl.add('title', "'Ni'")
-    nl.add('restart_mode', "'from_scratch'")
-    print "Adding parameters to namelist:\n%s" % nl.toString()
-    nl.set('title', "'Fe'")
-    qe.addNamelist(nl)
-    print "Adding namelist to QEInput:\n%s" % qe.toString()
-
-    c = Card('atomic_species')
-    c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
-    print "Adding line to card:\n%s" % c.toString()
-    qe.addCard(c)
-    print "Adding card to QEInput:\n%s" % qe.toString()
-    #qe.save()
-
-
-def testParseConfig():
-    print "Testing parsing config file"
-    qe  = QEInput("../tests/ni.scf.in")
-    qe.parse()
-    print qe.toString()
-    nl  = qe.namelist('control')
-    nl.add('title', 'Ni')
-    nl.remove('restart_mode')
-    qe.removeCard('atomic_species')
-    nl.set('calculation', "'nscf'")
-    c = qe.card('atomic_positions')
-    c.editLines(['Say Hi! :)'])
-    print qe.toString()
-    #qe.save("../tests/ni.scf.in.mod")
-
-def testAttach():
-    qe  = QEInput("../tests/si.ph.in", type="ph")
-    qe.parse()
-    qe.save("../tests/si.ph.in.mod")
-
-
-if __name__ == "__main__":
-    #testCreateConfig()
-    #testParseConfig()
-    testAttach()
 
 
 
