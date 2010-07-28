@@ -95,17 +95,6 @@ class Namelist():
 
 
     # Depricated methods:
-    # Depricated
-    def addParam(self, param, val):
-        self.add(param, val)
-
-    # Depricated
-    def editParam(self, param, val):
-        self.set(param, val)
-
-    # Depricated 
-    def removeParam(self, param):
-        self.remove()
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 

@@ -1,0 +1,5 @@
+
+History of changes
+
+- July 28, 2010
+    Removed depricated methods from namelist: addParam(), editParam(), removeParam()
