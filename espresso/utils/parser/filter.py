@@ -12,7 +12,22 @@
 #
 
 class Filter(object):
-    pass
+
+    def __init__(self):
+        pass
+
+
+    #def add
+
+    def apply(self, input):
+        """
+        Applies filter to the input
+
+        Parameters:
+            input:      object (QEInput)
+                Input object 
+        """
+        pass
 
 __date__ = "$Jul 28, 2010 2:35:31 PM$"
 

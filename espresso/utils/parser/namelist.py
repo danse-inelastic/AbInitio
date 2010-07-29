@@ -11,21 +11,37 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+Namelist class that corresponds to Namelist in QE configuration file
+"""
+
 from orderedDict import OrderedDict
 
-class Namelist():
-    """Namelist class that corresponds to Namelist in QE config file"""
-
+class Namelist:
+    
     def __init__(self, name):
-        self.__name = name.lower() # keeps lower name
+        """
+        Parameters:
+            name:       str
+                Name of the namelist in lower case. Example: "control"
+        """
+        self.__name = name.lower()  # keeps lower name
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
     def name(self):
+        "Return name of the namelist"
         return self.__name
 
     def setName(self, name):
+        "Set name in lower case"
         self.__name = name.lower()
 
+
+    def get(self, param, quotes = True):
+        "Replaces param()"
+        pass
+
+    # Depricated
     def param(self, param, quotes = True):
         """Returns value of parameter 'param'"""
         if self.__paramExists(param):
@@ -37,6 +53,7 @@ class Namelist():
 
         return None
 
+    # Depricated: Use set() instead!
     def add(self, param, val, quotes = False):
         "Adds parameter to the namelist"
         #param = param.lower()   # Should be lowered?
