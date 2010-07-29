@@ -28,9 +28,11 @@ class Namelist:
         self.__name = name.lower()  # keeps lower name
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
+
     def name(self):
         "Return name of the namelist"
         return self.__name
+
 
     def setName(self, name):
         "Set name in lower case"
@@ -38,39 +40,50 @@ class Namelist:
 
 
     def get(self, param, quotes = True):
-        "Replaces param()"
-        pass
+        """
+        Returns paramater value. If not exists, return None
 
-    # Depricated
-    def param(self, param, quotes = True):
-        """Returns value of parameter 'param'"""
-        if self.__paramExists(param):
-            if quotes:
-                return self.params[param]
-            else:
-                return self._unquote(self.params[param])
-            return self.params[param]
-
-        return None
-
-    # Depricated: Use set() instead!
-    def add(self, param, val, quotes = False):
-        "Adds parameter to the namelist"
-        #param = param.lower()   # Should be lowered?
+        Parameters:
+            param:      str
+                Parameter of the namelist
+            quotes:     bool
+                True - if add quotes '' to parameters value, False - otherwise
+                
+        Note: replaces param()
+        """
+        if not self.__paramExists(param):
+            return None
+        
         if quotes:
-            val     = self._quote(val)
+            return self.params[param]
+        
+        return self._unquote(self.params[param])
 
-        self.params[param]  = val
+#        return self.params[param]
+
 
 
     def set(self, param, val, quotes = False):
-        #  Replaces editParam() and addParam(). Merge with add()?
-        "Sets existing parameter to the specified value. If it doesn't exist, it just ignores it """
-        if self.__paramExists(param):
-            if quotes:
-                val     = self._quote(val)
+        """
+        Sets existing parameter to the specified value.
+        If no parameter exists, create one
+        
+        Parameters:
+            param:      str
+                Parameter name
+            val:        str
+                Parameter value
+            quotes:     bool
+                Add quotes to the value or not
+        """
+#        if not self.__paramExists(param):
 
-            self.params[param] = val
+        param   = param.lower()
+        if quotes:
+            val     = self._quote(val)
+
+        self.params[param] = val
+
 
     def remove(self, param):
         """Deletes parameter"""
@@ -112,6 +125,30 @@ class Namelist:
 
 
     # Depricated methods:
+    # Depricated
+    def param(self, param, quotes = True):
+        """Returns value of parameter 'param'"""
+        return self.get(param, quotes)
+    
+#        if self.__paramExists(param):
+#            if quotes:
+#                return self.params[param]
+#            else:
+#                return self._unquote(self.params[param])
+#            return self.params[param]
+#
+#        return None
+
+    # Depricated: Use set() instead!
+    def add(self, param, val, quotes = False):
+        "Adds parameter to the namelist"
+        self.set(param, val, quotes)
+        
+        #param = param.lower()   # Should be lowered?
+#        if quotes:
+#            val     = self._quote(val)
+#
+#        self.params[param]  = val
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 

@@ -30,12 +30,40 @@ class QEParserTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_namelist_name(self):
-        nl  = Namelist("control")
-        self.assertEqual(nl.name(), "control")
 
-    def test_hello(self):
-        print fixtures.textCards
+    def test_namelist_name(self):
+        nl  = Namelist("Control")
+        self.assertEqual(nl.name(), "control")
+        nl.setName("SyStem")
+        self.assertEqual(nl.name(), "system")
+
+
+    def test_namelist_set_get(self):
+        nl  = Namelist("control")
+        self.assertEqual(nl.get("title"), None)
+        
+        nl.set("title", "hello")
+        self.assertEqual(nl.get("title"), "'hello'")
+        self.assertEqual(nl.get("title", quotes=False), "hello")
+        
+        nl.set("Title", "hello")
+        self.assertEqual(nl.get("titlE"), "'hello'")
+
+
+    def test_namelist_remove_exists(self):
+        nl  = Namelist("control")
+        nl.set("title", "hello")
+        self.assertEqual(nl.exists("title"), True)
+        self.assertEqual(nl.exists("Title"), True)
+
+        nl.remove("title")
+        self.assertEqual(nl.exists("title"), False)
+
+
+    def test_namelist_tostring(self):
+        nl  = Namelist("control")
+        nl.set("title", "hello")
+        self.assertEqual(nl.toString(), False)
 
 
 if __name__ == '__main__':

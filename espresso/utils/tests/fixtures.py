@@ -130,6 +130,10 @@ textComma   = """&input
 /
 """
 
+assertNL    = """&CONTROL
+    title = hello;
+/"""
+
 __date__ = "$Jul 29, 2010 12:37:03 PM$"
 
 
