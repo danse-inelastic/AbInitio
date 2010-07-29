@@ -43,11 +43,11 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(nl.get("title"), None)
         
         nl.set("title", "hello")
-        self.assertEqual(nl.get("title"), "'hello'")
-        self.assertEqual(nl.get("title", quotes=False), "hello")
+        self.assertEqual(nl.get("title"), "hello")
+        self.assertEqual(nl.get("title", quotes=True), "hello") # should not add quotes
         
-        nl.set("Title", "hello")
-        self.assertEqual(nl.get("titlE"), "'hello'")
+        nl.set("Title", "'hello'")
+        self.assertEqual(nl.get("titlE", quotes=False), "hello")
 
 
     def test_namelist_remove_exists(self):
@@ -63,13 +63,12 @@ class QEParserTest(unittest.TestCase):
     def test_namelist_tostring(self):
         nl  = Namelist("control")
         nl.set("title", "hello")
-        self.assertEqual(nl.toString(), False)
+        self.assertEqual(nl.toString(), fixtures.assertNL)
 
 
 if __name__ == '__main__':
     unittest.main()
     
-# namelist
 # card
 # qeparse
 # qeinput

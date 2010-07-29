@@ -41,7 +41,8 @@ class Namelist:
 
     def get(self, param, quotes = True):
         """
-        Returns paramater value. If not exists, return None
+        Returns paramater value. If no parameter exists, return None.
+        When quotes=True quotes are not added to parameter's value.
 
         Parameters:
             param:      str
@@ -53,14 +54,12 @@ class Namelist:
         """
         if not self.__paramExists(param):
             return None
-        
+
+        param   = param.lower()
         if quotes:
             return self.params[param]
         
         return self._unquote(self.params[param])
-
-#        return self.params[param]
-
 
 
     def set(self, param, val, quotes = False):
