@@ -11,6 +11,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+QEParser - flexible parser for Quantum Espresso (QE) configuration files.
+
+It parses the file specified by filename or configuration string and stores
+parameters in namelists, cards and attachment data
+structures that later on can be used in parameters' manipulations
+"""
+
+
 # Regular expressions
 COMMENT         = '!.*'                 # Comment
 NAME            = '([a-zA-Z_]*)[^/]'    # Extracts namelist name ()
@@ -36,20 +45,16 @@ from namelist import Namelist
 from card import Card
 
 class QEParser:
-    """
-    Flexible Parser for Quantum Espresso (QE) configuration files.
-    
-    It parses the file specified by filename or configuration string and stores
-    parameters in namelists, cards and attachment data
-    structures that later on can be used in parameters' manipulations
-    """
     
     def __init__(self, filename = None, configText = None, type = 'pw'):
         """
         Parameters:
-            filename    -- absolute or relative filename to be parsed
-            configText  -- configuration text to be parsed
-            type        -- type of the simulation
+            filename:   str
+                Absolute or relative filename of file to be parsed
+            configText: str
+                Configuration text to be parsed
+            type:       str
+                Type of the simulation
         """
         
         self.header     = None
