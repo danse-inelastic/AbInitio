@@ -205,7 +205,21 @@ class QEParserTest(unittest.TestCase):
         f.setCard(card)
         self.assertEqual(len(f.cards()), 1)
 
-        
+        cardF   = {"a": "b"}        # Doesn't have "name" key
+        self.assertRaises(KeyError, f.setCard, cardF) # Exception, callable, parameters
+        self.assertEqual(len(f.cards()), 1)     # Doesn't add card
+
+        cardF2  = "simple string"
+        self.assertRaises(TypeError, f.setCard, cardF2) # Exception, callable, parameters
+        self.assertEqual(len(f.cards()), 1)     # Doesn't add card
+
+        card    = f.cards()[0]      # Check values
+        self.assertEqual(card.arg(), "automatic")
+        self.assertEqual(card.name(), "k_points")
+        self.assertEqual(card.toString(), fixtures.assertC_filter_card)
+
+        f.removeCard("k_points")    # Remove card
+        self.assertEqual(len(f.cards()), 0)
 
 
 #    def test_filter_namelist(self):

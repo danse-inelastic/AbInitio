@@ -277,6 +277,10 @@ assertC_arg      = """ATOMIC_POSITIONS (alat)
    Ni 0.00 0.00 0.00
 """
 
+assertC_filter_card = """K_POINTS (automatic)
+ 4 4 4 1 1 1
+"""
+
 
 __date__ = "$Jul 29, 2010 12:37:03 PM$"
 

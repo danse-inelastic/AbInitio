@@ -19,7 +19,9 @@ from namelist import Namelist
 from card import Card
 
 CARD_KEYS       = ("name", "lines", "arg")
+CARD_REQ        = "name"
 NAMELIST_KEYS   = ("name", "params")
+NAMELIST_REQ    = "name"
 
 # Auxiliary functions
 ifelse  = lambda a,b,c: (b,c)[not a]
@@ -31,8 +33,8 @@ class Filter(object):
             name:  (str) -- Name of the filter
         """
         self._name      = name
-        self._namelists  = []    # Filtered namelists
-        self._cards      = []    # Filtered cards
+        self._fnamelists  = []    # Filtered namelists
+        self._fcards      = []    # Filtered cards
 
 
     def name(self):
@@ -91,7 +93,7 @@ class Filter(object):
         """
         Returns namelists
         """
-        return self._namelists
+        return self._fnamelists
 
 
     def setCard(self, card):
@@ -115,35 +117,33 @@ class Filter(object):
         if not card:    # Ignore empty card 
             return
 
-        if not type(card) == dict:
-            raise TypeError("Parameter 'card' must be dictionary")
-
-        for k in card.keys():
-            if not k in CARD_KEYS:
-                raise KeyError("Invalid key: %s" % k)
-
-        if not card.has_key("name"):
-            raise KeyError("No key: 'name'")
+        self._checkDictFormat(card, CARD_KEYS, CARD_REQ)
         
         c       = Card( card["name"],
                         arg = ifelse(card.has_key("arg"), card["arg"], None))
         if card.has_key("lines"):
             c.setLines(card["lines"])
             
-        self._cards.append(c)
+        self._fcards.append(c)
 
 
     def removeCard(self, name):
         """
         Removes card
         """
+        if not name:    # No name, just ignore
+            return
+
+        for c in self._fcards:
+            if c.name() == name:  # Remove the first card which matches name
+                self._fcards.remove(c)
 
 
     def cards(self):
         """
         Returns filter cards
         """
-        return self._cards
+        return self._fcards
     
 
     def apply(self, input):
@@ -153,6 +153,26 @@ class Filter(object):
             input: (object: QEInput) -- Input object
         """
         pass
+
+
+    def _checkDictFormat(self, item, keys=None, reqkeys=None ):
+        """
+        Checks dictionary format
+
+            item: (dict) -- Dictionary which format is being checked
+            keys: (list) -- Keys allowed in the dictionary
+            reqkeys: (str) -- Required keys in the dictionary, single string for now
+        """
+        if not type(item) == dict:
+            raise TypeError("Parameter '%s' must be dictionary" % str(item))
+
+        for k in item.keys():
+            if not k in keys:
+                raise KeyError("Invalid key: %s" % k)
+
+        if not item.has_key(reqkeys):
+            raise KeyError("No key: '%s'", reqkeys)
+
 
 __date__ = "$Jul 28, 2010 2:35:31 PM$"
 
