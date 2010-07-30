@@ -282,6 +282,12 @@ assertC_filter_card = """K_POINTS (automatic)
 """
 
 
+assertC_filter_namelist = """&CONTROL
+    calculation = 'scf',
+    restart_mode = 'from_scratch',
+/
+"""
+
 __date__ = "$Jul 29, 2010 12:37:03 PM$"
 
 

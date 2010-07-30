@@ -222,13 +222,37 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(len(f.cards()), 0)
 
 
-#    def test_filter_namelist(self):
-#        self.assertFalse(True)
+    def test_filter_namelist(self):
+        f       = Filter("filter")
+        nl      = {"name":      "control",
+                   "params":    {"calculation": "'scf'",
+                                 "restart_mode": "'from_scratch'"}}
+        f.setNamelist(nl)
+        self.assertEqual(len(f.namelists()), 1)
+
+        nlF     = {"a": "b"}        # Doesn't have "name" key
+        self.assertRaises(KeyError, f.setNamelist, nlF) # Exception, callable, parameters
+        self.assertEqual(len(f.namelists()), 1)     # Doesn't add namelist
+
+        nlF2    = "simple string"
+        self.assertRaises(TypeError, f.setNamelist, nlF2) # Exception, callable, parameters
+        self.assertEqual(len(f.namelists()), 1)     # Doesn't add namelist
+
+        nl      = f.namelists()[0]      # Check values
+        self.assertEqual(nl.get("calculation", quotes=False), "scf")
+        self.assertEqual(nl.name(), "control")
+        self.assertEqual(nl.toString(), fixtures.assertC_filter_namelist)
+
+#        # f.setParam()
+#        # f.removeParam()
 #
-#
-#    def test_filter_attach(self):
-#        self.assertFalse(True)
-#
+        f.removeNamelist("control")    # Remove namelist
+        self.assertEqual(len(f.namelists()), 0)
+
+
+
+
+
 #
 #    def test_filter_apply(self):
 #        self.assertFalse(True)

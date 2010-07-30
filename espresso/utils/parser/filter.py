@@ -82,11 +82,28 @@ class Filter(object):
                        restart_mode:  'from_scratch',
                        tprnfor:       .true.}}
         """
-        pass
+        if not namelist:    # Ignore empty card
+            return
+
+        self._checkDictFormat(namelist, NAMELIST_KEYS, NAMELIST_REQ)
+
+        nl       = Namelist(namelist["name"])
+        if namelist.has_key("params"):
+            for p in namelist["params"].keys():
+                value   = namelist["params"][p]
+                nl.set(p, value)
+
+        self._fnamelists.append(nl)
+
 
 
     def removeNamelist(self, name):
-        pass
+        """
+        Removes namelist specified by name
+
+            name: (str) -- name of the namelist
+        """
+        self._remove(name, self._fnamelists)
 
 
     def namelists(self):
@@ -129,15 +146,12 @@ class Filter(object):
 
     def removeCard(self, name):
         """
-        Removes card
+        Removes card specified by name
+
+            name: (str) -- name of the card
         """
-        if not name:    # No name, just ignore
-            return
-
-        for c in self._fcards:
-            if c.name() == name:  # Remove the first card which matches name
-                self._fcards.remove(c)
-
+        self._remove(name, self._fcards)
+        
 
     def cards(self):
         """
@@ -172,6 +186,20 @@ class Filter(object):
 
         if not item.has_key(reqkeys):
             raise KeyError("No key: '%s'", reqkeys)
+
+
+    def _remove(self, name, list):
+        """
+        Removes element from list specified by name
+
+            name: (str) -- name of the element
+        """
+        if not name:    # No name, just ignore
+            return
+
+        for e in list:
+            if e.name() == name:  # Remove the first element which matches name
+                list.remove(e)
 
 
 __date__ = "$Jul 28, 2010 2:35:31 PM$"
