@@ -109,44 +109,50 @@ class QEParserTest(unittest.TestCase):
 
     # QEParse tests
     def test_qeparser_matdyn(self):
+        # Attachment after card
         parser    = QEParser(configText = fixtures.textMatdyn, type="matdyn")
         parser.parse()
-
         self.assertEqual(parser.toString(), fixtures.assertMatdyn)
 
 
     def test_qeparser_dynmat(self):
+        # Slash and name of namelist on the same line with parameters
         parser    = QEParser(configText = fixtures.textDynmat, type="dynmat")
         parser.parse()
         self.assertEqual(parser.toString(), fixtures.assertDynmat)
 
 
     def test_qeparser_file(self):
+        # Configuration file
         parser    = QEParser(filename = "ni.scf.in")
         parser.parse()
         self.assertEqual(parser.toString(), fixtures.assertFile)
 
 
     def test_qeparser_card(self):
+        # Card
         parser    = QEParser(configText = fixtures.textCards)
         parser.parse()
         self.assertEqual(parser.toString(), fixtures.assertCards)
 
 
     def test_qeparser_comma(self):
+        # Parameters on the same line separated by comma - does not parse as it
+        # should (intentionally)
         parser          = QEParser(configText = fixtures.textComma, type="matdyn")
         parser.parse()
         self.assertEqual(parser.toString(), fixtures.assertComma)
 
 
     def test_qeparser_header(self):
+        # Header for PH configuration files is mandatory
         parser          = QEParser(configText = fixtures.textHeader, type="ph")
         parser.parse()
         self.assertEqual(parser.toString(), fixtures.assertHeader)
 
 
     def test_qeparser_type(self):
-        # INPUTPH namelist is related to "ph" type. I use "pw" instead
+        # Type of configuration file recognizes specific namelists and card only!
         parser          = QEParser(configText = fixtures.textHeader, type="pw")
         parser.parse()
         self.assertEqual(parser.toString(), '') # namelist 'INPUTPH' is not recognized
@@ -159,24 +165,53 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(parser.toString(), fixtures.assertMgB2)
 
 
+    # Filter tests
+    def test_filter_card(self):
+        self.assertFalse(True)
+
+
+    def test_filter_namelist(self):
+        self.assertFalse(True)
+
+
+    def test_filter_attach(self):
+        self.assertFalse(True)
+
+
+    def test_filter_apply(self):
+        self.assertFalse(True)
+
+
     # QEInput tests
+    def test_qeinput_namelist(self):
+        self.assertFalse(True)
+
+
+    def test_qeinput_card(self):
+        self.assertFalse(True)
+
+
+    def test_qeinput_attach(self):
+        self.assertFalse(True)
+
+
+    def test_qeinput_parser(self):
+        self.assertFalse(True)
+
+
+    def test_qeinput_filter(self):
+        self.assertFalse(True)
+
+
+    def test_qeinput_structure(self):
+        self.assertFalse(True)
 
 
 if __name__ == '__main__':
     unittest.main()
     
 
-#
-#
-#if __name__ == "__main__":
-#    #testMatdyn()
-#    #testDynmat()
-#    #testFile()
-#    #testCards()
-#    #testComma()
-#    #testHeader()
-#    testMgB2()
-#
+
 #
 ## !!! FINISH
 #
