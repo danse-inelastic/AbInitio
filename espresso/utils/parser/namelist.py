@@ -22,9 +22,7 @@ class Namelist(Block):
     
     def __init__(self, name):
         """
-        Parameters:
-            name:       str
-                Name of the namelist in lower case. Example: "control"
+            name: (str) -- Name of the namelist in lower case. Example: "control"
         """
         self._name = name.lower()  # keeps lower name
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
@@ -35,11 +33,9 @@ class Namelist(Block):
         Returns paramater value. If no parameter exists, return None.
         When quotes=True quotes are not added to parameter's value.
 
-        Parameters:
-            param:      str
-                Parameter of the namelist
-            quotes:     bool
-                True - if add quotes '' to parameters value, False - otherwise
+            param: (str) -- Parameter of the namelist
+            quotes: (bool) -- True - if add quotes '' to parameters value,
+                              False - otherwise
                 
         Note: replaces param()
         """
@@ -58,13 +54,9 @@ class Namelist(Block):
         Sets existing parameter to the specified value.
         If no parameter exists, create one
         
-        Parameters:
-            param:      str
-                Parameter name
-            val:        str
-                Parameter value
-            quotes:     bool
-                Add quotes to the value or not
+            param: (str) -- Parameter name
+            val: (str) -- Parameter value
+            quotes: (bool) -- Add quotes to the value or not
         """
         param   = param.lower()
         if quotes:
@@ -77,9 +69,7 @@ class Namelist(Block):
         """
         Deletes parameter
 
-        Parameters:
-            param:      str
-                Name of the parameter
+            param: (str) -- Name of the parameter
         """
         if self._paramExists(param):
             del(self.params[param])
@@ -89,9 +79,7 @@ class Namelist(Block):
         """
         Checks if parameter exists in the namelist
 
-        Parameters:
-            param:      str
-                Name of the parameter
+            param: (str) -- Name of the parameter
         """
         return self._paramExists(param)
 
@@ -100,9 +88,7 @@ class Namelist(Block):
         """
         Quotes value with "'" quote mark
 
-        Parameters:
-            val:        str
-                Value to be quoted
+            val: (str) -- Value to be quoted
         """
         return "'" + val.strip('"').strip("'") + "'"
     
@@ -111,9 +97,7 @@ class Namelist(Block):
         """
         Removes quotes "'" (unquotes) on both sides of the string
 
-        Parameters:
-            val:        str
-                Value to be unquoted
+            val: (str) -- Value to be unquoted
         """
         return val.strip('"').strip("'")
 
@@ -122,11 +106,8 @@ class Namelist(Block):
         """
         Dumps namelist as a sting
         
-        Parameters:
-            indent:     int
-                Number of spaces in indent for parameters
-            br:         str
-                Separator between parameters
+            indent: (int) -- Number of spaces in indent for parameters
+            br: (str) -- Separator between parameters
         """
         ind  = ""
         for i in range(indent):    # Populate indent
@@ -145,9 +126,7 @@ class Namelist(Block):
         """
         Checks if parameter exists in self.params
 
-        Parameters:
-            param:      str
-                Name of the parameter
+            param: (str) -- Name of the parameter
         """
         try:
             param = param.lower()

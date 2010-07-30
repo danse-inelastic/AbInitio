@@ -21,6 +21,7 @@ from namelist import Namelist
 from card import Card
 from qeparser import QEParser
 from qeinput import QEInput
+from filter import Filter
 
 class QEParserTest(unittest.TestCase):
 
@@ -165,23 +166,6 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(parser.toString(), fixtures.assertMgB2)
 
 
-    # Filter tests
-    def test_filter_card(self):
-        self.assertFalse(True)
-
-
-    def test_filter_namelist(self):
-        self.assertFalse(True)
-
-
-    def test_filter_attach(self):
-        self.assertFalse(True)
-
-
-    def test_filter_apply(self):
-        self.assertFalse(True)
-
-
     # QEInput tests
     def test_qeinput_namelist(self):
         self.assertFalse(True)
@@ -205,6 +189,24 @@ class QEParserTest(unittest.TestCase):
 
     def test_qeinput_structure(self):
         self.assertFalse(True)
+
+
+    # Filter tests
+    def test_filter_card(self):
+        self.assertFalse(True)
+
+
+    def test_filter_namelist(self):
+        self.assertFalse(True)
+
+
+    def test_filter_attach(self):
+        self.assertFalse(True)
+
+
+    def test_filter_apply(self):
+        self.assertFalse(True)
+
 
 
 if __name__ == '__main__':

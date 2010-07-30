@@ -11,13 +11,23 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+"""
+Filter - class for filtering card and namelist parameters in configuration input
+"""
+
 class Filter(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, name = None):
+        """
+        Parameters:
+            name:       str
+                Name of the filter
+        """
+        self._name  = name
 
 
-    #def add
+    def addNamelist(self, namelist, param):
+    def addCard
 
     def apply(self, input):
         """
