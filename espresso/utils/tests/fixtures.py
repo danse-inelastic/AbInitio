@@ -248,6 +248,17 @@ K_POINTS (automatic)
  4 4 4 1 1 1
 """
 
+textMain = """&CONTROL
+    calculation='scf', restart_mode = 'from_scratch', /
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+
+K_POINTS (automatic)
+ 4 4 4 1 1 1
+"""
+
 assertNL    = """&CONTROL
     title = hello,
 /

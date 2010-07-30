@@ -167,45 +167,57 @@ class QEParserTest(unittest.TestCase):
 
 
     # QEInput tests
-    def test_qeinput_namelist(self):
-        self.assertFalse(True)
-
-
-    def test_qeinput_card(self):
-        self.assertFalse(True)
-
-
-    def test_qeinput_attach(self):
-        self.assertFalse(True)
-
-
-    def test_qeinput_parser(self):
-        self.assertFalse(True)
-
-
-    def test_qeinput_filter(self):
-        self.assertFalse(True)
-
-
-    def test_qeinput_structure(self):
-        self.assertFalse(True)
+#    def test_qeinput_namelist(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_qeinput_card(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_qeinput_attach(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_qeinput_parser(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_qeinput_filter(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_qeinput_structure(self):
+#        self.assertFalse(True)
 
 
     # Filter tests
+    def test_filter_name(self):
+        f  = Filter("filter")
+        self.assertEqual(f.name(), "filter")
+
+
     def test_filter_card(self):
-        self.assertFalse(True)
+        f       = Filter("filter")
+        card    = {"name":      "k_points",
+                   "lines":     ("4 4 4 1 1 1",),
+                   "arg":       "automatic"}
+        f.setCard(card)
+        self.assertEqual(len(f.cards()), 1)
+
+        
 
 
-    def test_filter_namelist(self):
-        self.assertFalse(True)
-
-
-    def test_filter_attach(self):
-        self.assertFalse(True)
-
-
-    def test_filter_apply(self):
-        self.assertFalse(True)
+#    def test_filter_namelist(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_filter_attach(self):
+#        self.assertFalse(True)
+#
+#
+#    def test_filter_apply(self):
+#        self.assertFalse(True)
 
 
 

@@ -36,9 +36,7 @@ class Card(Block):
         """
         Sets card argument
 
-        Parameters:
-            arg:        str
-                Card argument
+            arg: (str) -- Card argument
         """
         if arg is None:
             self._arg   = None
@@ -51,9 +49,7 @@ class Card(Block):
         """
         Returns line in the card with order number num
         
-        Parameters:
-            num:        int
-                Order number
+            num: (int) -- Order number
         """
         self._checkRange(num)
         return self._lines[num]
@@ -68,21 +64,17 @@ class Card(Block):
         """
         Append line to the card
 
-        Parameters:
-            line:       str
-                Line appended to the end of the card
+            line: (str) -- Line appended to the end of the card
         """
         line    = line.strip()
         self._lines.append(line)
 
 
-    def editLines(self, lines):
+    def setLines(self, lines):
         """
         Sets card value (list of lines) to a new one
-        
-        Parameters:
-            lines:      list
-                List of lines
+
+            lines: (list) -- List of lines
         """
         self._lines    = lines
 
@@ -140,6 +132,12 @@ class Card(Block):
             s += '%s%s%s' % (ind, l.strip().strip('\n').strip(br), br)
 
         return s
+
+
+    # DEPRICATED: Use setLines() instead
+    def editLines(self, lines):
+        self.setLines(lines)
+
 
 __date__ = "$Aug 27, 2009 7:34:32 AM$"
 
