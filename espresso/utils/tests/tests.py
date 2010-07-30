@@ -48,6 +48,7 @@ class QEParserTest(unittest.TestCase):
         
         nl.set("Title", "'hello'")
         self.assertEqual(nl.get("titlE", quotes=False), "hello")
+        self.assertEqual(nl.get("title"), "'hello'")
 
 
     def test_namelist_remove_exists(self):
@@ -64,6 +65,7 @@ class QEParserTest(unittest.TestCase):
         nl  = Namelist("control")
         nl.set("title", "hello")
         self.assertEqual(nl.toString(), fixtures.assertNL)
+        self.assertEqual(nl.toString(indent=3), fixtures.assertNL_space_3)
 
 
 if __name__ == '__main__':

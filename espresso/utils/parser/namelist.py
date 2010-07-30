@@ -25,18 +25,18 @@ class Namelist:
             name:       str
                 Name of the namelist in lower case. Example: "control"
         """
-        self.__name = name.lower()  # keeps lower name
+        self._name = name.lower()  # keeps lower name
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
 
     def name(self):
         "Return name of the namelist"
-        return self.__name
+        return self._name
 
 
     def setName(self, name):
         "Set name in lower case"
-        self.__name = name.lower()
+        self._name = name.lower()
 
 
     def get(self, param, quotes = True):
@@ -52,7 +52,7 @@ class Namelist:
                 
         Note: replaces param()
         """
-        if not self.__paramExists(param):
+        if not self._paramExists(param):
             return None
 
         param   = param.lower()
@@ -75,8 +75,6 @@ class Namelist:
             quotes:     bool
                 Add quotes to the value or not
         """
-#        if not self.__paramExists(param):
-
         param   = param.lower()
         if quotes:
             val     = self._quote(val)
@@ -85,36 +83,81 @@ class Namelist:
 
 
     def remove(self, param):
-        """Deletes parameter"""
-        if self.__paramExists(param):
+        """
+        Deletes parameter
+
+        Parameters:
+            param:      str
+                Name of the parameter
+        """
+        if self._paramExists(param):
             del(self.params[param])
 
 
     def exists(self,param):
-        return self.__paramExists(param)
+        """
+        Checks if parameter exists in the namelist
+
+        Parameters:
+            param:      str
+                Name of the parameter
+        """
+        return self._paramExists(param)
 
 
     def _quote(self, val):
+        """
+        Quotes value with "'" quote mark
+
+        Parameters:
+            val:        str
+                Value to be quoted
+        """
         return "'" + val.strip('"').strip("'") + "'"
     
     
     def _unquote(self, val):
+        """
+        Removes quotes "'" (unquotes) on both sides of the string
+
+        Parameters:
+            val:        str
+                Value to be unquoted
+        """
         return val.strip('"').strip("'")
 
 
-    def toString(self, indent="    ", br="\n"):
-        # Dump namelist
-        # Should I use space?
+    def toString(self, indent = 4, br = "\n"):
+        """
+        Dumps namelist as a sting
+        
+        Parameters:
+            indent:     int
+                Number of spaces in indent for parameters
+            br:         str
+                Separator between parameters
+        """
+        ind  = ""
+        for i in range(indent):    # Populate indent
+            ind += " "
+
         s = '&%s%s' % (self.name().upper(), br)
 
         for p in self.params.keys():
-            s += '%s%s = %s,%s' % (indent, p, self.params[p], br)
+            s += '%s%s = %s,%s' % (ind, p, self.params[p], br)
 
         s += "/%s" % br 
         return s
 
 
-    def __paramExists(self, param):
+    def _paramExists(self, param):
+        """
+        Checks if parameter exists in self.params
+
+        Parameters:
+            param:      str
+                Name of the parameter
+        """
         try:
             param = param.lower()
             self.params[param]
@@ -124,30 +167,17 @@ class Namelist:
 
 
     # Depricated methods:
-    # Depricated
+    # Depricated: Use get() instead
     def param(self, param, quotes = True):
         """Returns value of parameter 'param'"""
         return self.get(param, quotes)
     
-#        if self.__paramExists(param):
-#            if quotes:
-#                return self.params[param]
-#            else:
-#                return self._unquote(self.params[param])
-#            return self.params[param]
-#
-#        return None
 
     # Depricated: Use set() instead!
     def add(self, param, val, quotes = False):
         "Adds parameter to the namelist"
         self.set(param, val, quotes)
         
-        #param = param.lower()   # Should be lowered?
-#        if quotes:
-#            val     = self._quote(val)
-#
-#        self.params[param]  = val
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 

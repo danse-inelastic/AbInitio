@@ -135,6 +135,12 @@ assertNL    = """&CONTROL
 /
 """
 
+assertNL_space_3    = """&CONTROL
+   title = hello,
+/
+"""
+
+
 __date__ = "$Jul 29, 2010 12:37:03 PM$"
 
 
