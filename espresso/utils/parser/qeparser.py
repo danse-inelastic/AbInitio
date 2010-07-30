@@ -107,7 +107,11 @@ class QEParser:
 
 
     def setReferences(self):
-        """Sets reference names for namelists and cards for specified simulation type"""
+        """
+        Sets reference names for namelists and cards for specified simulation type
+        This is needed to recognize (filter out) namelists and cards for specific
+        simulation type
+        """
         
         input   = "input%s" % self.type
         module  = _import("inputs.%s" % input)

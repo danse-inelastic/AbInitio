@@ -11,6 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# Tests for verification of some parsing features of cards
+# Should not used in unit tests!
+
 SPACES      = '[ \t]*'              # Spaces and tabs
 OPEN_BRACKET    = '[({]?'           # Open bracket
 CLOSE_BRACKET   = '[)}]?'           # Close bracket

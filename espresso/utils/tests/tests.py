@@ -104,10 +104,59 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(c.toString(), fixtures.assertC_no_arg)
 
         c.setArg("alat")
-        self.assertEqual(c.toString(), fixtures.assertC_arg)
+        self.assertEqual(c.toString(indent=3), fixtures.assertC_arg)
 
 
     # QEParse tests
+    def test_qeparser_matdyn(self):
+        parser    = QEParser(configText = fixtures.textMatdyn, type="matdyn")
+        parser.parse()
+
+        self.assertEqual(parser.toString(), fixtures.assertMatdyn)
+
+
+    def test_qeparser_dynmat(self):
+        parser    = QEParser(configText = fixtures.textDynmat, type="dynmat")
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertDynmat)
+
+
+    def test_qeparser_file(self):
+        parser    = QEParser(filename = "ni.scf.in")
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertFile)
+
+
+    def test_qeparser_card(self):
+        parser    = QEParser(configText = fixtures.textCards)
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertCards)
+
+
+    def test_qeparser_comma(self):
+        parser          = QEParser(configText = fixtures.textComma, type="matdyn")
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertComma)
+
+
+    def test_qeparser_header(self):
+        parser          = QEParser(configText = fixtures.textHeader, type="ph")
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertHeader)
+
+
+    def test_qeparser_type(self):
+        # INPUTPH namelist is related to "ph" type. I use "pw" instead
+        parser          = QEParser(configText = fixtures.textHeader, type="pw")
+        parser.parse()
+        self.assertEqual(parser.toString(), '') # namelist 'INPUTPH' is not recognized
+
+
+    def test_qeparser_comments(self):
+        # Filters out comments
+        parser          = QEParser(filename = "ph.mgb2.in", type="ph")
+        parser.parse()
+        self.assertEqual(parser.toString(), fixtures.assertMgB2)
 
 
     # QEInput tests
@@ -117,45 +166,6 @@ if __name__ == '__main__':
     unittest.main()
     
 
-#
-#def testMatdyn():
-#    parser    = QEParser(configText = textMatdyn, type="matdyn")
-#    parser.parse()
-#    print parser.toString()
-#
-#
-#def testDynmat():
-#    parser    = QEParser(configText = textDynmat, type="dynmat")
-#    parser.parse()
-#    print parser.toString()
-#
-#
-#def testFile():
-#    parser    = QEParser(filename = "../tests/ni.scf.in")
-#    parser.parse()
-#    print parser.toString()
-#
-#def testCards():
-#    parser    = QEParser(configText = textCards)
-#    parser.parse()
-#    print parser.toString()
-#
-#
-#def testComma():
-#    parser          = QEParser(configText = textComma, type="matdyn")
-#    parser.parse()
-#    print parser.toString()
-#
-#
-#def testHeader():
-#    parser          = QEParser(configText = textHeader, type="ph")
-#    parser.parse()
-#    print parser.toString()
-#
-#def testMgB2():
-#    parser          = QEParser(filename = "../tests/ph.mgb2.in", type="ph")
-#    parser.parse()
-#    print parser.toString()
 #
 #
 #if __name__ == "__main__":
