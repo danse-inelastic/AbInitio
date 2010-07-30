@@ -19,6 +19,7 @@ PACKAGE = qeutils/qeparser
 
 EXPORT_PYTHON_MODULES = \
         card.py \
+        block.py \
         filter.py \
         namelist.py \
         orderedDict.py \

@@ -16,8 +16,9 @@ Namelist class that corresponds to Namelist in QE configuration file
 """
 
 from orderedDict import OrderedDict
+from block import Block
 
-class Namelist:
+class Namelist(Block):
     
     def __init__(self, name):
         """
@@ -29,14 +30,14 @@ class Namelist:
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
 
-    def name(self):
-        "Return name of the namelist"
-        return self._name
-
-
-    def setName(self, name):
-        "Set name in lower case"
-        self._name = name.lower()
+#    def name(self):
+#        "Return name of the namelist"
+#        return self._name
+#
+#
+#    def setName(self, name):
+#        "Set name in lower case"
+#        self._name = name.lower()
 
 
     def get(self, param, quotes = True):

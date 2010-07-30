@@ -68,6 +68,9 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(nl.toString(indent=3), fixtures.assertNL_space_3)
 
 
+    def test_card_name(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
     
