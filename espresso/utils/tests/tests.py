@@ -224,18 +224,18 @@ class QEParserTest(unittest.TestCase):
 
     def test_filter_namelist(self):
         f       = Filter("filter")
-        nl      = {"name":      "control",
+        nldict  = {"name":      "control",
                    "params":    {"calculation": "'scf'",
                                  "restart_mode": "'from_scratch'"}}
-        f.setNamelist(nl)
+        f.setNamelist(nldict)
         self.assertEqual(len(f.namelists()), 1)
 
-        nlF     = {"a": "b"}        # Doesn't have "name" key
-        self.assertRaises(KeyError, f.setNamelist, nlF) # Exception, callable, parameters
+        nldictF     = {"a": "b"}        # Doesn't have "name" key
+        self.assertRaises(KeyError, f.setNamelist, nldictF) # Exception, callable, parameters
         self.assertEqual(len(f.namelists()), 1)     # Doesn't add namelist
 
-        nlF2    = "simple string"
-        self.assertRaises(TypeError, f.setNamelist, nlF2) # Exception, callable, parameters
+        nldictF2    = "simple string"
+        self.assertRaises(TypeError, f.setNamelist, nldictF2) # Exception, callable, parameters
         self.assertEqual(len(f.namelists()), 1)     # Doesn't add namelist
 
         nl      = f.namelists()[0]      # Check values
@@ -243,14 +243,28 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(nl.name(), "control")
         self.assertEqual(nl.toString(), fixtures.assertC_filter_namelist)
 
-#        # f.setParam()
-#        # f.removeParam()
-#
         f.removeNamelist("control")    # Remove namelist
         self.assertEqual(len(f.namelists()), 0)
 
 
+    def test_filter_namelist(self):
+        f       = Filter("filter")
+        nldict  = {"name":      "control",
+                   "params":    {"calculation": "'scf'",
+                                 "restart_mode": "'from_scratch'"}}
+        f.setNamelist(nldict)
+        f.setParam("control", "tprnfor", ".true.")  # Set parameter for existing namelist
+        nlA      = f.namelists()[0]
+        self.assertEqual(nlA.get("tprnfor"), ".true.")
 
+        f.setParam("system", "ibrav", "2")  # Set parameter for non-existing namelist
+        self.assertEqual(len(f.namelists()), 2)
+        nlB      = f.namelists()[1]
+        self.assertEqual(nlB.get("ibrav"), "2")
+
+        self.assertEqual(nlA.exists("calculation"), True)   # Before removing
+        f.removeParam("control", "calculation")
+        self.assertEqual(nlA.exists("calculation"), False)  # After removing
 
 
 #

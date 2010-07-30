@@ -51,17 +51,29 @@ class Filter(object):
             param: (str) -- Name of the parameter
             value: (str) -- Valur of the parameter
         """
+        for nl in self._fnamelists:
+            if nl.name() == namelist:
+                nl.set(param, value)
+                return
+
+        # namelist doesn't exists
+        nl  = Namelist(namelist)
+        nl.set(param, value)
+        self._fnamelists.append(nl)
 
 
     def removeParam(self, namelist, param):
         """
         Removes parameter from the namelist. If the parameter or namelist do
-        not exist it will just ignore.
+        not exist it will just ignore. If the last parameters if removed from
+        the namelist, namelist still remains
 
             namelist: (str) -- Name of the namelist
             param: (str) -- Name of the parameter
         """
-        pass
+        for nl in self._fnamelists:
+            if nl.name() == namelist:   # No name found, just ignore
+                nl.remove(param)
 
 
     def setNamelist(self, namelist):
