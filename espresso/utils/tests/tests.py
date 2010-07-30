@@ -31,6 +31,7 @@ class QEParserTest(unittest.TestCase):
         pass
 
 
+    # Namelist tests
     def test_namelist_name(self):
         nl  = Namelist("Control")
         self.assertEqual(nl.name(), "control")
@@ -68,16 +69,53 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(nl.toString(indent=3), fixtures.assertNL_space_3)
 
 
-    def test_card_name(self):
-        pass
+    # Card tests
+    def test_card_arg(self):
+        c   = Card("atomic_positions")
+        self.assertEqual(c.arg(), None)
+
+        c.setArg("alat")
+        self.assertEqual(c.arg(), "alat")
+
+
+    def test_card_lines(self):
+        c   = Card("atomic_positions")
+        c.addLine(" Ni 0.00 0.00 0.00 ")
+        self.assertEqual(c.line(0), "Ni 0.00 0.00 0.00")    # should strip side spaces
+
+        c.addLine(" Ni 0.50 0.50 0.50 ")
+        self.assertEqual(len(c.lines()), 2)
+
+
+    def test_card_remove_lines(self):
+        c   = Card("atomic_positions")
+        c.addLine(" Ni 0.00 0.00 0.00 ")
+        c.addLine(" Ni 0.50 0.50 0.50 ")
+        c.removeLine(0)
+        self.assertEqual(c.line(0), "Ni 0.50 0.50 0.50")
+
+        c.editLines(["a", "b"])
+        self.assertEqual(c.lines(), ["a", "b"])
+
+
+    def test_card_tostring(self):
+        c   = Card("atomic_positions")
+        c.addLine(" Ni 0.00 0.00 0.00 ")
+        self.assertEqual(c.toString(), fixtures.assertC_no_arg)
+
+        c.setArg("alat")
+        self.assertEqual(c.toString(), fixtures.assertC_arg)
+
+
+    # QEParse tests
+
+
+    # QEInput tests
+
 
 if __name__ == '__main__':
     unittest.main()
     
-# card
-# qeparse
-# qeinput
-
 
 #
 #def testMatdyn():

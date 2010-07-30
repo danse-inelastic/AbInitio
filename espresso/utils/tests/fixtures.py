@@ -140,6 +140,14 @@ assertNL_space_3    = """&CONTROL
 /
 """
 
+assertC_no_arg      = """ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+"""
+
+assertC_arg      = """ATOMIC_POSITIONS (alat)
+ Ni 0.00 0.00 0.00
+"""
+
 
 __date__ = "$Jul 29, 2010 12:37:03 PM$"
 

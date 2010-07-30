@@ -30,16 +30,6 @@ class Namelist(Block):
         self.params = OrderedDict() # Replace dictionary by ordered dictionry
 
 
-#    def name(self):
-#        "Return name of the namelist"
-#        return self._name
-#
-#
-#    def setName(self, name):
-#        "Set name in lower case"
-#        self._name = name.lower()
-
-
     def get(self, param, quotes = True):
         """
         Returns paramater value. If no parameter exists, return None.
