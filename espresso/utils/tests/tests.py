@@ -267,9 +267,9 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(nlA.exists("calculation"), False)  # After removing
 
 
-#
-#    def test_filter_apply(self):
-#        self.assertFalse(True)
+    def test_filter_apply(self):
+        input   = QEInput(config=fixtures.textMain)
+        print input.toString()
 
 
 

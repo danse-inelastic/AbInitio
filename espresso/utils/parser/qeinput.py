@@ -101,20 +101,18 @@ class QEInput(object):
         (self.header, self.namelists, self.cards, self.attach) = self.parser.parse()
 
 
-    def createNamelist(self, name):
+    def namelist(self, name):
         """
-        Creates namelist and adds to self.namelists. Return namelist if it exists.
+        Returns namelist and adds to self.namelists. Return namelist if it exists.
 
-        Parameters:
-            name:       str
-                Name of the new namelist
+            name: (str) -- Name of the new namelist
         """        
         # If namelist with the name exists, then return it
+        name    = name.lower()
         if self.namelistExists(name):
             return  self.namelists[name]
 
         # Otherwise create a new namelist
-        name    = name.lower()
         nl  = Namelist(name)
         self.namelists[name] = nl
         return nl
@@ -122,11 +120,9 @@ class QEInput(object):
 
     def removeNamelist(self, name):
         """
-        Remove namelist if it exists or ignore otherwise
+        Removes namelist if it exists or ignore otherwise
 
-        Parameters:
-            name:       str
-                Name of the existing namelist
+            name: (str) -- Name of the existing namelist
         """
         name    = name.lower()
         try:
@@ -135,13 +131,12 @@ class QEInput(object):
             return
 
 
-    def addNamelist(self, namelist):
+    def setNamelist(self, namelist):
         """
-        Adds namelist to self.namelists
+        Sets/replaces namelist for self.namelists. It overwrites namelist if it exists
+        already. So you this method with caution.
 
-        Parameters:
-            namelist:   object
-                Namelist object
+            namelist: (object: Namelist) -- Namelist object
         """
         if not namelist:    # No namelist, just ignore it!
             return
@@ -149,52 +144,24 @@ class QEInput(object):
         self.namelists[namelist.name()] = namelist
 
 
-    def namelist(self, name):
-        """
-        Returns namelist specified by name if exists or create a new one
-
-        Parameters:
-            name:       str
-                Name of the namelist
-        """
-        if self.namelistExists(name):   # If exists, return namelist
-            return self.namelists[name]
-
-        return self.createNamelist(name) # otherwise create a new one
-
-
     def namelistExists(self, name):
         """
         Checks if namelist specified by name (lowered before) exists
 
-        Parameters:
-            name:       str
-                Name of the namelist        
+            name: (str) -- Name of the namelist
         """
         return self._exists(name, self.namelists.keys())
 
 
-    def createCard(self, name):
-        """
-        Creates card and adds to self.cards
-        
-        Parameters:
-            name:       str
-                Name of the card        
-        """
-        card    = Card(name)
-        self.cards[name] = card
-        return card
-
-
-    def addCard(self, card):
+    def setCard(self, card):
         """
         Adds card to self.cards
         
-        Parameters:
-            card:       object
-                Card object
+            card: (object: Card) -- Card object
         """
+        if not card:
+            return
+        
         self.cards[card.name()] = card
 
 
@@ -202,9 +169,7 @@ class QEInput(object):
         """
         Remove card if it exists or ignore otherwise
 
-        Parameters:
-            name:       str
-                Name of the existing card
+            name: (str) -- Name of the existing card
         """
         name    = name.lower()
         try:
@@ -223,10 +188,8 @@ class QEInput(object):
         Sets attachment to text. If attachment is not None it still will be
         overwritten
 
-        Parameters:
-            text:       str
-                Attachment text, usually is appended to the end of the
-                configuration file
+            text: (str) -- Attachment text, usually is appended to the end of the
+                            configuration file
         """
         self.attach = text
 
@@ -243,7 +206,9 @@ class QEInput(object):
         if self.cardExists(name):        # If exists, return card
             return self.cards[name]
 
-        return self.createCard(name)
+        card    = Card(name)
+        self.cards[name] = card
+        return card
 
 
     def cardExists(self, name):
@@ -255,11 +220,8 @@ class QEInput(object):
         """
         Returns object specified by name
         
-        Parameters:
-            name:   str
-                Name that identifies an object through name() method
-            dict:   dict
-                Dictionary that stores objects as {name: object}
+            name: (str) -- Name that identifies an object through name() method
+            dict: (dict) -- Dictionary that stores objects as {name: object}
         """
         if not name or not dict:
             return None
@@ -275,9 +237,7 @@ class QEInput(object):
         """
         Saves the QEInput structure to the configuration file
 
-        Parameters:
-            filename:       str
-                File name where the configuration is stored to
+            filename: (str) -- File name where the configuration is stored to
         """
         default = "config.out"
 
@@ -301,9 +261,7 @@ class QEInput(object):
         """
         Applies filter to the QEInput
 
-        Parameters:
-            filter:     object (Filter)
-                Filter that applies changes to QEInput
+            filter: (object: Filter) -- Filter that applies changes to QEInput
         """
         if not filter:  # No filter, just ignore it
             return None
@@ -370,6 +328,23 @@ class QEInput(object):
             return True
 
         return False        
+
+
+    # DEPRICATED: Use namelist() instead
+    def createNamelist(self, name):
+        return namelist(name)
+
+    # DEPRICATED: Use card() instead
+    def createCard(self, name):
+        return card(name)
+
+    # DEPRICATED: Use setNamelist() instead
+    def addNamelist(self, namelist):
+        self.setNamelist(namelist)
+
+    # DEPRICATED: Use setCard() instead
+    def addCard(self, card):
+        self.setCard(card)
 
 
 def _import(package):
