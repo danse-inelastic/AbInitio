@@ -24,8 +24,8 @@ class Namelist(Block):
         """
             name: (str) -- Name of the namelist in lower case. Example: "control"
         """
-        self._name = name.lower()  # keeps lower name
-        self.params = OrderedDict() # Replace dictionary by ordered dictionry
+        self._name      = name.lower()  # keeps lower name
+        self._params    = OrderedDict() # Replace dictionary by ordered dictionry
 
 
     def get(self, param, quotes = True):
@@ -36,7 +36,7 @@ class Namelist(Block):
             param: (str) -- Parameter of the namelist
             quotes: (bool) -- True - if add quotes '' to parameters value,
                               False - otherwise
-                
+
         Note: replaces param()
         """
         if not self._paramExists(param):
@@ -44,9 +44,9 @@ class Namelist(Block):
 
         param   = param.lower()
         if quotes:
-            return self.params[param]
+            return self._params[param]
         
-        return self._unquote(self.params[param])
+        return self._unquote(self._params[param])
 
 
     def set(self, param, val, quotes = False):
@@ -62,7 +62,15 @@ class Namelist(Block):
         if quotes:
             val     = self._quote(val)
 
-        self.params[param] = val
+        self._params[param] = val
+
+
+    # TODO: Rename to params() in the future
+    def paramlist(self):
+        """
+        Returns list of parameter names
+        """
+        return self._params.keys()
 
 
     def remove(self, param):
@@ -72,7 +80,7 @@ class Namelist(Block):
             param: (str) -- Name of the parameter
         """
         if self._paramExists(param):
-            del(self.params[param])
+            del(self._params[param])
 
 
     def exists(self,param):
@@ -115,8 +123,8 @@ class Namelist(Block):
 
         s = '&%s%s' % (self.name().upper(), br)
 
-        for p in self.params.keys():
-            s += '%s%s = %s,%s' % (ind, p, self.params[p], br)
+        for p in self._params.keys():
+            s += '%s%s = %s,%s' % (ind, p, self._params[p], br)
 
         s += "/%s" % br 
         return s
@@ -124,16 +132,26 @@ class Namelist(Block):
 
     def _paramExists(self, param):
         """
-        Checks if parameter exists in self.params
+        Checks if parameter exists in self._params
 
             param: (str) -- Name of the parameter
         """
         try:
             param = param.lower()
-            self.params[param]
+            self._params[param]
             return True
         except KeyError:    # parameter is not present
             return False
+
+
+    # DEPRICATED
+    def _get_params(self):
+        return self._params
+
+
+    # DEPRICATED
+    def _set_params(self, p):
+        self._params    = p
 
 
     # Depricated methods:

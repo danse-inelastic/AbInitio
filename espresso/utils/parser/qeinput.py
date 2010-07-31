@@ -70,16 +70,10 @@ class QEInput(object):
         Initializes QEInput by passing either filename or config (not both)
         parameters
         
-        Parameters:
-            filename:   str
-                Absolute or relative filename of file to be parsed
-            config:     str
-                Configuration text to be parsed
-            type:       str
-                Type of the simulation
-        
+            filename:   (str) -- Absolute or relative filename of file to be parsed
+            config:     (str) -- Configuration text to be parsed
+            type:       (str) -- Type of the simulation
         """
-
         self.header         = None
         self.filename       = filename
         self.config         = config

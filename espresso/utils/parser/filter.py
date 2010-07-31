@@ -13,18 +13,24 @@
 
 """
 Filter - class for filtering card and namelist parameters in configuration input
+
+Filtering can be positive (add/set parameters): apply(input, type='plus')
+or negative (remove/discard parameters): apply(input, type='minus')
 """
 
 from namelist import Namelist
 from card import Card
 
 CARD_KEYS       = ("name", "lines", "arg")
-CARD_REQ        = "name"
 NAMELIST_KEYS   = ("name", "params")
+CARD_REQ        = "name"
 NAMELIST_REQ    = "name"
+POSITIVE        = "plus"
+NEGATIVE        = "minus"
 
 # Auxiliary functions
-ifelse  = lambda a,b,c: (b,c)[not a]
+# Ternary C operator: '?:' (e.g. 'a ? a: 4')
+ifelse  = lambda a,b,c: (b,c)[not a]    #
 
 class Filter(object):
 
@@ -32,9 +38,9 @@ class Filter(object):
         """
             name:  (str) -- Name of the filter
         """
-        self._name      = name
-        self._fnamelists  = []    # Filtered namelists
-        self._fcards      = []    # Filtered cards
+        self._name          = name
+        self._fnamelists    = []    # Filtered namelists
+        self._fcards        = []    # Filtered cards
 
 
     def name(self):
@@ -172,12 +178,31 @@ class Filter(object):
         return self._fcards
     
 
-    def apply(self, input):
+    def apply(self, input, type="plus"):
         """
         Applies filter to the input
 
             input: (object: QEInput) -- Input object
+            type: (str: 'plus' or 'minus') -- Type of operation
         """
+        if type == POSITIVE:
+            self._applyPositive(input)
+
+        if type == NEGATIVE:
+            self._applyNegative(input)
+
+        # Otherwise, ignore
+
+
+    def _applyPositive(self, input):
+        for fnl in self._fnamelists:
+            nl      = input.namelist(fnl.name())
+            params  = fnl.paramlist()
+            for p in params:
+                nl.set(p, fnl.get(p))
+
+
+    def _applyNegative(self, input):
         pass
 
 
