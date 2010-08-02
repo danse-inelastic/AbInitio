@@ -36,10 +36,16 @@ Implementation Issues:
     - Refactoring?  Introduce class relation: Namelist(Block), Card(Block)
 """
 
+# TODO: Place parse() to constructor
+
 from orderedDict import OrderedDict
 from namelist import Namelist
 from card import Card
 from qeparser import QEParser
+
+POSITIVE        = "plus"
+NEGATIVE        = "minus"
+
 
 """
 Supported types of the configuration file:
@@ -78,12 +84,11 @@ class QEInput(object):
         self.filename       = filename
         self.config         = config
         self.parser         = QEParser(filename, config, type)
+        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
         self.type           = type
         self.namelists      = OrderedDict()
         self.cards          = OrderedDict()
         self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
-        self.namelistRef    = None
-        self.cardRef        = None
         self.qe             = [self.header, self.namelists, self.cards, self.attach]
         self.filters        = []
 
@@ -106,11 +111,7 @@ class QEInput(object):
         if self.namelistExists(name):
             return  self.namelists[name]
 
-        # Otherwise create a new namelist
-        nl  = Namelist(name)
-        self.namelists[name] = nl
-        return nl
-
+        
 
     def removeNamelist(self, name):
         """
@@ -197,13 +198,12 @@ class QEInput(object):
         """
         Returns card specified by name if exists or create a new one
         """
+        name    = name.lower()
         if self.cardExists(name):        # If exists, return card
             return self.cards[name]
 
-        card    = Card(name)
-        self.cards[name] = card
-        return card
-
+        return self._createCard(name)
+    
 
     def cardExists(self, name):
         "Checks if card specified by name exists"
@@ -251,7 +251,7 @@ class QEInput(object):
         return self.type
 
 
-    def applyFilter(self, filter):
+    def applyFilter(self, filter, type=POSITIVE):
         """
         Applies filter to the QEInput
 
@@ -260,7 +260,7 @@ class QEInput(object):
         if not filter:  # No filter, just ignore it
             return None
 
-        filter.apply(self)  # Apply filter to QEInput
+        filter.apply(self, type)  # Apply filter to QEInput
         self.filters.append(filter)
 
 
@@ -268,7 +268,6 @@ class QEInput(object):
         """
         Dumps QEInput structure to string
         """
-        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
         s = ''
         if self.header:             # Add header
             s   += "%s\n" % self.header
@@ -323,6 +322,35 @@ class QEInput(object):
 
         return False        
 
+
+    def _createCard(self, name):
+        """
+        Creates a new card
+
+            name: (str) -- Name of the card
+        """
+        if not name in self.cardRef:    # If not standard card, ignore it
+            return None
+
+        card    = Card(name)
+        self.cards[name] = card
+        return card
+
+
+    def _createNamelist(self, name):
+        """
+        Creates namelist specified by name
+
+            name: (str) -- Name of the namelist
+        """
+        if not name in self.namelistRef:    # If not standard card, ignore it
+            return None
+
+        # Otherwise create a new namelist
+        nl  = Namelist(name)
+        self.namelists[name] = nl
+        return nl
+    
 
     # DEPRICATED: Use namelist() instead
     def createNamelist(self, name):

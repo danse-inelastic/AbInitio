@@ -154,18 +154,26 @@ class Namelist(Block):
         self._params    = p
 
 
-    # Depricated methods:
-    # Depricated: Use get() instead
+    # DEPRICATED METHODS:
+    # DEPRICATED: Use get() instead
     def param(self, param, quotes = True):
-        """Returns value of parameter 'param'"""
         return self.get(param, quotes)
     
-
-    # Depricated: Use set() instead!
+    # DEPRICATED: Use set() instead!
     def add(self, param, val, quotes = False):
-        "Adds parameter to the namelist"
         self.set(param, val, quotes)
-        
+
+    # DEPRICATED: Use set() instead!
+    def editParam(self, param, val):
+        self.set(param, val)
+
+    # DEPRICATED: Use set() instead!
+    def addParam(self, param, val):
+        self.add(param, val)
+
+    # DEPRICATED: Use remove() instead!
+    def removeParam(self, param): 
+        self.remove(param)
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
 

@@ -171,8 +171,16 @@ class QEParserTest(unittest.TestCase):
 #        self.assertFalse(True)
 #
 #
-#    def test_qeinput_card(self):
-#        self.assertFalse(True)
+    def test_qeinput_card(self):
+        input       = QEInput(config=fixtures.textMain)
+        input.parse()
+        # If non-standard card is requested, it will not add it!
+        card        = input.card("SOME_CARD")
+        self.assertEqual(input.cardExists("some_card"), False)
+
+        card        = input.card("occupations")
+        self.assertEqual(input.cardExists("occupations"), True)
+        
 #
 #
 #    def test_qeinput_attach(self):
@@ -269,8 +277,26 @@ class QEParserTest(unittest.TestCase):
 
     def test_filter_apply(self):
         input   = QEInput(config=fixtures.textMain)
+        input.parse()   # Place to constructor
+        # Filter that adds parameters to input
+        fp       = Filter("fPlus")
+        fp.setParam("control", "prefix", "'ni'")
+        fp.setParam("control", "pseudo_dir", "''")
+        fp.setParam("control", "outdir", "''")
+        fp.setCard({"name": "occupations", "lines": ("dummy line",)})
+
+        fp.apply(input, "plus")
         print input.toString()
 
+#        self.assertEqual(input.toString(), fixtures.assertPlus)
+#
+#        # Filter that removes parameters from input
+#        fm      = Filter("fMinus")
+#        fm.setCard({"name": "atomic_species"})
+#        fm.setParam("control", "prefix")
+#        fm.apply(input, "minus")
+#
+#        print input.toString()
 
 
 if __name__ == '__main__':

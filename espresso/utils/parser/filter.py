@@ -48,7 +48,7 @@ class Filter(object):
         return self._name
 
 
-    def setParam(self, namelist, param, value):
+    def setParam(self, namelist, param, value=""):
         """
         Set parameter of the namelist. If the parameter or namelist do not exist,
         it creates them.
@@ -155,7 +155,7 @@ class Filter(object):
         self._checkDictFormat(card, CARD_KEYS, CARD_REQ)
         
         c       = Card( card["name"],
-                        arg = ifelse(card.has_key("arg"), card["arg"], None))
+                        arg = ifelse(card.has_key("arg"), card.get("arg"), None))
         if card.has_key("lines"):
             c.setLines(card["lines"])
             
@@ -200,6 +200,15 @@ class Filter(object):
             params  = fnl.paramlist()
             for p in params:
                 nl.set(p, fnl.get(p))
+
+        for fc in self._fcards:
+            card    = input.card(fc.name())
+            card.setLines(fc.lines())
+            #print card.lines()
+#            params  = fc.paramlist()
+#            for p in params:
+#                nl.set(p, fc.get(p))
+
 
 
     def _applyNegative(self, input):
