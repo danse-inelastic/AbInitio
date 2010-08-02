@@ -58,11 +58,11 @@ class QEParserTest(unittest.TestCase):
     def test_namelist_remove_exists(self):
         nl  = Namelist("control")
         nl.set("title", "hello")
-        self.assertEqual(nl.exists("title"), True)
-        self.assertEqual(nl.exists("Title"), True)
+        self.assertTrue(nl.exists("title"))
+        self.assertTrue(nl.exists("Title"))
 
         nl.remove("title")
-        self.assertEqual(nl.exists("title"), False)
+        self.assertFalse(nl.exists("title"))
 
 
     def test_namelist_tostring(self):
@@ -173,20 +173,20 @@ class QEParserTest(unittest.TestCase):
         input       = QEInput(config=fixtures.textMain)
         # If non-standard card is requested, it will not add it!
         nl          = input.namelist("SOME_NAMELIST")
-        self.assertEqual(input.namelistExists("some_namelist"), False)
+        self.assertFalse(input.namelistExists("some_namelist"))
 
         nl          = input.namelist("cell")
-        self.assertEqual(input.namelistExists("cell"), True)
+        self.assertTrue(input.namelistExists("cell"))
 
 
     def test_qeinput_card_exists(self):
         input       = QEInput(config=fixtures.textMain)
         # If non-standard card is requested, it will not add it!
         card        = input.card("SOME_CARD")
-        self.assertEqual(input.cardExists("some_card"), False)
+        self.assertFalse(input.cardExists("some_card"))
 
         card        = input.card("occupations")
-        self.assertEqual(input.cardExists("occupations"), True)
+        self.assertTrue(input.cardExists("occupations"))
 
 
     def test_qeinput_namelist(self):
@@ -252,8 +252,10 @@ class QEParserTest(unittest.TestCase):
             pass    # Doesn't exist
 
 
-    def test_qeinput_misc(self):
-        pass
+    def test_qeinput_type(self):
+        input   = QEInput(type="ph")
+
+
 
     # Filter tests
     def test_filter_name(self):
@@ -326,9 +328,9 @@ class QEParserTest(unittest.TestCase):
         nlB      = f.namelists()[1]
         self.assertEqual(nlB.get("ibrav"), "2")
 
-        self.assertEqual(nlA.exists("calculation"), True)   # Before removing
+        self.assertTrue(nlA.exists("calculation"))   # Before removing
         f.removeParam("control", "calculation")
-        self.assertEqual(nlA.exists("calculation"), False)  # After removing
+        self.assertFalse(nlA.exists("calculation"))  # After removing
 
 
     def test_filter_apply(self):

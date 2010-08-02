@@ -317,6 +317,13 @@ class QEInput(object):
         return list
 
 
+    def readFile(self, filename):
+        pass
+
+
+    def readStr(self, config):
+        pass
+
     def _exists(self, name, list):
         "Checks if lowered name is in the list"
         if not name:
@@ -356,7 +363,7 @@ class QEInput(object):
         nl  = Namelist(name)
         self.namelists[name] = nl
         return nl
-    
+
 
     # DEPRICATED: Use namelist() instead
     def createNamelist(self, name):
