@@ -15,7 +15,9 @@ Unit tests for the following classes (modules):
     Namelist, Card, QEParser, QEInput
 """
 
+import os
 import unittest
+import filecmp
 import fixtures
 from namelist import Namelist
 from card import Card
@@ -169,7 +171,6 @@ class QEParserTest(unittest.TestCase):
     # QEInput tests
     def test_qeinput_namelist_exists(self):
         input       = QEInput(config=fixtures.textMain)
-        input.parse()
         # If non-standard card is requested, it will not add it!
         nl          = input.namelist("SOME_NAMELIST")
         self.assertEqual(input.namelistExists("some_namelist"), False)
@@ -180,7 +181,6 @@ class QEParserTest(unittest.TestCase):
 
     def test_qeinput_card_exists(self):
         input       = QEInput(config=fixtures.textMain)
-        input.parse()
         # If non-standard card is requested, it will not add it!
         card        = input.card("SOME_CARD")
         self.assertEqual(input.cardExists("some_card"), False)
@@ -214,21 +214,46 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(input.toString(), fixtures.assertNewCard2)
 
 
-#    def test_qeinput_attach(self):
-#        self.assertFalse(True)
-#
-#
-#    def test_qeinput_parser(self):
-#        self.assertFalse(True)
-#
-#
-#    def test_qeinput_filter(self):
-#        self.assertFalse(True)
-#
-#
-#    def test_qeinput_structure(self):
-#        self.assertFalse(True)
+    def test_qeinput_attach(self):
+        "This unit test is useful for matdyn simulation type"
+        input   = QEInput()
+        input.addAttach("176\n\
+0.000000    0.000000    0.456392    0.000000")
+        self.assertEqual(input.toString(), fixtures.assertAttach)
 
+
+    def test_qeinput_filter(self):
+        input   = QEInput(config=fixtures.textMain)
+
+        f  = Filter("fPlus")
+        f.setParam("control", "calculation", "'md'")
+        f.setCard({"name": "occupations", "lines": ("New line",)})
+
+        input.applyFilter(f, "plus")
+        self.assertEqual(input.toString(), fixtures.assertInputFilterPlus)
+
+        f  = Filter("fMinus")
+        f.setNamelist({"name":"control"})
+        f.setCard({"name": "k_points"})
+
+        input.applyFilter(f, "minus")
+        self.assertEqual(input.toString(), fixtures.assertInputFilterMinus)
+        
+
+    def test_qeinput_save(self):
+        fname   = "temp.in"
+        input   = QEInput(config=fixtures.textMain)
+        input.save(fname)
+        self.assertTrue(filecmp.cmp(fname, "ref.in"))
+
+        try:
+            os.remove(fname)
+        except OSError:
+            pass    # Dot's exist
+
+
+    def test_qeinput_misc(self):
+        pass
 
     # Filter tests
     def test_filter_name(self):
@@ -308,7 +333,6 @@ class QEParserTest(unittest.TestCase):
 
     def test_filter_apply(self):
         input   = QEInput(config=fixtures.textMain)
-        input.parse()   # Place to constructor
         # Filter that adds parameters to input
         fp       = Filter("fPlus")
         fp.setParam("control", "prefix", "'ni'")
@@ -334,56 +358,6 @@ class QEParserTest(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
     
-
-
-#
-## !!! FINISH
-#
-## Tests
-#def testCreateConfig():
-#    print "Testing creation of config file"
-#    qe  = QEInput()
-#    nl  = Namelist('control')
-#    nl.add('title', "'Ni'")
-#    nl.add('restart_mode', "'from_scratch'")
-#    print "Adding parameters to namelist:\n%s" % nl.toString()
-#    nl.set('title', "'Fe'")
-#    qe.addNamelist(nl)
-#    print "Adding namelist to QEInput:\n%s" % qe.toString()
-#
-#    c = Card('atomic_species')
-#    c.addLine('Ni  26.98  Ni.pbe-nd-rrkjus.UPF')
-#    print "Adding line to card:\n%s" % c.toString()
-#    qe.addCard(c)
-#    print "Adding card to QEInput:\n%s" % qe.toString()
-#    #qe.save()
-#
-#
-#def testParseConfig():
-#    print "Testing parsing config file"
-#    qe  = QEInput("../tests/ni.scf.in")
-#    qe.parse()
-#    print qe.toString()
-#    nl  = qe.namelist('control')
-#    nl.add('title', 'Ni')
-#    nl.remove('restart_mode')
-#    qe.removeCard('atomic_species')
-#    nl.set('calculation', "'nscf'")
-#    c = qe.card('atomic_positions')
-#    c.editLines(['Say Hi! :)'])
-#    print qe.toString()
-#    #qe.save("../tests/ni.scf.in.mod")
-#
-#def testAttach():
-#    qe  = QEInput("../tests/si.ph.in", type="ph")
-#    qe.parse()
-#    qe.save("../tests/si.ph.in.mod")
-#
-#
-#if __name__ == "__main__":
-#    #testCreateConfig()
-#    #testParseConfig()
-#    testAttach()
 
 __date__ = "$Jul 28, 2010 2:32:23 PM$"
 

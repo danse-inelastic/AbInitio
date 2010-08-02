@@ -80,15 +80,19 @@ class QEInput(object):
             config:     (str) -- Configuration text to be parsed
             type:       (str) -- Type of the simulation
         """
-        self.header         = None
         self.filename       = filename
         self.config         = config
+        self.type           = type
         self.parser         = QEParser(filename, config, type)
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
-        self.type           = type
-        self.namelists      = OrderedDict()
-        self.cards          = OrderedDict()
-        self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
+        
+        if filename or config:  # If some of these are set, parse
+            self.parse()
+        else:
+            self.header         = None
+            self.namelists      = OrderedDict()
+            self.cards          = OrderedDict()
+            self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
         self.qe             = [self.header, self.namelists, self.cards, self.attach]
         self.filters        = []
 
@@ -174,9 +178,10 @@ class QEInput(object):
             return
 
 
-    def attach(self):
-        "Returns attachment"
-        return self.attach
+    # XXX: Make self.attach protected first!
+#    def attach(self):
+#        "Returns attachment"
+#        return self.attach
 
 
     def addAttach(self, text):

@@ -296,6 +296,28 @@ OCCUPATIONS
  New line
 """
 
+assertInputFilterPlus = """&CONTROL
+    calculation = 'md',
+    restart_mode = 'from_scratch',
+/
+ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS (automatic)
+ 4 4 4 1 1 1
+OCCUPATIONS
+ New line
+"""
+
+assertInputFilterMinus = """ATOMIC_SPECIES
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+OCCUPATIONS
+ New line
+"""
+
 assertNewNamelist = """&CONTROL
     title = 'Ni',
 /
@@ -314,6 +336,9 @@ ATOMIC_POSITIONS
 
 assertNewCard2 = """ATOMIC_POSITIONS
 """
+
+assertAttach = """176
+0.000000    0.000000    0.456392    0.000000"""
 
 
 assertNL    = """&CONTROL

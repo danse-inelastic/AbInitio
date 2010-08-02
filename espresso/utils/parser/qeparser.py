@@ -48,13 +48,9 @@ class QEParser:
     
     def __init__(self, filename = None, configText = None, type = 'pw'):
         """
-        Parameters:
-            filename:   str
-                Absolute or relative filename of file to be parsed
-            configText: str
-                Configuration text to be parsed
-            type:       str
-                Type of the simulation
+            filename: (str) -- Absolute or relative filename of file to be parsed
+            configText: (str) -- Configuration text to be parsed
+            type: (str) -- Type of the simulation
         """
         
         self.header     = None
