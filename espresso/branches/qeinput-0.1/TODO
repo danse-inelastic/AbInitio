@@ -1,0 +1,12 @@
+
+TODO list for utils directory. Feel free to add whatever you feel is appropriate :)
+
+   - [DONE] Matdyn input parser: Should be able to import as a string anything which starts
+     right after end of the input namelist.  (Important!)
+   - [DONE] Parsing problem with parsing cards in qeparser.py:
+   - [DONE] There are problems in parsing parameters separated by comma (','):
+        There is no problem. Format like this "nk1=28,nk2=28,nk3=28" will not be supported
+
+   - [DONE] Extract header and attachment properly!
+
+   - [NOT DONE !!!] Make sure there are no "" in input files. change " to '

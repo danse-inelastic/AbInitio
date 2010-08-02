@@ -249,7 +249,7 @@ class QEParserTest(unittest.TestCase):
         try:
             os.remove(fname)
         except OSError:
-            pass    # Dot's exist
+            pass    # Doesn't exist
 
 
     def test_qeinput_misc(self):
