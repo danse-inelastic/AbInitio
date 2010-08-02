@@ -221,7 +221,7 @@ class Filter(object):
 
     def _removeIfEmpty(self, input, nl, fnl):
         """
-        Removes namelist if it is empty
+        Removes namelist from input if it is empty or filter namelist has no parameters
 
             input: (object: QEInput) -- Input the namelist is checked from
             nl: (object: Namelist) -- namelist object

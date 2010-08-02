@@ -167,7 +167,7 @@ class QEParserTest(unittest.TestCase):
 
 
     # QEInput tests
-    def test_qeinput_namelist(self):
+    def test_qeinput_namelist_exists(self):
         input       = QEInput(config=fixtures.textMain)
         input.parse()
         # If non-standard card is requested, it will not add it!
@@ -178,7 +178,7 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(input.namelistExists("cell"), True)
 
 
-    def test_qeinput_card(self):
+    def test_qeinput_card_exists(self):
         input       = QEInput(config=fixtures.textMain)
         input.parse()
         # If non-standard card is requested, it will not add it!
@@ -187,9 +187,33 @@ class QEParserTest(unittest.TestCase):
 
         card        = input.card("occupations")
         self.assertEqual(input.cardExists("occupations"), True)
-        
-#
-#
+
+
+    def test_qeinput_namelist(self):
+        input   = QEInput()
+        nl      = Namelist("control")
+        nl.set("title", "'Ni'")
+        input.addNamelist(nl)
+        nl2     = input.namelist("phonon")
+        self.assertEqual(input.toString(), fixtures.assertNewNamelist)
+
+        input.removeNamelist("control")
+        self.assertEqual(input.toString(), fixtures.assertNewNamelist2)
+
+
+    def test_qeinput_card(self):
+        input   = QEInput()
+        c       = Card("atomic_species")
+        c.setArg("temp")
+        c.addLine("Ni  26.98  Ni.pbe-nd-rrkjus.UPF")
+        input.addCard(c)
+        c2      = input.card("atomic_positions")
+        self.assertEqual(input.toString(), fixtures.assertNewCard)
+
+        input.removeCard("atomic_species")
+        self.assertEqual(input.toString(), fixtures.assertNewCard2)
+
+
 #    def test_qeinput_attach(self):
 #        self.assertFalse(True)
 #

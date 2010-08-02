@@ -296,6 +296,26 @@ OCCUPATIONS
  New line
 """
 
+assertNewNamelist = """&CONTROL
+    title = 'Ni',
+/
+&PHONON
+/
+"""
+
+assertNewNamelist2 = """&PHONON
+/
+"""
+
+assertNewCard = """ATOMIC_SPECIES (temp)
+ Ni  26.98  Ni.pbe-nd-rrkjus.UPF
+ATOMIC_POSITIONS
+"""
+
+assertNewCard2 = """ATOMIC_POSITIONS
+"""
+
+
 assertNL    = """&CONTROL
     title = hello,
 /
