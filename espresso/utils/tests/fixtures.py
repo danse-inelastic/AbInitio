@@ -266,6 +266,11 @@ assertPlus = """&CONTROL
     pseudo_dir = '',
     outdir = '',
 /
+&CELL
+    hello = world,
+/
+&PHONON
+/
 ATOMIC_SPECIES
  Ni  26.98  Ni.pbe-nd-rrkjus.UPF
 ATOMIC_POSITIONS
@@ -273,7 +278,22 @@ ATOMIC_POSITIONS
 K_POINTS (automatic)
  4 4 4 1 1 1
 OCCUPATIONS
- dummy line
+ New line
+"""
+
+
+assertMinus = """&CONTROL
+    calculation = 'scf',
+    restart_mode = 'from_scratch',
+    pseudo_dir = '',
+    outdir = '',
+/
+ATOMIC_POSITIONS
+ Ni 0.00 0.00 0.00
+K_POINTS (automatic)
+ 4 4 4 1 1 1
+OCCUPATIONS
+ New line
 """
 
 assertNL    = """&CONTROL

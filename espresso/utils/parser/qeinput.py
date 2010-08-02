@@ -111,7 +111,8 @@ class QEInput(object):
         if self.namelistExists(name):
             return  self.namelists[name]
 
-        
+        return self._createNamelist(name)
+
 
     def removeNamelist(self, name):
         """

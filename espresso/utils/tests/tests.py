@@ -167,10 +167,17 @@ class QEParserTest(unittest.TestCase):
 
 
     # QEInput tests
-#    def test_qeinput_namelist(self):
-#        self.assertFalse(True)
-#
-#
+    def test_qeinput_namelist(self):
+        input       = QEInput(config=fixtures.textMain)
+        input.parse()
+        # If non-standard card is requested, it will not add it!
+        nl          = input.namelist("SOME_NAMELIST")
+        self.assertEqual(input.namelistExists("some_namelist"), False)
+
+        nl          = input.namelist("cell")
+        self.assertEqual(input.namelistExists("cell"), True)
+
+
     def test_qeinput_card(self):
         input       = QEInput(config=fixtures.textMain)
         input.parse()
@@ -283,20 +290,21 @@ class QEParserTest(unittest.TestCase):
         fp.setParam("control", "prefix", "'ni'")
         fp.setParam("control", "pseudo_dir", "''")
         fp.setParam("control", "outdir", "''")
-        fp.setCard({"name": "occupations", "lines": ("dummy line",)})
-
+        fp.setCard({"name": "occupations", "lines": ("New line",)})     # Add new card
+        fp.setNamelist({"name": "cell", "params": {"hello": "world"}})  # Add new namelist
+        fp.setNamelist({"name": "phonon"})
         fp.apply(input, "plus")
-        print input.toString()
 
-#        self.assertEqual(input.toString(), fixtures.assertPlus)
-#
-#        # Filter that removes parameters from input
-#        fm      = Filter("fMinus")
-#        fm.setCard({"name": "atomic_species"})
-#        fm.setParam("control", "prefix")
-#        fm.apply(input, "minus")
-#
-#        print input.toString()
+        self.assertEqual(input.toString(), fixtures.assertPlus)
+
+        # Filter that removes parameters from input
+        fm      = Filter("fMinus")
+        fm.setCard({"name": "atomic_species"})
+        fm.setNamelist({"name": "phonon"})    # Remove namelist
+        fm.setParam("cell", "hello")        # Remove parameter that makes namelist empty
+        fm.setParam("control", "prefix")    # Remove parameter
+        fm.apply(input, "minus")
+        self.assertEqual(input.toString(), fixtures.assertMinus)
 
 
 if __name__ == '__main__':

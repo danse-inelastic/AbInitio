@@ -204,15 +204,33 @@ class Filter(object):
         for fc in self._fcards:
             card    = input.card(fc.name())
             card.setLines(fc.lines())
-            #print card.lines()
-#            params  = fc.paramlist()
-#            for p in params:
-#                nl.set(p, fc.get(p))
-
 
 
     def _applyNegative(self, input):
-        pass
+        for fnl in self._fnamelists:
+            nl      = input.namelist(fnl.name())
+            params  = fnl.paramlist()
+            for p in params:
+                nl.remove(p)
+
+            self._removeIfEmpty(input, nl, fnl) # If namelist (from filter or input) empty
+
+        for fc in self._fcards:
+            input.removeCard(fc.name())
+            
+
+    def _removeIfEmpty(self, input, nl, fnl):
+        """
+        Removes namelist if it is empty
+
+            input: (object: QEInput) -- Input the namelist is checked from
+            nl: (object: Namelist) -- namelist object
+            fnl: (object: Namelist) -- filter namelist object
+        """
+        assert nl.name() == fnl.name()
+        # No params (None or []) in filter or input namelist, remove namelist from input
+        if not fnl.paramlist() or not nl.paramlist():  
+            input.removeNamelist(nl.name())
 
 
     def _checkDictFormat(self, item, keys=None, reqkeys=None ):
