@@ -257,6 +257,22 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(input.type(), "ph")
 
 
+    def test_qeinput_read(self):
+        input   = QEInput()
+        input.readString(fixtures.textMain) # Load input from string
+
+        nl      = input.namelist("control")
+        c       = input.card("atomic_positions")
+        self.assertEqual(nl.get("calculation"), "'scf'")
+        self.assertEqual(c.line(0), "Ni 0.00 0.00 0.00")
+        
+        input.readFile("ni.scf.in") # Load input from file
+        nl      = input.namelist("control")
+        c       = input.card("atomic_positions")
+        self.assertEqual(nl.get("calculation"), "'scf'")
+        self.assertEqual(c.line(0), "Ni 0.00 0.00 0.00")
+
+
     # Filter tests
     def test_filter_name(self):
         f  = Filter("filter")

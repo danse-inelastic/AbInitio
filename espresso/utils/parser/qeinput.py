@@ -82,7 +82,7 @@ class QEInput(object):
         """
         self.filename       = filename
         self.config         = config
-        self.type           = type
+        self._type          = type
         self.filters        = []
         self.header         = None
         self.namelists      = OrderedDict()
@@ -252,7 +252,7 @@ class QEInput(object):
 
     def type(self):
         "Returns type of the configuration file"
-        return self.type
+        return self._type
 
 
     def applyFilter(self, filter, type=POSITIVE):
@@ -300,7 +300,7 @@ class QEInput(object):
         Example: [('Ni', '52.98', 'Ni.pbe-nd-rrkjus.UPF'), (...)]
         """
         # Extract structure not from pw type input. Hard to do it from other types
-        if self.type != "pw":
+        if self._type != "pw":
             return None
 
         list    = []        # list of structure
@@ -328,21 +328,17 @@ class QEInput(object):
         Reads and parses configuration input from string
             config: (str) -- Configuration string
         """
-        self._read(configText=config)
-
-
-    # XXX: Remove it?
-    def _qe(self):
-        "Returns list of main attributes: header, namelists, cards, attach"
-        return [self.header, self.namelists, self.cards, self.attach]
+        self._read(config=config)
 
 
     def _read(self, filename=None, config=None):
         "Reads and parses configuration input specified by kwds parameters"
-        self.parser     = QEParser(filename, config, self.type)    #filename, config, type)
+        self.parser     = QEParser(filename, config, self._type)    #filename, config, type)
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
         if filename or config:
             self.parse()
+
+        self.qe = [self.header, self.namelists, self.cards, self.attach]
 
 
     def _exists(self, name, list):
