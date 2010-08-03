@@ -89,14 +89,11 @@ class QEInput(object):
         self.cards          = OrderedDict()
         self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
         self.qe             = None          # DEPRICATED
+        self.namelistRef    = None
+        self.cardRef        = None
 
-        if filename:
-            self.readFile(filename)
-            return
+        self._read(filename, config)
 
-        if config:
-            self.readString(config)
-            
 
     def parse(self):
         """
@@ -323,7 +320,7 @@ class QEInput(object):
         Reads and parses configuration input from file
             filename: (str) -- File name
         """
-        self._read(filename=filename, type=self.type)
+        self._read(filename=filename)
 
 
     def readString(self, config):
@@ -331,7 +328,7 @@ class QEInput(object):
         Reads and parses configuration input from string
             config: (str) -- Configuration string
         """
-        self._read(configText=config, type=self.type)
+        self._read(configText=config)
 
 
     # XXX: Remove it?
@@ -340,11 +337,12 @@ class QEInput(object):
         return [self.header, self.namelists, self.cards, self.attach]
 
 
-    def _read(**kwds):
+    def _read(self, filename=None, config=None):
         "Reads and parses configuration input specified by kwds parameters"
-        self.parser     = QEParser(kwds)
+        self.parser     = QEParser(filename, config, self.type)    #filename, config, type)
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
-        self.parse()
+        if filename or config:
+            self.parse()
 
 
     def _exists(self, name, list):

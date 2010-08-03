@@ -254,7 +254,7 @@ class QEParserTest(unittest.TestCase):
 
     def test_qeinput_type(self):
         input   = QEInput(type="ph")
-
+        self.assertEqual(input.type(), "ph")
 
 
     # Filter tests
