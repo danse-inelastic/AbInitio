@@ -83,19 +83,20 @@ class QEInput(object):
         self.filename       = filename
         self.config         = config
         self.type           = type
-        self.parser         = QEParser(filename, config, type)
-        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
-        
-        if filename or config:  # If some of these are set, parse
-            self.parse()
-        else:
-            self.header         = None
-            self.namelists      = OrderedDict()
-            self.cards          = OrderedDict()
-            self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
-        self.qe             = [self.header, self.namelists, self.cards, self.attach]
         self.filters        = []
+        self.header         = None
+        self.namelists      = OrderedDict()
+        self.cards          = OrderedDict()
+        self.attach         = None          # Specific for 'matdyn', 'dynmat', etc.
+        self.qe             = None          # DEPRICATED
 
+        if filename:
+            self.readFile(filename)
+            return
+
+        if config:
+            self.readString(config)
+            
 
     def parse(self):
         """
@@ -318,11 +319,33 @@ class QEInput(object):
 
 
     def readFile(self, filename):
-        pass
+        """
+        Reads and parses configuration input from file
+            filename: (str) -- File name
+        """
+        self._read(filename=filename, type=self.type)
 
 
-    def readStr(self, config):
-        pass
+    def readString(self, config):
+        """
+        Reads and parses configuration input from string
+            config: (str) -- Configuration string
+        """
+        self._read(configText=config, type=self.type)
+
+
+    # XXX: Remove it?
+    def _qe(self):
+        "Returns list of main attributes: header, namelists, cards, attach"
+        return [self.header, self.namelists, self.cards, self.attach]
+
+
+    def _read(**kwds):
+        "Reads and parses configuration input specified by kwds parameters"
+        self.parser     = QEParser(kwds)
+        (self.namelistRef, self.cardRef)    = self.parser.setReferences()
+        self.parse()
+
 
     def _exists(self, name, list):
         "Checks if lowered name is in the list"
