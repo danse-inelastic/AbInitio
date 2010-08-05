@@ -179,16 +179,6 @@ class QEParserTest(unittest.TestCase):
         self.assertTrue(input.namelistExists("cell"))
 
 
-    def test_qeinput_card_exists(self):
-        input       = QEInput(config=fixtures.textMain)
-        # If non-standard card is requested, it will not add it!
-        card        = input.card("SOME_CARD")
-        self.assertFalse(input.cardExists("some_card"))
-
-        card        = input.card("occupations")
-        self.assertTrue(input.cardExists("occupations"))
-
-
     def test_qeinput_namelist(self):
         input   = QEInput()
         nl      = Namelist("control")
@@ -212,6 +202,22 @@ class QEParserTest(unittest.TestCase):
 
         input.removeCard("atomic_species")
         self.assertEqual(input.toString(), fixtures.assertNewCard2)
+
+
+    def test_qeinput_card_exists(self):
+        input       = QEInput(config=fixtures.textMain)
+        # If non-standard card is requested, it will not add it!
+        card        = input.card("SOME_CARD")
+        self.assertFalse(input.cardExists("some_card"))
+
+        card        = input.card("occupations")
+        self.assertTrue(input.cardExists("occupations"))
+
+
+    def test_qeinput_remove(self):
+        input       = QEInput(config=fixtures.textMain)
+        input.removeCard("atomic_species")  # Remove non-existing card
+        input.removeNamelist("control")     # Remove non-existing namelist
 
 
     def test_qeinput_attach(self):

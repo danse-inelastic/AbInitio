@@ -336,7 +336,7 @@ class QEInput(object):
         self.parser     = QEParser(filename, config, self._type)    #filename, config, type)
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
         if filename or config:
-            self.parse()
+            QEInput.parse(self)     # Avoid calling methods from subclass
 
         self.qe = [self.header, self.namelists, self.cards, self.attach]
 

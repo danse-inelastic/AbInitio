@@ -144,14 +144,16 @@ class Namelist(Block):
             return False
 
 
-    # DEPRICATED
-    def _get_params(self):
-        return self._params
-
-
-    # DEPRICATED
-    def _set_params(self, p):
-        self._params    = p
+#    # DEPRICATED
+#    def _get_params(self):
+#        return self._params
+#
+#
+#    # DEPRICATED
+#    def _set_params(self, p):
+#        self._params    = p
+#
+#    params  = property(_get_params, _set_params)
 
 
     # DEPRICATED METHODS:
