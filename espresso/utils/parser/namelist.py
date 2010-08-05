@@ -144,23 +144,11 @@ class Namelist(Block):
             return False
 
 
-#    # DEPRICATED
-#    def _get_params(self):
-#        return self._params
-#
-#
-#    # DEPRICATED
-#    def _set_params(self, p):
-#        self._params    = p
-#
-#    params  = property(_get_params, _set_params)
-
-
     # DEPRICATED METHODS:
     # DEPRICATED: Use get() instead
     def param(self, param, quotes = True):
         return self.get(param, quotes)
-    
+
     # DEPRICATED: Use set() instead!
     def add(self, param, val, quotes = False):
         self.set(param, val, quotes)
@@ -174,7 +162,7 @@ class Namelist(Block):
         self.add(param, val)
 
     # DEPRICATED: Use remove() instead!
-    def removeParam(self, param): 
+    def removeParam(self, param):
         self.remove(param)
 
 __date__ = "$Aug 27, 2009 7:30:39 AM$"
