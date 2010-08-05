@@ -320,6 +320,7 @@ class QEInput(object):
         Reads and parses configuration input from file
             filename: (str) -- File name
         """
+        self.filename   = filename
         self._read(filename=filename)
 
 
@@ -328,6 +329,7 @@ class QEInput(object):
         Reads and parses configuration input from string
             config: (str) -- Configuration string
         """
+        self.config     = config
         self._read(config=config)
 
 
