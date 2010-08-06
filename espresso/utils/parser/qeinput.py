@@ -82,7 +82,7 @@ class QEInput(object):
         """
         self.filename       = filename
         self.config         = config
-        self._type          = type
+        self._type          = type.lower()
         self.filters        = []
         self.header         = None
         self.namelists      = OrderedDict()
