@@ -1,6 +1,8 @@
 
 TODO list for utils directory. Feel free to add whatever you feel is appropriate :)
 
+   - Make sure there are no "" in input files. change " to '
+
    - [DONE] Matdyn input parser: Should be able to import as a string anything which starts
      right after end of the input namelist.  (Important!)
    - [DONE] Parsing problem with parsing cards in qeparser.py:
@@ -8,8 +10,8 @@ TODO list for utils directory. Feel free to add whatever you feel is appropriate
         There is no problem. Format like this "nk1=28,nk2=28,nk3=28" will not be supported
 
    - [DONE] Extract header and attachment properly!
+   - [DONE] Should be able to switch off immediate parsing in QEInput
+                    constructor. E.g. QEInput(filename, type='pw', parse = True)
 
-   - [NOT DONE !!!] Make sure there are no "" in input files. change " to '
+
    
-   - [NOT DONE !!!] Should be able to switch off immediate parsing in QEInput
-                    constructor. E.g. QEInput(filename, type='pw', parse = False) 

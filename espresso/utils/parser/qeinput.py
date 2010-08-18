@@ -71,7 +71,7 @@ type =
 
 class QEInput(object):
 
-    def __init__(self, filename=None, config=None, type='pw'):
+    def __init__(self, filename=None, config=None, type='pw', parse=True):
         """
         Initializes QEInput by passing either filename or config (not both)
         parameters
@@ -92,7 +92,7 @@ class QEInput(object):
         self.namelistRef    = None
         self.cardRef        = None
 
-        self._read(filename, config)
+        self._read(filename, config, parse)
 
 
     def parse(self):
@@ -333,11 +333,12 @@ class QEInput(object):
         self._read(config=config)
 
 
-    def _read(self, filename=None, config=None):
+    def _read(self, filename=None, config=None, parse=True):
         "Reads and parses configuration input specified by kwds parameters"
         self.parser     = QEParser(filename, config, self._type)    #filename, config, type)
         (self.namelistRef, self.cardRef)    = self.parser.setReferences()
-        if filename or config:
+
+        if parse and (filename or config):
             QEInput.parse(self)     # Avoid calling method parse() from subclass
 
         self.qe = [self.header, self.namelists, self.cards, self.attach]

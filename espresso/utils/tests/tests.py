@@ -285,6 +285,14 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(c.line(0), "Ni 0.00 0.00 0.00")
 
 
+    def test_qeinput_parse(self):
+        input   = QEInput(config=fixtures.textMain, parse=False)
+        self.assertEqual(input.toString(), "")
+
+        input   = QEInput(config=fixtures.textMain, parse=True)
+        self.assertEqual(input.namelistExists("control"), True)
+
+
     # Filter tests
     def test_filter_name(self):
         f  = Filter("filter")
