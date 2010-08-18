@@ -10,3 +10,6 @@ TODO list for utils directory. Feel free to add whatever you feel is appropriate
    - [DONE] Extract header and attachment properly!
 
    - [NOT DONE !!!] Make sure there are no "" in input files. change " to '
+   
+   - [NOT DONE !!!] Should be able to switch off immediate parsing in QEInput
+                    constructor. E.g. QEInput(filename, type='pw', parse = False) 
