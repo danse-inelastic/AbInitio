@@ -293,6 +293,11 @@ class QEParserTest(unittest.TestCase):
         self.assertEqual(input.namelistExists("control"), True)
 
 
+    def test_qeinput_file_noexists(self):
+        "Checks if file does not exist"
+        self.assertRaises(IOError, QEInput, filename="hello")
+
+
     # Filter tests
     def test_filter_name(self):
         f  = Filter("filter")
