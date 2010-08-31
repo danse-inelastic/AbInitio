@@ -144,10 +144,10 @@ class VolumeOptimizer:
             ibrav = self.pw.input.structure.lattice.ibrav
         self.pw.input.structure.lattice.setLattice(ibrav = ibrav, a = a, b = b,\
                                   c = c, cBC = cosBC, cAC = cosAC, cAB = cosAB)
-        self.pw.input.structure.save()
+        self.pw.input.save()
         self.pw.launch()
-        self.pw.input.structure.parseOutput(self.pw.setting.get('pwOutput'))
-        self.pw.input.structure.save()
+        self.pw.input.structure.read(filename = self.pw.setting.get('pwOutput'), format='pwoutput')
+        self.pw.input.save()
         return self.pw.output.property('total energy')[0] 
 
 
