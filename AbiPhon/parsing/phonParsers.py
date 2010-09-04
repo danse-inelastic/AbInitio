@@ -1,6 +1,7 @@
 from pyparsing import *
 import pickle
 import numpy as np
+import sys
 #import scipy.io
 
 # numbers: 1, 30.0, 1e-5, -99
@@ -68,11 +69,8 @@ def parseQpoints(filename='QPOINTS',
     """
     try:
         f = open(filename, 'r')
-    except IOError, (errno, strerror):
-        print "I/O error(%s): %s" % (errno, strerror)
-
-    try:
         numpoints = int(f.readline().strip())
+        print "\n Number of Q-points: %s" % numpoints
     except IOError, (errno, strerror):
         print "I/O error(%s): %s" % (errno, strerror)
     except ValueError:
@@ -80,9 +78,6 @@ def parseQpoints(filename='QPOINTS',
     except:
         print "Unexpected error:", sys.exc_info()[0]
         raise
-    
-    print "\n Number of Q-points: %s" % numpoints
-
     data = [map(float,line.split()) for line in f]
 
     data_array = np.array(data)
