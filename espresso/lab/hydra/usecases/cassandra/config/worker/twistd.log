@@ -15,3 +15,16 @@
 2010-04-08 19:39:40-0700 [TaskTracker,0,127.0.0.1] TaskTracker: lost a client!
 2010-04-08 19:39:40-0700 [-] Main loop terminated.
 2010-04-08 19:39:40-0700 [-] Server Shut Down.
+2010-04-13 17:28:18-0700 [-] Log opened.
+2010-04-13 17:28:18-0700 [-] twistd 9.0.0 (/usr/bin/python 2.6.2) starting up.
+2010-04-13 17:28:18-0700 [-] reactor class: twisted.internet.selectreactor.SelectReactor.
+2010-04-13 17:28:18-0700 [-] starting Worker service
+2010-04-13 17:28:18-0700 [-] loading configuration from /home/dexity/danse-workspace/AbInitio/espresso/lab/hydra/usecases/cassandra/config/worker/worker.cfg
+2010-04-13 17:28:18-0700 [-] settings parameters from worker.cfg config
+2010-04-13 17:28:18-0700 [-] Starting factory <cassandra.labor.Worker.Worker instance at 0x906d46c>
+2010-04-13 17:28:18-0700 [-] Worker connects to TaskMaster
+2010-04-13 17:30:38-0700 [-] Received SIGTERM, shutting down.
+2010-04-13 17:30:38-0700 [-] stopping service
+2010-04-13 17:30:38-0700 [Broker,client] Stopping factory <cassandra.labor.Worker.Worker instance at 0x906d46c>
+2010-04-13 17:30:38-0700 [-] Main loop terminated.
+2010-04-13 17:30:38-0700 [-] Server Shut Down.
