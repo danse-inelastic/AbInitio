@@ -102,7 +102,7 @@ ATOMIC_POSITIONS ALAT
 
     #save lattice/grid information and make it angstrem compatible, multiply by 2pi:
     genQgridinfo('Qgridinfo.idf', nqGrid, \
-                  pwInput.structure.lattice.diffpy().\
+                  pwInput.structure.lattice.matter().\
                                   reciprocal().base*2.0*3.14159265*1.889725989)
     print idfPolData
     print idfOmega2Data
@@ -126,7 +126,7 @@ ATOMIC_POSITIONS ALAT
     print idfDOSData
     #import numpy
     #import numpy.linalg as numalg
-    #print 2 * 3.14159265 * numalg.inv(numpy.transpose(pwInput.structure.lattice.diffpy().base/1.889725989))
+    #print 2 * 3.14159265 * numalg.inv(numpy.transpose(pwInput.structure.lattice.matter().base/1.889725989))
 #*********************Cleaning**************************************************
     import os
     os.system('cat ./Qgridinfo.idf')

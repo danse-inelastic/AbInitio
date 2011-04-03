@@ -291,7 +291,7 @@ Te  0.0000
         massList = [50.9415, 55.847]
         psList  = ['V.pbe-n-van.UPF', 'Fe.pbe-nd-rrkjus.UPF']
 
-        self.input.structure.load(source = 'diffpy', structure = struct, \
+        self.input.structure.load(structure = struct, \
                                 ibrav = 2, massList = massList, psList = psList)                
         
         answer1 = """"Face Centered Cubic" cell:
@@ -312,7 +312,7 @@ Fe  55.8470 Fe.pbe-nd-rrkjus.UPF
         #print self.input.toString()
         self.assertEqual(str(self.input.structure), answer1)
 
-        self.input.structure.load(source = 'diffpy', structure = struct, \
+        self.input.structure.load(structure = struct, \
                                 massList = massList, psList = psList)
         
         answer2 = """"generic" cell:
@@ -377,7 +377,7 @@ Fe  55.8470 Fe.pbe-nd-rrkjus.UPF
         massList = [50.9415, 55.847]
         psList  = ['V.pbe-n-van.UPF', 'Fe.pbe-nd-rrkjus.UPF']
 
-        self.input.structure.load(source = 'matter', structure = struct, \
+        self.input.structure.load(structure = struct, \
                                 ibrav = 2, massList = massList, psList = psList)                
         
         answer1 = """"Face Centered Cubic" cell:
@@ -397,7 +397,7 @@ Fe  55.8470 Fe.pbe-nd-rrkjus.UPF
         
         self.assertEqual(str(self.input.structure), answer1)
 
-        self.input.structure.load(source = 'matter', structure = struct, \
+        self.input.structure.load(structure = struct, \
                                 massList = massList, psList = psList)
         
         answer2 = """"generic" cell:

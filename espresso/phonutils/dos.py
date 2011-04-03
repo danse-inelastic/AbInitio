@@ -77,7 +77,7 @@ class PhononDos:
         nPoints = int((maxOmega - minOmega)/deltaOmega)
         histPartOmega = numpy.zeros(nPoints)
         norm = 0.0
-        for iAtom, atom in enumerate(self.structure.diffpy()):
+        for iAtom, atom in enumerate(self.structure.matter()):
             if atomSymbol == atom.element:
                 for cell_freqs, vectors in zip(self._freqs, self._modes):
                     for omega, vector in zip(cell_freqs, vectors[:,iAtom,:]):

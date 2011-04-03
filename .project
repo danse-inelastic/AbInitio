@@ -3,6 +3,7 @@
 	<name>AbInitio</name>
 	<comment></comment>
 	<projects>
+		<project>crystal</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

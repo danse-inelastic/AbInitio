@@ -66,7 +66,7 @@ class QEStructure():
 #                constraint = [int(c) for c in words[4:7]]
 #            self.optConstraints.append(numpy.array(constraint, dtype = int))
 #            print numpy.array(coords[0:3])*a_0
-#            coords = self.lattice.diffpy().fractional(numpy.array(coords[0:3])*a_0)
+#            coords = self.lattice.matter().fractional(numpy.array(coords[0:3])*a_0)
 #            self.structure.addNewAtom(atomSymbol, xyz = numpy.array(coords[0:3]))
 
     def setStructureFromPWOutput(self, pwscfOutputFile): 
@@ -104,7 +104,7 @@ class QEStructure():
                                   [float(f)*a_0 for f in pwscfOut[i + 3].split()[3:6] ]]
                 self.lattice = QELattice(ibrav = ibrav, base = latticeVectors)
             if 'site n.     atom                  positions (a_0 units)' in line:
-                self.structure = Structure(lattice = self.lattice.diffpy())
+                self.structure = Structure(lattice = self.lattice.matter())
                 for n in range(self.nat):
                     words = pwscfOut[i + n + 1].split()
                     atomSymbol = words[1]
@@ -112,7 +112,7 @@ class QEStructure():
                     constraint = []
                     self.optConstraints.append(numpy.array(constraint, dtype = int))
                     #print numpy.array(coords[0:3])*a_0
-                    coords = self.lattice.diffpy().fractional(numpy.array(coords[0:3])*a_0)
+                    coords = self.lattice.matter().fractional(numpy.array(coords[0:3])*a_0)
                     self.structure.addNewAtom(atomSymbol, xyz = numpy.array(coords[0:3]))
 
         for a, m, p in zip(atomList, massList, pseudoList):
@@ -129,9 +129,9 @@ class QEStructure():
                                   [float(f)*a_0 for f in lastSection[i + 2].split() ],
                                   [float(f)*a_0 for f in lastSection[i + 3].split() ]]
                 self.lattice = QELattice(ibrav = ibrav, base = latticeVectors)
-                print self.lattice.diffpy().base
+                print self.lattice.matter().base
             if 'ATOMIC_POSITIONS (alat)' in line:
-                self.structure = Structure(lattice = self.lattice.diffpy())
+                self.structure = Structure(lattice = self.lattice.matter())
                 for n in range(self.nat):
                     words = lastSection[i + n + 1].split()
                     atomSymbol = words[0]
@@ -141,7 +141,7 @@ class QEStructure():
                         constraint = [int(c) for c in words[4:7]]
                     self.optConstraints.append(numpy.array(constraint, dtype = int))
                     #print numpy.array(coords[0:3])*a_0
-                    coords = self.lattice.diffpy().fractional(numpy.array(coords[0:3])*a_0)
+                    coords = self.lattice.matter().fractional(numpy.array(coords[0:3])*a_0)
                     self.structure.addNewAtom(atomSymbol, xyz = numpy.array(coords[0:3]))
                 #self.lattice.ibrav = ibrav
         #print 'Output structure from output file: ', self.toString()
@@ -151,7 +151,7 @@ class QEStructure():
         """ Loads structure from PWSCF config file"""
         self.atomicSpecies = OrderedDict()
         self.lattice = QELattice(qeConf = self.qeConf)
-        self.structure = Structure(lattice = self.lattice.diffpy())
+        self.structure = Structure(lattice = self.lattice.matter())
         self.nat  = int(self.qeConf.namelist('system').param('nat'))
         self.ntyp  = int(self.qeConf.namelist('system').param('ntyp'))
         atomicLines = self.qeConf.card('atomic_positions').lines()
@@ -170,7 +170,7 @@ class QEStructure():
                 self.optConstraints.append(numpy.array(constraint, dtype = int))
                 atomSymbol = words[0]
                 if self.atomicPositionsType == 'alat':
-                    coords = self.lattice.diffpy().fractional(numpy.array(coords[0:3])*self.lattice.a0)
+                    coords = self.lattice.matter().fractional(numpy.array(coords[0:3])*self.lattice.a0)
                 if self.atomicPositionsType == 'crystal':
                     coords = numpy.array(coords[0:3])
                 self.structure.addNewAtom(atomSymbol, xyz = numpy.array(coords[0:3]))
@@ -193,7 +193,7 @@ class QEStructure():
             s = s + 'Atomic positions in crystal coordinates:\n'
         for atom, constraint in zip(self.structure, self.optConstraints):
             if self.atomicPositionsType == 'alat':      
-                coords = self.lattice.diffpy().cartesian(atom.xyz)/self.lattice.a
+                coords = self.lattice.matter().cartesian(atom.xyz)/self.lattice.a
                 coords = self.formatString%(coords[0], coords[1], coords[2])
                 #coords = str(coords/self.lattice.a)[1:-1]
             else:
@@ -230,7 +230,7 @@ class QEStructure():
         qeConf.card('atomic_positions').setArg(self.atomicPositionsType)
         for atom, constraint in zip(self.structure, self.optConstraints):
             if self.atomicPositionsType == 'alat':
-                coords = self.lattice.diffpy().cartesian(atom.xyz)/self.lattice.a
+                coords = self.lattice.matter().cartesian(atom.xyz)/self.lattice.a
                 coords = self.formatString%(coords[0], coords[1], coords[2])
             else:
                 if self.atomicPositionsType == 'crystal':

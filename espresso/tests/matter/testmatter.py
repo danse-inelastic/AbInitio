@@ -1,17 +1,4 @@
 #!/usr/bin/env python
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-# QEcalc              by DANSE Inelastic group
-#                     Nikolay Markovskiy
-#                     California Institute of Technology
-#                     (C) 2009  All Rights Reserved
-#
-# File coded by:      Nikolay Markovskiy
-#
-# See AUTHORS.txt for a list of people who contributed.
-# See LICENSE.txt for license information.
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import matter
 #from diffpy.Structure import Structure
@@ -28,9 +15,9 @@ def testMatter():
 
 
     struct = matter.Structure()
-    #struct.read('data/graphite.cif', format='cif')
+    struct.read('data/graphite.cif', format='cif')
     #struct.read('data/PbTe.cif', format='cif')
-    struct.read('data/Ni.stru', format='pdffit')
+    #struct.read('data/Ni.stru', format='pdffit')
     #struct.read('data/CdSe-wurtzite.stru', format='pdffit')
 
 
@@ -65,25 +52,22 @@ def testMatter():
     at14 = Atom('V', [0.75, 0.25, 0.75])
     at15 = Atom('Fe', [0.75, 0.75, 0.75])
     at16 = Atom('V', [0.25, 0.75, 0.75])
-
     struct2 = Structure( [ at1, at2, at3, at4, at5, at6, at7, at8, at9, at10, at11, at12, at13, at14, at15, at16], lattice = Lattice(2, 2, 2, 90, 90, 90) )
-
     #print struct
-
     massList = [50., 55.]
     psList  = ['ps1', 'ps2']
 
     #massList = [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6]
     #psList  = ['ps1', 'ps2', 'ps2', 'ps3', 'ps4','ps1', 'ps2', 'ps2', 'ps3', 'ps4']
 
-#    pwInput.structure.load(source = 'diffpy', ibrav = 0, structure = struct, \
+#    pwInput.structure.load(ibrav = 0, structure = struct, \
 #                           massList = massList, psList = psList)
 
-    #pwInput.structure.load(source = 'diffpy', structure = struct )
+    #pwInput.structure.load(structure = struct )
 
     #print pwInput.structure.atomLabels()
 
-    pwInput.structure.load(source = 'diffpy', structure = struct, ibrav = 2, \
+    pwInput.structure.load(structure = struct, ibrav = 2, \
                            massList = massList, psList = psList)
 
 

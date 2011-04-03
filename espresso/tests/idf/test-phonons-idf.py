@@ -64,7 +64,7 @@ fldos = matdyn.dos
 
     #save lattice/grid information and make it angstrem compatible, multiply by 2pi:
     genQgridinfo('Qgridinfo', nqGrid, \
-                  pwInput.structure.lattice.diffpy().\
+                  pwInput.structure.lattice.matter().\
                                   reciprocal().base*2.0*PI*A2B)
     print idfPolData
     print idfOmega2Data

@@ -469,7 +469,7 @@ class QELattice(object):
     def recipCartesian(self, kPoint):
         """Conversts vector on fractional coordinates in reciprocal space into
            a vector in cartesian coordinates"""
-        recip_base = self.diffpy().reciprocal().base*self._a
+        recip_base = self.matter().reciprocal().base*self._a
         return numpy.dot( kPoint, recip_base)
 
 
@@ -645,7 +645,7 @@ class QELattice(object):
         else:
             if 'generic' in self._type:
                 self._type = 'celldm'
-            self.setLatticeFromQEVectors(self._ibrav, self.diffpy().base)
+            self.setLatticeFromQEVectors(self._ibrav, self.matter().base)
 #            self.setLattice(self._ibrav)
 
     ibrav = property(_get_ibrav, _set_ibrav, doc ="""Lattice symmetry parameter
